@@ -65,39 +65,56 @@ def get_businessquant_eps(ticker):
 
         payload = response.json()
 
-        rows = payload.get("data", [])
+        data = payload.get("data", [])
 
-        if not isinstance(rows, list):
+        if not isinstance(data, list):
             return {}
 
         annual = {}
 
-        for row in rows:
+        for section in data:
 
-            period = str(row.get("period", "")).strip()
-
-            # 연간 데이터만 사용
-            if not re.fullmatch(r"\d{4}", period):
+            if section.get("dimension") != "annual":
                 continue
 
-            year = int(period)
+            estimates = section.get("estimates", [])
 
-            value = None
-
-            if row.get("data_type") == "estimate":
-                value = num(row.get("value_estimate"))
-
-            if value is None:
+            if not isinstance(estimates, list):
                 continue
 
-            annual[year] = value
+            for row in estimates:
+
+                period = str(
+                    row.get("period", "")
+                ).strip()
+
+                if not re.fullmatch(
+                    r"\d{4}",
+                    period
+                ):
+                    continue
+
+                if row.get("data_type") != "estimate":
+                    continue
+
+                value = num(
+                    row.get("value_estimate")
+                )
+
+                if value is None:
+                    continue
+
+                year = int(period)
+
+                annual[year] = value
 
         return annual
 
     except Exception as e:
 
         print(
-            f"Business Quant error: {ticker} - {str(e)[:200]}"
+            f"Business Quant error: "
+            f"{ticker} - {str(e)[:200]}"
         )
 
         return {}
@@ -186,8 +203,6 @@ def get_stock(ticker):
 
         current_year = datetime.now(timezone.utc).year
 
-        # 현재 연도 이후의 첫 번째 전망 연도를
-        # 현재 EPS 기준연도로 사용
         future_years = sorted(
             year
             for year in annual_eps
@@ -220,8 +235,7 @@ def get_stock(ticker):
 
 
     # ==========================================
-    # Yahoo에서 현재/+1Y가 있으면
-    # Business Quant 데이터가 없는 경우에만 보완
+    # Yahoo 현재/+1Y 보완
     # ==========================================
 
     try:
@@ -231,13 +245,17 @@ def get_stock(ticker):
         if estimates is not None and not estimates.empty:
 
             if result["current_eps"] is None:
+
                 if "0y" in estimates.index:
+
                     result["current_eps"] = num(
                         estimates.loc["0y"].get("avg")
                     )
 
             if result["y1_eps"] is None:
+
                 if "+1y" in estimates.index:
+
                     result["y1_eps"] = num(
                         estimates.loc["+1y"].get("avg")
                     )
@@ -248,7 +266,7 @@ def get_stock(ticker):
 
 
     # ==========================================
-    # 현재가 유지 시 FPER
+    # 현재가 유지 시 미래 FPER
     # ==========================================
 
     price = result["price"]
@@ -281,8 +299,12 @@ def get_stock(ticker):
 
     # ==========================================
     # EPS 성장률
-    #
-    # trailing → current → +1Y → +2Y → +3Y → +4Y
+    # trailing
+    # → current
+    # → +1Y
+    # → +2Y
+    # → +3Y
+    # → +4Y
     # ==========================================
 
     eps_list = [
