@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T12:12:53.563454+00:00",
+  "generated_at": "2026-09-25T12:23:39.395974+00:00",
   "source": "Yahoo Finance + Business Quant",
   "count": 88,
   "notes": [
@@ -37,15 +37,15 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:02.696953+00:00"
+      "as_of": "2026-09-25T12:21:47.207094+00:00"
     },
     {
       "ticker": "AMD",
       "company": "Advanced Micro Devices, Inc.",
       "industry": "Semiconductors",
       "price": 629.26,
-      "fper": 40.393394,
-      "trailing_eps": 3.9,
+      "fper": 40.41311,
+      "trailing_eps": 3.93,
       "current_eps": 7.57578,
       "y1_eps": 15.57069,
       "y2_eps": null,
@@ -57,7 +57,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.9425076923076923,
+        0.9276793893129771,
         1.0553249962380113,
         null,
         null,
@@ -65,7 +65,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:05.153936+00:00"
+      "as_of": "2026-09-25T12:21:49.692944+00:00"
     },
     {
       "ticker": "AMAT",
@@ -93,7 +93,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:07.075784+00:00"
+      "as_of": "2026-09-25T12:21:50.856294+00:00"
     },
     {
       "ticker": "AMGN",
@@ -121,14 +121,14 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:08.277577+00:00"
+      "as_of": "2026-09-25T12:21:52.907656+00:00"
     },
     {
       "ticker": "AMZN",
       "company": "Amazon.com, Inc.",
       "industry": "Internet Retail",
       "price": 249.38,
-      "fper": 24.005484,
+      "fper": 23.993542,
       "trailing_eps": 12.42,
       "current_eps": 12.87793,
       "y1_eps": 10.48489,
@@ -149,7 +149,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:09.420931+00:00"
+      "as_of": "2026-09-25T12:21:54.873829+00:00"
     },
     {
       "ticker": "ARM",
@@ -157,7 +157,7 @@
       "industry": "Semiconductors",
       "price": 306.34,
       "fper": 100.28284,
-      "trailing_eps": 0.98,
+      "trailing_eps": 0.96,
       "current_eps": 2.22304,
       "y1_eps": 3.05476,
       "y2_eps": null,
@@ -169,7 +169,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        1.2684081632653061,
+        1.315666666666667,
         0.37413631783503654,
         null,
         null,
@@ -177,7 +177,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:11.344235+00:00"
+      "as_of": "2026-09-25T12:21:56.097266+00:00"
     },
     {
       "ticker": "ASML",
@@ -205,15 +205,15 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:12.475298+00:00"
+      "as_of": "2026-09-25T12:21:57.251254+00:00"
     },
     {
       "ticker": "AVGO",
       "company": "Broadcom Inc.",
       "industry": "Semiconductors",
       "price": 350.36,
-      "fper": 18.074785,
-      "trailing_eps": 7.74,
+      "fper": 18.077171,
+      "trailing_eps": 7.85,
       "current_eps": 11.65832,
       "y1_eps": 19.38135,
       "y2_eps": null,
@@ -225,7 +225,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.5062428940568475,
+        0.485136305732484,
         0.6624479341791958,
         null,
         null,
@@ -233,7 +233,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:13.802048+00:00"
+      "as_of": "2026-09-25T12:21:59.301380+00:00"
     },
     {
       "ticker": "AXON",
@@ -261,7 +261,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:14.983717+00:00"
+      "as_of": "2026-09-25T12:22:00.461239+00:00"
     },
     {
       "ticker": "BKNG",
@@ -289,7 +289,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:16.128007+00:00"
+      "as_of": "2026-09-25T12:22:01.622676+00:00"
     },
     {
       "ticker": "BKR",
@@ -297,7 +297,7 @@
       "industry": "Oil & Gas Equipment & Services",
       "price": 57.29,
       "fper": 18.415775,
-      "trailing_eps": 3.07,
+      "trailing_eps": 3.11,
       "current_eps": 2.61425,
       "y1_eps": 3.11092,
       "y2_eps": null,
@@ -309,7 +309,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        -0.14845276872964164,
+        -0.1594051446945337,
         0.1899856555417423,
         null,
         null,
@@ -317,15 +317,15 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:17.309583+00:00"
+      "as_of": "2026-09-25T12:22:02.787689+00:00"
     },
     {
       "ticker": "CCEP",
       "company": "Coca-Cola Europacific Partners PLC",
       "industry": "Beverages - Non-Alcoholic",
       "price": 100.31,
-      "fper": 17.862478,
-      "trailing_eps": 5.12,
+      "fper": 17.836456,
+      "trailing_eps": 5.09,
       "current_eps": 4.49348,
       "y1_eps": 4.90564,
       "y2_eps": null,
@@ -337,7 +337,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        -0.12236718750000009,
+        -0.11719449901768175,
         0.091724009008608,
         null,
         null,
@@ -345,7 +345,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:18.470142+00:00"
+      "as_of": "2026-09-25T12:22:03.966254+00:00"
     },
     {
       "ticker": "CDNS",
@@ -373,7 +373,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:19.625039+00:00"
+      "as_of": "2026-09-25T12:22:05.128287+00:00"
     },
     {
       "ticker": "CDW",
@@ -381,7 +381,7 @@
       "industry": "Information Technology Services",
       "price": 139.46,
       "fper": 11.6069355,
-      "trailing_eps": 8.32,
+      "trailing_eps": 7.93,
       "current_eps": 10.95884,
       "y1_eps": 12.01523,
       "y2_eps": null,
@@ -393,7 +393,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.31716826923076913,
+        0.3819470365699875,
         0.09639615141748581,
         null,
         null,
@@ -401,7 +401,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:20.861095+00:00"
+      "as_of": "2026-09-25T12:22:06.285028+00:00"
     },
     {
       "ticker": "CEG",
@@ -409,7 +409,7 @@
       "industry": "Utilities - Independent Power Producers",
       "price": 261.62,
       "fper": 19.640905,
-      "trailing_eps": 10.23,
+      "trailing_eps": 10.15,
       "current_eps": 12.144,
       "y1_eps": 13.32016,
       "y2_eps": null,
@@ -421,7 +421,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.1870967741935483,
+        0.19645320197044325,
         0.09685111989459805,
         null,
         null,
@@ -429,7 +429,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:22.057911+00:00"
+      "as_of": "2026-09-25T12:22:08.232235+00:00"
     },
     {
       "ticker": "CHTR",
@@ -457,7 +457,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:24.002523+00:00"
+      "as_of": "2026-09-25T12:22:09.379148+00:00"
     },
     {
       "ticker": "CMCSA",
@@ -485,14 +485,14 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:25.205930+00:00"
+      "as_of": "2026-09-25T12:22:10.565506+00:00"
     },
     {
       "ticker": "COST",
       "company": "Costco Wholesale Corporation",
       "industry": "Discount Stores",
       "price": 896.48,
-      "fper": 35.931206,
+      "fper": 35.97709,
       "trailing_eps": 19.9,
       "current_eps": 20.56053,
       "y1_eps": 22.66559,
@@ -513,7 +513,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:26.329150+00:00"
+      "as_of": "2026-09-25T12:22:11.737503+00:00"
     },
     {
       "ticker": "CPRT",
@@ -541,7 +541,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:27.536564+00:00"
+      "as_of": "2026-09-25T12:22:12.905753+00:00"
     },
     {
       "ticker": "CRWD",
@@ -569,7 +569,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:28.660389+00:00"
+      "as_of": "2026-09-25T12:22:14.082276+00:00"
     },
     {
       "ticker": "CSCO",
@@ -597,7 +597,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:29.837023+00:00"
+      "as_of": "2026-09-25T12:22:15.285602+00:00"
     },
     {
       "ticker": "CTSH",
@@ -605,7 +605,7 @@
       "industry": "Information Technology Services",
       "price": 57.17,
       "fper": 9.046301,
-      "trailing_eps": 4.51,
+      "trailing_eps": 4.66,
       "current_eps": 5.73601,
       "y1_eps": 6.31971,
       "y2_eps": null,
@@ -617,7 +617,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.2718425720620843,
+        0.23090343347639486,
         0.10176063151912218,
         null,
         null,
@@ -625,7 +625,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:30.998680+00:00"
+      "as_of": "2026-09-25T12:22:16.457601+00:00"
     },
     {
       "ticker": "DASH",
@@ -653,7 +653,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:32.191710+00:00"
+      "as_of": "2026-09-25T12:22:17.731749+00:00"
     },
     {
       "ticker": "DDOG",
@@ -681,7 +681,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:33.418264+00:00"
+      "as_of": "2026-09-25T12:22:18.926654+00:00"
     },
     {
       "ticker": "DXCM",
@@ -709,7 +709,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:34.530698+00:00"
+      "as_of": "2026-09-25T12:22:20.106234+00:00"
     },
     {
       "ticker": "EA",
@@ -737,7 +737,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:35.696361+00:00"
+      "as_of": "2026-09-25T12:22:21.263587+00:00"
     },
     {
       "ticker": "EXC",
@@ -765,7 +765,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:36.877709+00:00"
+      "as_of": "2026-09-25T12:22:22.488111+00:00"
     },
     {
       "ticker": "FANG",
@@ -773,7 +773,7 @@
       "industry": "Oil & Gas E&P",
       "price": 189.01,
       "fper": 10.073854,
-      "trailing_eps": 5.35,
+      "trailing_eps": 5.25,
       "current_eps": 20.91266,
       "y1_eps": 18.76243,
       "y2_eps": null,
@@ -785,7 +785,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        2.9089084112149535,
+        2.9833638095238095,
         -0.1028195361087495,
         null,
         null,
@@ -793,7 +793,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:38.043928+00:00"
+      "as_of": "2026-09-25T12:22:23.653420+00:00"
     },
     {
       "ticker": "FAST",
@@ -821,7 +821,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:39.204396+00:00"
+      "as_of": "2026-09-25T12:22:24.926782+00:00"
     },
     {
       "ticker": "FTNT",
@@ -849,7 +849,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:40.398074+00:00"
+      "as_of": "2026-09-25T12:22:26.885727+00:00"
     },
     {
       "ticker": "GEHC",
@@ -877,7 +877,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:41.664728+00:00"
+      "as_of": "2026-09-25T12:22:28.123230+00:00"
     },
     {
       "ticker": "GILD",
@@ -905,7 +905,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:42.965320+00:00"
+      "as_of": "2026-09-25T12:22:29.289275+00:00"
     },
     {
       "ticker": "GOOG",
@@ -933,7 +933,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:44.098496+00:00"
+      "as_of": "2026-09-25T12:22:30.436031+00:00"
     },
     {
       "ticker": "GOOGL",
@@ -961,14 +961,14 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:45.255051+00:00"
+      "as_of": "2026-09-25T12:22:31.592279+00:00"
     },
     {
       "ticker": "HON",
       "company": "Honeywell International Inc.",
       "industry": "Conglomerates",
       "price": 211.79,
-      "fper": 21.372505,
+      "fper": 21.308964,
       "trailing_eps": 26.01,
       "current_eps": 8.30699,
       "y1_eps": 9.93901,
@@ -989,7 +989,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:46.435842+00:00"
+      "as_of": "2026-09-25T12:22:32.778261+00:00"
     },
     {
       "ticker": "IDXX",
@@ -997,7 +997,7 @@
       "industry": "Diagnostics & Research",
       "price": 513.39,
       "fper": 30.669008,
-      "trailing_eps": 14.02,
+      "trailing_eps": 14.25,
       "current_eps": 14.83498,
       "y1_eps": 16.7397,
       "y2_eps": null,
@@ -1009,7 +1009,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.05812981455064192,
+        0.04105122807017536,
         0.12839383672913618,
         null,
         null,
@@ -1017,7 +1017,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:47.706618+00:00"
+      "as_of": "2026-09-25T12:22:33.944026+00:00"
     },
     {
       "ticker": "INTC",
@@ -1045,7 +1045,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:48.921231+00:00"
+      "as_of": "2026-09-25T12:22:35.118184+00:00"
     },
     {
       "ticker": "INTU",
@@ -1073,7 +1073,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:50.097917+00:00"
+      "as_of": "2026-09-25T12:22:36.285808+00:00"
     },
     {
       "ticker": "ISRG",
@@ -1081,7 +1081,7 @@
       "industry": "Medical Instruments & Supplies",
       "price": 399.52,
       "fper": 33.041203,
-      "trailing_eps": 8.71,
+      "trailing_eps": 8.72,
       "current_eps": 10.77945,
       "y1_eps": 12.09157,
       "y2_eps": null,
@@ -1093,7 +1093,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.23759471871412163,
+        0.23617545871559642,
         0.12172420670813455,
         null,
         null,
@@ -1101,7 +1101,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:51.253703+00:00"
+      "as_of": "2026-09-25T12:22:37.503493+00:00"
     },
     {
       "ticker": "KDP",
@@ -1129,7 +1129,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:52.392272+00:00"
+      "as_of": "2026-09-25T12:22:38.699552+00:00"
     },
     {
       "ticker": "KHC",
@@ -1137,7 +1137,7 @@
       "industry": "Packaged Foods",
       "price": 23.86,
       "fper": 11.429558,
-      "trailing_eps": -2.89,
+      "trailing_eps": -2.88,
       "current_eps": 2.0492,
       "y1_eps": 2.08757,
       "y2_eps": null,
@@ -1149,7 +1149,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        -1.7090657439446366,
+        -1.7115277777777778,
         0.01872438024594958,
         null,
         null,
@@ -1157,7 +1157,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:54.283198+00:00"
+      "as_of": "2026-09-25T12:22:39.881518+00:00"
     },
     {
       "ticker": "KLAC",
@@ -1185,7 +1185,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:55.400601+00:00"
+      "as_of": "2026-09-25T12:22:41.036390+00:00"
     },
     {
       "ticker": "LIN",
@@ -1213,7 +1213,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:56.626715+00:00"
+      "as_of": "2026-09-25T12:22:42.205642+00:00"
     },
     {
       "ticker": "LRCX",
@@ -1221,7 +1221,7 @@
       "industry": "Semiconductor Equipment & Materials",
       "price": 307.16,
       "fper": 26.164568,
-      "trailing_eps": 5.74,
+      "trailing_eps": 5.75,
       "current_eps": 9.50548,
       "y1_eps": 11.73954,
       "y2_eps": null,
@@ -1233,7 +1233,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.656006968641115,
+        0.6531269565217392,
         0.23502863611306313,
         null,
         null,
@@ -1241,7 +1241,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:57.796895+00:00"
+      "as_of": "2026-09-25T12:22:43.378908+00:00"
     },
     {
       "ticker": "LULU",
@@ -1269,7 +1269,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:11:59.025866+00:00"
+      "as_of": "2026-09-25T12:22:44.637666+00:00"
     },
     {
       "ticker": "MAR",
@@ -1297,7 +1297,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:00.193434+00:00"
+      "as_of": "2026-09-25T12:22:45.813220+00:00"
     },
     {
       "ticker": "MCHP",
@@ -1305,7 +1305,7 @@
       "industry": "Semiconductors",
       "price": 74.69,
       "fper": 16.29523,
-      "trailing_eps": 0.68,
+      "trailing_eps": 0.69,
       "current_eps": 3.64613,
       "y1_eps": 4.58355,
       "y2_eps": null,
@@ -1317,7 +1317,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        4.361955882352941,
+        4.284246376811595,
         0.2570999936919418,
         null,
         null,
@@ -1325,7 +1325,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:01.401725+00:00"
+      "as_of": "2026-09-25T12:22:47.040477+00:00"
     },
     {
       "ticker": "MDLZ",
@@ -1353,7 +1353,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:02.525741+00:00"
+      "as_of": "2026-09-25T12:22:48.216649+00:00"
     },
     {
       "ticker": "MELI",
@@ -1361,7 +1361,7 @@
       "industry": "Internet Retail",
       "price": 1754.13,
       "fper": 31.379549,
-      "trailing_eps": 35.78,
+      "trailing_eps": 36.7,
       "current_eps": 37.82997,
       "y1_eps": 55.35647,
       "y2_eps": null,
@@ -1373,7 +1373,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.057293739519284514,
+        0.03078937329700282,
         0.4632966930716571,
         null,
         null,
@@ -1381,7 +1381,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:03.690291+00:00"
+      "as_of": "2026-09-25T12:22:50.241719+00:00"
     },
     {
       "ticker": "META",
@@ -1409,7 +1409,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:04.871406+00:00"
+      "as_of": "2026-09-25T12:22:51.399967+00:00"
     },
     {
       "ticker": "MNST",
@@ -1437,7 +1437,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:06.081147+00:00"
+      "as_of": "2026-09-25T12:22:52.577540+00:00"
     },
     {
       "ticker": "MRNA",
@@ -1445,7 +1445,7 @@
       "industry": "Biotechnology",
       "price": 194.82,
       "fper": -43.594334,
-      "trailing_eps": -7.99,
+      "trailing_eps": -8.53,
       "current_eps": -8.3833,
       "y1_eps": -4.78698,
       "y2_eps": null,
@@ -1457,7 +1457,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.04922403003754683,
+        -0.017198124267291837,
         -0.4289861987522814,
         null,
         null,
@@ -1465,7 +1465,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:07.299737+00:00"
+      "as_of": "2026-09-25T12:22:53.742270+00:00"
     },
     {
       "ticker": "MRVL",
@@ -1473,7 +1473,7 @@
       "industry": "Semiconductors",
       "price": 258.95,
       "fper": 38.321804,
-      "trailing_eps": 3.03,
+      "trailing_eps": 3.0,
       "current_eps": 4.2113,
       "y1_eps": 6.75725,
       "y2_eps": null,
@@ -1485,7 +1485,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.38986798679867984,
+        0.4037666666666666,
         0.6045520385629142,
         null,
         null,
@@ -1493,7 +1493,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:08.508400+00:00"
+      "as_of": "2026-09-25T12:22:54.900188+00:00"
     },
     {
       "ticker": "MSFT",
@@ -1501,7 +1501,7 @@
       "industry": "Software - Infrastructure",
       "price": 497.93,
       "fper": 21.031107,
-      "trailing_eps": 17.93,
+      "trailing_eps": 17.97,
       "current_eps": 19.75972,
       "y1_eps": 23.67588,
       "y2_eps": null,
@@ -1513,7 +1513,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.10204796430563312,
+        0.09959488035614927,
         0.1981890431645792,
         null,
         null,
@@ -1521,7 +1521,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:09.653063+00:00"
+      "as_of": "2026-09-25T12:22:56.064287+00:00"
     },
     {
       "ticker": "MU",
@@ -1549,7 +1549,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:10.840304+00:00"
+      "as_of": "2026-09-25T12:22:57.250976+00:00"
     },
     {
       "ticker": "NFLX",
@@ -1577,7 +1577,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:12.068301+00:00"
+      "as_of": "2026-09-25T12:22:58.406160+00:00"
     },
     {
       "ticker": "NVDA",
@@ -1605,7 +1605,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:13.227264+00:00"
+      "as_of": "2026-09-25T12:22:59.577494+00:00"
     },
     {
       "ticker": "NDAQ",
@@ -1633,7 +1633,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:14.376330+00:00"
+      "as_of": "2026-09-25T12:23:00.742585+00:00"
     },
     {
       "ticker": "NXPI",
@@ -1661,7 +1661,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:15.570276+00:00"
+      "as_of": "2026-09-25T12:23:01.905265+00:00"
     },
     {
       "ticker": "ODFL",
@@ -1689,15 +1689,15 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:16.695994+00:00"
+      "as_of": "2026-09-25T12:23:03.090713+00:00"
     },
     {
       "ticker": "ON",
       "company": "ON Semiconductor Corporation",
       "industry": "Semiconductors",
       "price": 73.15,
-      "fper": 16.152182,
-      "trailing_eps": 1.51,
+      "fper": 16.151112,
+      "trailing_eps": 1.53,
       "current_eps": 3.20208,
       "y1_eps": 4.5288,
       "y2_eps": null,
@@ -1709,7 +1709,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        1.1205827814569536,
+        1.092862745098039,
         0.4143306850547146,
         null,
         null,
@@ -1717,7 +1717,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:18.635640+00:00"
+      "as_of": "2026-09-25T12:23:04.271187+00:00"
     },
     {
       "ticker": "ORLY",
@@ -1745,7 +1745,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:19.780211+00:00"
+      "as_of": "2026-09-25T12:23:05.491299+00:00"
     },
     {
       "ticker": "PANW",
@@ -1773,7 +1773,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:20.944805+00:00"
+      "as_of": "2026-09-25T12:23:06.643151+00:00"
     },
     {
       "ticker": "PAYX",
@@ -1801,7 +1801,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:22.119538+00:00"
+      "as_of": "2026-09-25T12:23:08.734376+00:00"
     },
     {
       "ticker": "PCAR",
@@ -1829,7 +1829,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:23.295440+00:00"
+      "as_of": "2026-09-25T12:23:09.893547+00:00"
     },
     {
       "ticker": "PDD",
@@ -1857,7 +1857,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:24.610580+00:00"
+      "as_of": "2026-09-25T12:23:11.073065+00:00"
     },
     {
       "ticker": "PEP",
@@ -1885,7 +1885,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:25.753324+00:00"
+      "as_of": "2026-09-25T12:23:12.239160+00:00"
     },
     {
       "ticker": "PLTR",
@@ -1913,7 +1913,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:26.882222+00:00"
+      "as_of": "2026-09-25T12:23:13.437778+00:00"
     },
     {
       "ticker": "PYPL",
@@ -1921,7 +1921,7 @@
       "industry": "Credit Services",
       "price": 52.6,
       "fper": 9.09215,
-      "trailing_eps": 5.3,
+      "trailing_eps": 5.29,
       "current_eps": 5.39098,
       "y1_eps": 5.78521,
       "y2_eps": null,
@@ -1933,7 +1933,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.017166037735849127,
+        0.019088846880907395,
         0.07312770590875872,
         null,
         null,
@@ -1941,7 +1941,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:28.022082+00:00"
+      "as_of": "2026-09-25T12:23:14.590122+00:00"
     },
     {
       "ticker": "QCOM",
@@ -1969,7 +1969,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:29.171022+00:00"
+      "as_of": "2026-09-25T12:23:15.764142+00:00"
     },
     {
       "ticker": "REGN",
@@ -1997,7 +1997,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:30.339130+00:00"
+      "as_of": "2026-09-25T12:23:16.936044+00:00"
     },
     {
       "ticker": "ROST",
@@ -2025,7 +2025,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:31.535675+00:00"
+      "as_of": "2026-09-25T12:23:18.107590+00:00"
     },
     {
       "ticker": "SBUX",
@@ -2053,7 +2053,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:32.774542+00:00"
+      "as_of": "2026-09-25T12:23:19.285943+00:00"
     },
     {
       "ticker": "SHOP",
@@ -2081,7 +2081,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:33.941289+00:00"
+      "as_of": "2026-09-25T12:23:20.437281+00:00"
     },
     {
       "ticker": "SNPS",
@@ -2109,7 +2109,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:35.084202+00:00"
+      "as_of": "2026-09-25T12:23:21.617106+00:00"
     },
     {
       "ticker": "TMUS",
@@ -2137,14 +2137,14 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:36.218869+00:00"
+      "as_of": "2026-09-25T12:23:22.787363+00:00"
     },
     {
       "ticker": "TSLA",
       "company": "Tesla, Inc.",
       "industry": "Auto Manufacturers",
       "price": 377.94,
-      "fper": 172.0067,
+      "fper": 171.70428,
       "trailing_eps": 1.1,
       "current_eps": 1.77244,
       "y1_eps": 2.20111,
@@ -2165,7 +2165,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:37.509660+00:00"
+      "as_of": "2026-09-25T12:23:23.974461+00:00"
     },
     {
       "ticker": "TTWO",
@@ -2173,7 +2173,7 @@
       "industry": "Electronic Gaming & Multimedia",
       "price": 202.98,
       "fper": 19.721788,
-      "trailing_eps": -1.71,
+      "trailing_eps": -1.73,
       "current_eps": 1.84245,
       "y1_eps": 5.2872,
       "y2_eps": null,
@@ -2185,7 +2185,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        -2.0774561403508773,
+        -2.065,
         1.8696572498575268,
         null,
         null,
@@ -2193,7 +2193,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:38.631886+00:00"
+      "as_of": "2026-09-25T12:23:25.156066+00:00"
     },
     {
       "ticker": "TXN",
@@ -2221,7 +2221,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:40.557253+00:00"
+      "as_of": "2026-09-25T12:23:26.324401+00:00"
     },
     {
       "ticker": "VRSK",
@@ -2249,7 +2249,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:41.802188+00:00"
+      "as_of": "2026-09-25T12:23:27.557830+00:00"
     },
     {
       "ticker": "VRTX",
@@ -2257,7 +2257,7 @@
       "industry": "Biotechnology",
       "price": 522.38,
       "fper": 25.998367,
-      "trailing_eps": 17.4,
+      "trailing_eps": 17.19,
       "current_eps": 16.16939,
       "y1_eps": 20.09747,
       "y2_eps": null,
@@ -2269,7 +2269,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        -0.07072471264367808,
+        -0.059372309482257246,
         0.24293309766169302,
         null,
         null,
@@ -2277,7 +2277,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:42.954642+00:00"
+      "as_of": "2026-09-25T12:23:28.716223+00:00"
     },
     {
       "ticker": "WBA",
@@ -2305,7 +2305,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:44.094796+00:00"
+      "as_of": "2026-09-25T12:23:29.971802+00:00"
     },
     {
       "ticker": "WBD",
@@ -2333,7 +2333,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:46.320121+00:00"
+      "as_of": "2026-09-25T12:23:31.438805+00:00"
     },
     {
       "ticker": "WDAY",
@@ -2341,7 +2341,7 @@
       "industry": "Software - Application",
       "price": 190.99,
       "fper": 14.432879,
-      "trailing_eps": 4.87,
+      "trailing_eps": 4.91,
       "current_eps": 11.07564,
       "y1_eps": 13.23298,
       "y2_eps": null,
@@ -2353,7 +2353,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        1.274258726899384,
+        1.2557311608961301,
         0.19478242340848917,
         null,
         null,
@@ -2361,7 +2361,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:47.695260+00:00"
+      "as_of": "2026-09-25T12:23:32.609596+00:00"
     },
     {
       "ticker": "WDC",
@@ -2389,15 +2389,15 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:48.826078+00:00"
+      "as_of": "2026-09-25T12:23:33.831493+00:00"
     },
     {
       "ticker": "WMT",
       "company": "Walmart Inc.",
       "industry": "Discount Stores",
       "price": 107.59,
-      "fper": 33.315063,
-      "trailing_eps": 2.77,
+      "fper": 33.310112,
+      "trailing_eps": 2.76,
       "current_eps": 2.88627,
       "y1_eps": 3.22947,
       "y2_eps": null,
@@ -2409,7 +2409,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.041974729241877284,
+        0.04575000000000018,
         0.11890779448908106,
         null,
         null,
@@ -2417,7 +2417,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:49.990590+00:00"
+      "as_of": "2026-09-25T12:23:35.011108+00:00"
     },
     {
       "ticker": "XEL",
@@ -2425,7 +2425,7 @@
       "industry": "Utilities - Regulated Electric",
       "price": 69.56,
       "fper": 15.320506,
-      "trailing_eps": 3.6,
+      "trailing_eps": 3.65,
       "current_eps": 4.11505,
       "y1_eps": 4.54032,
       "y2_eps": null,
@@ -2437,7 +2437,7 @@
       "y3_fper": null,
       "y4_fper": null,
       "growth": [
-        0.14306944444444447,
+        0.1274109589041097,
         0.10334503833489261,
         null,
         null,
@@ -2445,7 +2445,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:51.133407+00:00"
+      "as_of": "2026-09-25T12:23:37.001183+00:00"
     },
     {
       "ticker": "ZS",
@@ -2473,7 +2473,7 @@
       ],
       "eps_cagr_4y": null,
       "source": "Yahoo Finance + Business Quant",
-      "as_of": "2026-09-25T12:12:52.318760+00:00"
+      "as_of": "2026-09-25T12:23:38.213165+00:00"
     }
   ]
 }
