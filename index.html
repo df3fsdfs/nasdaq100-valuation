@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NASDAQ-100 Valuation</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#111827}
+header{background:#111827;color:white;padding:22px 18px}
+h1{margin:0;font-size:24px}
+.sub{margin-top:6px;color:#9ca3af;font-size:13px}
+.container{max-width:1100px;margin:auto;padding:18px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.card{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 8px #00000010}
+.label{font-size:12px;color:#6b7280}
+.value{font-size:24px;font-weight:700;margin-top:6px}
+.controls{background:white;padding:14px;border-radius:14px;margin-bottom:14px}
+input,select{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden}
+th,td{padding:11px 8px;border-bottom:1px solid #eee;text-align:left;font-size:13px}
+th{background:#f3f4f6}
+tr:hover{background:#f9fafb}
+.badge{padding:4px 7px;border-radius:6px;background:#eef2ff}
+.detail{display:none;background:white;margin-top:18px;padding:18px;border-radius:14px}
+.detail h2{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.metric{background:#f8fafc;padding:12px;border-radius:10px}
+.back{border:0;background:#111827;color:white;padding:9px 14px;border-radius:8px}
+@media(max-width:700px){
+.cards{grid-template-columns:1fr}
+table{font-size:12px}
+th,td{padding:9px 5px}
+.hide-mobile{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>NASDAQ-100 Valuation</h1>
+<div class="sub">Forward EPS · Growth · Valuation</div>
+</header>
+
+<div class="container">
+
+<div class="cards">
+<div class="card">
+<div class="label">NASDAQ-100 Forward P/E</div>
+<div class="value">25.4x</div>
+</div>
+
+<div class="card">
+<div class="label">분석 종목</div>
+<div class="value" id="count">10</div>
+</div>
+
+<div class="card">
+<div class="label">데이터 상태</div>
+<div class="value">DEMO</div>
+</div>
+</div>
+
+<div class="controls">
+<input id="search" placeholder="종목 검색 (예: NVDA)">
+<select id="sort">
+<option value="fper">현재 FPER 낮은 순</option>
+<option value="cagr">4Y EPS CAGR 높은 순</option>
+<option value="growth">현재년도 EPS 성장률 높은 순</option>
+<option value="future">현재가 유지 시 +4Y FPER 낮은 순</option>
+</select>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>종목</th>
+<th>현재 FPER</th>
+<th>현재 EPS 성장</th>
+<th>4Y CAGR</th>
+<th class="hide-mobile">현재가 유지 시 +4Y FPER</th>
+</tr>
+</thead>
+<tbody id="stocks"></tbody>
+</table>
+
+<div id="detail" class="detail"></div>
+
+</div>
+
+<script>
+const stocks=[
+{t:"NVDA",n:"NVIDIA",f:32.1,p:2.95,c:4.20,y:[4.20,5.80,7.40,9.20,11.00]},
+{t:"MSFT",n:"Microsoft",f:31.5,p:11.80,c:13.20,y:[13.20,15.00,17.10,19.20,21.00]},
+{t:"GOOGL",n:"Alphabet",f:28.4,p:8.10,c:10.20,y:[10.20,12.20,14.00,15.60,17.20]},
+{t:"AMZN",n:"Amazon",f:34.2,p:5.30,c:6.90,y:[6.90,8.20,10.10,12.00,14.00]},
+{t:"AVGO",n:"Broadcom",f:39.0,p:5.10,c:6.50,y:[6.50,8.10,10.00,12.20,14.50]},
+{t:"PEP",n:"PepsiCo",f:18.7,p:6.00,c:7.10,y:[7.10,7.50,8.00,8.50,9.00]},
+{t:"GILD",n:"Gilead Sciences",f:11.8,p:4.80,c:5.10,y:[5.10,5.30,5.50,5.80,6.00]},
+{t:"CSCO",n:"Cisco",f:18.5,p:3.80,c:4.20,y:[4.20,4.40,4.60,4.80,5.00]},
+{t:"QCOM",n:"Qualcomm",f:15.9,p:9.00,c:10.50,y:[10.50,11.80,13.00,14.20,15.00]},
+{t:"AMAT",n:"Applied Materials",f:22.8,p:8.20,c:9.80,y:[9.80,11.00,12.50,14.00,15.50]}
+];
+
+const tbody=document.getElementById("stocks");
+const search=document.getElementById("search");
+const sort=document.getElementById("sort");
+const detail=document.getElementById("detail");
+
+function cagr(a,b,years){
+return Math.pow(b/a,1/years)-1;
+}
+
+function render(){
+let q=search.value.toUpperCase();
+let arr=stocks.filter(s=>s.t.includes(q)||s.n.toUpperCase().includes(q));
+
+if(sort.value==="fper")arr.sort((a,b)=>a.f-b.f);
+if(sort.value==="cagr")arr.sort((a,b)=>cagr(b.y[0],b.y[4],4)-cagr(a.y[0],a.y[4],4));
+if(sort.value==="growth")arr.sort((a,b)=>(b.y[0]/b.p)-(a.y[0]/a.p));
+if(sort.value==="future")arr.sort((a,b)=>(a.f*a.y[0]/a.y[4])-(b.f*b.y[0]/b.y[4]));
+
+document.getElementById("count").textContent=arr.length;
+
+tbody.innerHTML=arr.map(s=>{
+let cg=cagr(s.y[0],s.y[4],4)*100;
+let growth=(s.y[0]/s.p-1)*100;
+let future=s.f*s.y[0]/s.y[4];
+
+return `<tr onclick="showDetail('${s.t}')">
+<td><b>${s.t}</b><br>${s.n}</td>
+<td>${s.f.toFixed(1)}x</td>
+<td>${growth.toFixed(1)}%</td>
+<td>${cg.toFixed(1)}%</td>
+<td class="hide-mobile">${future.toFixed(1)}x</td>
+</tr>`;
+}).join("");
+}
+
+function showDetail(t){
+let s=stocks.find(x=>x.t===t);
+let cg=cagr(s.y[0],s.y[4],4)*100;
+
+detail.style.display="block";
+
+detail.innerHTML=`
+<button class="back" onclick="detail.style.display='none'">← 목록</button>
+<h2>${s.t} · ${s.n}</h2>
+
+<div class="grid">
+<div class="metric"><small>현재 FPER</small><br><b>${s.f.toFixed(1)}x</b></div>
+<div class="metric"><small>4Y EPS CAGR</small><br><b>${cg.toFixed(1)}%</b></div>
+</div>
+
+<h3>EPS trajectory</h3>
+<p>
+과거 EPS: ${s.p.toFixed(2)}<br>
+현재 EPS: ${s.y[0].toFixed(2)}<br>
++1Y: ${s.y[1].toFixed(2)}<br>
++2Y: ${s.y[2].toFixed(2)}<br>
++3Y: ${s.y[3].toFixed(2)}<br>
++4Y: ${s.y[4].toFixed(2)}
+</p>
+
+<h3>현재가 유지 시 FPER</h3>
+<p>
+현재: ${s.f.toFixed(1)}x<br>
++1Y: ${(s.f*s.y[0]/s.y[1]).toFixed(1)}x<br>
++2Y: ${(s.f*s.y[0]/s.y[2]).toFixed(1)}x<br>
++3Y: ${(s.f*s.y[0]/s.y[3]).toFixed(1)}x<br>
++4Y: ${(s.f*s.y[0]/s.y[4]).toFixed(1)}x
+</p>
+
+<p style="color:#6b7280;font-size:12px">
+※ 현재 데이터는 화면 구조 확인을 위한 DEMO 데이터입니다.
+</p>
+`;
+
+detail.scrollIntoView({behavior:"smooth"});
+}
+
+search.addEventListener("input",render);
+sort.addEventListener("change",render);
+render();
+</script>
+
+</body>
+</html>
