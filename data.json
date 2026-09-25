@@ -1,7 +1,7 @@
 {
   "site_name": "NASDAQ-40",
   "description": "NASDAQ-100 구성종목 중 시가총액 상위 40개 종목의 EPS 성장 및 Forward Valuation",
-  "generated_at": "2026-09-25T18:13:55.373459+00:00",
+  "generated_at": "2026-09-25T23:37:40.851556+00:00",
   "universe": "NASDAQ-100",
   "universe_size": 88,
   "selected_size": 40,
@@ -23,9 +23,9 @@
       "ticker": "NVDA",
       "company": "NVIDIA Corporation",
       "industry": "Semiconductors",
-      "market_cap": 5433557778432.0,
-      "price": 225.02,
-      "forward_pe": 14.348359,
+      "market_cap": 5434765213696.0,
+      "price": 225.07,
+      "forward_pe": 14.351548,
       "trailing_eps": 7.91,
       "current_eps": 9.30713,
       "y1_eps": 15.68263,
@@ -43,8 +43,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 24.177163099688087,
-        "2027": 14.348358661780582
+        "2026": 24.18253532506798,
+        "2027": 14.351546902528467
       },
       "sources": [
         "Yahoo Finance",
@@ -57,9 +57,9 @@
       "ticker": "AAPL",
       "company": "Apple Inc.",
       "industry": "Consumer Electronics",
-      "market_cap": 4962605072384.0,
-      "price": 340.04,
-      "forward_pe": 35.47497,
+      "market_cap": 4977636933632.0,
+      "price": 341.07,
+      "forward_pe": 35.582424,
       "trailing_eps": 8.73,
       "current_eps": 8.81945,
       "y1_eps": 9.57829,
@@ -77,8 +77,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 38.55569224838284,
-        "2027": 35.501117631644064
+        "2026": 38.67247957639082,
+        "2027": 35.60865248389848
       },
       "sources": [
         "Yahoo Finance",
@@ -91,9 +91,9 @@
       "ticker": "GOOGL",
       "company": "Alphabet Inc.",
       "industry": "Internet Content & Information",
-      "market_cap": 4209054580736.0,
-      "price": 344.13,
-      "forward_pe": 23.09921,
+      "market_cap": 4206119354368.0,
+      "price": 343.92,
+      "forward_pe": 23.083103,
       "trailing_eps": 19.93,
       "current_eps": 20.62484,
       "y1_eps": 14.9221,
@@ -111,8 +111,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 16.685220345951777,
-        "2027": 23.061767445600818
+        "2026": 16.67503844878312,
+        "2027": 23.04769435937301
       },
       "sources": [
         "Yahoo Finance",
@@ -125,9 +125,9 @@
       "ticker": "GOOG",
       "company": "Alphabet Inc.",
       "industry": "Internet Content & Information",
-      "market_cap": 4172854067200.0,
-      "price": 341.2,
-      "forward_pe": 22.900543,
+      "market_cap": 4171386060800.0,
+      "price": 341.08,
+      "forward_pe": 22.892488,
       "trailing_eps": 19.93,
       "current_eps": 20.6207,
       "y1_eps": 14.89921,
@@ -145,8 +145,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 16.546479993404684,
-        "2027": 22.900543048926753
+        "2026": 16.540660598330803,
+        "2027": 22.892488930621152
       },
       "sources": [
         "Yahoo Finance",
@@ -159,10 +159,10 @@
       "ticker": "MSFT",
       "company": "Microsoft Corporation",
       "industry": "Software - Infrastructure",
-      "market_cap": 3845950013440.0,
-      "price": 517.935,
-      "forward_pe": 21.87606,
-      "trailing_eps": 17.93,
+      "market_cap": 3832843862016.0,
+      "price": 516.17,
+      "forward_pe": 21.801512,
+      "trailing_eps": 17.97,
       "current_eps": 19.75972,
       "y1_eps": 23.67588,
       "y2_eps": null,
@@ -179,8 +179,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 26.21165684533991,
-        "2027": 21.876061206595065
+        "2026": 26.12233371727939,
+        "2027": 21.801512763200353
       },
       "sources": [
         "Yahoo Finance",
@@ -193,9 +193,9 @@
       "ticker": "AMZN",
       "company": "Amazon.com, Inc.",
       "industry": "Internet Retail",
-      "market_cap": 2694690635776.0,
-      "price": 249.825,
-      "forward_pe": 24.048319,
+      "market_cap": 2693018681344.0,
+      "price": 249.67,
+      "forward_pe": 24.021444,
       "trailing_eps": 12.42,
       "current_eps": 12.87793,
       "y1_eps": 10.49185,
@@ -213,8 +213,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 19.399468703432927,
-        "2027": 23.81133927762978
+        "2026": 19.387432607569696,
+        "2027": 23.79656590591745
       },
       "sources": [
         "Yahoo Finance",
@@ -227,9 +227,9 @@
       "ticker": "META",
       "company": "Meta Platforms, Inc.",
       "industry": "Internet Content & Information",
-      "market_cap": 1913380929536.0,
-      "price": 751.08,
-      "forward_pe": 21.479952,
+      "market_cap": 1914858373120.0,
+      "price": 751.66,
+      "forward_pe": 21.496538,
       "trailing_eps": 26.52,
       "current_eps": 31.21292,
       "y1_eps": 34.03168,
@@ -247,8 +247,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 24.063112326562205,
-        "2027": 22.070024165718532
+        "2026": 24.081694375277927,
+        "2027": 22.087067109234688
       },
       "sources": [
         "Yahoo Finance",
@@ -261,10 +261,10 @@
       "ticker": "AVGO",
       "company": "Broadcom Inc.",
       "industry": "Semiconductors",
-      "market_cap": 1687048552448.0,
-      "price": 353.39,
-      "forward_pe": 18.232132,
-      "trailing_eps": 7.74,
+      "market_cap": 1684184367104.0,
+      "price": 352.81,
+      "forward_pe": 18.203583,
+      "trailing_eps": 7.85,
       "current_eps": 11.65832,
       "y1_eps": 19.38135,
       "y2_eps": null,
@@ -281,8 +281,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 30.31225768378291,
-        "2027": 18.233507985769823
+        "2026": 30.262507805584338,
+        "2027": 18.20358230979782
       },
       "sources": [
         "Yahoo Finance",
@@ -295,9 +295,9 @@
       "ticker": "TSLA",
       "company": "Tesla, Inc.",
       "industry": "Auto Manufacturers",
-      "market_cap": 1477466390528.0,
-      "price": 374.085,
-      "forward_pe": 170.25221,
+      "market_cap": 1469666033664.0,
+      "price": 372.11,
+      "forward_pe": 171.25119,
       "trailing_eps": 1.1,
       "current_eps": 1.76501,
       "y1_eps": 2.17289,
@@ -315,8 +315,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 211.9449748160067,
-        "2027": 172.16011855179045
+        "2026": 210.82600098583012,
+        "2027": 171.25119081039537
       },
       "sources": [
         "Yahoo Finance",
@@ -329,9 +329,9 @@
       "ticker": "MU",
       "company": "Micron Technology, Inc.",
       "industry": "Semiconductors",
-      "market_cap": 1223562231808.0,
-      "price": 1083.3802,
-      "forward_pe": 6.792703,
+      "market_cap": 1222319669248.0,
+      "price": 1082.28,
+      "forward_pe": 6.7858047,
       "trailing_eps": 44.19,
       "current_eps": 73.60099,
       "y1_eps": 159.49178,
@@ -349,8 +349,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 14.719641678732856,
-        "2027": 6.792702420149803
+        "2026": 14.704693510236751,
+        "2027": 6.785804259003191
       },
       "sources": [
         "Yahoo Finance",
@@ -363,9 +363,9 @@
       "ticker": "AMD",
       "company": "Advanced Micro Devices, Inc.",
       "industry": "Semiconductors",
-      "market_cap": 1029348917248.0,
-      "price": 630.545,
-      "forward_pe": 40.47588,
+      "market_cap": 1029487722496.0,
+      "price": 630.63,
+      "forward_pe": 40.501095,
       "trailing_eps": 3.9,
       "current_eps": 7.57578,
       "y1_eps": 15.57829,
@@ -383,8 +383,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 83.23169363418684,
-        "2027": 40.475880215350976
+        "2026": 83.24291360097574,
+        "2027": 40.481336526666276
       },
       "sources": [
         "Yahoo Finance",
@@ -397,10 +397,10 @@
       "ticker": "WMT",
       "company": "Walmart Inc.",
       "industry": "Discount Stores",
-      "market_cap": 858676723712.0,
-      "price": 107.9,
-      "forward_pe": 33.411057,
-      "trailing_eps": 2.77,
+      "market_cap": 856685936640.0,
+      "price": 107.98,
+      "forward_pe": 33.43086,
+      "trailing_eps": 2.76,
       "current_eps": 2.88627,
       "y1_eps": 3.22947,
       "y2_eps": null,
@@ -417,8 +417,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 37.383889934067156,
-        "2027": 33.41105506476295
+        "2026": 37.411607368679995,
+        "2027": 33.435826931354065
       },
       "sources": [
         "Yahoo Finance",
@@ -431,9 +431,9 @@
       "ticker": "ASML",
       "company": "ASML Holding N.V.",
       "industry": "Semiconductor Equipment & Materials",
-      "market_cap": 669287448576.0,
-      "price": 1742.4823,
-      "forward_pe": 29.429451,
+      "market_cap": 669847322624.0,
+      "price": 1743.94,
+      "forward_pe": 29.45407,
       "trailing_eps": 29.11,
       "current_eps": 38.32503,
       "y1_eps": 51.72248,
@@ -451,8 +451,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 45.46590831109591,
-        "2027": 33.689070980355154
+        "2026": 45.50394350637169,
+        "2027": 33.71725408371756
       },
       "sources": [
         "Yahoo Finance",
@@ -465,9 +465,9 @@
       "ticker": "INTC",
       "company": "Intel Corporation",
       "industry": "Semiconductors",
-      "market_cap": 657723621376.0,
-      "price": 124.425,
-      "forward_pe": 60.339565,
+      "market_cap": 650190913536.0,
+      "price": 123.0,
+      "forward_pe": 59.648514,
       "trailing_eps": -2.09,
       "current_eps": 1.52026,
       "y1_eps": 2.06208,
@@ -485,8 +485,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 81.84455290542407,
-        "2027": 60.339560055865924
+        "2026": 80.90721323984056,
+        "2027": 59.64851024208566
       },
       "sources": [
         "Yahoo Finance",
@@ -499,9 +499,9 @@
       "ticker": "PLTR",
       "company": "Palantir Technologies Inc.",
       "industry": "Software - Infrastructure",
-      "market_cap": 461026787328.0,
-      "price": 191.85,
-      "forward_pe": 82.58753,
+      "market_cap": 455788101632.0,
+      "price": 189.67,
+      "forward_pe": 81.649086,
       "trailing_eps": 1.17,
       "current_eps": 1.61155,
       "y1_eps": 2.32666,
@@ -519,8 +519,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 119.04688033259905,
-        "2027": 82.45725632451669
+        "2026": 117.6941453879805,
+        "2027": 81.52029088908564
       },
       "sources": [
         "Yahoo Finance",
@@ -533,9 +533,9 @@
       "ticker": "CSCO",
       "company": "Cisco Systems, Inc.",
       "industry": "Communication Equipment",
-      "market_cap": 423749255168.0,
-      "price": 107.48,
-      "forward_pe": 19.11816,
+      "market_cap": 420674011136.0,
+      "price": 106.7,
+      "forward_pe": 18.979416,
       "trailing_eps": 3.33,
       "current_eps": 5.1466,
       "y1_eps": 5.62188,
@@ -553,8 +553,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 20.883690203240974,
-        "2027": 19.11815976150327
+        "2026": 20.732133835930515,
+        "2027": 18.97941613837364
       },
       "sources": [
         "Yahoo Finance",
@@ -567,9 +567,9 @@
       "ticker": "COST",
       "company": "Costco Wholesale Corporation",
       "industry": "Discount Stores",
-      "market_cap": 408548212736.0,
-      "price": 921.235,
-      "forward_pe": 36.923393,
+      "market_cap": 409226739712.0,
+      "price": 922.765,
+      "forward_pe": 36.963326,
       "trailing_eps": 19.9,
       "current_eps": 22.78404,
       "y1_eps": 24.92668,
@@ -587,8 +587,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 40.433347202691,
-        "2027": 36.957789805942866
+        "2026": 40.500499472437724,
+        "2027": 37.019169821251765
       },
       "sources": [
         "Yahoo Finance",
@@ -601,10 +601,10 @@
       "ticker": "LRCX",
       "company": "Lam Research Corporation",
       "industry": "Semiconductor Equipment & Materials",
-      "market_cap": 392727101440.0,
-      "price": 313.85,
-      "forward_pe": 26.734438,
-      "trailing_eps": 5.74,
+      "market_cap": 394428874752.0,
+      "price": 315.21,
+      "forward_pe": 26.850285,
+      "trailing_eps": 5.75,
       "current_eps": 9.50548,
       "y1_eps": 11.73954,
       "y2_eps": null,
@@ -621,8 +621,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 33.01779605027836,
-        "2027": 26.7344376355462
+        "2026": 33.16087141312169,
+        "2027": 26.850285445596676
       },
       "sources": [
         "Yahoo Finance",
@@ -635,9 +635,9 @@
       "ticker": "AMAT",
       "company": "Applied Materials, Inc.",
       "industry": "Semiconductor Equipment & Materials",
-      "market_cap": 384101154816.0,
-      "price": 484.0,
-      "forward_pe": 26.226254,
+      "market_cap": 384894763008.0,
+      "price": 485.0,
+      "forward_pe": 26.28044,
       "trailing_eps": 11.57,
       "current_eps": 12.79441,
       "y1_eps": 18.45479,
@@ -655,8 +655,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 37.82902064260877,
-        "2027": 26.226253455065056
+        "2026": 37.90717977616787,
+        "2027": 26.280439929145768
       },
       "sources": [
         "Yahoo Finance",
@@ -669,9 +669,9 @@
       "ticker": "ARM",
       "company": "Arm Holdings plc",
       "industry": "Semiconductors",
-      "market_cap": 337303339008.0,
-      "price": 315.8275,
-      "forward_pe": 103.11859,
+      "market_cap": 331421319168.0,
+      "price": 310.32,
+      "forward_pe": 101.585724,
       "trailing_eps": 0.98,
       "current_eps": 2.22817,
       "y1_eps": 3.06276,
@@ -689,8 +689,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 141.74299986087237,
-        "2027": 103.11859238072849
+        "2026": 139.27124052473553,
+        "2027": 101.32037769854641
       },
       "sources": [
         "Yahoo Finance",
@@ -703,9 +703,9 @@
       "ticker": "PANW",
       "company": "Palo Alto Networks, Inc.",
       "industry": "Software - Infrastructure",
-      "market_cap": 310079258624.0,
-      "price": 379.07,
-      "forward_pe": 77.69309,
+      "market_cap": 306537299968.0,
+      "price": 374.74,
+      "forward_pe": 76.80562,
       "trailing_eps": 0.39,
       "current_eps": 4.1889,
       "y1_eps": 2.21057,
@@ -723,8 +723,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 90.49392441929861,
-        "2027": 171.4806588345992
+        "2026": 89.46024015851417,
+        "2027": 169.52188801983198
       },
       "sources": [
         "Yahoo Finance",
@@ -737,9 +737,9 @@
       "ticker": "NFLX",
       "company": "Netflix, Inc.",
       "industry": "Entertainment",
-      "market_cap": 295993638912.0,
-      "price": 71.085,
-      "forward_pe": 18.641726,
+      "market_cap": 296243462144.0,
+      "price": 71.145,
+      "forward_pe": 18.65746,
       "trailing_eps": 3.18,
       "current_eps": 3.58362,
       "y1_eps": 3.80891,
@@ -757,8 +757,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 19.83608753160212,
-        "2027": 18.662819546799476
+        "2026": 19.852830378220904,
+        "2027": 18.678572084927183
       },
       "sources": [
         "Yahoo Finance",
@@ -771,9 +771,9 @@
       "ticker": "CRWD",
       "company": "CrowdStrike Holdings, Inc.",
       "industry": "Software - Infrastructure",
-      "market_cap": 261297930240.0,
-      "price": 255.19,
-      "forward_pe": 158.9068,
+      "market_cap": 258164703232.0,
+      "price": 252.13,
+      "forward_pe": 157.00133,
       "trailing_eps": 0.03,
       "current_eps": 1.25609,
       "y1_eps": 1.60591,
@@ -791,8 +791,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 203.16219379184614,
-        "2027": 158.90678805163427
+        "2026": 200.72606262290122,
+        "2027": 157.00132635079177
       },
       "sources": [
         "Yahoo Finance",
@@ -805,9 +805,9 @@
       "ticker": "TXN",
       "company": "Texas Instruments Incorporated",
       "industry": "Semiconductors",
-      "market_cap": 253243572224.0,
-      "price": 277.3,
-      "forward_pe": 26.050156,
+      "market_cap": 253946789888.0,
+      "price": 278.07,
+      "forward_pe": 26.122492,
       "trailing_eps": 6.58,
       "current_eps": 8.5058,
       "y1_eps": 10.1005,
@@ -825,8 +825,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 32.60128382985727,
-        "2027": 27.454086431364786
+        "2026": 32.69181029415222,
+        "2027": 27.5303202811742
       },
       "sources": [
         "Yahoo Finance",
@@ -839,9 +839,9 @@
       "ticker": "KLAC",
       "company": "KLA Corporation",
       "industry": "Semiconductor Equipment & Materials",
-      "market_cap": 245178089472.0,
-      "price": 187.875,
-      "forward_pe": 28.018505,
+      "market_cap": 245236809728.0,
+      "price": 187.92,
+      "forward_pe": 28.025215,
       "trailing_eps": 3.67,
       "current_eps": 5.4548,
       "y1_eps": 6.70539,
@@ -859,8 +859,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 34.44214270000734,
-        "2027": 28.018504516515815
+        "2026": 34.4503923150253,
+        "2027": 28.025215535561685
       },
       "sources": [
         "Yahoo Finance",
@@ -873,9 +873,9 @@
       "ticker": "MRVL",
       "company": "Marvell Technology, Inc.",
       "industry": "Semiconductors",
-      "market_cap": 238224146432.0,
-      "price": 265.075,
-      "forward_pe": 39.22824,
+      "market_cap": 235402199040.0,
+      "price": 261.935,
+      "forward_pe": 38.76355,
       "trailing_eps": 3.03,
       "current_eps": 4.2113,
       "y1_eps": 6.75725,
@@ -893,8 +893,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 62.94374658656472,
-        "2027": 39.22823633874727
+        "2026": 62.1981335929523,
+        "2027": 38.76355026083096
       },
       "sources": [
         "Yahoo Finance",
@@ -907,9 +907,9 @@
       "ticker": "AMGN",
       "company": "Amgen Inc.",
       "industry": "Drug Manufacturers - General",
-      "market_cap": 222899879936.0,
-      "price": 412.295,
-      "forward_pe": 16.863491,
+      "market_cap": 224151420928.0,
+      "price": 414.61,
+      "forward_pe": 16.958178,
       "trailing_eps": 16.12,
       "current_eps": 23.05565,
       "y1_eps": 24.44897,
@@ -927,8 +927,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 17.882601444765168,
-        "2027": 16.863491590852295
+        "2026": 17.983010672004475,
+        "2027": 16.958178606297118
       },
       "sources": [
         "Yahoo Finance",
@@ -938,46 +938,12 @@
       "market_cap_rank": 27
     },
     {
-      "ticker": "QCOM",
-      "company": "QUALCOMM Incorporated",
-      "industry": "Semiconductors",
-      "market_cap": 218322239488.0,
-      "price": 204.41,
-      "forward_pe": 20.03232,
-      "trailing_eps": 8.74,
-      "current_eps": 10.48336,
-      "y1_eps": 10.17716,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 10.48336,
-        "2027": 10.17716
-      },
-      "eps_growth": {
-        "2027": -2.9208192793150123
-      },
-      "current_growth": -2.9208192793150123,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 19.498519558614795,
-        "2027": 20.085171108639344
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 28
-    },
-    {
       "ticker": "LIN",
       "company": "Linde plc",
       "industry": "Specialty Chemicals",
-      "market_cap": 215637295104.0,
-      "price": 467.78,
-      "forward_pe": 23.916748,
+      "market_cap": 216609980416.0,
+      "price": 469.89,
+      "forward_pe": 24.02463,
       "trailing_eps": 15.5,
       "current_eps": 17.87772,
       "y1_eps": 18.15318,
@@ -995,8 +961,42 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 26.165528937694514,
-        "2027": 25.76848794536274
+        "2026": 26.283552936280465,
+        "2027": 25.88472102408504
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 28
+    },
+    {
+      "ticker": "QCOM",
+      "company": "QUALCOMM Incorporated",
+      "industry": "Semiconductors",
+      "market_cap": 215716184064.0,
+      "price": 201.97,
+      "forward_pe": 19.7932,
+      "trailing_eps": 8.74,
+      "current_eps": 10.48336,
+      "y1_eps": 10.17716,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 10.48336,
+        "2027": 10.17716
+      },
+      "eps_growth": {
+        "2027": -2.9208192793150123
+      },
+      "current_growth": -2.9208192793150123,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 19.265769753208897,
+        "2027": 19.84541856470764
       },
       "sources": [
         "Yahoo Finance",
@@ -1009,9 +1009,9 @@
       "ticker": "GILD",
       "company": "Gilead Sciences, Inc.",
       "industry": "Drug Manufacturers - General",
-      "market_cap": 185832079360.0,
-      "price": 149.87,
-      "forward_pe": 15.155054,
+      "market_cap": 187146436608.0,
+      "price": 150.93,
+      "forward_pe": 15.262243,
       "trailing_eps": -2.65,
       "current_eps": -0.42627,
       "y1_eps": 9.88911,
@@ -1030,7 +1030,7 @@
       "growth_trend": null,
       "future_fper": {
         "2026": null,
-        "2027": 15.155054398221882
+        "2027": 15.262243012768591
       },
       "sources": [
         "Yahoo Finance",
@@ -1043,9 +1043,9 @@
       "ticker": "SHOP",
       "company": "Shopify Inc.",
       "industry": "Software - Application",
-      "market_cap": 185058525184.0,
-      "price": 142.61,
-      "forward_pe": 58.199135,
+      "market_cap": 183025106944.0,
+      "price": 142.25,
+      "forward_pe": 58.05222,
       "trailing_eps": 1.48,
       "current_eps": 1.91067,
       "y1_eps": 2.45038,
@@ -1063,8 +1063,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 74.638739290406,
-        "2027": 58.199136460467365
+        "2026": 74.45032370843735,
+        "2027": 58.0522204719268
       },
       "sources": [
         "Yahoo Finance",
@@ -1077,9 +1077,9 @@
       "ticker": "TMUS",
       "company": "T-Mobile US, Inc.",
       "industry": "Telecom Services",
-      "market_cap": 177623695360.0,
-      "price": 165.59,
-      "forward_pe": 11.468611,
+      "market_cap": 177452056576.0,
+      "price": 165.43,
+      "forward_pe": 11.457529,
       "trailing_eps": 9.56,
       "current_eps": 10.94657,
       "y1_eps": 13.89709,
@@ -1097,8 +1097,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 15.12711287645354,
-        "2027": 11.915444168527367
+        "2026": 15.112496425821057,
+        "2027": 11.9039309668427
       },
       "sources": [
         "Yahoo Finance",
@@ -1111,9 +1111,9 @@
       "ticker": "PEP",
       "company": "PepsiCo, Inc.",
       "industry": "Beverages - Non-Alcoholic",
-      "market_cap": 175134867456.0,
-      "price": 128.21,
-      "forward_pe": 14.307732,
+      "market_cap": 175708585984.0,
+      "price": 128.63,
+      "forward_pe": 14.354602,
       "trailing_eps": 7.62,
       "current_eps": 8.55717,
       "y1_eps": 8.96089,
@@ -1131,8 +1131,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 14.982757149852114,
-        "2027": 14.307730593724509
+        "2026": 15.03183879717243,
+        "2027": 14.354600938076464
       },
       "sources": [
         "Yahoo Finance",
@@ -1145,9 +1145,9 @@
       "ticker": "WDC",
       "company": "Western Digital Corporation",
       "industry": "Computer Hardware",
-      "market_cap": 164862345216.0,
-      "price": 457.2639,
-      "forward_pe": 14.402225,
+      "market_cap": 164698701824.0,
+      "price": 456.81,
+      "forward_pe": 14.387929,
       "trailing_eps": 26.93,
       "current_eps": 20.09143,
       "y1_eps": 31.74953,
@@ -1165,8 +1165,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 22.759151538740646,
-        "2027": 14.40222579672833
+        "2026": 22.736559816797513,
+        "2027": 14.387929522106312
       },
       "sources": [
         "Yahoo Finance",
@@ -1179,10 +1179,10 @@
       "ticker": "ISRG",
       "company": "Intuitive Surgical, Inc.",
       "industry": "Medical Instruments & Supplies",
-      "market_cap": 144538320896.0,
-      "price": 403.425,
-      "forward_pe": 33.364155,
-      "trailing_eps": 8.71,
+      "market_cap": 145167089664.0,
+      "price": 405.18,
+      "forward_pe": 33.509296,
+      "trailing_eps": 8.72,
       "current_eps": 10.77945,
       "y1_eps": 12.09157,
       "y2_eps": null,
@@ -1199,8 +1199,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 37.425378845859484,
-        "2027": 33.36415370377875
+        "2026": 37.58818863671152,
+        "2027": 33.50929614599262
       },
       "sources": [
         "Yahoo Finance",
@@ -1213,10 +1213,10 @@
       "ticker": "VRTX",
       "company": "Vertex Pharmaceuticals Incorporated",
       "industry": "Biotechnology",
-      "market_cap": 133246951424.0,
-      "price": 525.71,
-      "forward_pe": 26.164099,
-      "trailing_eps": 17.4,
+      "market_cap": 133283930112.0,
+      "price": 526.19,
+      "forward_pe": 26.187988,
+      "trailing_eps": 17.19,
       "current_eps": 16.16939,
       "y1_eps": 20.09747,
       "y2_eps": null,
@@ -1233,8 +1233,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 32.51266745375057,
-        "2027": 26.158018894915628
+        "2026": 32.54235317473325,
+        "2027": 26.181902498175145
       },
       "sources": [
         "Yahoo Finance",
@@ -1247,9 +1247,9 @@
       "ticker": "FTNT",
       "company": "Fortinet, Inc.",
       "industry": "Software - Infrastructure",
-      "market_cap": 128253149184.0,
-      "price": 174.8,
-      "forward_pe": 46.270683,
+      "market_cap": 127269978112.0,
+      "price": 173.46,
+      "forward_pe": 45.915977,
       "trailing_eps": 2.82,
       "current_eps": 3.45008,
       "y1_eps": 3.77777,
@@ -1267,8 +1267,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 50.66549181468256,
-        "2027": 46.27068349846603
+        "2026": 50.27709502388351,
+        "2027": 45.915976885834766
       },
       "sources": [
         "Yahoo Finance",
@@ -1281,9 +1281,9 @@
       "ticker": "BKNG",
       "company": "Booking Holdings Inc.",
       "industry": "Travel Services",
-      "market_cap": 122058006528.0,
-      "price": 162.445,
-      "forward_pe": 13.133959,
+      "market_cap": 127041323008.0,
+      "price": 163.95,
+      "forward_pe": 13.255639,
       "trailing_eps": 9.0,
       "current_eps": 10.44835,
       "y1_eps": 12.36832,
@@ -1301,8 +1301,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 15.54743093407093,
-        "2027": 13.133958371064137
+        "2026": 15.691472816281996,
+        "2027": 13.255640216294532
       },
       "sources": [
         "Yahoo Finance",
@@ -1315,9 +1315,9 @@
       "ticker": "PDD",
       "company": "PDD Holdings Inc.",
       "industry": "Internet Retail",
-      "market_cap": 110469799936.0,
-      "price": 77.61,
-      "forward_pe": 6.3078847,
+      "market_cap": 110412865536.0,
+      "price": 77.57,
+      "forward_pe": 6.3046336,
       "trailing_eps": 9.29,
       "current_eps": 68.5721,
       "y1_eps": 82.57704,
@@ -1335,8 +1335,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 1.1318014177777842,
-        "2027": 0.9398496240601504
+        "2026": 1.1312180901562003,
+        "2027": 0.9393652279132311
       },
       "sources": [
         "Yahoo Finance",
@@ -1349,9 +1349,9 @@
       "ticker": "SBUX",
       "company": "Starbucks Corporation",
       "industry": "Restaurants",
-      "market_cap": 107587502080.0,
-      "price": 94.375,
-      "forward_pe": 30.22176,
+      "market_cap": 108140404736.0,
+      "price": 94.86,
+      "forward_pe": 30.377071,
       "trailing_eps": 1.73,
       "current_eps": 2.5928,
       "y1_eps": 3.12275,
@@ -1369,8 +1369,8 @@
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 36.39887380438137,
-        "2027": 30.221759666960214
+        "2026": 36.58593026843567,
+        "2027": 30.377071491473863
       },
       "sources": [
         "Yahoo Finance",
