@@ -1294,37 +1294,37 @@ def build_industries(stocks):
     for industry, group in groups.items():
 
         current_values = [
-            stock["current_fper"]
+            stock.get("current_fper")
             for stock in group
-            if stock["current_fper"]
+            if stock.get("current_fper")
             is not None
         ]
 
         hist_3y = [
-            stock["historical_fper"]["median_3y"]
+            stock.get("historical_fper", {}).get("median_3y")
             for stock in group
-            if stock["historical_fper"]["median_3y"]
+            if stock.get("historical_fper", {}).get("median_3y")
             is not None
         ]
 
         hist_5y = [
-            stock["historical_fper"]["median_5y"]
+            stock.get("historical_fper", {}).get("median_5y")
             for stock in group
-            if stock["historical_fper"]["median_5y"]
+            if stock.get("historical_fper", {}).get("median_5y")
             is not None
         ]
 
         hist_10y = [
-            stock["historical_fper"]["median_10y"]
+            stock.get("historical_fper", {}).get("median_10y")
             for stock in group
-            if stock["historical_fper"]["median_10y"]
+            if stock.get("historical_fper", {}).get("median_10y")
             is not None
         ]
 
         cagr_values = [
-            stock["cagr_4y"]
+            stock.get("cagr_4y")
             for stock in group
-            if stock["cagr_4y"]
+            if stock.get("cagr_4y")
             is not None
         ]
 
