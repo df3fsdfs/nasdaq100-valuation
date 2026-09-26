@@ -1007,6 +1007,29 @@ def build_stock(
         current_eps
     )
 
+    fper_source = (
+        "Yahoo Finance current price + Business Quant EPS"
+        if current_fper is not None
+        else (
+            "Yahoo Finance Forward P/E fallback"
+            if yahoo.get("forward_pe") is not None
+            else None
+        )
+    )
+
+    fper_basis = (
+        "current_eps"
+        if current_fper is not None
+        else (
+            "forward_pe"
+            if yahoo.get("forward_pe") is not None
+            else None
+        )
+    )
+
+    if current_fper is None:
+        current_fper = yahoo.get("forward_pe")
+
     future_fper = {
         "current":
             safe_fper(
@@ -1145,7 +1168,10 @@ def build_stock(
             future_fper,
 
         "fper_source":
-            "Yahoo Finance current price + Business Quant EPS",
+            fper_source,
+
+        "fper_basis":
+            fper_basis,
 
         "fper_updated_date_kst":
             now_kst().strftime("%Y-%m-%d"),

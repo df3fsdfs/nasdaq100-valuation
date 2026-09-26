@@ -1626,8 +1626,8 @@
       "error": null,
       "market_cap_rank": 30,
       "current_year": 2026,
-      "current_fper": null,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "current_fper": 15.262243,
+      "fper_source": "Yahoo Finance Forward P/E fallback (current EPS non-positive)",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
         "count": 0,
@@ -1644,7 +1644,8 @@
         "discount_10y": null
       },
       "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null
+      "historical_pe_updated_date_kst": null,
+      "fper_basis": "forward_pe"
     },
     {
       "ticker": "SHOP",
@@ -2188,7 +2189,7 @@
     }
   ],
   "industries": [],
-  "fper_success_count": 39,
+  "fper_success_count": 40,
   "fper_updated_date_kst": "2026-09-26",
   "historical_pe_updated_date_kst": null,
   "data_quality": {
@@ -2198,9 +2199,9 @@
       "source": "Business Quant"
     },
     "fper": {
-      "count": 39,
+      "count": 40,
       "updated_date_kst": "2026-09-26",
-      "source": "Yahoo Finance current price + Business Quant EPS"
+      "source": "Business Quant current EPS + Yahoo Finance Forward P/E fallback"
     },
     "historical_pe": {
       "count": 0,
