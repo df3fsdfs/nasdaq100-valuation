@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,316 +7,295 @@
 <title>NASDAQ-40 Valuation</title>
 
 <style>
+:root {
+  --bg: #f6f7f9;
+  --card: #ffffff;
+  --text: #17191c;
+  --muted: #747980;
+  --line: #e7e9ed;
+  --green: #16834b;
+  --red: #d04444;
+  --blue: #3267d6;
+}
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    background: #f5f7fa;
-    color: #172033;
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Roboto,
-        Arial,
-        sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
 }
 
 .container {
-    width: min(1500px, 94%);
-    margin: 0 auto;
-    padding: 32px 0 60px;
-}
-
-header {
-    margin-bottom: 24px;
+  max-width: 1500px;
+  margin: auto;
+  padding: 24px;
 }
 
 h1 {
-    margin: 0 0 6px;
-    font-size: 30px;
+  margin: 0;
+  font-size: 30px;
 }
 
 .subtitle {
-    color: #667085;
-    font-size: 14px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.status-box {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
 }
 
 .status {
-    display: inline-flex;
-    margin-top: 12px;
-    padding: 6px 10px;
-    border-radius: 999px;
-    background: #e8f7ee;
-    color: #168447;
-    font-size: 12px;
-    font-weight: 700;
+  font-weight: 800;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns:
-        repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+.status.live {
+  color: var(--green);
 }
 
-.card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px;
+.status.partial {
+  color: #b87900;
 }
 
-.card-label {
-    color: #667085;
-    font-size: 12px;
-    margin-bottom: 8px;
+.status.waiting {
+  color: var(--muted);
 }
 
-.card-value {
-    font-size: 22px;
-    font-weight: 750;
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.tab {
+  border: 1px solid var(--line);
+  background: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--text);
+  color: white;
 }
 
 .controls {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 18px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
 }
 
 input,
-select,
-button {
-    height: 38px;
-    border: 1px solid #d0d5dd;
-    background: white;
-    border-radius: 8px;
-    padding: 0 12px;
-    font-size: 13px;
-}
-
-input {
-    min-width: 220px;
-}
-
-button {
-    cursor: pointer;
-}
-
-button.active {
-    background: #172033;
-    color: white;
-}
-
-.section {
-    margin-top: 28px;
-}
-
-.section-title {
-    font-size: 20px;
-    font-weight: 750;
-    margin-bottom: 12px;
+select {
+  border: 1px solid var(--line);
+  background: white;
+  padding: 11px 13px;
+  border-radius: 9px;
+  font-size: 14px;
 }
 
 .table-wrap {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    overflow-x: auto;
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 1250px;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1250px;
 }
 
 th,
 td {
-    padding: 11px 10px;
-    border-bottom: 1px solid #edf0f3;
-    text-align: right;
-    white-space: nowrap;
-    font-size: 12px;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: right;
+  white-space: nowrap;
+  font-size: 13px;
 }
 
 th {
-    background: #fafbfc;
-    color: #667085;
-    font-weight: 700;
-    position: sticky;
-    top: 0;
+  background: #fafafa;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 th:first-child,
 td:first-child,
 th:nth-child(2),
-td:nth-child(2) {
-    text-align: left;
+td:nth-child(2),
+th:nth-child(3),
+td:nth-child(3) {
+  text-align: left;
 }
 
-tbody tr {
-    cursor: pointer;
-}
-
-tbody tr:hover {
-    background: #f8fafc;
-}
-
-.ticker {
-    font-weight: 800;
-}
-
-.company {
-    color: #667085;
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+tr:hover td {
+  background: #fafbfc;
 }
 
 .positive {
-    color: #168447;
+  color: var(--green);
 }
 
 .negative {
-    color: #d92d20;
+  color: var(--red);
 }
 
 .na {
-    color: #98a2b3;
+  color: #aaa;
 }
 
-.detail {
-    display: none;
-    margin-top: 24px;
+.stock-name {
+  font-weight: 700;
 }
 
-.detail.show {
-    display: block;
+.ticker {
+  color: var(--muted);
+  margin-left: 5px;
 }
 
-.detail-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(3, 1fr);
-    gap: 12px;
+.industry-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
 }
 
-.panel {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 18px;
+.industry-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
 }
 
-.panel h3 {
-    margin: 0 0 14px;
-    font-size: 15px;
+.industry-card:hover {
+  border-color: #c7ccd4;
 }
 
-.metric-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f2f5;
-    font-size: 13px;
+.industry-title {
+  font-size: 18px;
+  font-weight: 800;
 }
 
-.metric-row:last-child {
-    border-bottom: 0;
+.industry-count {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.metric {
+  background: #fafafa;
+  padding: 10px;
+  border-radius: 9px;
 }
 
 .metric-label {
-    color: #667085;
+  color: var(--muted);
+  font-size: 11px;
 }
 
 .metric-value {
-    font-weight: 700;
+  font-weight: 800;
+  margin-top: 3px;
 }
 
-.chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 12px;
-    height: 220px;
-    padding: 15px 0;
+.detail {
+  margin-top: 18px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  display: none;
 }
 
-.bar-wrap {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
+.detail h2 {
+  margin-top: 0;
 }
 
-.bar {
-    width: 100%;
-    max-width: 60px;
-    background: #172033;
-    border-radius: 6px 6px 0 0;
-    min-height: 3px;
+.close {
+  float: right;
+  border: 0;
+  background: #eee;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
 }
 
-.bar-label {
-    margin-top: 7px;
-    font-size: 11px;
-    color: #667085;
+.small-table {
+  width: 100%;
+  min-width: 0;
 }
 
-.bar-value {
-    margin-bottom: 5px;
-    font-size: 11px;
-    font-weight: 700;
+.small-table th,
+.small-table td {
+  text-align: right;
 }
 
-@media (max-width: 900px) {
-
-    .cards {
-        grid-template-columns:
-            repeat(2, 1fr);
-    }
-
-    .detail-grid {
-        grid-template-columns: 1fr;
-    }
+.small-table th:first-child,
+.small-table td:first-child {
+  text-align: left;
 }
 
-@media (max-width: 600px) {
-
-    .container {
-        width: 94%;
-        padding-top: 22px;
-    }
-
-    h1 {
-        font-size: 25px;
-    }
-
-    .cards {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .card-value {
-        font-size: 18px;
-    }
-
-    input {
-        width: 100%;
-    }
+.note {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 14px;
 }
 
+@media (max-width: 700px) {
+
+  .container {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .metric-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .industry-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 
@@ -325,258 +303,174 @@ tbody tr:hover {
 
 <div class="container">
 
-<header>
-
-<h1>NASDAQ-40 Valuation</h1>
-
-<div class="subtitle">
-시총 상위 40개 · EPS 성장 · 현재 FPER · Historical Valuation
-</div>
-
-<div id="status" class="status">
-LOADING
-</div>
+  <h1>NASDAQ-40 Valuation</h1>
+
+  <div class="subtitle">
+    시총 상위 40개 · EPS 성장 · 현재 FPER · Historical Valuation
+  </div>
+
+  <div class="status-box">
+
+    <div>
+      DATA STATUS:
+      <span id="status" class="status">
+        LOADING
+      </span>
+    </div>
+
+    <div class="meta">
+      <span>
+        분석 종목:
+        <b id="stockCount">-</b>
+      </span>
 
-</header>
+      <span>
+        데이터 기준:
+        <b id="date">-</b>
+      </span>
+
+      <span>
+        현재 연도:
+        <b id="currentYear">-</b>
+      </span>
 
+      <span>
+        EPS 확보:
+        <b id="epsCount">-</b>
+      </span>
 
-<div class="cards">
+      <span>
+        Historical P/E:
+        <b id="historyCount">-</b>
+      </span>
+    </div>
 
-<div class="card">
-<div class="card-label">
-분석 종목
-</div>
-<div class="card-value"
-     id="stockCount">
--
-</div>
-</div>
+  </div>
 
-<div class="card">
-<div class="card-label">
-데이터 기준
-</div>
-<div class="card-value"
-     id="dataDate">
--
-</div>
-</div>
+  <div class="tabs">
+    <button
+      class="tab active"
+      id="stockTab"
+      onclick="showTab('stocks')">
+      종목
+    </button>
 
-<div class="card">
-<div class="card-label">
-Historical P/E 확보
-</div>
-<div class="card-value"
-     id="historyCount">
--
-</div>
-</div>
+    <button
+      class="tab"
+      id="industryTab"
+      onclick="showTab('industries')">
+      산업
+    </button>
+  </div>
 
-<div class="card">
-<div class="card-label">
-현재 연도
-</div>
-<div class="card-value"
-     id="currentYear">
--
-</div>
-</div>
+  <section id="stocksSection">
 
-</div>
+    <div class="controls">
 
+      <input
+        id="search"
+        placeholder="종목 검색"
+        oninput="renderStocks()">
 
-<div class="controls">
+      <select
+        id="sort"
+        onchange="renderStocks()">
 
-<input
-    id="search"
-    placeholder="종목 / 기업 검색"
-/>
+        <option value="rank">
+          시총 순
+        </option>
 
-<select id="sort">
+        <option value="discount5">
+          5Y Historical 할인율
+        </option>
 
-<option value="discount5">
-5Y Historical 저평가순
-</option>
+        <option value="discount3">
+          3Y Historical 할인율
+        </option>
 
-<option value="discount3">
-3Y Historical 저평가순
-</option>
+        <option value="discount10">
+          10Y Historical 할인율
+        </option>
 
-<option value="discount10">
-10Y Historical 저평가순
-</option>
+        <option value="growth">
+          현재 EPS 성장률
+        </option>
 
-<option value="fper">
-현재 FPER 낮은순
-</option>
+        <option value="cagr">
+          4Y EPS CAGR
+        </option>
 
-<option value="cagr">
-4Y EPS CAGR 높은순
-</option>
+        <option value="fper">
+          현재 FPER
+        </option>
 
-<option value="futureFper">
-미래 FPER 낮은순
-</option>
+        <option value="future4">
+          +4Y FPER
+        </option>
 
-<option value="marketCap">
-시가총액순
-</option>
+      </select>
 
-</select>
+    </div>
 
-<button id="stockBtn"
-        class="active">
-종목
-</button>
+    <div class="table-wrap">
 
-<button id="industryBtn">
-산업
-</button>
+      <table>
 
-</div>
+        <thead>
 
+          <tr>
 
-<div id="stockSection">
+            <th>Rank</th>
+            <th>종목</th>
+            <th>산업</th>
+            <th>현재 FPER</th>
 
-<div class="section-title">
-저평가 종목
-</div>
+            <th>5Y Hist.</th>
+            <th>5Y Discount</th>
+            <th>3Y Discount</th>
+            <th>10Y Discount</th>
 
-<div class="table-wrap">
+            <th>현재 EPS 성장</th>
+            <th>4Y CAGR</th>
 
-<table>
+            <th>+1Y FPER</th>
+            <th>+2Y FPER</th>
+            <th>+3Y FPER</th>
+            <th>+4Y FPER</th>
 
-<thead>
+          </tr>
 
-<tr>
+        </thead>
 
-<th>Rank</th>
-<th>종목</th>
-<th>산업</th>
-<th>현재 FPER</th>
-<th>5Y Hist.</th>
-<th>5Y Discount</th>
-<th>3Y Discount</th>
-<th>10Y Discount</th>
-<th>현재 EPS 성장</th>
-<th>4Y CAGR</th>
-<th>+1Y FPER</th>
-<th>+2Y FPER</th>
-<th>+3Y FPER</th>
-<th>+4Y FPER</th>
+        <tbody id="stockTable"></tbody>
 
-</tr>
+      </table>
 
-</thead>
+    </div>
 
-<tbody id="stockTable">
-</tbody>
+  </section>
 
-</table>
+  <section
+    id="industriesSection"
+    style="display:none;">
 
-</div>
+    <div
+      id="industryGrid"
+      class="industry-grid">
+    </div>
 
-</div>
+  </section>
 
+  <div
+    id="detail"
+    class="detail">
+  </div>
 
-<div id="industrySection"
-     style="display:none">
-
-<div class="section-title">
-저평가 산업
-</div>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Rank</th>
-<th>산업</th>
-<th>종목수</th>
-<th>현재 Median FPER</th>
-<th>5Y Hist. Median</th>
-<th>5Y Discount</th>
-<th>4Y EPS CAGR Median</th>
-
-</tr>
-
-</thead>
-
-<tbody id="industryTable">
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-
-<div id="detail"
-     class="detail">
-
-<div class="section-title">
-종목 상세
-</div>
-
-<div class="detail-grid">
-
-<div class="panel">
-
-<h3 id="detailTitle">
--
-</h3>
-
-<div id="valuationPanel">
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>
-EPS 성장
-</h3>
-
-<div id="epsPanel">
-</div>
-
-</div>
-
-
-<div class="panel">
-
-<h3>
-Historical Valuation
-</h3>
-
-<div id="historyPanel">
-</div>
-
-</div>
-
-</div>
-
-
-<div class="panel"
-     style="margin-top:12px">
-
-<h3>
-EPS Trajectory
-</h3>
-
-<div id="epsChart"
-     class="chart">
-</div>
-
-</div>
-
-</div>
+  <div class="note">
+    Historical P/E는 실제 historical P/E 시계열을 사용하며,
+    과거 가격에 현재 EPS를 적용해 재구성하지 않습니다.
+    미래 FPER은 현재 가격이 그대로 유지된다는 가정입니다.
+  </div>
 
 </div>
 
@@ -584,824 +478,1039 @@ EPS Trajectory
 <script>
 
 let DATA = null;
-let selectedMode = "stocks";
+let stocks = [];
+let industries = [];
 
 
-const $ = id =>
-    document.getElementById(id);
-
+/* =====================================================
+   FORMAT
+===================================================== */
 
 function fmt(value, digits = 1) {
 
-    if (
-        value === null ||
-        value === undefined ||
-        Number.isNaN(Number(value))
-    ) {
-        return `<span class="na">N/A</span>`;
-    }
+  if (
+    value === null ||
+    value === undefined ||
+    Number.isNaN(Number(value))
+  ) {
+    return '<span class="na">N/A</span>';
+  }
 
-    return Number(value)
-        .toLocaleString(
-            "en-US",
-            {
-                maximumFractionDigits:
-                    digits
-            }
-        );
+  return Number(value).toFixed(digits);
 }
 
 
-function fmtX(value) {
+function pct(value) {
 
-    if (
-        value === null ||
-        value === undefined ||
-        Number.isNaN(Number(value))
-    ) {
-        return `<span class="na">N/A</span>`;
-    }
+  if (
+    value === null ||
+    value === undefined ||
+    Number.isNaN(Number(value))
+  ) {
+    return '<span class="na">N/A</span>';
+  }
 
-    return `${fmt(value, 1)}x`;
+  const n = Number(value);
+
+  const cls =
+    n >= 0
+      ? "positive"
+      : "negative";
+
+  const sign =
+    n > 0
+      ? "+"
+      : "";
+
+  return `
+    <span class="${cls}">
+      ${sign}${n.toFixed(1)}%
+    </span>
+  `;
 }
 
 
-function fmtPct(value) {
+function fper(value) {
 
-    if (
-        value === null ||
-        value === undefined ||
-        Number.isNaN(Number(value))
-    ) {
-        return `<span class="na">N/A</span>`;
-    }
+  if (
+    value === null ||
+    value === undefined ||
+    Number.isNaN(Number(value))
+  ) {
+    return '<span class="na">N/A</span>';
+  }
 
-    const cls =
-        value < 0
-            ? "negative"
-            : value > 0
-                ? "positive"
-                : "";
-
-    return `
-        <span class="${cls}">
-            ${value > 0 ? "+" : ""}
-            ${fmt(value, 1)}%
-        </span>
-    `;
+  return `${Number(value).toFixed(1)}x`;
 }
 
 
-function stockValue(
-    stock,
-    path
-) {
-
-    let value = stock;
-
-    for (
-        const key of path
-    ) {
-
-        if (
-            value === null ||
-            value === undefined
-        ) {
-            return null;
-        }
-
-        value = value[key];
-    }
-
-    return value;
-}
-
-
-function sortStocks(
-    stocks,
-    sort
-) {
-
-    const copy = [...stocks];
-
-    const val = (
-        stock
-    ) => {
-
-        if (
-            sort === "discount5"
-        ) {
-            return stockValue(
-                stock,
-                [
-                    "historical_fper",
-                    "discount_5y"
-                ]
-            );
-        }
-
-        if (
-            sort === "discount3"
-        ) {
-            return stockValue(
-                stock,
-                [
-                    "historical_fper",
-                    "discount_3y"
-                ]
-            );
-        }
-
-        if (
-            sort === "discount10"
-        ) {
-            return stockValue(
-                stock,
-                [
-                    "historical_fper",
-                    "discount_10y"
-                ]
-            );
-        }
-
-        if (
-            sort === "fper"
-        ) {
-            return stock.current_fper;
-        }
-
-        if (
-            sort === "cagr"
-        ) {
-            return stock.cagr_4y;
-        }
-
-        if (
-            sort === "futureFper"
-        ) {
-            return (
-                stock.future_fper?.y4
-                ?? null
-            );
-        }
-
-        if (
-            sort === "marketCap"
-        ) {
-            return stock.market_cap;
-        }
-
-        return null;
-    };
-
-    copy.sort(
-        (a, b) => {
-
-            const av = val(a);
-            const bv = val(b);
-
-            if (
-                av === null &&
-                bv === null
-            ) {
-                return 0;
-            }
-
-            if (
-                av === null
-            ) {
-                return 1;
-            }
-
-            if (
-                bv === null
-            ) {
-                return -1;
-            }
-
-            if (
-                sort === "cagr"
-            ) {
-                return bv - av;
-            }
-
-            if (
-                sort === "marketCap"
-            ) {
-                return bv - av;
-            }
-
-            return av - bv;
-        }
-    );
-
-    return copy;
-}
-
-
-function renderStocks() {
-
-    const search =
-        $("search")
-            .value
-            .trim()
-            .toLowerCase();
-
-    const sort =
-        $("sort").value;
-
-    let stocks =
-        DATA.stocks.filter(
-            stock => {
-
-                if (!search) {
-                    return true;
-                }
-
-                return (
-                    stock.ticker
-                        .toLowerCase()
-                        .includes(search)
-                    ||
-                    stock.company
-                        .toLowerCase()
-                        .includes(search)
-                    ||
-                    stock.industry
-                        .toLowerCase()
-                        .includes(search)
-                );
-            }
-        );
-
-    stocks =
-        sortStocks(
-            stocks,
-            sort
-        );
-
-    $("stockTable").innerHTML =
-        stocks.map(
-            (stock, index) => {
-
-                const h =
-                    stock.historical_fper;
-
-                return `
-
-<tr
-    onclick="showDetail('${stock.ticker}')"
->
-
-<td>
-${index + 1}
-</td>
-
-<td>
-
-<div class="ticker">
-${stock.ticker}
-</div>
-
-<div class="company">
-${stock.company}
-</div>
-
-</td>
-
-<td>
-${stock.industry}
-</td>
-
-<td>
-${fmtX(stock.current_fper)}
-</td>
-
-<td>
-${fmtX(h?.median_5y)}
-</td>
-
-<td>
-${fmtPct(h?.discount_5y)}
-</td>
-
-<td>
-${fmtPct(h?.discount_3y)}
-</td>
-
-<td>
-${fmtPct(h?.discount_10y)}
-</td>
-
-<td>
-${fmtPct(stock.current_growth)}
-</td>
-
-<td>
-${fmtPct(stock.cagr_4y)}
-</td>
-
-<td>
-${fmtX(stock.future_fper?.y1)}
-</td>
-
-<td>
-${fmtX(stock.future_fper?.y2)}
-</td>
-
-<td>
-${fmtX(stock.future_fper?.y3)}
-</td>
-
-<td>
-${fmtX(stock.future_fper?.y4)}
-</td>
-
-</tr>
-
-`;
-
-            }
-        ).join("");
-}
-
-
-function renderIndustries() {
-
-    const industries =
-        [...DATA.industries];
-
-    industries.sort(
-        (
-            a,
-            b
-        ) => {
-
-            const av =
-                a.historical_5y_discount;
-
-            const bv =
-                b.historical_5y_discount;
-
-            if (
-                av === null &&
-                bv === null
-            ) {
-                return 0;
-            }
-
-            if (
-                av === null
-            ) {
-                return 1;
-            }
-
-            if (
-                bv === null
-            ) {
-                return -1;
-            }
-
-            return av - bv;
-        }
-    );
-
-    $("industryTable").innerHTML =
-        industries.map(
-            (industry, index) => {
-
-                return `
-
-<tr>
-
-<td>
-${index + 1}
-</td>
-
-<td>
-<strong>
-${industry.industry}
-</strong>
-</td>
-
-<td>
-${industry.stock_count}
-</td>
-
-<td>
-${fmtX(
-    industry.current_fper_median
-)}
-</td>
-
-<td>
-${fmtX(
-    industry
-        .historical_5y_fper_median
-)}
-</td>
-
-<td>
-${fmtPct(
-    industry
-        .historical_5y_discount
-)}
-</td>
-
-<td>
-${fmtPct(
-    industry
-        .eps_cagr_4y_median
-)}
-</td>
-
-</tr>
-
-`;
-
-            }
-        ).join("");
-}
-
-
-function showDetail(ticker) {
-
-    const stock =
-        DATA.stocks.find(
-            x =>
-                x.ticker === ticker
-        );
-
-    if (!stock) {
-        return;
-    }
-
-    $("detail").classList.add(
-        "show"
-    );
-
-    $("detailTitle").textContent =
-        `${stock.ticker} · ${stock.company}`;
-
-    const h =
-        stock.historical_fper;
-
-    $("valuationPanel").innerHTML = `
-
-<div class="metric-row">
-<span class="metric-label">
-현재 FPER
-</span>
-<span class="metric-value">
-${fmtX(stock.current_fper)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-5Y Historical Median
-</span>
-<span class="metric-value">
-${fmtX(h?.median_5y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-5Y Discount
-</span>
-<span class="metric-value">
-${fmtPct(h?.discount_5y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-3Y Discount
-</span>
-<span class="metric-value">
-${fmtPct(h?.discount_3y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-10Y Discount
-</span>
-<span class="metric-value">
-${fmtPct(h?.discount_10y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-2030 FPER
-</span>
-<span class="metric-value">
-${fmtX(stock.future_fper?.y4)}
-</span>
-</div>
-
-`;
-
-
-    const years =
-        stock.eps_years || [];
-
-    $("epsPanel").innerHTML =
-        years.map(
-            row => `
-
-<div class="metric-row">
-
-<span class="metric-label">
-${row.year}
-</span>
-
-<span class="metric-value">
-${fmt(row.eps, 2)}
-</span>
-
-</div>
-
-`
-        ).join("");
-
-
-    $("historyPanel").innerHTML = `
-
-<div class="metric-row">
-<span class="metric-label">
-3Y Median
-</span>
-<span class="metric-value">
-${fmtX(h?.median_3y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-5Y Median
-</span>
-<span class="metric-value">
-${fmtX(h?.median_5y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-10Y Median
-</span>
-<span class="metric-value">
-${fmtX(h?.median_10y)}
-</span>
-</div>
-
-<div class="metric-row">
-<span class="metric-label">
-Historical observations
-</span>
-<span class="metric-value">
-${fmt(h?.count, 0)}
-</span>
-</div>
-
-`;
-
-    renderChart(
-        stock
-    );
-
-    window.scrollTo({
-        top:
-            $("detail")
-                .offsetTop - 15,
-        behavior:
-            "smooth"
-    });
-}
-
-
-function renderChart(stock) {
-
-    const rows =
-        stock.eps_years || [];
-
-    const valid =
-        rows.filter(
-            x =>
-                x.eps !== null &&
-                x.eps !== undefined
-        );
-
-    if (!valid.length) {
-
-        $("epsChart").innerHTML =
-            `<span class="na">
-                EPS 데이터 없음
-            </span>`;
-
-        return;
-    }
-
-    const max =
-        Math.max(
-            ...valid.map(
-                x => x.eps
-            )
-        );
-
-    $("epsChart").innerHTML =
-        valid.map(
-            row => {
-
-                const height =
-                    max > 0
-                        ? Math.max(
-                            3,
-                            (
-                                row.eps
-                                / max
-                            ) * 170
-                        )
-                        : 3;
-
-                return `
-
-<div class="bar-wrap">
-
-<div class="bar-value">
-${fmt(row.eps, 2)}
-</div>
-
-<div
-    class="bar"
-    style="height:${height}px"
-></div>
-
-<div class="bar-label">
-${row.year}
-</div>
-
-</div>
-
-`;
-
-            }
-        ).join("");
-}
-
-
-function setMode(mode) {
-
-    selectedMode =
-        mode;
-
-    if (
-        mode === "stocks"
-    ) {
-
-        $("stockSection")
-            .style.display =
-            "block";
-
-        $("industrySection")
-            .style.display =
-            "none";
-
-        $("stockBtn")
-            .classList.add(
-                "active"
-            );
-
-        $("industryBtn")
-            .classList.remove(
-                "active"
-            );
-
-    } else {
-
-        $("stockSection")
-            .style.display =
-            "none";
-
-        $("industrySection")
-            .style.display =
-            "block";
-
-        $("stockBtn")
-            .classList.remove(
-                "active"
-            );
-
-        $("industryBtn")
-            .classList.add(
-                "active"
-            );
-    }
-}
-
+/* =====================================================
+   LOAD
+===================================================== */
 
 async function loadData() {
 
-    try {
+  try {
 
-        const response =
-            await fetch(
-                "data.json?t="
-                + Date.now()
-            );
+    const response =
+      await fetch(
+        "data.json?ts=" +
+        Date.now()
+      );
 
-        if (!response.ok) {
-            throw new Error(
-                "data.json load failed"
-            );
-        }
-
-        DATA =
-            await response.json();
-
-        if (
-            DATA.status !==
-            "LIVE"
-        ) {
-            throw new Error(
-                "Data is not LIVE"
-            );
-        }
-
-        $("status")
-            .textContent =
-            "LIVE";
-
-        $("stockCount")
-            .textContent =
-            DATA.stock_count;
-
-        $("dataDate")
-            .textContent =
-            DATA.generated_date_kst;
-
-        $("historyCount")
-            .textContent =
-            DATA.historical_cache_count;
-
-        $("currentYear")
-            .textContent =
-            DATA.current_year;
-
-        renderStocks();
-
-        renderIndustries();
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-        $("status")
-            .textContent =
-            "DATA ERROR";
-
-        $("status")
-            .style.background =
-            "#fff1f0";
-
-        $("status")
-            .style.color =
-            "#d92d20";
+    if (!response.ok) {
+      throw new Error(
+        "data.json HTTP " +
+        response.status
+      );
     }
+
+    DATA =
+      await response.json();
+
+    stocks =
+      Array.isArray(DATA.stocks)
+        ? DATA.stocks
+        : [];
+
+    industries =
+      Array.isArray(DATA.industries)
+        ? DATA.industries
+        : [];
+
+    renderMeta();
+    renderStocks();
+    renderIndustries();
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "status"
+    ).textContent = "DATA ERROR";
+
+    document.getElementById(
+      "status"
+    ).className =
+      "status negative";
+  }
 }
 
 
-$("search")
-    .addEventListener(
-        "input",
-        renderStocks
+/* =====================================================
+   META
+===================================================== */
+
+function renderMeta() {
+
+  const status =
+    DATA.status || "WAITING";
+
+  const statusEl =
+    document.getElementById(
+      "status"
     );
 
-$("sort")
-    .addEventListener(
-        "change",
-        renderStocks
+  statusEl.textContent =
+    status;
+
+  statusEl.className =
+    "status " +
+    status.toLowerCase();
+
+  document.getElementById(
+    "stockCount"
+  ).textContent =
+    DATA.stock_count ?? stocks.length;
+
+  document.getElementById(
+    "date"
+  ).textContent =
+    DATA.generated_date_kst || "-";
+
+  document.getElementById(
+    "currentYear"
+  ).textContent =
+    DATA.current_year || "-";
+
+  document.getElementById(
+    "epsCount"
+  ).textContent =
+    DATA.eps_success_count !== undefined
+      ? DATA.eps_success_count
+      : "-";
+
+  document.getElementById(
+    "historyCount"
+  ).textContent =
+    DATA.historical_available_count !== undefined
+      ? DATA.historical_available_count
+      : "-";
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+function showTab(tab) {
+
+  const stocksSection =
+    document.getElementById(
+      "stocksSection"
     );
 
-$("stockBtn")
-    .addEventListener(
-        "click",
-        () => setMode(
-            "stocks"
-        )
+  const industriesSection =
+    document.getElementById(
+      "industriesSection"
     );
 
-$("industryBtn")
-    .addEventListener(
-        "click",
-        () => setMode(
-            "industry"
-        )
+  const stockTab =
+    document.getElementById(
+      "stockTab"
     );
+
+  const industryTab =
+    document.getElementById(
+      "industryTab"
+    );
+
+  if (tab === "stocks") {
+
+    stocksSection.style.display =
+      "block";
+
+    industriesSection.style.display =
+      "none";
+
+    stockTab.classList.add(
+      "active"
+    );
+
+    industryTab.classList.remove(
+      "active"
+    );
+
+  } else {
+
+    stocksSection.style.display =
+      "none";
+
+    industriesSection.style.display =
+      "block";
+
+    stockTab.classList.remove(
+      "active"
+    );
+
+    industryTab.classList.add(
+      "active"
+    );
+  }
+}
+
+
+/* =====================================================
+   STOCKS
+===================================================== */
+
+function renderStocks() {
+
+  const tbody =
+    document.getElementById(
+      "stockTable"
+    );
+
+  const search =
+    document.getElementById(
+      "search"
+    ).value
+      .trim()
+      .toUpperCase();
+
+  const sort =
+    document.getElementById(
+      "sort"
+    ).value;
+
+  let rows =
+    stocks.filter(stock => {
+
+      if (!search) {
+        return true;
+      }
+
+      return (
+        stock.ticker
+          .toUpperCase()
+          .includes(search)
+        ||
+        stock.company
+          .toUpperCase()
+          .includes(search)
+      );
+
+    });
+
+
+  rows.sort((a, b) => {
+
+    if (sort === "discount5") {
+      return compareAsc(
+        a.historical_fper?.discount_5y,
+        b.historical_fper?.discount_5y
+      );
+    }
+
+    if (sort === "discount3") {
+      return compareAsc(
+        a.historical_fper?.discount_3y,
+        b.historical_fper?.discount_3y
+      );
+    }
+
+    if (sort === "discount10") {
+      return compareAsc(
+        a.historical_fper?.discount_10y,
+        b.historical_fper?.discount_10y
+      );
+    }
+
+    if (sort === "growth") {
+      return compareDesc(
+        a.current_growth,
+        b.current_growth
+      );
+    }
+
+    if (sort === "cagr") {
+      return compareDesc(
+        a.cagr_4y,
+        b.cagr_4y
+      );
+    }
+
+    if (sort === "fper") {
+      return compareAsc(
+        a.current_fper,
+        b.current_fper
+      );
+    }
+
+    if (sort === "future4") {
+      return compareAsc(
+        a.future_fper?.y4,
+        b.future_fper?.y4
+      );
+    }
+
+    return (
+      (a.market_cap_rank || 999)
+      -
+      (b.market_cap_rank || 999)
+    );
+
+  });
+
+
+  tbody.innerHTML = rows.map(
+    stock => `
+
+      <tr
+        onclick="showStock('${stock.ticker}')"
+        style="cursor:pointer;">
+
+        <td>
+          ${stock.market_cap_rank ?? "-"}
+        </td>
+
+        <td>
+          <span class="stock-name">
+            ${escapeHtml(stock.company)}
+          </span>
+
+          <span class="ticker">
+            ${escapeHtml(stock.ticker)}
+          </span>
+        </td>
+
+        <td>
+          ${escapeHtml(
+            stock.industry || "기타"
+          )}
+        </td>
+
+        <td>
+          ${fper(stock.current_fper)}
+        </td>
+
+        <td>
+          ${fper(
+            stock.historical_fper
+              ?.median_5y
+          )}
+        </td>
+
+        <td>
+          ${pct(
+            stock.historical_fper
+              ?.discount_5y
+          )}
+        </td>
+
+        <td>
+          ${pct(
+            stock.historical_fper
+              ?.discount_3y
+          )}
+        </td>
+
+        <td>
+          ${pct(
+            stock.historical_fper
+              ?.discount_10y
+          )}
+        </td>
+
+        <td>
+          ${pct(
+            stock.current_growth
+          )}
+        </td>
+
+        <td>
+          ${pct(
+            stock.cagr_4y
+          )}
+        </td>
+
+        <td>
+          ${fper(
+            stock.future_fper?.y1
+          )}
+        </td>
+
+        <td>
+          ${fper(
+            stock.future_fper?.y2
+          )}
+        </td>
+
+        <td>
+          ${fper(
+            stock.future_fper?.y3
+          )}
+        </td>
+
+        <td>
+          ${fper(
+            stock.future_fper?.y4
+          )}
+        </td>
+
+      </tr>
+
+    `
+  ).join("");
+}
+
+
+/* =====================================================
+   INDUSTRIES
+===================================================== */
+
+function renderIndustries() {
+
+  const grid =
+    document.getElementById(
+      "industryGrid"
+    );
+
+  grid.innerHTML =
+    industries.map(
+      industry => `
+
+        <div
+          class="industry-card"
+          onclick="showIndustry(
+            '${escapeHtml(industry.industry)}'
+          )">
+
+          <div class="industry-title">
+            ${escapeHtml(
+              industry.industry
+            )}
+          </div>
+
+          <div class="industry-count">
+            ${industry.stock_count}개 종목
+          </div>
+
+          <div class="metric-grid">
+
+            <div class="metric">
+              <div class="metric-label">
+                현재 FPER
+              </div>
+
+              <div class="metric-value">
+                ${fper(
+                  industry.current_fper_median
+                )}
+              </div>
+            </div>
+
+            <div class="metric">
+              <div class="metric-label">
+                5Y Historical
+              </div>
+
+              <div class="metric-value">
+                ${fper(
+                  industry
+                    .historical_5y_fper_median
+                )}
+              </div>
+            </div>
+
+            <div class="metric">
+              <div class="metric-label">
+                5Y Discount
+              </div>
+
+              <div class="metric-value">
+                ${pct(
+                  industry
+                    .historical_5y_discount
+                )}
+              </div>
+            </div>
+
+            <div class="metric">
+              <div class="metric-label">
+                EPS 4Y CAGR
+              </div>
+
+              <div class="metric-value">
+                ${pct(
+                  industry
+                    .eps_cagr_4y_median
+                )}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      `
+    ).join("");
+}
+
+
+/* =====================================================
+   STOCK DETAIL
+===================================================== */
+
+function showStock(ticker) {
+
+  const stock =
+    stocks.find(
+      x => x.ticker === ticker
+    );
+
+  if (!stock) {
+    return;
+  }
+
+  const detail =
+    document.getElementById(
+      "detail"
+    );
+
+  detail.style.display =
+    "block";
+
+  const years =
+    Object.keys(
+      stock.eps_years || {}
+    );
+
+  detail.innerHTML = `
+
+    <button
+      class="close"
+      onclick="closeDetail()">
+      닫기
+    </button>
+
+    <h2>
+      ${escapeHtml(
+        stock.company
+      )}
+      <span class="ticker">
+        ${escapeHtml(
+          stock.ticker
+        )}
+      </span>
+    </h2>
+
+    <p>
+      ${escapeHtml(
+        stock.industry || "기타"
+      )}
+    </p>
+
+    <div class="metric-grid">
+
+      <div class="metric">
+        <div class="metric-label">
+          현재 FPER
+        </div>
+        <div class="metric-value">
+          ${fper(stock.current_fper)}
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">
+          현재 EPS 성장
+        </div>
+        <div class="metric-value">
+          ${pct(stock.current_growth)}
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">
+          4Y EPS CAGR
+        </div>
+        <div class="metric-value">
+          ${pct(stock.cagr_4y)}
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">
+          5Y Historical Discount
+        </div>
+        <div class="metric-value">
+          ${pct(
+            stock.historical_fper
+              ?.discount_5y
+          )}
+        </div>
+      </div>
+
+    </div>
+
+    <h3>
+      EPS / 미래 FPER
+    </h3>
+
+    <table class="small-table">
+
+      <thead>
+        <tr>
+          <th>연도</th>
+          <th>EPS</th>
+          <th>성장률</th>
+          <th>현재가격 기준 FPER</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        ${years.map(year => {
+
+          const offset =
+            Number(year)
+            -
+            Number(stock.current_year);
+
+          let fperValue = null;
+
+          if (offset === 0) {
+            fperValue =
+              stock.future_fper?.current;
+          }
+
+          if (offset === 1) {
+            fperValue =
+              stock.future_fper?.y1;
+          }
+
+          if (offset === 2) {
+            fperValue =
+              stock.future_fper?.y2;
+          }
+
+          if (offset === 3) {
+            fperValue =
+              stock.future_fper?.y3;
+          }
+
+          if (offset === 4) {
+            fperValue =
+              stock.future_fper?.y4;
+          }
+
+          let growth = null;
+
+          if (offset === 0) {
+            growth =
+              stock.current_growth;
+          }
+
+          if (offset >= 1) {
+            growth =
+              stock.eps_growth?.[
+                "y" + offset
+              ];
+          }
+
+          return `
+
+            <tr>
+
+              <td>
+                ${year}
+              </td>
+
+              <td>
+                ${fmt(
+                  stock.eps_years[year],
+                  2
+                )}
+              </td>
+
+              <td>
+                ${pct(growth)}
+              </td>
+
+              <td>
+                ${fper(fperValue)}
+              </td>
+
+            </tr>
+
+          `;
+
+        }).join("")}
+
+      </tbody>
+
+    </table>
+
+    <h3>
+      Historical Valuation
+    </h3>
+
+    <table class="small-table">
+
+      <tbody>
+
+        <tr>
+          <td>3Y Median FPER</td>
+          <td>
+            ${fper(
+              stock.historical_fper
+                ?.median_3y
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <td>5Y Median FPER</td>
+          <td>
+            ${fper(
+              stock.historical_fper
+                ?.median_5y
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <td>10Y Median FPER</td>
+          <td>
+            ${fper(
+              stock.historical_fper
+                ?.median_10y
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <td>3Y Discount</td>
+          <td>
+            ${pct(
+              stock.historical_fper
+                ?.discount_3y
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <td>5Y Discount</td>
+          <td>
+            ${pct(
+              stock.historical_fper
+                ?.discount_5y
+            )}
+          </td>
+        </tr>
+
+        <tr>
+          <td>10Y Discount</td>
+          <td>
+            ${pct(
+              stock.historical_fper
+                ?.discount_10y
+            )}
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  `;
+
+  detail.scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+
+/* =====================================================
+   INDUSTRY DETAIL
+===================================================== */
+
+function showIndustry(industryName) {
+
+  const industry =
+    industries.find(
+      x =>
+        x.industry === industryName
+    );
+
+  if (!industry) {
+    return;
+  }
+
+  showTab("industries");
+
+  const members =
+    stocks.filter(
+      stock =>
+        stock.industry === industryName
+    );
+
+  const detail =
+    document.getElementById(
+      "detail"
+    );
+
+  detail.style.display =
+    "block";
+
+  detail.innerHTML = `
+
+    <button
+      class="close"
+      onclick="closeDetail()">
+      닫기
+    </button>
+
+    <h2>
+      ${escapeHtml(
+        industry.industry
+      )}
+    </h2>
+
+    <p>
+      ${industry.stock_count}개 종목
+    </p>
+
+    <div class="metric-grid">
+
+      <div class="metric">
+        <div class="metric-label">
+          현재 FPER
+        </div>
+
+        <div class="metric-value">
+          ${fper(
+            industry.current_fper_median
+          )}
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">
+          5Y Historical
+        </div>
+
+        <div class="metric-value">
+          ${fper(
+            industry
+              .historical_5y_fper_median
+          )}
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">
+          5Y Discount
+        </div>
+
+        <div class="metric-value">
+          ${pct(
+            industry
+              .historical_5y_discount
+          )}
+        </div>
+      </div>
+
+      <div class="metric">
+        <div class="metric-label">
+          EPS 4Y CAGR
+        </div>
+
+        <div class="metric-value">
+          ${pct(
+            industry
+              .eps_cagr_4y_median
+          )}
+        </div>
+      </div>
+
+    </div>
+
+    <h3>
+      구성 종목
+    </h3>
+
+    <table class="small-table">
+
+      <thead>
+        <tr>
+          <th>종목</th>
+          <th>현재 FPER</th>
+          <th>5Y Discount</th>
+          <th>4Y CAGR</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        ${members.map(
+          stock => `
+
+            <tr
+              onclick="showStock(
+                '${stock.ticker}'
+              )"
+              style="cursor:pointer;">
+
+              <td>
+                <b>
+                  ${escapeHtml(
+                    stock.ticker
+                  )}
+                </b>
+                ${escapeHtml(
+                  stock.company
+                )}
+              </td>
+
+              <td>
+                ${fper(
+                  stock.current_fper
+                )}
+              </td>
+
+              <td>
+                ${pct(
+                  stock.historical_fper
+                    ?.discount_5y
+                )}
+              </td>
+
+              <td>
+                ${pct(
+                  stock.cagr_4y
+                )}
+              </td>
+
+            </tr>
+
+          `
+        ).join("")}
+
+      </tbody>
+
+    </table>
+
+  `;
+
+  detail.scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+
+/* =====================================================
+   UTIL
+===================================================== */
+
+function compareAsc(a, b) {
+
+  if (a === null || a === undefined) {
+    return 1;
+  }
+
+  if (b === null || b === undefined) {
+    return -1;
+  }
+
+  return a - b;
+}
+
+
+function compareDesc(a, b) {
+
+  if (a === null || a === undefined) {
+    return 1;
+  }
+
+  if (b === null || b === undefined) {
+    return -1;
+  }
+
+  return b - a;
+}
+
+
+function closeDetail() {
+
+  document.getElementById(
+    "detail"
+  ).style.display =
+    "none";
+}
+
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
 
 loadData();
