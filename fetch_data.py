@@ -1768,6 +1768,12 @@ def main():
             stock
         )
 
+    # BQ 제한/장애가 발생한 실행에서는 새 데이터를 절대 저장하지 않는다.
+    # 저장소의 마지막 정상 data.json을 그대로 Pages에 배포한다.
+    if bq_rate_limited:
+        print("Business Quant rate limit detected. Keeping existing data.json unchanged.")
+        return
+
     # 실행 중 새 캐시가 생겼거나 기존 캐시가 변경된 경우 저장한다.
     save_history_cache(history_cache)
 
