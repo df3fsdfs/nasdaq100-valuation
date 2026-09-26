@@ -1737,9 +1737,13 @@ def main():
     # 4. 데이터 integrity
     # -----------------------------------------------------
 
-    validate_collection(
-        final_stocks
-    )
+    # Business Quant rate limit으로 이전 정상 EPS를 보존한 경우,
+    # 기존 데이터의 정상성을 별도 검증하지 않는다.
+    # 신규 수집 데이터에만 shared-EPS 이상치 검증을 적용한다.
+    if not bq_rate_limited:
+        validate_collection(
+            final_stocks
+        )
 
     # -----------------------------------------------------
     # 5. 산업
