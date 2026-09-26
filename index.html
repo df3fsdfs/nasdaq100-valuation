@@ -3,35 +3,210 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NASDAQ-100 Valuation</title>
+<title>NASDAQ-40 Valuation</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#111827}
-header{background:#111827;color:white;padding:22px 18px}
-h1{margin:0;font-size:24px}
-.sub{margin-top:6px;color:#9ca3af;font-size:13px}
-.container{max-width:1100px;margin:auto;padding:18px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.card{background:white;border-radius:14px;padding:16px;box-shadow:0 2px 8px #00000010}
-.label{font-size:12px;color:#6b7280}
-.value{font-size:24px;font-weight:700;margin-top:6px}
-.controls{background:white;padding:14px;border-radius:14px;margin-bottom:14px}
-input,select{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:9px;margin-bottom:10px}
-table{width:100%;border-collapse:collapse;background:white;border-radius:14px;overflow:hidden}
-th,td{padding:11px 8px;border-bottom:1px solid #eee;text-align:left;font-size:13px}
-th{background:#f3f4f6}
-tr:hover{background:#f9fafb}
-.badge{padding:4px 7px;border-radius:6px;background:#eef2ff}
-.detail{display:none;background:white;margin-top:18px;padding:18px;border-radius:14px}
-.detail h2{margin-top:0}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.metric{background:#f8fafc;padding:12px;border-radius:10px}
-.back{border:0;background:#111827;color:white;padding:9px 14px;border-radius:8px}
-@media(max-width:700px){
-.cards{grid-template-columns:1fr}
-table{font-size:12px}
-th,td{padding:9px 5px}
-.hide-mobile{display:none}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f7fa;
+  color: #111827;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: #111827;
+  color: white;
+  padding: 22px 18px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.sub {
+  margin-top: 6px;
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 18px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+.label {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.value {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.live {
+  color: #059669;
+}
+
+.controls {
+  background: white;
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 14px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  background: white;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 14px;
+}
+
+table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+  background: white;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 11px 9px;
+  border-bottom: 1px solid #eee;
+  text-align: right;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+
+th {
+  background: #f3f4f6;
+  font-weight: 700;
+}
+
+tbody tr {
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: #f9fafb;
+}
+
+.company {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.na {
+  color: #9ca3af;
+}
+
+.detail {
+  display: none;
+  background: white;
+  margin-top: 18px;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #00000010;
+}
+
+.detail h2 {
+  margin-top: 14px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.metric {
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.metric-label {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.metric-value {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 5px;
+}
+
+.back {
+  border: 0;
+  background: #111827;
+  color: white;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.note {
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+@media (max-width: 700px) {
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .controls {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .container {
+    padding: 12px;
+  }
 }
 </style>
 </head>
@@ -39,150 +214,873 @@ th,td{padding:9px 5px}
 <body>
 
 <header>
-<h1>NASDAQ-100 Valuation</h1>
-<div class="sub">Forward EPS · Growth · Valuation</div>
+  <h1>NASDAQ-40 Valuation</h1>
+  <div class="sub">
+    시가총액 상위 40개 · Forward EPS · 성장률 · FPER
+  </div>
 </header>
 
 <div class="container">
 
-<div class="cards">
-<div class="card">
-<div class="label">NASDAQ-100 Forward P/E</div>
-<div class="value">25.4x</div>
+  <!-- 상단 정보 -->
+  <div class="cards">
+
+    <div class="card">
+      <div class="label">분석 종목</div>
+      <div class="value" id="count">-</div>
+    </div>
+
+    <div class="card">
+      <div class="label">데이터 기준</div>
+      <div class="value" id="asof">-</div>
+    </div>
+
+    <div class="card">
+      <div class="label">데이터 상태</div>
+      <div class="value" id="status">
+        LOADING
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- 검색 / 정렬 -->
+  <div class="controls">
+
+    <input
+      id="search"
+      type="text"
+      placeholder="종목 검색 (예: NVDA)"
+    >
+
+    <select id="sort">
+
+      <option value="rank">
+        시가총액 순
+      </option>
+
+      <option value="fper">
+        현재 FPER 낮은 순
+      </option>
+
+      <option value="growth">
+        현재년도 EPS 성장률 높은 순
+      </option>
+
+      <option value="cagr">
+        4Y EPS CAGR 높은 순
+      </option>
+
+      <option value="future">
+        현재가 유지 시 +4Y FPER 낮은 순
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <!-- 종목 테이블 -->
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>종목</th>
+
+          <th>현재 FPER</th>
+
+          <th>현재 EPS</th>
+
+          <th>+1Y EPS</th>
+
+          <th>+1Y 성장</th>
+
+          <th>+2Y EPS</th>
+
+          <th>+3Y EPS</th>
+
+          <th>+4Y EPS</th>
+
+          <th>4Y CAGR</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="stocks"></tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- 상세 -->
+  <div id="detail" class="detail"></div>
+
 </div>
 
-<div class="card">
-<div class="label">분석 종목</div>
-<div class="value" id="count">10</div>
-</div>
-
-<div class="card">
-<div class="label">데이터 상태</div>
-<div class="value">DEMO</div>
-</div>
-</div>
-
-<div class="controls">
-<input id="search" placeholder="종목 검색 (예: NVDA)">
-<select id="sort">
-<option value="fper">현재 FPER 낮은 순</option>
-<option value="cagr">4Y EPS CAGR 높은 순</option>
-<option value="growth">현재년도 EPS 성장률 높은 순</option>
-<option value="future">현재가 유지 시 +4Y FPER 낮은 순</option>
-</select>
-</div>
-
-<table>
-<thead>
-<tr>
-<th>종목</th>
-<th>현재 FPER</th>
-<th>현재 EPS 성장</th>
-<th>4Y CAGR</th>
-<th class="hide-mobile">현재가 유지 시 +4Y FPER</th>
-</tr>
-</thead>
-<tbody id="stocks"></tbody>
-</table>
-
-<div id="detail" class="detail"></div>
-
-</div>
 
 <script>
-const stocks=[
-{t:"NVDA",n:"NVIDIA",f:32.1,p:2.95,c:4.20,y:[4.20,5.80,7.40,9.20,11.00]},
-{t:"MSFT",n:"Microsoft",f:31.5,p:11.80,c:13.20,y:[13.20,15.00,17.10,19.20,21.00]},
-{t:"GOOGL",n:"Alphabet",f:28.4,p:8.10,c:10.20,y:[10.20,12.20,14.00,15.60,17.20]},
-{t:"AMZN",n:"Amazon",f:34.2,p:5.30,c:6.90,y:[6.90,8.20,10.10,12.00,14.00]},
-{t:"AVGO",n:"Broadcom",f:39.0,p:5.10,c:6.50,y:[6.50,8.10,10.00,12.20,14.50]},
-{t:"PEP",n:"PepsiCo",f:18.7,p:6.00,c:7.10,y:[7.10,7.50,8.00,8.50,9.00]},
-{t:"GILD",n:"Gilead Sciences",f:11.8,p:4.80,c:5.10,y:[5.10,5.30,5.50,5.80,6.00]},
-{t:"CSCO",n:"Cisco",f:18.5,p:3.80,c:4.20,y:[4.20,4.40,4.60,4.80,5.00]},
-{t:"QCOM",n:"Qualcomm",f:15.9,p:9.00,c:10.50,y:[10.50,11.80,13.00,14.20,15.00]},
-{t:"AMAT",n:"Applied Materials",f:22.8,p:8.20,c:9.80,y:[9.80,11.00,12.50,14.00,15.50]}
-];
 
-const tbody=document.getElementById("stocks");
-const search=document.getElementById("search");
-const sort=document.getElementById("sort");
-const detail=document.getElementById("detail");
+let stocks = [];
 
-function cagr(a,b,years){
-return Math.pow(b/a,1/years)-1;
+
+/* -----------------------------
+   공통 함수
+----------------------------- */
+
+function $(id) {
+  return document.getElementById(id);
 }
 
-function render(){
-let q=search.value.toUpperCase();
-let arr=stocks.filter(s=>s.t.includes(q)||s.n.toUpperCase().includes(q));
 
-if(sort.value==="fper")arr.sort((a,b)=>a.f-b.f);
-if(sort.value==="cagr")arr.sort((a,b)=>cagr(b.y[0],b.y[4],4)-cagr(a.y[0],a.y[4],4));
-if(sort.value==="growth")arr.sort((a,b)=>(b.y[0]/b.p)-(a.y[0]/a.p));
-if(sort.value==="future")arr.sort((a,b)=>(a.f*a.y[0]/a.y[4])-(b.f*b.y[0]/b.y[4]));
+function formatNumber(value, decimals = 2) {
 
-document.getElementById("count").textContent=arr.length;
+  if (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    Number.isNaN(Number(value))
+  ) {
+    return '<span class="na">N/A</span>';
+  }
 
-tbody.innerHTML=arr.map(s=>{
-let cg=cagr(s.y[0],s.y[4],4)*100;
-let growth=(s.y[0]/s.p-1)*100;
-let future=s.f*s.y[0]/s.y[4];
-
-return `<tr onclick="showDetail('${s.t}')">
-<td><b>${s.t}</b><br>${s.n}</td>
-<td>${s.f.toFixed(1)}x</td>
-<td>${growth.toFixed(1)}%</td>
-<td>${cg.toFixed(1)}%</td>
-<td class="hide-mobile">${future.toFixed(1)}x</td>
-</tr>`;
-}).join("");
+  return Number(value).toFixed(decimals);
 }
 
-function showDetail(t){
-let s=stocks.find(x=>x.t===t);
-let cg=cagr(s.y[0],s.y[4],4)*100;
 
-detail.style.display="block";
+function formatPercent(value) {
 
-detail.innerHTML=`
-<button class="back" onclick="detail.style.display='none'">← 목록</button>
-<h2>${s.t} · ${s.n}</h2>
+  if (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    Number.isNaN(Number(value))
+  ) {
+    return '<span class="na">N/A</span>';
+  }
 
-<div class="grid">
-<div class="metric"><small>현재 FPER</small><br><b>${s.f.toFixed(1)}x</b></div>
-<div class="metric"><small>4Y EPS CAGR</small><br><b>${cg.toFixed(1)}%</b></div>
-</div>
-
-<h3>EPS trajectory</h3>
-<p>
-과거 EPS: ${s.p.toFixed(2)}<br>
-현재 EPS: ${s.y[0].toFixed(2)}<br>
-+1Y: ${s.y[1].toFixed(2)}<br>
-+2Y: ${s.y[2].toFixed(2)}<br>
-+3Y: ${s.y[3].toFixed(2)}<br>
-+4Y: ${s.y[4].toFixed(2)}
-</p>
-
-<h3>현재가 유지 시 FPER</h3>
-<p>
-현재: ${s.f.toFixed(1)}x<br>
-+1Y: ${(s.f*s.y[0]/s.y[1]).toFixed(1)}x<br>
-+2Y: ${(s.f*s.y[0]/s.y[2]).toFixed(1)}x<br>
-+3Y: ${(s.f*s.y[0]/s.y[3]).toFixed(1)}x<br>
-+4Y: ${(s.f*s.y[0]/s.y[4]).toFixed(1)}x
-</p>
-
-<p style="color:#6b7280;font-size:12px">
-※ 현재 데이터는 화면 구조 확인을 위한 DEMO 데이터입니다.
-</p>
-`;
-
-detail.scrollIntoView({behavior:"smooth"});
+  return (Number(value) * 100).toFixed(1) + "%";
 }
 
-search.addEventListener("input",render);
-sort.addEventListener("change",render);
-render();
+
+/*
+현재가가 미래에도 그대로라고 가정했을 때의 FPER
+
+현재 FPER × 현재 EPS / 미래 EPS
+*/
+function futureFper(stock, index) {
+
+  const currentFper = Number(stock.current_fper);
+  const currentEPS = Number(stock.eps_current);
+
+  const futureEPS =
+    stock.eps &&
+    stock.eps[index] !== undefined
+      ? Number(stock.eps[index])
+      : null;
+
+
+  if (
+    !Number.isFinite(currentFper) ||
+    !Number.isFinite(currentEPS) ||
+    currentFper <= 0 ||
+    currentEPS <= 0 ||
+    !Number.isFinite(futureEPS) ||
+    futureEPS <= 0
+  ) {
+    return null;
+  }
+
+
+  return currentFper * currentEPS / futureEPS;
+}
+
+
+function formatFutureFper(stock, index) {
+
+  const value = futureFper(stock, index);
+
+  if (value === null) {
+    return '<span class="na">N/A</span>';
+  }
+
+  return value.toFixed(1) + "x";
+}
+
+
+/* -----------------------------
+   테이블 렌더링
+----------------------------- */
+
+function render() {
+
+  const query =
+    $("search").value
+      .trim()
+      .toUpperCase();
+
+
+  let filtered =
+    stocks.filter(stock => {
+
+      const ticker =
+        String(stock.ticker || "")
+          .toUpperCase();
+
+      const company =
+        String(stock.company || "")
+          .toUpperCase();
+
+      return (
+        ticker.includes(query) ||
+        company.includes(query)
+      );
+
+    });
+
+
+  const sortType =
+    $("sort").value;
+
+
+  /* 시가총액 순 */
+
+  if (sortType === "rank") {
+
+    filtered.sort((a, b) => {
+
+      const ar =
+        a.rank === undefined
+          ? 9999
+          : Number(a.rank);
+
+      const br =
+        b.rank === undefined
+          ? 9999
+          : Number(b.rank);
+
+      return ar - br;
+
+    });
+
+  }
+
+
+  /* 현재 FPER */
+
+  if (sortType === "fper") {
+
+    filtered.sort((a, b) => {
+
+      const av =
+        a.current_fper == null
+          ? Infinity
+          : Number(a.current_fper);
+
+      const bv =
+        b.current_fper == null
+          ? Infinity
+          : Number(b.current_fper);
+
+      return av - bv;
+
+    });
+
+  }
+
+
+  /* 현재년도 EPS 성장률 */
+
+  if (sortType === "growth") {
+
+    filtered.sort((a, b) => {
+
+      const av =
+        a.growth_current == null
+          ? -Infinity
+          : Number(a.growth_current);
+
+      const bv =
+        b.growth_current == null
+          ? -Infinity
+          : Number(b.growth_current);
+
+      return bv - av;
+
+    });
+
+  }
+
+
+  /* 4Y CAGR */
+
+  if (sortType === "cagr") {
+
+    filtered.sort((a, b) => {
+
+      const av =
+        a.cagr_4y == null
+          ? -Infinity
+          : Number(a.cagr_4y);
+
+      const bv =
+        b.cagr_4y == null
+          ? -Infinity
+          : Number(b.cagr_4y);
+
+      return bv - av;
+
+    });
+
+  }
+
+
+  /* 현재가 유지 +4Y FPER */
+
+  if (sortType === "future") {
+
+    filtered.sort((a, b) => {
+
+      const av =
+        futureFper(a, 4) === null
+          ? Infinity
+          : futureFper(a, 4);
+
+      const bv =
+        futureFper(b, 4) === null
+          ? Infinity
+          : futureFper(b, 4);
+
+      return av - bv;
+
+    });
+
+  }
+
+
+  $("count").textContent =
+    filtered.length;
+
+
+  $("stocks").innerHTML =
+    filtered.map(stock => {
+
+      return `
+
+        <tr onclick="showDetail('${stock.ticker}')">
+
+          <td>
+
+            <b>
+              ${stock.ticker || ""}
+            </b>
+
+            <br>
+
+            <span class="company">
+              ${stock.company || ""}
+            </span>
+
+          </td>
+
+
+          <td>
+            ${
+              stock.current_fper == null
+                ? '<span class="na">N/A</span>'
+                : Number(stock.current_fper).toFixed(1) + "x"
+            }
+          </td>
+
+
+          <td>
+            ${formatNumber(stock.eps_current)}
+          </td>
+
+
+          <td>
+            ${
+              stock.eps &&
+              stock.eps[1] !== undefined
+                ? formatNumber(stock.eps[1])
+                : '<span class="na">N/A</span>'
+            }
+          </td>
+
+
+          <td>
+            ${formatPercent(stock.growth_current)}
+          </td>
+
+
+          <td>
+            ${
+              stock.eps &&
+              stock.eps[2] !== undefined
+                ? formatNumber(stock.eps[2])
+                : '<span class="na">N/A</span>'
+            }
+          </td>
+
+
+          <td>
+            ${
+              stock.eps &&
+              stock.eps[3] !== undefined
+                ? formatNumber(stock.eps[3])
+                : '<span class="na">N/A</span>'
+            }
+          </td>
+
+
+          <td>
+            ${
+              stock.eps &&
+              stock.eps[4] !== undefined
+                ? formatNumber(stock.eps[4])
+                : '<span class="na">N/A</span>'
+            }
+          </td>
+
+
+          <td>
+            ${formatPercent(stock.cagr_4y)}
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* -----------------------------
+   종목 상세
+----------------------------- */
+
+function showDetail(ticker) {
+
+  const stock =
+    stocks.find(
+      item => item.ticker === ticker
+    );
+
+
+  if (!stock) {
+    return;
+  }
+
+
+  const detail =
+    $("detail");
+
+
+  detail.style.display =
+    "block";
+
+
+  detail.innerHTML = `
+
+    <button
+      class="back"
+      onclick="this.parentElement.style.display='none'"
+    >
+      ← 목록
+    </button>
+
+
+    <h2>
+      ${stock.ticker}
+      ·
+      ${stock.company || ""}
+    </h2>
+
+
+    <div class="detail-grid">
+
+
+      <div class="metric">
+
+        <div class="metric-label">
+          현재 FPER
+        </div>
+
+        <div class="metric-value">
+
+          ${
+            stock.current_fper == null
+              ? "N/A"
+              : Number(stock.current_fper).toFixed(1) + "x"
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-label">
+          현재년도 EPS 성장
+        </div>
+
+        <div class="metric-value">
+          ${formatPercent(stock.growth_current)}
+        </div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-label">
+          4Y EPS CAGR
+        </div>
+
+        <div class="metric-value">
+          ${formatPercent(stock.cagr_4y)}
+        </div>
+
+      </div>
+
+
+      <div class="metric">
+
+        <div class="metric-label">
+          성장 추세
+        </div>
+
+        <div class="metric-value">
+
+          ${
+            stock.growth_trend || "N/A"
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <h3>
+      EPS trajectory
+    </h3>
+
+
+    <div class="detail-grid">
+
+
+      ${renderEPSMetric(
+        "현재",
+        stock.eps_current,
+        futureFper(stock, 0)
+      )}
+
+
+      ${renderEPSMetric(
+        "+1Y",
+        stock.eps?.[1],
+        futureFper(stock, 1)
+      )}
+
+
+      ${renderEPSMetric(
+        "+2Y",
+        stock.eps?.[2],
+        futureFper(stock, 2)
+      )}
+
+
+      ${renderEPSMetric(
+        "+3Y",
+        stock.eps?.[3],
+        futureFper(stock, 3)
+      )}
+
+
+      ${renderEPSMetric(
+        "+4Y",
+        stock.eps?.[4],
+        futureFper(stock, 4)
+      )}
+
+    </div>
+
+
+    <h3>
+      현재가 유지 시 FPER
+    </h3>
+
+
+    <div class="detail-grid">
+
+
+      ${renderFutureFper(
+        "현재",
+        futureFper(stock, 0)
+      )}
+
+
+      ${renderFutureFper(
+        "+1Y",
+        futureFper(stock, 1)
+      )}
+
+
+      ${renderFutureFper(
+        "+2Y",
+        futureFper(stock, 2)
+      )}
+
+
+      ${renderFutureFper(
+        "+3Y",
+        futureFper(stock, 3)
+      )}
+
+
+      ${renderFutureFper(
+        "+4Y",
+        futureFper(stock, 4)
+      )}
+
+    </div>
+
+
+    <div class="note">
+
+      ※ 미래 EPS가 제공되지 않는 연도는 N/A로 표시합니다.
+      <br>
+      ※ 현재가 유지 시 FPER은 현재 주가가 미래에도 그대로라고 가정하고 EPS 변화만 반영한 값입니다.
+      <br>
+      ※ 미래 EPS를 임의로 추정하거나 외삽하지 않습니다.
+
+    </div>
+
+  `;
+
+
+  detail.scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+
+
+function renderEPSMetric(
+  label,
+  eps,
+  fper
+) {
+
+  return `
+
+    <div class="metric">
+
+      <div class="metric-label">
+        ${label} EPS
+      </div>
+
+      <div class="metric-value">
+        ${formatNumber(eps)}
+      </div>
+
+      <div class="small">
+        현재가 유지 FPER:
+        ${
+          fper === null
+            ? "N/A"
+            : fper.toFixed(1) + "x"
+        }
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+function renderFutureFper(
+  label,
+  value
+) {
+
+  return `
+
+    <div class="metric">
+
+      <div class="metric-label">
+        ${label}
+      </div>
+
+      <div class="metric-value">
+
+        ${
+          value === null
+            ? "N/A"
+            : value.toFixed(1) + "x"
+        }
+
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* -----------------------------
+   data.json 로딩
+----------------------------- */
+
+async function loadData() {
+
+  try {
+
+    const response =
+      await fetch(
+        "data.json?ts=" + Date.now(),
+        {
+          cache: "no-store"
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "data.json HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    /*
+      data.json 구조가
+
+      {
+        stocks: [...]
+      }
+
+      또는
+
+      [...]
+      
+      둘 다 대응
+    */
+
+    if (Array.isArray(data)) {
+
+      stocks = data;
+
+    } else {
+
+      stocks =
+        Array.isArray(data.stocks)
+          ? data.stocks
+          : [];
+
+    }
+
+
+    $("count").textContent =
+      stocks.length;
+
+
+    $("asof").textContent =
+      data.as_of ||
+      data.updated_at ||
+      data.generated_at ||
+      "-";
+
+
+    $("status").textContent =
+      "LIVE";
+
+    $("status").classList.add(
+      "live"
+    );
+
+
+    render();
+
+
+  } catch (error) {
+
+    console.error(
+      "data.json 로딩 실패:",
+      error
+    );
+
+
+    $("status").textContent =
+      "ERROR";
+
+
+    $("count").textContent =
+      "0";
+
+
+    $("stocks").innerHTML = `
+
+      <tr>
+
+        <td colspan="9"
+            style="text-align:center;padding:30px">
+
+          data.json을 불러오지 못했습니다.
+
+        </td>
+
+      </tr>
+
+    `;
+
+  }
+
+}
+
+
+/* -----------------------------
+   이벤트
+----------------------------- */
+
+$("search")
+  .addEventListener(
+    "input",
+    render
+  );
+
+
+$("sort")
+  .addEventListener(
+    "change",
+    render
+  );
+
+
+/* -----------------------------
+   시작
+----------------------------- */
+
+loadData();
+
 </script>
 
 </body>
