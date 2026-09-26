@@ -1625,6 +1625,36 @@ def main():
         if stock.get("ticker")
     }
 
+    # 과거 data.json에 동일 EPS 궤적이 대량으로 복제된 경우
+    # 해당 종목들은 신뢰할 수 없는 캐시로 간주하고 fallback에서 제외한다.
+    previous_trajectories = {}
+    for _stock in previous_stocks.values():
+        _trajectory = (
+            _stock.get("current_eps"),
+            _stock.get("y1_eps"),
+            _stock.get("y2_eps"),
+            _stock.get("y3_eps"),
+            _stock.get("y4_eps"),
+        )
+        if all(v is None for v in _trajectory):
+            continue
+        previous_trajectories.setdefault(_trajectory, []).append(
+            _stock.get("ticker")
+        )
+
+    corrupted_previous_tickers = {
+        ticker
+        for group in previous_trajectories.values()
+        if len(group) >= 3
+        for ticker in group
+    }
+
+    if corrupted_previous_tickers:
+        print(
+            "[EPS CACHE REJECT] suspicious shared trajectories: "
+            + str(sorted(corrupted_previous_tickers))
+        )
+
     # -----------------------------------------------------
     # 2. API KEY가 없으면 WAITING
     #    절대 기존 data.json을 그대로 재사용하지 않는다.
@@ -1709,13 +1739,19 @@ def main():
             current_year
         )
 
-        if not eps_rows and ticker in previous_stocks:
+        if (
+            not eps_rows
+            and ticker in previous_stocks
+            and ticker not in corrupted_previous_tickers
+        ):
             stock = merge_yahoo_with_previous(
                 yahoo,
                 previous_stocks[ticker],
                 rank
             )
-            print(f"[EPS FALLBACK] {ticker}: previous EPS/valuation preserved")
+            print(f"[EPS FALLBACK] {ticker}: trusted previous EPS/valuation preserved")
+        elif not eps_rows and ticker in corrupted_previous_tickers:
+            print(f"[EPS FALLBACK REJECT] {ticker}: previous EPS cache is suspicious")
         elif not history_rows and ticker in previous_stocks:
             previous_hist = previous_stocks[ticker].get("historical_fper")
             if previous_hist:
@@ -1767,11 +1803,10 @@ def main():
     # do not replace a previously valid data.json with an empty WAITING file.
     if eps_success_count == 0:
         print(
-            "No EPS data received. Keeping last known good data.json."
+            "No trustworthy EPS data received. Publishing Yahoo-only PARTIAL data."
         )
-        return
-
-    if eps_success_count == len(
+        status = "PARTIAL"
+    elif eps_success_count == len(
         final_stocks
     ):
         status = "LIVE"
