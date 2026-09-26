@@ -1,6 +1,6 @@
 {
   "status": "PARTIAL",
-  "generated_at_kst": "2026-09-27T03:21:00.094147+09:00",
+  "generated_at_kst": "2026-09-27T03:23:13.679004+09:00",
   "generated_date_kst": "2026-09-27",
   "current_year": 2026,
   "top_n": 40,
@@ -734,7 +734,7 @@
       "industry": "유통·소비재",
       "market_cap": 409030328320.0,
       "price": 922.765,
-      "forward_pe": 36.955036,
+      "forward_pe": 36.943066,
       "trailing_eps": 19.9,
       "current_eps": 9.21,
       "y1_eps": 10.06,
