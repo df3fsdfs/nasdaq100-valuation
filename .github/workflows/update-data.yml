@@ -1,24 +1,27 @@
-name: Update NASDAQ-40 Data
+name: Build and Deploy NASDAQ-40
 
 on:
   workflow_dispatch:
-
   schedule:
     - cron: "30 23 * * 1-5"
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
-
-  update-data:
-
+  build-deploy:
     runs-on: ubuntu-latest
-
+    environment:
+      name: github-pages
     steps:
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v6
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -30,25 +33,45 @@ jobs:
           python -m pip install --upgrade pip
           pip install yfinance requests
 
-      - name: Fetch NASDAQ-40 data
+      - name: Fetch data
         env:
           BUSINESSQUANT_API_KEY: ${{ secrets.BUSINESSQUANT_API_KEY }}
-        run: |
-          python fetch_data.py
+        run: python fetch_data.py
 
-      - name: Commit updated data
+      - name: Validate data
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open("data.json",encoding="utf-8"))
+          assert d.get("stock_count")==40, "stock_count is not 40"
+          assert d.get("status") in ("OK","PARTIAL"), f"bad status: {d.get('status')}"
+          print("Validated:", d.get("status"), d.get("stock_count"))
+          PY
+
+      - name: Commit data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add data.json
-          if [ -f history_cache.json ]; then
-            git add history_cache.json
-          fi
-
+          if [ -f history_cache.json ]; then git add history_cache.json; fi
           if git diff --cached --quiet; then
             echo "No data changes."
           else
             git commit -m "Update NASDAQ-40 data"
             git push
           fi
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          name: site-pages
+          path: .
+
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          artifact_name: site-pages
