@@ -1648,16 +1648,20 @@ def main():
 
         # -------------------------------------------------
         # Historical P/E
-        #
-        # 현재 단계에서는 기존 cache가 있는 경우에만 사용.
-        # API quota가 EPS와 동일한지 확인하기 전까지
-        # 자동으로 40+회의 추가 요청을 하지 않는다.
+        # 캐시에 없으면 Business Quant에서 1회 조회 후 저장.
+        # 이미 캐시가 있으면 추가 요청하지 않는다.
         # -------------------------------------------------
 
-        history_rows = (
-            history_cache.get(ticker)
-            or []
-        )
+        history_rows = history_cache.get(ticker) or []
+
+        if not history_rows:
+            try:
+                history_rows = get_businessquant_historical_pe(ticker)
+                history_cache[ticker] = history_rows
+                print(f"[HISTORY OK] {ticker}: {len(history_rows)} rows")
+            except Exception as e:
+                print(f"[HISTORY ERROR] {ticker}: {e}")
+                history_rows = []
 
         stock = build_stock(
             yahoo,
