@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
 
   schedule:
-    # 월~금 한국시간 오전 8:30
-    # UTC 23:30
     - cron: "30 23 * * 1-5"
 
 permissions:
@@ -48,6 +46,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No data changes."
           else
-            git commit -m "Update NASDAQ-40 valuation data"
+            git commit -m "Update NASDAQ-40 data"
             git push
           fi
