@@ -421,19 +421,21 @@ def get_businessquant_eps(ticker):
         or metadata.get("symbol")
     )
 
-    if returned_ticker:
+    if not returned_ticker:
+        raise RuntimeError(
+            f"BQ_TICKER_MISSING: requested={ticker}"
+        )
 
-        returned_ticker = str(
-            returned_ticker
-        ).strip().upper()
+    returned_ticker = str(
+        returned_ticker
+    ).strip().upper()
 
-        if returned_ticker != ticker.upper():
-
-            raise RuntimeError(
-                "BQ_TICKER_MISMATCH: "
-                f"requested={ticker}, "
-                f"returned={returned_ticker}"
-            )
+    if returned_ticker != ticker.upper():
+        raise RuntimeError(
+            "BQ_TICKER_MISMATCH: "
+            f"requested={ticker}, "
+            f"returned={returned_ticker}"
+        )
 
     data = payload.get("data")
 
@@ -1737,13 +1739,9 @@ def main():
     # 4. 데이터 integrity
     # -----------------------------------------------------
 
-    # Business Quant rate limit으로 이전 정상 EPS를 보존한 경우,
-    # 기존 데이터의 정상성을 별도 검증하지 않는다.
-    # 신규 수집 데이터에만 shared-EPS 이상치 검증을 적용한다.
-    if not bq_rate_limited:
-        validate_collection(
-            final_stocks
-        )
+    # 최종 데이터는 항상 종목별 EPS 궤적 중복 여부를 검증한다.
+    # 과거에 오염된 data.json을 "정상 캐시"로 계속 전파하지 않는다.
+    validate_collection(final_stocks)
 
     # -----------------------------------------------------
     # 5. 산업
