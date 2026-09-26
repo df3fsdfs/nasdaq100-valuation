@@ -1615,6 +1615,14 @@ def main():
         ]
     )
 
+    # 기존 정상 데이터. Business Quant가 막혀도 이 값을 보존한다.
+    previous_output = load_previous_output()
+    previous_stocks = {
+        stock.get("ticker"): stock
+        for stock in previous_output.get("stocks", [])
+        if stock.get("ticker")
+    }
+
     # -----------------------------------------------------
     # 2. API KEY가 없으면 WAITING
     #    절대 기존 data.json을 그대로 재사용하지 않는다.
@@ -1642,6 +1650,7 @@ def main():
 
     final_stocks = []
     history_requests = 0
+    bq_rate_limited = False
 
     for rank, yahoo in enumerate(
         selected,
@@ -1655,22 +1664,17 @@ def main():
             f"{ticker}"
         )
 
-        try:
-
-            eps_rows = (
-                get_businessquant_eps(
-                    ticker
-                )
-            )
-
-        except Exception as e:
-
-            print(
-                f"[EPS ERROR] "
-                f"{ticker}: {e}"
-            )
-
+        if bq_rate_limited:
             eps_rows = []
+            print(f"[EPS SKIP] {ticker}: Business Quant rate limit already detected")
+        else:
+            try:
+                eps_rows = get_businessquant_eps(ticker)
+            except Exception as e:
+                print(f"[EPS ERROR] {ticker}: {e}")
+                eps_rows = []
+                if "RATE_LIMIT" in str(e):
+                    bq_rate_limited = True
 
         # -------------------------------------------------
         # Historical P/E
@@ -1680,7 +1684,7 @@ def main():
 
         history_rows = history_cache.get(ticker) or []
 
-        if not history_rows and history_requests < MAX_NEW_HISTORY_REQUESTS:
+        if not history_rows and not bq_rate_limited and history_requests < MAX_NEW_HISTORY_REQUESTS:
             try:
                 history_rows = get_businessquant_historical_pe(ticker)
                 history_cache[ticker] = history_rows
@@ -1690,6 +1694,8 @@ def main():
                 history_requests += 1
                 print(f"[HISTORY ERROR] {ticker}: {e}")
                 history_rows = []
+                if "RATE_LIMIT" in str(e):
+                    bq_rate_limited = True
         elif not history_rows:
             print(f"[HISTORY SKIP] {ticker}: daily request limit reached")
 
