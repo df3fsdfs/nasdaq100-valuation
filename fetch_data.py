@@ -13,6 +13,7 @@ import yfinance as yf
 
 TOP_N = 40
 REQUEST_TIMEOUT = 30
+MAX_NEW_HISTORY_REQUESTS = 3
 
 BQ_API_KEY = os.environ.get("BUSINESSQUANT_API_KEY")
 
@@ -1608,6 +1609,7 @@ def main():
     # -----------------------------------------------------
 
     final_stocks = []
+    history_requests = 0
 
     for rank, yahoo in enumerate(
         selected,
@@ -1646,14 +1648,18 @@ def main():
 
         history_rows = history_cache.get(ticker) or []
 
-        if not history_rows:
+        if not history_rows and history_requests < MAX_NEW_HISTORY_REQUESTS:
             try:
                 history_rows = get_businessquant_historical_pe(ticker)
                 history_cache[ticker] = history_rows
+                history_requests += 1
                 print(f"[HISTORY OK] {ticker}: {len(history_rows)} rows")
             except Exception as e:
+                history_requests += 1
                 print(f"[HISTORY ERROR] {ticker}: {e}")
                 history_rows = []
+        elif not history_rows:
+            print(f"[HISTORY SKIP] {ticker}: daily request limit reached")
 
         stock = build_stock(
             yahoo,
@@ -1662,6 +1668,21 @@ def main():
             rank,
             current_year
         )
+
+        if not eps_rows and ticker in previous_stocks:
+            stock = merge_yahoo_with_previous(
+                yahoo,
+                previous_stocks[ticker],
+                rank
+            )
+            print(f"[EPS FALLBACK] {ticker}: previous EPS/valuation preserved")
+        elif not history_rows and ticker in previous_stocks:
+            previous_hist = previous_stocks[ticker].get("historical_fper")
+            if previous_hist:
+                stock["historical_fper"] = previous_hist
+                stock["historical_data_available"] = previous_stocks[ticker].get(
+                    "historical_data_available", False
+                )
 
         validate_stock(
             stock
