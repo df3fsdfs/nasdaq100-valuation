@@ -30,7 +30,7 @@ KST = timezone(timedelta(hours=9))
 
 NASDAQ_100 = [
     "AAPL", "ABNB", "ADBE", "ADI", "ADP", "ADSK", "AEP", "AMAT",
-    "AMD", "AMGN", "AMZN", "ANSS", "APP", "ARM", "ASML", "AVGO",
+    "AMD", "AMGN", "AMZN", "APP", "ARM", "ASML", "AVGO",
     "AXON", "AZN", "BIIB", "BKNG", "CDNS", "CDW", "CEG", "CHTR",
     "CMCSA", "COST", "CPRT", "CRWD", "CSCO", "CSGP", "CSX", "CTAS",
     "CTSH", "DASH", "DDOG", "DXCM", "EA", "EXC", "FANG", "FAST",
@@ -1587,6 +1587,10 @@ def main():
     #    절대 기존 data.json을 그대로 재사용하지 않는다.
     # -----------------------------------------------------
 
+    # 캐시는 API 키 유무와 관계없이 항상 존재하도록 보장한다.
+    history_cache = load_history_cache()
+    save_history_cache(history_cache)
+
     if not BQ_API_KEY:
 
         print(
@@ -1650,8 +1654,6 @@ def main():
         # 자동으로 40+회의 추가 요청을 하지 않는다.
         # -------------------------------------------------
 
-        history_cache = load_history_cache()
-
         history_rows = (
             history_cache.get(ticker)
             or []
@@ -1672,6 +1674,9 @@ def main():
         final_stocks.append(
             stock
         )
+
+    # 실행 중 새 캐시가 생겼거나 기존 캐시가 변경된 경우 저장한다.
+    save_history_cache(history_cache)
 
     # -----------------------------------------------------
     # 4. 데이터 integrity
