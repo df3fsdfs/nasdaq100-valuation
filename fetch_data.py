@@ -1787,9 +1787,9 @@ def main():
     history_count = sum(
         1
         for stock in final_stocks
-        if stock[
-            "historical_data_available"
-        ]
+        if stock.get(
+            "historical_data_available", False
+        )
     )
 
     # -----------------------------------------------------
