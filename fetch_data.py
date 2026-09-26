@@ -1,6 +1,5 @@
 import json
 import os
-import re
 import time
 from datetime import datetime, timezone
 
@@ -13,6 +12,17 @@ import yfinance as yf
 # ============================================================
 
 BQ_API_KEY = os.environ.get("BUSINESSQUANT_API_KEY")
+
+BQ_URL = "https://data.businessquant.com/estimates"
+
+TOP_N = 40
+
+CURRENT_YEAR = datetime.now(timezone.utc).year
+
+
+# ============================================================
+# NASDAQ-100 구성종목
+# ============================================================
 
 NASDAQ_100_TICKERS = [
     "AAPL", "AMD", "AMAT", "AMGN", "AMZN", "ARM", "ASML", "AVGO",
@@ -28,19 +38,17 @@ NASDAQ_100_TICKERS = [
     "VRTX", "WBA", "WBD", "WDAY", "WDC", "WMT", "XEL", "ZS"
 ]
 
-TOP_N = 40
-
-BQ_URL = "https://data.businessquant.com/estimates"
-
 
 # ============================================================
-# 숫자 처리
+# 숫자 변환
 # ============================================================
 
-def num(value):
+def to_number(value):
+
+    if value is None:
+        return None
+
     try:
-        if value is None:
-            return None
 
         value = float(value)
 
@@ -49,126 +57,13 @@ def num(value):
 
         return value
 
-    except Exception:
+    except (TypeError, ValueError):
+
         return None
 
 
 # ============================================================
-# Business Quant EPS
-# ============================================================
-
-def get_businessquant_eps(ticker):
-
-    if not BQ_API_KEY:
-        print("BUSINESSQUANT_API_KEY가 없습니다.")
-        return {}
-
-    try:
-
-        params = {
-            "ticker": ticker,
-            "mode": "eps",
-            "api_key": BQ_API_KEY,
-        }
-
-        response = requests.get(
-            BQ_URL,
-            params=params,
-            timeout=30,
-        )
-
-        response.raise_for_status()
-
-        payload = response.json()
-
-        annual_eps = {}
-
-        # ----------------------------------------------------
-        # 공식 응답 구조:
-        #
-        # data
-        #   └─ dimension: annual
-        #        └─ estimates
-        #             ├─ period
-        #             ├─ data_type
-        #             └─ value_estimate
-        #
-        # 구조가 조금 달라져도 대응할 수 있도록
-        # 재귀적으로 annual estimates를 탐색한다.
-        # ----------------------------------------------------
-
-        data = payload.get("data", [])
-
-        def scan(obj, annual_context=False):
-
-            if isinstance(obj, dict):
-
-                current_annual_context = annual_context
-
-                if obj.get("dimension") == "annual":
-                    current_annual_context = True
-
-                period = obj.get("period")
-                data_type = obj.get("data_type")
-                value_estimate = obj.get("value_estimate")
-
-                if (
-                    current_annual_context
-                    and isinstance(period, str)
-                    and re.fullmatch(r"\d{4}", period)
-                    and data_type == "estimate"
-                ):
-                    value = num(value_estimate)
-
-                    if value is not None:
-                        annual_eps[int(period)] = value
-
-                for value in obj.values():
-                    scan(value, current_annual_context)
-
-            elif isinstance(obj, list):
-
-                for item in obj:
-                    scan(item, annual_context)
-
-        scan(data)
-
-        print(
-            f"{ticker} Business Quant annual EPS: "
-            f"{dict(sorted(annual_eps.items()))}"
-        )
-
-        return dict(sorted(annual_eps.items()))
-
-    except requests.HTTPError as e:
-
-        print(
-            f"{ticker} Business Quant HTTP error: "
-            f"{e}"
-        )
-
-        try:
-            print(
-                "Response:",
-                response.text[:500]
-            )
-        except Exception:
-            pass
-
-        return {}
-
-    except Exception as e:
-
-        print(
-            f"{ticker} Business Quant error: "
-            f"{type(e).__name__}: {e}"
-        )
-
-        return {}
-
-
-# ============================================================
-# Yahoo Finance
+# Yahoo Finance 데이터
 # ============================================================
 
 def get_yahoo_data(ticker):
@@ -179,9 +74,6 @@ def get_yahoo_data(ticker):
         "market_cap": None,
         "price": None,
         "forward_pe": None,
-        "trailing_eps": None,
-        "yahoo_current_eps": None,
-        "yahoo_next_eps": None,
         "error": None,
     }
 
@@ -194,140 +86,218 @@ def get_yahoo_data(ticker):
         result["company"] = (
             info.get("longName")
             or info.get("shortName")
+            or ticker
         )
 
         result["industry"] = info.get("industry")
 
-        result["market_cap"] = num(
+        result["market_cap"] = to_number(
             info.get("marketCap")
         )
 
-        result["price"] = num(
+        result["price"] = to_number(
             info.get("currentPrice")
             or info.get("regularMarketPrice")
         )
 
-        result["forward_pe"] = num(
+        result["forward_pe"] = to_number(
             info.get("forwardPE")
         )
-
-        result["trailing_eps"] = num(
-            info.get("trailingEps")
-        )
-
-        # ----------------------------------------------------
-        # Yahoo earnings estimate fallback
-        # ----------------------------------------------------
-
-        try:
-
-            estimate = stock.get_earnings_estimate()
-
-            if estimate is not None:
-
-                if "0y" in estimate.index:
-
-                    result["yahoo_current_eps"] = num(
-                        estimate.loc["0y", "avg"]
-                    )
-
-                if "+1y" in estimate.index:
-
-                    result["yahoo_next_eps"] = num(
-                        estimate.loc["+1y", "avg"]
-                    )
-
-        except Exception as e:
-
-            print(
-                f"{ticker} Yahoo earnings estimate error: {e}"
-            )
 
     except Exception as e:
 
         result["error"] = str(e)
 
         print(
-            f"{ticker} Yahoo error: "
-            f"{type(e).__name__}: {e}"
+            f"{ticker}: Yahoo error - {e}"
         )
 
     return result
 
 
 # ============================================================
-# EPS 성장률
+# Business Quant EPS
+#
+# 공식 구조:
+#
+# data
+#   ├─ dimension: annual
+#   │    └─ estimates
+#   │         ├─ period
+#   │         ├─ data_type
+#   │         └─ value_estimate
+#   │
+#   └─ dimension: quarter
+#
 # ============================================================
 
-def calculate_growth(eps_years):
+def get_businessquant_eps(ticker):
 
-    growth = {}
+    if not BQ_API_KEY:
 
-    years = sorted(eps_years.keys())
+        raise RuntimeError(
+            "BUSINESSQUANT_API_KEY가 없습니다."
+        )
 
-    for i in range(1, len(years)):
+    params = {
+        "ticker": ticker,
+        "mode": "eps",
+        "api_key": BQ_API_KEY,
+    }
 
-        previous_year = years[i - 1]
-        current_year = years[i]
+    response = requests.get(
+        BQ_URL,
+        params=params,
+        timeout=30,
+    )
 
-        previous = eps_years[previous_year]
-        current = eps_years[current_year]
+    # --------------------------------------------------------
+    # 429 = 일일 한도 초과
+    # --------------------------------------------------------
 
-        if (
-            previous is not None
-            and current is not None
-            and previous != 0
-        ):
+    if response.status_code == 429:
 
-            growth[current_year] = (
-                (current / previous) - 1
-            ) * 100
+        raise RuntimeError(
+            "BQ_RATE_LIMIT"
+        )
 
-        else:
+    response.raise_for_status()
 
-            growth[current_year] = None
+    payload = response.json()
 
-    return growth
+    annual = {}
+
+    data = payload.get("data", [])
+
+    if not isinstance(data, list):
+
+        return {
+            "reported": {},
+            "estimate": {}
+        }
+
+    # --------------------------------------------------------
+    # 공식 구조를 정확히 탐색
+    # --------------------------------------------------------
+
+    for section in data:
+
+        if not isinstance(section, dict):
+            continue
+
+        if section.get("dimension") != "annual":
+            continue
+
+        estimates = section.get(
+            "estimates",
+            []
+        )
+
+        if not isinstance(estimates, list):
+            continue
+
+        for row in estimates:
+
+            if not isinstance(row, dict):
+                continue
+
+            period = row.get("period")
+            data_type = row.get("data_type")
+            value = to_number(
+                row.get("value_estimate")
+            )
+
+            if value is None:
+                continue
+
+            try:
+                year = int(period)
+            except (TypeError, ValueError):
+                continue
+
+            annual[year] = {
+                "type": data_type,
+                "value": value
+            }
+
+    reported = {}
+    estimates = {}
+
+    for year, row in annual.items():
+
+        if row["type"] == "reported":
+
+            reported[year] = row["value"]
+
+        elif row["type"] == "estimate":
+
+            estimates[year] = row["value"]
+
+    print(
+        f"{ticker} BQ reported: "
+        f"{dict(sorted(reported.items()))}"
+    )
+
+    print(
+        f"{ticker} BQ estimates: "
+        f"{dict(sorted(estimates.items()))}"
+    )
+
+    return {
+        "reported": reported,
+        "estimate": estimates
+    }
+
+
+# ============================================================
+# 성장률
+# ============================================================
+
+def growth_rate(previous, current):
+
+    if (
+        previous is None
+        or current is None
+        or previous == 0
+    ):
+        return None
+
+    return (
+        (current / previous) - 1
+    ) * 100
 
 
 # ============================================================
 # CAGR
 # ============================================================
 
-def calculate_cagr(start_eps, end_eps, years):
+def cagr(start, end, years):
 
     if (
-        start_eps is None
-        or end_eps is None
+        start is None
+        or end is None
         or years <= 0
-        or start_eps <= 0
-        or end_eps <= 0
+        or start <= 0
+        or end <= 0
     ):
         return None
 
-    try:
-
-        return (
-            (end_eps / start_eps)
-            ** (1 / years)
-            - 1
-        ) * 100
-
-    except Exception:
-
-        return None
+    return (
+        (end / start)
+        ** (1 / years)
+        - 1
+    ) * 100
 
 
 # ============================================================
 # 성장 추세
 # ============================================================
 
-def calculate_growth_trend(growth):
+def growth_trend(growth_values):
 
     values = [
-        value
-        for _, value in sorted(growth.items())
-        if value is not None
+        x for x in growth_values
+        if x is not None
     ]
 
     if len(values) < 2:
@@ -346,116 +316,157 @@ def calculate_growth_trend(growth):
 
 
 # ============================================================
-# 종목 데이터
+# 종목 하나 생성
 # ============================================================
 
-def get_stock(ticker):
+def build_stock(
+    rank,
+    ticker,
+    yahoo,
+    bq
+):
 
-    print("")
-    print("=" * 60)
-    print(f"Processing {ticker}")
-    print("=" * 60)
-
-    yahoo = get_yahoo_data(ticker)
-
-    # --------------------------------------------------------
-    # Business Quant
-    # --------------------------------------------------------
-
-    bq_eps = get_businessquant_eps(ticker)
-
-    # API 제한을 고려해 종목당 한 번만 호출
-    time.sleep(0.5)
-
-    current_year = datetime.now(timezone.utc).year
+    reported = bq["reported"]
+    estimates = bq["estimate"]
 
     # --------------------------------------------------------
-    # 미래 EPS
-    # --------------------------------------------------------
-
-    future_eps = {
-        year: value
-        for year, value in bq_eps.items()
-        if year >= current_year
-    }
-
-    future_years = sorted(future_eps.keys())
-
-    # 현재연도부터 최대 5개 연도
-    selected_years = future_years[:5]
-
-    eps_years = {}
-
-    for year in selected_years:
-        eps_years[year] = future_eps[year]
-
-    # --------------------------------------------------------
-    # Yahoo fallback
+    # 이전 실제 EPS
     #
-    # Business Quant에서 현재연도 / 다음연도가 없는 경우
-    # Yahoo 추정치를 사용한다.
+    # 현재년도 이전의 가장 최근 reported
     # --------------------------------------------------------
 
-    if current_year not in eps_years:
+    previous_years = [
+        year
+        for year in reported
+        if year < CURRENT_YEAR
+    ]
 
-        if yahoo["yahoo_current_eps"] is not None:
+    previous_year = (
+        max(previous_years)
+        if previous_years
+        else None
+    )
 
-            eps_years[current_year] = (
-                yahoo["yahoo_current_eps"]
-            )
-
-    if current_year + 1 not in eps_years:
-
-        if yahoo["yahoo_next_eps"] is not None:
-
-            eps_years[current_year + 1] = (
-                yahoo["yahoo_next_eps"]
-            )
-
-    eps_years = dict(
-        sorted(eps_years.items())
+    previous_eps = (
+        reported.get(previous_year)
+        if previous_year is not None
+        else None
     )
 
     # --------------------------------------------------------
-    # 현재 EPS
+    # 현재년도 + 미래 EPS
     # --------------------------------------------------------
 
-    current_eps = eps_years.get(current_year)
+    current_eps = estimates.get(
+        CURRENT_YEAR
+    )
 
-    y1_eps = eps_years.get(current_year + 1)
-    y2_eps = eps_years.get(current_year + 2)
-    y3_eps = eps_years.get(current_year + 3)
-    y4_eps = eps_years.get(current_year + 4)
+    y1_eps = estimates.get(
+        CURRENT_YEAR + 1
+    )
 
-    # --------------------------------------------------------
-    # EPS 성장률
-    # --------------------------------------------------------
+    y2_eps = estimates.get(
+        CURRENT_YEAR + 2
+    )
 
-    growth = calculate_growth(eps_years)
+    y3_eps = estimates.get(
+        CURRENT_YEAR + 3
+    )
 
-    current_growth = growth.get(
-        current_year + 1
+    y4_eps = estimates.get(
+        CURRENT_YEAR + 4
     )
 
     # --------------------------------------------------------
-    # 4년 CAGR
+    # 성장률
     # --------------------------------------------------------
 
-    cagr_4y = calculate_cagr(
+    current_growth = growth_rate(
+        previous_eps,
+        current_eps
+    )
+
+    y1_growth = growth_rate(
+        current_eps,
+        y1_eps
+    )
+
+    y2_growth = growth_rate(
+        y1_eps,
+        y2_eps
+    )
+
+    y3_growth = growth_rate(
+        y2_eps,
+        y3_eps
+    )
+
+    y4_growth = growth_rate(
+        y3_eps,
+        y4_eps
+    )
+
+    # --------------------------------------------------------
+    # 4Y CAGR
+    #
+    # 현재년도 → +4Y
+    # --------------------------------------------------------
+
+    cagr_4y = cagr(
         current_eps,
         y4_eps,
         4
     )
 
     # --------------------------------------------------------
-    # 현재가 유지 시 미래 FPER
+    # 성장 추세
+    # --------------------------------------------------------
+
+    trend = growth_trend([
+        current_growth,
+        y1_growth,
+        y2_growth,
+        y3_growth,
+        y4_growth
+    ])
+
+    # --------------------------------------------------------
+    # 현재 FPER
+    #
+    # 현재 주가 / 현재년도 EPS
     # --------------------------------------------------------
 
     price = yahoo["price"]
 
+    if (
+        price is not None
+        and current_eps is not None
+        and current_eps > 0
+    ):
+
+        current_fper = (
+            price / current_eps
+        )
+
+    else:
+
+        current_fper = None
+
+    # --------------------------------------------------------
+    # 현재가 유지 시 미래 FPER
+    # --------------------------------------------------------
+
+    future_eps = {
+        str(CURRENT_YEAR): current_eps,
+        str(CURRENT_YEAR + 1): y1_eps,
+        str(CURRENT_YEAR + 2): y2_eps,
+        str(CURRENT_YEAR + 3): y3_eps,
+        str(CURRENT_YEAR + 4): y4_eps,
+    }
+
     future_fper = {}
 
-    for year, eps in eps_years.items():
+    for year, eps in future_eps.items():
 
         if (
             price is not None
@@ -463,27 +474,44 @@ def get_stock(ticker):
             and eps > 0
         ):
 
-            future_fper[str(year)] = (
+            future_fper[year] = (
                 price / eps
             )
 
         else:
 
-            future_fper[str(year)] = None
+            future_fper[year] = None
 
     # --------------------------------------------------------
-    # 성장 추세
+    # EPS trajectory
     # --------------------------------------------------------
 
-    growth_trend = calculate_growth_trend(
-        growth
-    )
+    eps_years = {}
+
+    if previous_year is not None:
+        eps_years[str(previous_year)] = previous_eps
+
+    eps_years[str(CURRENT_YEAR)] = current_eps
+    eps_years[str(CURRENT_YEAR + 1)] = y1_eps
+    eps_years[str(CURRENT_YEAR + 2)] = y2_eps
+    eps_years[str(CURRENT_YEAR + 3)] = y3_eps
+    eps_years[str(CURRENT_YEAR + 4)] = y4_eps
 
     # --------------------------------------------------------
-    # 최종 결과
+    # 성장률 trajectory
     # --------------------------------------------------------
+
+    eps_growth = {
+        str(CURRENT_YEAR): current_growth,
+        str(CURRENT_YEAR + 1): y1_growth,
+        str(CURRENT_YEAR + 2): y2_growth,
+        str(CURRENT_YEAR + 3): y3_growth,
+        str(CURRENT_YEAR + 4): y4_growth,
+    }
 
     return {
+
+        "rank": rank,
 
         "ticker": ticker,
 
@@ -495,9 +523,13 @@ def get_stock(ticker):
 
         "price": price,
 
-        "forward_pe": yahoo["forward_pe"],
+        "forward_pe_yahoo": yahoo["forward_pe"],
 
-        "trailing_eps": yahoo["trailing_eps"],
+        "previous_year": previous_year,
+
+        "previous_eps": previous_eps,
+
+        "current_year": CURRENT_YEAR,
 
         "current_eps": current_eps,
 
@@ -509,28 +541,27 @@ def get_stock(ticker):
 
         "y4_eps": y4_eps,
 
-        "eps_years": {
-            str(year): value
-            for year, value in eps_years.items()
-        },
+        "eps_years": eps_years,
 
-        "eps_growth": {
-            str(year): value
-            for year, value in growth.items()
-        },
+        "eps_growth": eps_growth,
 
         "current_growth": current_growth,
 
+        "y1_growth": y1_growth,
+
+        "y2_growth": y2_growth,
+
+        "y3_growth": y3_growth,
+
+        "y4_growth": y4_growth,
+
         "cagr_4y": cagr_4y,
 
-        "growth_trend": growth_trend,
+        "growth_trend": trend,
+
+        "current_fper": current_fper,
 
         "future_fper": future_fper,
-
-        "sources": [
-            "Yahoo Finance",
-            "Business Quant"
-        ],
 
         "error": yahoo["error"],
 
@@ -538,97 +569,75 @@ def get_stock(ticker):
 
 
 # ============================================================
-# NASDAQ-100 → 시총 상위 40개 선정
+# NASDAQ-100 → 시총 상위 40개
 # ============================================================
 
-def get_top_40():
+def select_top_40():
 
     print("")
-    print("=" * 60)
+    print("=" * 70)
     print("NASDAQ-100 시가총액 조회")
-    print("=" * 60)
+    print("=" * 70)
 
-    market_caps = []
+    candidates = []
 
     for ticker in NASDAQ_100_TICKERS:
 
-        try:
+        yahoo = get_yahoo_data(ticker)
 
-            stock = yf.Ticker(ticker)
+        market_cap = yahoo["market_cap"]
 
-            info = stock.info
+        if market_cap is not None:
 
-            market_cap = num(
-                info.get("marketCap")
-            )
-
-            company = (
-                info.get("longName")
-                or info.get("shortName")
-            )
-
-            if market_cap is not None:
-
-                market_caps.append(
-                    {
-                        "ticker": ticker,
-                        "company": company,
-                        "market_cap": market_cap,
-                    }
-                )
-
-                print(
-                    f"{ticker}: "
-                    f"{market_cap:,.0f}"
-                )
-
-            else:
-
-                print(
-                    f"{ticker}: market cap 없음"
-                )
-
-        except Exception as e:
+            candidates.append({
+                "ticker": ticker,
+                "company": yahoo["company"],
+                "market_cap": market_cap
+            })
 
             print(
-                f"{ticker}: "
-                f"market cap error - {e}"
+                f"{ticker:6s} "
+                f"{market_cap:,.0f}"
             )
 
-        time.sleep(0.2)
+        else:
 
-    # --------------------------------------------------------
-    # 시총 내림차순
-    # --------------------------------------------------------
+            print(
+                f"{ticker:6s} "
+                f"market cap 없음"
+            )
 
-    market_caps.sort(
+        time.sleep(0.15)
+
+    candidates.sort(
         key=lambda x: x["market_cap"],
         reverse=True
     )
 
-    top_40 = market_caps[:TOP_N]
+    selected = candidates[:TOP_N]
 
     print("")
-    print("=" * 60)
-    print("NASDAQ-40 선정 결과")
-    print("=" * 60)
+    print("=" * 70)
+    print("NASDAQ-40")
+    print("=" * 70)
 
     for rank, item in enumerate(
-        top_40,
+        selected,
         start=1
     ):
 
         print(
             f"{rank:2d}. "
             f"{item['ticker']:6s} "
+            f"{item['company']} "
             f"{item['market_cap']:,.0f}"
         )
 
-    return top_40
+    return selected
 
 
 # ============================================================
-# 메인
+# MAIN
 # ============================================================
 
 def main():
@@ -636,46 +645,97 @@ def main():
     if not BQ_API_KEY:
 
         raise RuntimeError(
-            "BUSINESSQUANT_API_KEY 환경변수가 없습니다."
+            "BUSINESSQUANT_API_KEY가 없습니다."
         )
 
     generated_at = datetime.now(
         timezone.utc
     ).isoformat()
 
-    # --------------------------------------------------------
-    # 1. NASDAQ-100 중 시총 상위 40개 자동 선정
-    # --------------------------------------------------------
-
-    top_40 = get_top_40()
+    selected = select_top_40()
 
     stocks = []
 
-    # --------------------------------------------------------
-    # 2. 상위 40개만 Business Quant EPS 조회
-    # --------------------------------------------------------
+    # BQ 429가 발생하면 더 이상 요청하지 않는다.
+    rate_limited = False
 
     for rank, item in enumerate(
-        top_40,
+        selected,
         start=1
     ):
 
         ticker = item["ticker"]
 
-        data = get_stock(ticker)
-
-        data["market_cap_rank"] = rank
-
-        stocks.append(data)
-
         print("")
+        print("=" * 70)
         print(
-            f"[{rank}/{len(top_40)}] "
+            f"[{rank}/{len(selected)}] {ticker}"
+        )
+        print("=" * 70)
+
+        yahoo = get_yahoo_data(ticker)
+
+        try:
+
+            bq = get_businessquant_eps(
+                ticker
+            )
+
+        except RuntimeError as e:
+
+            if str(e) == "BQ_RATE_LIMIT":
+
+                print("")
+                print(
+                    "Business Quant 일일 "
+                    "API 한도에 도달했습니다."
+                )
+                print(
+                    "이후 종목은 요청하지 않습니다."
+                )
+
+                rate_limited = True
+
+                break
+
+            raise
+
+        stock = build_stock(
+            rank,
+            ticker,
+            yahoo,
+            bq
+        )
+
+        stocks.append(stock)
+
+        print(
             f"{ticker} 완료"
         )
 
+        # API 요청 사이 간격
+        time.sleep(0.5)
+
     # --------------------------------------------------------
-    # 3. 다시 시총 순으로 정렬
+    # BQ 429로 중간 종료된 경우
+    #
+    # 기존 data.json을 덮어써서
+    # 일부 종목만 있는 화면을 만들지 않는다.
+    # --------------------------------------------------------
+
+    if rate_limited:
+
+        print("")
+        print(
+            "BQ rate limit 때문에 "
+            "이번 실행에서는 data.json을 "
+            "갱신하지 않습니다."
+        )
+
+        return
+
+    # --------------------------------------------------------
+    # 시총 순서
     # --------------------------------------------------------
 
     stocks.sort(
@@ -685,38 +745,32 @@ def main():
         )
     )
 
-    # --------------------------------------------------------
-    # 4. 순위 재부여
-    # --------------------------------------------------------
-
     for rank, stock in enumerate(
         stocks,
         start=1
     ):
 
-        stock["market_cap_rank"] = rank
+        stock["rank"] = rank
 
     # --------------------------------------------------------
-    # 5. data.json 저장
+    # data.json
     # --------------------------------------------------------
 
     output = {
 
         "site_name": "NASDAQ-40",
 
-        "description": (
-            "NASDAQ-100 구성종목 중 "
-            "시가총액 상위 40개 종목의 "
-            "EPS 성장 및 Forward Valuation"
-        ),
-
         "generated_at": generated_at,
 
-        "universe": "NASDAQ-100",
-
-        "universe_size": len(
-            NASDAQ_100_TICKERS
+        "generated_date_kst": datetime.now(
+            timezone.utc
+        ).astimezone().strftime(
+            "%Y-%m-%d"
         ),
+
+        "current_year": CURRENT_YEAR,
+
+        "universe": "NASDAQ-100",
 
         "selected_size": len(stocks),
 
@@ -732,21 +786,16 @@ def main():
 
         "notes": [
 
-            "시가총액 순위는 Yahoo Finance marketCap 기준",
+            "현재 FPER = 현재 주가 / 현재년도 EPS",
 
-            "Business Quant EPS는 consensus mean estimate",
+            "현재년도 EPS 성장률 = "
+            "현재년도 EPS / 가장 최근 실제 EPS - 1",
 
-            "미래 EPS가 제공되지 않는 경우 "
-            "임의로 추정하지 않고 null 처리",
+            "미래 FPER = 현재 주가 / 해당 미래 EPS",
 
-            "현재가 유지 시 미래 FPER = "
-            "현재 주가 / 해당 연도 EPS",
+            "4Y CAGR = 현재년도 EPS에서 +4Y EPS까지의 CAGR",
 
-            "4Y CAGR은 현재연도 EPS와 "
-            "+4Y EPS가 모두 존재할 때만 계산",
-
-            "GOOG와 GOOGL은 현재 NASDAQ-100 "
-            "구성 티커 목록에서 각각 별도 종목으로 처리"
+            "미래 EPS가 없으면 임의 추정하지 않고 null 처리"
 
         ],
 
@@ -768,11 +817,11 @@ def main():
         )
 
     print("")
-    print("=" * 60)
-    print("완료")
-    print("=" * 60)
+    print("=" * 70)
+    print("NASDAQ-40 데이터 갱신 완료")
+    print("=" * 70)
     print(
-        f"NASDAQ-40 종목 수: {len(stocks)}"
+        f"종목 수: {len(stocks)}"
     )
     print(
         "data.json 저장 완료"
@@ -780,4 +829,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()
