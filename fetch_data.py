@@ -1,4 +1,3 @@
-
 import json
 import os
 import statistics
@@ -12,25 +11,21 @@ import yfinance as yf
 # CONFIG
 # =========================================================
 
+TOP_N = 40
+REQUEST_TIMEOUT = 30
+
 BQ_API_KEY = os.environ.get("BUSINESSQUANT_API_KEY")
 
 BQ_ESTIMATES_URL = "https://data.businessquant.com/estimates"
 BQ_HISTORIC_URL = "https://data.businessquant.com/historic"
 
-TOP_N = 40
-REQUEST_TIMEOUT = 30
-
-# Historical P/E는 이미 받은 ticker를 다시 호출하지 않는다.
 HISTORY_CACHE_FILE = "history_cache.json"
-
-# 최초 구축 시 한 번에 너무 많은 Historical API를 호출하지 않는다.
-MAX_NEW_HISTORY_REQUESTS = 5
 
 KST = timezone(timedelta(hours=9))
 
 
 # =========================================================
-# NASDAQ-100
+# NASDAQ-100 UNIVERSE
 # =========================================================
 
 NASDAQ_100 = [
@@ -51,7 +46,139 @@ NASDAQ_100 = [
 
 
 # =========================================================
-# HELPERS
+# INVESTMENT-ORIENTED INDUSTRY GROUP
+# =========================================================
+
+INDUSTRY_GROUP_MAP = {
+
+    # Semiconductors
+    "Semiconductors": "반도체",
+
+    # Semiconductor equipment
+    "Semiconductor Equipment & Materials": "반도체 장비",
+
+    # Software
+    "Software - Infrastructure": "소프트웨어",
+    "Software - Application": "소프트웨어",
+    "Information Technology Services": "소프트웨어",
+
+    # Internet / Platform
+    "Internet Content & Information": "인터넷·플랫폼",
+    "Internet Retail": "전자상거래",
+    "Travel Services": "인터넷·플랫폼",
+
+    # Hardware / networking
+    "Computer Hardware": "하드웨어·IT",
+    "Communication Equipment": "하드웨어·IT",
+    "Consumer Electronics": "하드웨어·IT",
+
+    # Media
+    "Entertainment": "미디어·엔터테인먼트",
+    "Broadcasting": "미디어·엔터테인먼트",
+
+    # Biotech / healthcare
+    "Biotechnology": "바이오",
+    "Diagnostics & Research": "헬스케어",
+    "Medical Devices": "헬스케어",
+    "Drug Manufacturers - General": "제약",
+    "Drug Manufacturers - Specialty & Generic": "제약",
+
+    # Financial
+    "Credit Services": "금융",
+    "Financial Data & Stock Exchanges": "금융",
+
+    # Retail / consumer
+    "Discount Stores": "유통·소비재",
+    "Specialty Retail": "유통·소비재",
+    "Restaurants": "유통·소비재",
+    "Beverages - Non-Alcoholic": "유통·소비재",
+    "Packaged Foods": "유통·소비재",
+
+    # Auto / transportation
+    "Auto Manufacturers": "자동차·모빌리티",
+    "Auto Parts": "자동차·모빌리티",
+    "Airlines": "운송",
+    "Railroads": "운송",
+    "Integrated Freight & Logistics": "운송",
+
+    # Industrial
+    "Aerospace & Defense": "산업재",
+    "Specialty Industrial Machinery": "산업재",
+    "Industrial Distribution": "산업재",
+    "Conglomerates": "산업재",
+
+    # Energy
+    "Oil & Gas Integrated": "에너지",
+    "Oil & Gas E&P": "에너지",
+    "Oil & Gas Midstream": "에너지",
+
+    # Telecom
+    "Telecom Services": "통신",
+
+    # Utilities
+    "Utilities - Regulated Electric": "유틸리티",
+    "Utilities - Diversified": "유틸리티",
+
+    # Consumer defensive
+    "Household & Personal Products": "필수소비재",
+    "Tobacco": "필수소비재",
+}
+
+
+# Ticker-specific overrides.
+# Yahoo 분류가 애매하거나 투자 관점에서 묶는 것이 더 적절한 경우 사용.
+TICKER_INDUSTRY_OVERRIDE = {
+    "NVDA": "반도체",
+    "AMD": "반도체",
+    "AVGO": "반도체",
+    "MU": "반도체",
+    "QCOM": "반도체",
+    "TXN": "반도체",
+    "MRVL": "반도체",
+    "MCHP": "반도체",
+    "NXPI": "반도체",
+    "ON": "반도체",
+
+    "ASML": "반도체 장비",
+    "AMAT": "반도체 장비",
+    "LRCX": "반도체 장비",
+    "KLAC": "반도체 장비",
+
+    "MSFT": "소프트웨어",
+    "ADBE": "소프트웨어",
+    "PLTR": "소프트웨어",
+    "PANW": "소프트웨어",
+    "CRWD": "소프트웨어",
+    "DDOG": "소프트웨어",
+    "SNPS": "소프트웨어",
+    "CDNS": "소프트웨어",
+    "ADSK": "소프트웨어",
+    "INTU": "소프트웨어",
+    "WDAY": "소프트웨어",
+    "TEAM": "소프트웨어",
+    "ZS": "소프트웨어",
+
+    "GOOG": "인터넷·플랫폼",
+    "GOOGL": "인터넷·플랫폼",
+    "META": "인터넷·플랫폼",
+    "NFLX": "미디어·엔터테인먼트",
+
+    "AMZN": "전자상거래",
+    "MELI": "전자상거래",
+    "PDD": "전자상거래",
+    "DASH": "전자상거래",
+
+    "AAPL": "하드웨어·IT",
+    "CSCO": "하드웨어·IT",
+
+    "TSLA": "자동차·모빌리티",
+
+    "MSTR": "디지털자산·핀테크",
+}
+
+
+# =========================================================
+# TIME / NUMBER HELPERS
 # =========================================================
 
 def now_kst():
@@ -77,11 +204,11 @@ def to_number(value):
         return None
 
 
-def parse_year(period):
-    if period is None:
+def parse_year(value):
+    if value is None:
         return None
 
-    text = str(period).strip()
+    text = str(value).strip()
 
     if len(text) == 4 and text.isdigit():
         return int(text)
@@ -103,10 +230,7 @@ def safe_cagr(start, end, years):
     if start is None or end is None:
         return None
 
-    if start <= 0 or end <= 0:
-        return None
-
-    if years <= 0:
+    if start <= 0 or end <= 0 or years <= 0:
         return None
 
     return ((end / start) ** (1 / years) - 1) * 100
@@ -134,7 +258,7 @@ def median(values):
     return statistics.median(values)
 
 
-def percentile(values, percentile_value):
+def percentile(values, p):
     values = sorted(
         x for x in values
         if x is not None
@@ -146,24 +270,16 @@ def percentile(values, percentile_value):
     if len(values) == 1:
         return values[0]
 
-    position = (
-        percentile_value / 100
-    ) * (len(values) - 1)
+    position = (p / 100) * (len(values) - 1)
 
     lower = int(position)
-    upper = min(
-        lower + 1,
-        len(values) - 1
-    )
+    upper = min(lower + 1, len(values) - 1)
 
     fraction = position - lower
 
     return (
         values[lower]
-        + (
-            values[upper]
-            - values[lower]
-        ) * fraction
+        + (values[upper] - values[lower]) * fraction
     )
 
 
@@ -174,13 +290,25 @@ def safe_discount(current, historical):
     if current <= 0 or historical <= 0:
         return None
 
-    return (
-        current / historical - 1
-    ) * 100
+    return (current / historical - 1) * 100
 
 
 # =========================================================
-# YAHOO
+# INDUSTRY
+# =========================================================
+
+def classify_industry(ticker, yahoo_industry):
+    if ticker in TICKER_INDUSTRY_OVERRIDE:
+        return TICKER_INDUSTRY_OVERRIDE[ticker]
+
+    if yahoo_industry in INDUSTRY_GROUP_MAP:
+        return INDUSTRY_GROUP_MAP[yahoo_industry]
+
+    return yahoo_industry or "기타"
+
+
+# =========================================================
+# YAHOO DATA
 # =========================================================
 
 def get_yahoo_data(ticker):
@@ -213,6 +341,12 @@ def get_yahoo_data(ticker):
             )
             return None
 
+        yahoo_industry = (
+            info.get("industry")
+            or info.get("industryKey")
+            or "Unknown"
+        )
+
         return {
             "ticker": ticker,
             "company": (
@@ -220,14 +354,14 @@ def get_yahoo_data(ticker):
                 or info.get("shortName")
                 or ticker
             ),
-            "industry": (
-                info.get("industry")
-                or info.get("industryKey")
-                or "Unknown"
-            ),
             "sector": (
                 info.get("sector")
                 or "Unknown"
+            ),
+            "industry_raw": yahoo_industry,
+            "industry_group": classify_industry(
+                ticker,
+                yahoo_industry
             ),
             "market_cap": market_cap,
             "price": price,
@@ -237,22 +371,20 @@ def get_yahoo_data(ticker):
         }
 
     except Exception as e:
+
         print(
             f"[Yahoo] {ticker}: {e}"
         )
+
         return None
 
 
 # =========================================================
 # BUSINESS QUANT — EPS
+# EXACTLY ONE REQUEST PER STOCK
 # =========================================================
 
 def get_businessquant_eps(ticker):
-
-    if not BQ_API_KEY:
-        raise RuntimeError(
-            "BUSINESSQUANT_API_KEY is not configured."
-        )
 
     response = requests.get(
         BQ_ESTIMATES_URL,
@@ -271,8 +403,7 @@ def get_businessquant_eps(ticker):
 
     if response.status_code != 200:
         raise RuntimeError(
-            f"BQ_HTTP_{response.status_code}: "
-            f"{response.text[:300]}"
+            f"BQ_HTTP_{response.status_code}"
         )
 
     try:
@@ -282,9 +413,7 @@ def get_businessquant_eps(ticker):
             "BQ_INVALID_JSON"
         )
 
-    metadata = payload.get(
-        "metadata"
-    ) or {}
+    metadata = payload.get("metadata") or {}
 
     returned_ticker = (
         metadata.get("ticker")
@@ -298,6 +427,7 @@ def get_businessquant_eps(ticker):
         ).strip().upper()
 
         if returned_ticker != ticker.upper():
+
             raise RuntimeError(
                 "BQ_TICKER_MISMATCH: "
                 f"requested={ticker}, "
@@ -318,27 +448,21 @@ def get_businessquant_eps(ticker):
         if not isinstance(section, dict):
             continue
 
-        if str(
+        dimension = str(
             section.get("dimension") or ""
-        ).lower() != "annual":
+        ).lower()
+
+        if dimension != "annual":
             continue
 
-        estimates = section.get(
-            "estimates"
-        )
+        estimates = section.get("estimates")
 
-        if not isinstance(
-            estimates,
-            list
-        ):
+        if not isinstance(estimates, list):
             continue
 
         for row in estimates:
 
-            if not isinstance(
-                row,
-                dict
-            ):
+            if not isinstance(row, dict):
                 continue
 
             year = parse_year(
@@ -355,17 +479,13 @@ def get_businessquant_eps(ticker):
             if data_type == "reported":
 
                 eps = to_number(
-                    row.get(
-                        "value_reported"
-                    )
+                    row.get("value_reported")
                 )
 
             elif data_type == "estimate":
 
                 eps = to_number(
-                    row.get(
-                        "value_estimate"
-                    )
+                    row.get("value_estimate")
                 )
 
             else:
@@ -385,20 +505,19 @@ def get_businessquant_eps(ticker):
             "BQ_NO_ANNUAL_EPS"
         )
 
-    # 동일 연도/동일 타입 중복 제거
+    # 같은 year/type 중복이 있으면 마지막 값 사용
     unique = {}
 
     for row in rows:
-        key = (
-            row["year"],
-            row["data_type"]
-        )
 
-        unique[key] = row
+        unique[
+            (
+                row["year"],
+                row["data_type"]
+            )
+        ] = row
 
-    rows = list(
-        unique.values()
-    )
+    rows = list(unique.values())
 
     rows.sort(
         key=lambda x: (
@@ -411,21 +530,19 @@ def get_businessquant_eps(ticker):
 
 
 # =========================================================
-# BUSINESS QUANT — HISTORICAL P/E
+# HISTORICAL P/E
+#
+# 중요:
+# 여기서는 실제 historical P/E 데이터만 사용한다.
+# 현재 EPS × 과거 가격 방식으로 재구성하지 않는다.
 # =========================================================
 
 def get_businessquant_historical_pe(ticker):
 
-    if not BQ_API_KEY:
-        raise RuntimeError(
-            "BUSINESSQUANT_API_KEY is not configured."
-        )
-
     response = requests.get(
         BQ_HISTORIC_URL,
         params={
-            "slug":
-                "price-to-earnings-daily",
+            "slug": "price-to-earnings-daily",
             "ticker": ticker,
             "period": "max",
             "api_key": BQ_API_KEY,
@@ -435,20 +552,22 @@ def get_businessquant_historical_pe(ticker):
 
     if response.status_code == 429:
         raise RuntimeError(
-            "BQ_RATE_LIMIT"
+            "BQ_HISTORY_RATE_LIMIT"
         )
 
     if response.status_code != 200:
         raise RuntimeError(
-            f"BQ_HISTORY_HTTP_"
-            f"{response.status_code}"
+            f"BQ_HISTORY_HTTP_{response.status_code}"
         )
 
-    payload = response.json()
+    try:
+        payload = response.json()
+    except Exception:
+        raise RuntimeError(
+            "BQ_HISTORY_INVALID_JSON"
+        )
 
-    metadata = payload.get(
-        "metadata"
-    ) or {}
+    metadata = payload.get("metadata") or {}
 
     returned_ticker = (
         metadata.get("ticker")
@@ -459,25 +578,18 @@ def get_businessquant_historical_pe(ticker):
 
         returned_ticker = str(
             returned_ticker
-        ).upper()
+        ).strip().upper()
 
         if returned_ticker != ticker.upper():
             raise RuntimeError(
-                "BQ_HISTORY_TICKER_MISMATCH: "
-                f"{ticker} != "
-                f"{returned_ticker}"
+                "BQ_HISTORY_TICKER_MISMATCH"
             )
 
-    raw_data = payload.get(
-        "data"
-    )
+    raw_data = payload.get("data")
 
-    # API가 list 형태인 경우
     if isinstance(raw_data, list):
         rows = raw_data
 
-    # 일부 historical API 응답에서
-    # series/data가 중첩될 가능성까지 처리
     elif isinstance(
         payload.get("series"),
         list
@@ -491,10 +603,7 @@ def get_businessquant_historical_pe(ticker):
 
     for row in rows:
 
-        if not isinstance(
-            row,
-            dict
-        ):
+        if not isinstance(row, dict):
             continue
 
         date = (
@@ -514,8 +623,7 @@ def get_businessquant_historical_pe(ticker):
         if not date or value is None:
             continue
 
-        # Historical P/E에서
-        # 음수/0은 valuation 비교에서 제외
+        # 음수/0 P/E 제외
         if value <= 0:
             continue
 
@@ -553,28 +661,18 @@ def load_history_cache():
 
             data = json.load(f)
 
-        if isinstance(data, dict):
-            return data
+        return data if isinstance(data, dict) else {}
 
-    except Exception as e:
-
-        print(
-            "[History Cache] "
-            f"read error: {e}"
-        )
-
-    return {}
+    except Exception:
+        return {}
 
 
 def save_history_cache(cache):
 
-    temp_file = (
-        HISTORY_CACHE_FILE
-        + ".tmp"
-    )
+    temp = HISTORY_CACHE_FILE + ".tmp"
 
     with open(
-        temp_file,
+        temp,
         "w",
         encoding="utf-8"
     ) as f:
@@ -587,7 +685,7 @@ def save_history_cache(cache):
         )
 
     os.replace(
-        temp_file,
+        temp,
         HISTORY_CACHE_FILE
     )
 
@@ -596,107 +694,94 @@ def save_history_cache(cache):
 # HISTORICAL STATISTICS
 # =========================================================
 
-def build_historical_stats(
-    history_rows
-):
+def build_historical_stats(history_rows):
+
+    empty = {
+        "count": 0,
+        "median": None,
+        "p25": None,
+        "p75": None,
+        "min": None,
+        "max": None,
+        "median_3y": None,
+        "median_5y": None,
+        "median_10y": None,
+    }
 
     if not history_rows:
-        return {
-            "count": 0,
-            "median": None,
-            "p25": None,
-            "p75": None,
-            "min": None,
-            "max": None,
-            "median_3y": None,
-            "median_5y": None,
-            "median_10y": None,
-        }
+        return empty
 
     today = now_kst().date()
 
-    values_all = [
+    all_values = [
         row["value"]
         for row in history_rows
+        if row.get("value") is not None
     ]
 
     def values_since(days):
 
         cutoff = (
-            today
-            - timedelta(days=days)
+            today - timedelta(days=days)
         )
 
-        result = []
+        values = []
 
         for row in history_rows:
 
-            date_text = (
-                row["date"][:10]
-            )
-
             try:
-
                 date = datetime.strptime(
-                    date_text,
+                    str(row["date"])[:10],
                     "%Y-%m-%d"
                 ).date()
-
             except Exception:
                 continue
 
             if date >= cutoff:
-                result.append(
+                values.append(
                     row["value"]
                 )
 
-        return result
+        return values
 
-    values_3y = values_since(
-        365 * 3
-    )
+    values_3y = values_since(365 * 3)
+    values_5y = values_since(365 * 5)
+    values_10y = values_since(365 * 10)
 
-    values_5y = values_since(
-        365 * 5
-    )
-
-    values_10y = values_since(
-        365 * 10
-    )
+    if not all_values:
+        return empty
 
     return {
-        "count":
-            len(values_all),
+        "count": len(all_values),
 
-        "median":
-            median(values_all),
+        "median": median(
+            all_values
+        ),
 
-        "p25":
-            percentile(
-                values_all,
-                25
-            ),
+        "p25": percentile(
+            all_values,
+            25
+        ),
 
-        "p75":
-            percentile(
-                values_all,
-                75
-            ),
+        "p75": percentile(
+            all_values,
+            75
+        ),
 
-        "min":
-            min(values_all),
+        "min": min(all_values),
+        "max": max(all_values),
 
-        "max":
-            max(values_all),
+        "median_3y": median(
+            values_3y
+        ),
 
-        "median_3y":
-            median(values_3y),
+        "median_5y": median(
+            values_5y
+        ),
 
-        "median_5y":
-            median(values_5y),
-
-        "median_10y":
-            median(values_10y),
+        "median_10y": median(
+            values_10y
+        ),
     }
 
 
@@ -723,25 +808,35 @@ def build_eps_structure(
         elif row["data_type"] == "estimate":
             estimates[year] = eps
 
-    previous_years = [
+    previous_actual_years = [
         year
         for year in reported
         if year < current_year
     ]
 
     previous_actual_year = (
-        max(previous_years)
-        if previous_years
+        max(previous_actual_years)
+        if previous_actual_years
         else None
     )
 
     previous_actual_eps = (
-        reported[
+        reported.get(
             previous_actual_year
-        ]
+        )
         if previous_actual_year
         else None
     )
+
+    forecast = {}
+
+    for offset in range(5):
+
+        year = current_year + offset
+
+        forecast[
+            year
+        ] = estimates.get(year)
 
     return {
         "previous_actual_year":
@@ -750,66 +845,26 @@ def build_eps_structure(
         "previous_actual_eps":
             previous_actual_eps,
 
-        "current_eps":
-            estimates.get(
-                current_year
-            ),
-
-        "y1_eps":
-            estimates.get(
-                current_year + 1
-            ),
-
-        "y2_eps":
-            estimates.get(
-                current_year + 2
-            ),
-
-        "y3_eps":
-            estimates.get(
-                current_year + 3
-            ),
-
-        "y4_eps":
-            estimates.get(
-                current_year + 4
-            ),
-
-        "eps_years": [
-            {
-                "year": year,
-                "offset": offset,
-                "eps": estimates.get(year),
-            }
-            for offset, year in enumerate(
-                range(
-                    current_year,
-                    current_year + 5
-                )
-            )
-        ],
+        "eps_years":
+            forecast,
 
         "reported_years":
-            sorted(
-                reported.keys()
-            ),
+            sorted(reported.keys()),
 
         "estimate_years":
-            sorted(
-                estimates.keys()
-            ),
+            sorted(estimates.keys()),
     }
 
 
 # =========================================================
-# STOCK BUILD
+# STOCK
 # =========================================================
 
 def build_stock(
     yahoo,
     eps_rows,
     history_rows,
-    market_cap_rank,
+    rank,
     current_year
 ):
 
@@ -818,13 +873,27 @@ def build_stock(
         current_year
     )
 
-    price = yahoo["price"]
+    forecast = eps["eps_years"]
 
-    current_eps = eps["current_eps"]
-    y1_eps = eps["y1_eps"]
-    y2_eps = eps["y2_eps"]
-    y3_eps = eps["y3_eps"]
-    y4_eps = eps["y4_eps"]
+    current_eps = forecast.get(
+        current_year
+    )
+
+    y1_eps = forecast.get(
+        current_year + 1
+    )
+
+    y2_eps = forecast.get(
+        current_year + 2
+    )
+
+    y3_eps = forecast.get(
+        current_year + 3
+    )
+
+    y4_eps = forecast.get(
+        current_year + 4
+    )
 
     growth = {
         "current":
@@ -864,27 +933,27 @@ def build_stock(
         4
     )
 
-    future_growth = [
+    growth_values = [
         growth["y1"],
         growth["y2"],
         growth["y3"],
         growth["y4"],
     ]
 
-    future_growth = [
-        x for x in future_growth
+    growth_values = [
+        x for x in growth_values
         if x is not None
     ]
 
-    if len(future_growth) < 2:
+    if len(growth_values) < 2:
 
         growth_trend = "N/A"
 
     else:
 
         change = (
-            future_growth[-1]
-            - future_growth[0]
+            growth_values[-1]
+            - growth_values[0]
         )
 
         if change > 2:
@@ -895,6 +964,8 @@ def build_stock(
 
         else:
             growth_trend = "stable"
+
+    price = yahoo["price"]
 
     current_fper = safe_fper(
         price,
@@ -933,12 +1004,29 @@ def build_stock(
             ),
     }
 
-    historical = (
-        build_historical_stats(
-            history_rows
-        )
-        if history_rows
-        else build_historical_stats([])
+    historical = build_historical_stats(
+        history_rows
+    )
+
+    historical[
+        "discount_3y"
+    ] = safe_discount(
+        current_fper,
+        historical["median_3y"]
+    )
+
+    historical[
+        "discount_5y"
+    ] = safe_discount(
+        current_fper,
+        historical["median_5y"]
+    )
+
+    historical[
+        "discount_10y"
+    ] = safe_discount(
+        current_fper,
+        historical["median_10y"]
     )
 
     return {
@@ -953,13 +1041,16 @@ def build_stock(
             yahoo["sector"],
 
         "industry":
-            yahoo["industry"],
+            yahoo["industry_group"],
+
+        "industry_raw":
+            yahoo["industry_raw"],
 
         "market_cap":
             yahoo["market_cap"],
 
         "market_cap_rank":
-            market_cap_rank,
+            rank,
 
         "price":
             price,
@@ -1024,6 +1115,13 @@ def build_stock(
         "historical_data_available":
             bool(history_rows),
 
+        "sources": [
+            "Yahoo Finance"
+        ] + (
+            ["Business Quant"]
+            if eps_rows
+            else []
+        ),
     }
 
 
@@ -1050,38 +1148,35 @@ def select_top_40():
         reverse=True
     )
 
-    selected = candidates[
-        :TOP_N
-    ]
+    selected = candidates[:TOP_N]
 
-    for index, item in enumerate(
+    for rank, item in enumerate(
         selected,
         start=1
     ):
-        item["market_cap_rank"] = index
+        item["market_cap_rank"] = rank
 
     return selected
 
 
 # =========================================================
-# DATA INTEGRITY CHECKS
+# VALIDATION
 # =========================================================
 
 def validate_stock(stock):
 
-    required = [
+    for field in [
         "ticker",
         "company",
         "market_cap",
         "price",
-    ]
-
-    for field in required:
+    ]:
 
         if stock.get(field) is None:
             raise RuntimeError(
-                f"MISSING_REQUIRED_FIELD: "
-                f"{stock['ticker']}:{field}"
+                f"MISSING_FIELD:"
+                f"{stock.get('ticker')}:"
+                f"{field}"
             )
 
 
@@ -1093,75 +1188,16 @@ def validate_collection(stocks):
         )
 
     tickers = [
-        x["ticker"]
-        for x in stocks
+        stock["ticker"]
+        for stock in stocks
     ]
 
-    if len(tickers) != len(
-        set(tickers)
-    ):
+    if len(tickers) != len(set(tickers)):
         raise RuntimeError(
-            "DUPLICATE_TICKER_IN_OUTPUT"
+            "DUPLICATE_TICKER"
         )
-
-    # -----------------------------------------------------
-    # Detect suspiciously identical EPS trajectories.
-    # One or two can legitimately match.
-    # 3+ identical full trajectories are suspicious.
-    # -----------------------------------------------------
 
     trajectories = {}
-
-    for stock in stocks:
-
-        key = (
-            stock.get("current_eps"),
-            stock.get("y1_eps"),
-            stock.get("y2_eps"),
-            stock.get("y3_eps"),
-            stock.get("y4_eps"),
-        )
-
-        if all(
-            value is None
-            for value in key
-        ):
-            continue
-
-        trajectories.setdefault(
-            key,
-            []
-        ).append(
-            stock["ticker"]
-        )
-
-    suspicious = []
-
-    for key, group in trajectories.items():
-
-        if len(group) >= 3:
-            suspicious.append(
-                group
-            )
-
-    if suspicious:
-        raise RuntimeError(
-            "SUSPICIOUS_SHARED_EPS_TRAJECTORY: "
-            + str(suspicious)
-        )
-
-    # -----------------------------------------------------
-    # Ensure EPS values are not identical to a known
-    # hardcoded demo trajectory.
-    # -----------------------------------------------------
-
-    known_bad = (
-        9.21,
-        10.06,
-        10.39,
-        12.83,
-        13.10,
-    )
 
     for stock in stocks:
 
@@ -1173,11 +1209,346 @@ def validate_collection(stocks):
             stock.get("y4_eps"),
         )
 
-        if trajectory == known_bad:
-            raise RuntimeError(
-                "KNOWN_BAD_DEMO_EPS_DETECTED: "
-                + stock["ticker"]
+        # 전부 N/A인 경우는 허용
+        if all(
+            value is None
+            for value in trajectory
+        ):
+            continue
+
+        trajectories.setdefault(
+            trajectory,
+            []
+        ).append(
+            stock["ticker"]
+        )
+
+    suspicious = [
+        group
+        for group in trajectories.values()
+        if len(group) >= 3
+    ]
+
+    if suspicious:
+        raise RuntimeError(
+            "SUSPICIOUS_SHARED_EPS_TRAJECTORY:"
+            + str(suspicious)
+        )
+
+
+# =========================================================
+# INDUSTRY AGGREGATION
+# =========================================================
+
+def build_industries(stocks):
+
+    groups = {}
+
+    for stock in stocks:
+
+        group_name = (
+            stock.get("industry")
+            or "기타"
+        )
+
+        groups.setdefault(
+            group_name,
+            []
+        ).append(stock)
+
+    result = []
+
+    for industry, group in groups.items():
+
+        current_values = [
+            stock["current_fper"]
+            for stock in group
+            if stock["current_fper"]
+            is not None
+        ]
+
+        hist_3y = [
+            stock["historical_fper"]["median_3y"]
+            for stock in group
+            if stock["historical_fper"]["median_3y"]
+            is not None
+        ]
+
+        hist_5y = [
+            stock["historical_fper"]["median_5y"]
+            for stock in group
+            if stock["historical_fper"]["median_5y"]
+            is not None
+        ]
+
+        hist_10y = [
+            stock["historical_fper"]["median_10y"]
+            for stock in group
+            if stock["historical_fper"]["median_10y"]
+            is not None
+        ]
+
+        cagr_values = [
+            stock["cagr_4y"]
+            for stock in group
+            if stock["cagr_4y"]
+            is not None
+        ]
+
+        current_fper = median(
+            current_values
+        )
+
+        historical_3y = median(
+            hist_3y
+        )
+
+        historical_5y = median(
+            hist_5y
+        )
+
+        historical_10y = median(
+            hist_10y
+        )
+
+        result.append({
+
+            "industry":
+                industry,
+
+            "stock_count":
+                len(group),
+
+            "tickers": [
+                stock["ticker"]
+                for stock in group
+            ],
+
+            "current_fper_median":
+                current_fper,
+
+            "historical_3y_fper_median":
+                historical_3y,
+
+            "historical_5y_fper_median":
+                historical_5y,
+
+            "historical_10y_fper_median":
+                historical_10y,
+
+            "historical_3y_discount":
+                safe_discount(
+                    current_fper,
+                    historical_3y
+                ),
+
+            "historical_5y_discount":
+                safe_discount(
+                    current_fper,
+                    historical_5y
+                ),
+
+            "historical_10y_discount":
+                safe_discount(
+                    current_fper,
+                    historical_10y
+                ),
+
+            "eps_cagr_4y_median":
+                median(
+                    cagr_values
+                ),
+        })
+
+    result.sort(
+        key=lambda x:
+            (
+                x["historical_5y_discount"]
+                if x["historical_5y_discount"]
+                is not None
+                else 999999
             )
+    )
+
+    return result
+
+
+# =========================================================
+# WAITING DATA
+# =========================================================
+
+def build_waiting_output(
+    selected,
+    current_year
+):
+
+    stocks = []
+
+    for rank, yahoo in enumerate(
+        selected,
+        start=1
+    ):
+
+        stocks.append({
+
+            "ticker":
+                yahoo["ticker"],
+
+            "company":
+                yahoo["company"],
+
+            "sector":
+                yahoo["sector"],
+
+            "industry":
+                yahoo["industry_group"],
+
+            "industry_raw":
+                yahoo["industry_raw"],
+
+            "market_cap":
+                yahoo["market_cap"],
+
+            "market_cap_rank":
+                rank,
+
+            "price":
+                yahoo["price"],
+
+            "forward_pe":
+                yahoo["forward_pe"],
+
+            "current_year":
+                current_year,
+
+            "previous_actual_year":
+                None,
+
+            "previous_actual_eps":
+                None,
+
+            "current_eps":
+                None,
+
+            "y1_eps":
+                None,
+
+            "y2_eps":
+                None,
+
+            "y3_eps":
+                None,
+
+            "y4_eps":
+                None,
+
+            "eps_years": {
+                str(current_year + i): None
+                for i in range(5)
+            },
+
+            "reported_years":
+                [],
+
+            "estimate_years":
+                [],
+
+            "eps_growth": {
+                "current": None,
+                "y1": None,
+                "y2": None,
+                "y3": None,
+                "y4": None,
+            },
+
+            "current_growth":
+                None,
+
+            "cagr_4y":
+                None,
+
+            "growth_trend":
+                "N/A",
+
+            "current_fper":
+                None,
+
+            "future_fper": {
+                "current": None,
+                "y1": None,
+                "y2": None,
+                "y3": None,
+                "y4": None,
+            },
+
+            "historical_fper": {
+                "count": 0,
+                "median": None,
+                "p25": None,
+                "p75": None,
+                "min": None,
+                "max": None,
+                "median_3y": None,
+                "median_5y": None,
+                "median_10y": None,
+                "discount_3y": None,
+                "discount_5y": None,
+                "discount_10y": None,
+            },
+
+            "historical_data_available":
+                False,
+
+            "sources": [
+                "Yahoo Finance"
+            ],
+        })
+
+    return {
+        "status": "WAITING",
+        "generated_at_kst":
+            now_kst().isoformat(),
+        "generated_date_kst":
+            now_kst().strftime("%Y-%m-%d"),
+        "current_year":
+            current_year,
+        "top_n":
+            TOP_N,
+        "stock_count":
+            len(stocks),
+        "historical_cache_count":
+            0,
+        "historical_new_requests":
+            0,
+        "stocks":
+            stocks,
+        "industries":
+            build_industries(stocks),
+        "sources": {
+            "market":
+                "Yahoo Finance",
+            "eps":
+                "Business Quant Analyst Estimates",
+            "historical_fper":
+                "Business Quant Historical Metrics",
+        },
+        "methodology": {
+            "current_fper":
+                "current price / current-year EPS estimate",
+            "future_fper":
+                "current price / future EPS estimate",
+            "historical_discount":
+                "current FPER / historical median FPER - 1",
+            "industry_valuation":
+                "median of available stocks",
+            "missing_data":
+                "N/A",
+            "future_eps":
+                "never extrapolated",
+            "historical_negative_pe":
+                "excluded",
+        },
+    }
 
 
 # =========================================================
@@ -1189,30 +1560,22 @@ def main():
     current_year = now_kst().year
 
     print(
-        f"Current KST year: "
-        f"{current_year}"
+        f"Current KST year: {current_year}"
     )
 
-    if not BQ_API_KEY:
-        raise RuntimeError(
-            "BUSINESSQUANT_API_KEY missing"
-        )
-
     # -----------------------------------------------------
-    # 1. Yahoo → top 40
+    # 1. Yahoo → Top 40
     # -----------------------------------------------------
 
     selected = select_top_40()
 
-    if len(selected) < TOP_N:
-        print(
-            f"WARNING: only "
-            f"{len(selected)} "
-            f"Yahoo-valid stocks"
+    if not selected:
+        raise RuntimeError(
+            "YAHOO_NO_VALID_STOCKS"
         )
 
     print(
-        "Selected tickers:",
+        "Selected:",
         [
             x["ticker"]
             for x in selected
@@ -1220,23 +1583,37 @@ def main():
     )
 
     # -----------------------------------------------------
-    # 2. Load historical cache
+    # 2. API KEY가 없으면 WAITING
+    #    절대 기존 data.json을 그대로 재사용하지 않는다.
     # -----------------------------------------------------
 
-    history_cache = (
-        load_history_cache()
-    )
+    if not BQ_API_KEY:
+
+        print(
+            "BUSINESSQUANT_API_KEY missing."
+        )
+
+        output = build_waiting_output(
+            selected,
+            current_year
+        )
+
+        write_output(
+            output
+        )
+
+        return
 
     # -----------------------------------------------------
     # 3. EPS
     #
-    # One BQ estimate request per stock.
-    # No retry.
+    # 정확히 종목당 1회.
+    # 429 발생 시 재시도하지 않는다.
     # -----------------------------------------------------
 
-    stocks = []
+    final_stocks = []
 
-    for index, yahoo in enumerate(
+    for rank, yahoo in enumerate(
         selected,
         start=1
     ):
@@ -1244,7 +1621,7 @@ def main():
         ticker = yahoo["ticker"]
 
         print(
-            f"[EPS {index}/{len(selected)}] "
+            f"[EPS {rank}/{len(selected)}] "
             f"{ticker}"
         )
 
@@ -1256,7 +1633,7 @@ def main():
                 )
             )
 
-        except RuntimeError as e:
+        except Exception as e:
 
             print(
                 f"[EPS ERROR] "
@@ -1266,105 +1643,25 @@ def main():
             eps_rows = []
 
         # -------------------------------------------------
-        # 4. Historical P/E cache
+        # Historical P/E
+        #
+        # 현재 단계에서는 기존 cache가 있는 경우에만 사용.
+        # API quota가 EPS와 동일한지 확인하기 전까지
+        # 자동으로 40+회의 추가 요청을 하지 않는다.
         # -------------------------------------------------
 
+        history_cache = load_history_cache()
+
         history_rows = (
-            history_cache.get(
-                ticker
-            )
+            history_cache.get(ticker)
+            or []
         )
-
-        stocks.append({
-            "yahoo": yahoo,
-            "eps_rows": eps_rows,
-            "history_rows":
-                history_rows,
-        })
-
-    # -----------------------------------------------------
-    # 5. Fill missing historical cache
-    #
-    # Only MAX_NEW_HISTORY_REQUESTS.
-    # Never re-request cached ticker.
-    # -----------------------------------------------------
-
-    new_history_requests = 0
-
-    for item in stocks:
-
-        ticker = (
-            item["yahoo"]["ticker"]
-        )
-
-        if item["history_rows"]:
-            continue
-
-        if new_history_requests >= (
-            MAX_NEW_HISTORY_REQUESTS
-        ):
-            break
-
-        print(
-            "[HISTORY] fetching:",
-            ticker
-        )
-
-        try:
-
-            history_rows = (
-                get_businessquant_historical_pe(
-                    ticker
-                )
-            )
-
-            history_cache[
-                ticker
-            ] = history_rows
-
-            item["history_rows"] = (
-                history_rows
-            )
-
-            new_history_requests += 1
-
-        except RuntimeError as e:
-
-            print(
-                f"[HISTORY ERROR] "
-                f"{ticker}: {e}"
-            )
-
-            # 실패를 빈 리스트로 캐시하지 않는다.
-            # 다음 실행에서 다시 시도할 수 있게 한다.
-
-    save_history_cache(
-        history_cache
-    )
-
-    # -----------------------------------------------------
-    # 6. Build final stocks
-    # -----------------------------------------------------
-
-    final_stocks = []
-
-    for item in stocks:
-
-        yahoo = item["yahoo"]
-
-        eps_rows = item[
-            "eps_rows"
-        ]
-
-        history_rows = item[
-            "history_rows"
-        ]
 
         stock = build_stock(
             yahoo,
             eps_rows,
             history_rows,
-            yahoo["market_cap_rank"],
+            rank,
             current_year
         )
 
@@ -1377,7 +1674,7 @@ def main():
         )
 
     # -----------------------------------------------------
-    # 7. Integrity validation
+    # 4. 데이터 integrity
     # -----------------------------------------------------
 
     validate_collection(
@@ -1385,153 +1682,52 @@ def main():
     )
 
     # -----------------------------------------------------
-    # 8. Historical discount
+    # 5. 산업
     # -----------------------------------------------------
 
-    for stock in final_stocks:
-
-        historical = stock[
-            "historical_fper"
-        ]
-
-        current_fper = stock[
-            "current_fper"
-        ]
-
-        historical[
-            "discount_3y"
-        ] = safe_discount(
-            current_fper,
-            historical[
-                "median_3y"
-            ]
-        )
-
-        historical[
-            "discount_5y"
-        ] = safe_discount(
-            current_fper,
-            historical[
-                "median_5y"
-            ]
-        )
-
-        historical[
-            "discount_10y"
-        ] = safe_discount(
-            current_fper,
-            historical[
-                "median_10y"
-            ]
-        )
-
-    # -----------------------------------------------------
-    # 9. Industry aggregation
-    # -----------------------------------------------------
-
-    industry_groups = {}
-
-    for stock in final_stocks:
-
-        industry = (
-            stock.get("industry")
-            or "Unknown"
-        )
-
-        industry_groups.setdefault(
-            industry,
-            []
-        ).append(stock)
-
-    industries = []
-
-    for industry, group in (
-        industry_groups.items()
-    ):
-
-        current_fpers = [
-            x["current_fper"]
-            for x in group
-            if x["current_fper"]
-            is not None
-        ]
-
-        cagr_values = [
-            x["cagr_4y"]
-            for x in group
-            if x["cagr_4y"]
-            is not None
-        ]
-
-        hist_values = [
-            x[
-                "historical_fper"
-            ][
-                "median_5y"
-            ]
-            for x in group
-            if x[
-                "historical_fper"
-            ][
-                "median_5y"
-            ] is not None
-        ]
-
-        current_median = median(
-            current_fpers
-        )
-
-        historical_median = median(
-            hist_values
-        )
-
-        industries.append({
-
-            "industry":
-                industry,
-
-            "stock_count":
-                len(group),
-
-            "current_fper_median":
-                current_median,
-
-            "historical_5y_fper_median":
-                historical_median,
-
-            "historical_5y_discount":
-                safe_discount(
-                    current_median,
-                    historical_median
-                ),
-
-            "eps_cagr_4y_median":
-                median(
-                    cagr_values
-                ),
-        })
-
-    industries.sort(
-        key=lambda x:
-            (
-                x[
-                    "historical_5y_discount"
-                ]
-                if x[
-                    "historical_5y_discount"
-                ] is not None
-                else 999999
-            )
+    industries = build_industries(
+        final_stocks
     )
 
     # -----------------------------------------------------
-    # 10. Final output
+    # 6. 상태 결정
+    # -----------------------------------------------------
+
+    eps_success_count = sum(
+        1
+        for stock in final_stocks
+        if stock.get(
+            "current_eps"
+        ) is not None
+    )
+
+    if eps_success_count == len(
+        final_stocks
+    ):
+        status = "LIVE"
+
+    elif eps_success_count > 0:
+        status = "PARTIAL"
+
+    else:
+        status = "WAITING"
+
+    history_count = sum(
+        1
+        for stock in final_stocks
+        if stock[
+            "historical_data_available"
+        ]
+    )
+
+    # -----------------------------------------------------
+    # 7. Output
     # -----------------------------------------------------
 
     output = {
 
         "status":
-            "LIVE",
+            status,
 
         "generated_at_kst":
             now_kst().isoformat(),
@@ -1550,11 +1746,11 @@ def main():
         "stock_count":
             len(final_stocks),
 
-        "historical_cache_count":
-            len(history_cache),
+        "eps_success_count":
+            eps_success_count,
 
-        "historical_new_requests":
-            new_history_requests,
+        "historical_available_count":
+            history_count,
 
         "stocks":
             final_stocks,
@@ -1563,6 +1759,7 @@ def main():
             industries,
 
         "sources": {
+
             "market":
                 "Yahoo Finance",
 
@@ -1595,16 +1792,27 @@ def main():
 
             "historical_negative_pe":
                 "excluded from historical valuation statistics",
+
+            "eps_api_calls":
+                "one Business Quant EPS request per stock",
+
+            "historical_pe":
+                "actual historical P/E series only",
         },
     }
 
-    # -----------------------------------------------------
-    # Atomic write
-    # -----------------------------------------------------
-
-    temp_file = (
-        "data.json.tmp"
+    write_output(
+        output
     )
+
+
+# =========================================================
+# SAFE OUTPUT
+# =========================================================
+
+def write_output(output):
+
+    temp_file = "data.json.tmp"
 
     with open(
         temp_file,
@@ -1625,17 +1833,17 @@ def main():
     )
 
     print(
-        "data.json written successfully."
+        "data.json written."
+    )
+
+    print(
+        "Status:",
+        output["status"]
     )
 
     print(
         "Stocks:",
-        len(final_stocks)
-    )
-
-    print(
-        "Historical cache:",
-        len(history_cache)
+        output["stock_count"]
     )
 
 
