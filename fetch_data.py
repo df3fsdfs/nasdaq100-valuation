@@ -1594,16 +1594,8 @@ def main():
     if not BQ_API_KEY:
 
         print(
-            "BUSINESSQUANT_API_KEY missing."
-        )
-
-        output = build_waiting_output(
-            selected,
-            current_year
-        )
-
-        write_output(
-            output
+            "BUSINESSQUANT_API_KEY missing. "
+            "Keeping last known good data.json."
         )
 
         return
