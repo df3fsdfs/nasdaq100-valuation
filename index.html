@@ -540,7 +540,7 @@ function fper(value) {
     return '<span class="na">N/A</span>';
   }
 
-  return `\${Number(value).toFixed(1)}x`;
+  return `${Number(value).toFixed(1)}x`;
 }
 
 
@@ -586,7 +586,7 @@ async function loadData() {
 
     const response =
       await fetch(
-        "data.json?ts=" +
+        "/nasdaq100-valuation/data.json?ts=" +
         Date.now()
       );
 
