@@ -642,6 +642,38 @@ def get_businessquant_historical_pe(ticker):
 
 
 # =========================================================
+# PREVIOUS OUTPUT
+# =========================================================
+def load_previous_output():
+    if not os.path.exists("data.json"):
+        return {}
+    try:
+        with open("data.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def merge_yahoo_with_previous(yahoo, previous_stock, rank):
+    if not previous_stock:
+        return None
+    merged = dict(previous_stock)
+    merged.update({
+        "ticker": yahoo["ticker"],
+        "company": yahoo["company"],
+        "sector": yahoo["sector"],
+        "industry": yahoo["industry_group"],
+        "industry_raw": yahoo["industry_raw"],
+        "market_cap": yahoo["market_cap"],
+        "market_cap_rank": rank,
+        "price": yahoo["price"],
+        "forward_pe": yahoo["forward_pe"],
+    })
+    return merged
+
+
+# =========================================================
 # HISTORY CACHE
 # =========================================================
 
