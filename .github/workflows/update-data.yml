@@ -1,33 +1,36 @@
-name: Update NASDAQ-100 data
+
+name: Update NASDAQ-40 Data
 
 on:
   workflow_dispatch:
 
   schedule:
+    # 매주 월~금 한국시간 08:30
     - cron: "30 23 * * 1-5"
 
 permissions:
   contents: write
 
 jobs:
-  update:
+  update-data:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.11"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install yfinance requests
 
-      - name: Fetch data
+      - name: Fetch NASDAQ-40 data
         env:
           BUSINESSQUANT_API_KEY: ${{ secrets.BUSINESSQUANT_API_KEY }}
         run: |
@@ -40,6 +43,9 @@ jobs:
 
           git add data.json
 
-          git diff --cached --quiet || git commit -m "Update NASDAQ-100 valuation data"
-
-          git push
+          if git diff --cached --quiet; then
+            echo "No data changes."
+          else
+            git commit -m "Update NASDAQ-40 data"
+            git push
+          fi
