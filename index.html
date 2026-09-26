@@ -549,30 +549,25 @@ function fper(value) {
    Supports both old cached schema and new schema.
 ===================================================== */
 
-function currentFper(stock) {
-  return (
-    stock.current_fper
-    ?? stock.future_fper?.current
-    ?? stock.future_fper?.[String(stock.current_year)]
-    ?? null
-  );
-}
-
 function futureFper(stock, offset) {
+  const ff = stock.future_fper || {};
 
-  if (offset === 0) {
-    return currentFper(stock);
+  if (ff.current != null && offset === 0) return ff.current;
+
+  const aliases = ["y1", "y2", "y3", "y4"];
+  if (offset >= 1 && ff[aliases[offset - 1]] != null) {
+    return ff[aliases[offset - 1]];
   }
 
-  const keys = ["y1", "y2", "y3", "y4"];
+  const years = Object.keys(ff)
+    .filter(k => /^\\d{4}$/.test(k))
+    .sort((a, b) => Number(a) - Number(b));
 
-  return (
-    stock.future_fper?.[keys[offset - 1]]
-    ?? stock.future_fper?.[
-      String(Number(stock.current_year) + offset)
-    ]
-    ?? null
-  );
+  return years[offset] != null ? ff[years[offset]] : null;
+}
+
+function currentFper(stock) {
+  return futureFper(stock, 0);
 }
 
 
@@ -586,7 +581,7 @@ async function loadData() {
 
     const response =
       await fetch(
-        "/nasdaq100-valuation/data.json?ts=" +
+        "data.json?ts=" +
         Date.now()
       );
 
