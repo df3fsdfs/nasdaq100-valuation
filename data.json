@@ -58,7 +58,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 1
+      "market_cap_rank": 1,
+      "current_year": 2026,
+      "current_fper": 24.18253532506798,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "AAPL",
@@ -92,7 +112,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 2
+      "market_cap_rank": 2,
+      "current_year": 2026,
+      "current_fper": 38.67247957639082,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "GOOGL",
@@ -126,7 +166,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 3
+      "market_cap_rank": 3,
+      "current_year": 2026,
+      "current_fper": 16.67503844878312,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "GOOG",
@@ -160,7 +220,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 4
+      "market_cap_rank": 4,
+      "current_year": 2026,
+      "current_fper": 16.540660598330803,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "MSFT",
@@ -194,7 +274,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 5
+      "market_cap_rank": 5,
+      "current_year": 2026,
+      "current_fper": 26.12233371727939,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "AMZN",
@@ -228,7 +328,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 6
+      "market_cap_rank": 6,
+      "current_year": 2026,
+      "current_fper": 19.387432607569696,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "META",
@@ -262,7 +382,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 7
+      "market_cap_rank": 7,
+      "current_year": 2026,
+      "current_fper": 24.081694375277927,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "AVGO",
@@ -296,7 +436,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 8
+      "market_cap_rank": 8,
+      "current_year": 2026,
+      "current_fper": 30.262507805584338,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "TSLA",
@@ -330,7 +490,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 9
+      "market_cap_rank": 9,
+      "current_year": 2026,
+      "current_fper": 210.82600098583012,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "MU",
@@ -364,7 +544,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 10
+      "market_cap_rank": 10,
+      "current_year": 2026,
+      "current_fper": 14.704693510236751,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "AMD",
@@ -398,7 +598,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 11
+      "market_cap_rank": 11,
+      "current_year": 2026,
+      "current_fper": 83.24291360097574,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "WMT",
@@ -432,7 +652,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 12
+      "market_cap_rank": 12,
+      "current_year": 2026,
+      "current_fper": 37.411607368679995,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "ASML",
@@ -466,7 +706,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 13
+      "market_cap_rank": 13,
+      "current_year": 2026,
+      "current_fper": 45.50394350637169,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "INTC",
@@ -500,7 +760,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 14
+      "market_cap_rank": 14,
+      "current_year": 2026,
+      "current_fper": 80.90721323984056,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "PLTR",
@@ -534,7 +814,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 15
+      "market_cap_rank": 15,
+      "current_year": 2026,
+      "current_fper": 117.6941453879805,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "CSCO",
@@ -568,7 +868,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 16
+      "market_cap_rank": 16,
+      "current_year": 2026,
+      "current_fper": 20.732133835930515,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "COST",
@@ -602,7 +922,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 17
+      "market_cap_rank": 17,
+      "current_year": 2026,
+      "current_fper": 40.500499472437724,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "LRCX",
@@ -636,7 +976,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 18
+      "market_cap_rank": 18,
+      "current_year": 2026,
+      "current_fper": 33.16087141312169,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "AMAT",
@@ -670,7 +1030,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 19
+      "market_cap_rank": 19,
+      "current_year": 2026,
+      "current_fper": 37.90717977616787,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "ARM",
@@ -704,7 +1084,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 20
+      "market_cap_rank": 20,
+      "current_year": 2026,
+      "current_fper": 139.27124052473553,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "PANW",
@@ -738,7 +1138,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 21
+      "market_cap_rank": 21,
+      "current_year": 2026,
+      "current_fper": 89.46024015851417,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "NFLX",
@@ -772,7 +1192,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 22
+      "market_cap_rank": 22,
+      "current_year": 2026,
+      "current_fper": 19.852830378220904,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "CRWD",
@@ -806,7 +1246,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 23
+      "market_cap_rank": 23,
+      "current_year": 2026,
+      "current_fper": 200.72606262290122,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "TXN",
@@ -840,7 +1300,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 24
+      "market_cap_rank": 24,
+      "current_year": 2026,
+      "current_fper": 32.69181029415222,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "KLAC",
@@ -874,7 +1354,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 25
+      "market_cap_rank": 25,
+      "current_year": 2026,
+      "current_fper": 34.4503923150253,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "MRVL",
@@ -908,7 +1408,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 26
+      "market_cap_rank": 26,
+      "current_year": 2026,
+      "current_fper": 62.1981335929523,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "AMGN",
@@ -942,7 +1462,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 27
+      "market_cap_rank": 27,
+      "current_year": 2026,
+      "current_fper": 17.983010672004475,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "LIN",
@@ -976,7 +1516,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 28
+      "market_cap_rank": 28,
+      "current_year": 2026,
+      "current_fper": 26.283552936280465,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "QCOM",
@@ -1010,7 +1570,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 29
+      "market_cap_rank": 29,
+      "current_year": 2026,
+      "current_fper": 19.265769753208897,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "GILD",
@@ -1044,7 +1624,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 30
+      "market_cap_rank": 30,
+      "current_year": 2026,
+      "current_fper": null,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "SHOP",
@@ -1078,7 +1678,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 31
+      "market_cap_rank": 31,
+      "current_year": 2026,
+      "current_fper": 74.45032370843735,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "TMUS",
@@ -1112,7 +1732,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 32
+      "market_cap_rank": 32,
+      "current_year": 2026,
+      "current_fper": 15.112496425821057,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "PEP",
@@ -1146,7 +1786,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 33
+      "market_cap_rank": 33,
+      "current_year": 2026,
+      "current_fper": 15.03183879717243,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "WDC",
@@ -1180,7 +1840,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 34
+      "market_cap_rank": 34,
+      "current_year": 2026,
+      "current_fper": 22.736559816797513,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "ISRG",
@@ -1214,7 +1894,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 35
+      "market_cap_rank": 35,
+      "current_year": 2026,
+      "current_fper": 37.58818863671152,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "VRTX",
@@ -1248,7 +1948,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 36
+      "market_cap_rank": 36,
+      "current_year": 2026,
+      "current_fper": 32.54235317473325,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "FTNT",
@@ -1282,7 +2002,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 37
+      "market_cap_rank": 37,
+      "current_year": 2026,
+      "current_fper": 50.27709502388351,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "BKNG",
@@ -1316,7 +2056,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 38
+      "market_cap_rank": 38,
+      "current_year": 2026,
+      "current_fper": 15.691472816281996,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "PDD",
@@ -1350,7 +2110,27 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 39
+      "market_cap_rank": 39,
+      "current_year": 2026,
+      "current_fper": 1.1312180901562003,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     },
     {
       "ticker": "SBUX",
@@ -1384,8 +2164,48 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 40
+      "market_cap_rank": 40,
+      "current_year": 2026,
+      "current_fper": 36.58593026843567,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null
     }
   ],
-  "industries": []
+  "industries": [],
+  "fper_success_count": 39,
+  "fper_updated_date_kst": "2026-09-26",
+  "historical_pe_updated_date_kst": null,
+  "data_quality": {
+    "eps": {
+      "count": 40,
+      "updated_date_kst": "2026-09-26",
+      "source": "Business Quant"
+    },
+    "fper": {
+      "count": 39,
+      "updated_date_kst": "2026-09-26",
+      "source": "Yahoo Finance current price + Business Quant EPS"
+    },
+    "historical_pe": {
+      "count": 0,
+      "updated_date_kst": null,
+      "source": "Business Quant Historical P/E"
+    }
+  }
 }

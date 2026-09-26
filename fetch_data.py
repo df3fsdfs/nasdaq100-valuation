@@ -1144,11 +1144,25 @@ def build_stock(
         "future_fper":
             future_fper,
 
+        "fper_source":
+            "Yahoo Finance current price + Business Quant EPS",
+
+        "fper_updated_date_kst":
+            now_kst().strftime("%Y-%m-%d"),
+
         "historical_fper":
             historical,
 
         "historical_data_available":
             bool(history_rows),
+
+        "historical_pe_source":
+            "Business Quant Historical P/E"
+            if history_rows else None,
+
+        "historical_pe_updated_date_kst":
+            now_kst().strftime("%Y-%m-%d")
+            if history_rows else None,
 
         "sources": [
             "Yahoo Finance"
@@ -1860,8 +1874,21 @@ def main():
         "eps_success_count":
             eps_success_count,
 
+        "fper_success_count":
+            sum(
+                1 for stock in final_stocks
+                if stock.get("current_fper") is not None
+            ),
+
+        "fper_updated_date_kst":
+            now_kst().strftime("%Y-%m-%d"),
+
         "historical_available_count":
             history_count,
+
+        "historical_pe_updated_date_kst":
+            now_kst().strftime("%Y-%m-%d")
+            if history_count else None,
 
         "stocks":
             final_stocks,

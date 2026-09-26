@@ -340,8 +340,23 @@ tr:hover td {
       </span>
 
       <span>
+        FPER 확보:
+        <b id="fperCount">-</b>
+      </span>
+
+      <span>
+        FPER 기준일:
+        <b id="fperDate">-</b>
+      </span>
+
+      <span>
         Historical P/E:
         <b id="historyCount">-</b>
+      </span>
+
+      <span>
+        Historical 기준일:
+        <b id="historyDate">미확보</b>
       </span>
     </div>
 
@@ -554,13 +569,17 @@ function futureFper(stock, offset) {
 
   if (ff.current != null && offset === 0) return ff.current;
 
+  if (offset === 0 && stock.current_fper != null) {
+    return stock.current_fper;
+  }
+
   const aliases = ["y1", "y2", "y3", "y4"];
   if (offset >= 1 && ff[aliases[offset - 1]] != null) {
     return ff[aliases[offset - 1]];
   }
 
   const years = Object.keys(ff)
-    .filter(k => /^\\d{4}$/.test(k))
+    .filter(k => /^\d{4}$/.test(k))
     .sort((a, b) => Number(a) - Number(b));
 
   return years[offset] != null ? ff[years[offset]] : null;
@@ -669,11 +688,28 @@ function renderMeta() {
       : "-";
 
   document.getElementById(
+    "fperCount"
+  ).textContent =
+    DATA.fper_success_count !== undefined
+      ? DATA.fper_success_count
+      : "-";
+
+  document.getElementById(
+    "fperDate"
+  ).textContent =
+    DATA.fper_updated_date_kst || "-";
+
+  document.getElementById(
     "historyCount"
   ).textContent =
     DATA.historical_available_count !== undefined
       ? DATA.historical_available_count
       : "-";
+
+  document.getElementById(
+    "historyDate"
+  ).textContent =
+    DATA.historical_pe_updated_date_kst || "미확보";
 }
 
 
@@ -1146,7 +1182,7 @@ function showStock(ticker) {
           const offset =
             Number(year)
             -
-            Number(stock.current_year);
+            Number(stock.current_year ?? DATA.current_year);
 
           let fperValue = null;
 
@@ -1424,9 +1460,7 @@ function showIndustry(industryName) {
               </td>
 
               <td>
-                ${fper(
-                  stock.current_fper
-                )}
+                ${fper(currentFper(stock))}
               </td>
 
               <td>
