@@ -1,6 +1,10 @@
 name: Update NASDAQ-40 Data
 
 on:
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
 
   schedule:
