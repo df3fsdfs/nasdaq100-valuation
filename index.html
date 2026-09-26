@@ -540,7 +540,39 @@ function fper(value) {
     return '<span class="na">N/A</span>';
   }
 
-  return `${Number(value).toFixed(1)}x`;
+  return `\${Number(value).toFixed(1)}x`;
+}
+
+
+/* =====================================================
+   FPER COMPATIBILITY
+   Supports both old cached schema and new schema.
+===================================================== */
+
+function currentFper(stock) {
+  return (
+    stock.current_fper
+    ?? stock.future_fper?.current
+    ?? stock.future_fper?.[String(stock.current_year)]
+    ?? null
+  );
+}
+
+function futureFper(stock, offset) {
+
+  if (offset === 0) {
+    return currentFper(stock);
+  }
+
+  const keys = ["y1", "y2", "y3", "y4"];
+
+  return (
+    stock.future_fper?.[keys[offset - 1]]
+    ?? stock.future_fper?.[
+      String(Number(stock.current_year) + offset)
+    ]
+    ?? null
+  );
 }
 
 
@@ -842,7 +874,7 @@ function renderStocks() {
         </td>
 
         <td>
-          ${fper(stock.current_fper)}
+          ${fper(currentFper(stock))}
         </td>
 
         <td>
@@ -886,27 +918,19 @@ function renderStocks() {
         </td>
 
         <td>
-          ${fper(
-            stock.future_fper?.y1
-          )}
+          ${fper(futureFper(stock, 1))}
         </td>
 
         <td>
-          ${fper(
-            stock.future_fper?.y2
-          )}
+          ${fper(futureFper(stock, 2))}
         </td>
 
         <td>
-          ${fper(
-            stock.future_fper?.y3
-          )}
+          ${fper(futureFper(stock, 3))}
         </td>
 
         <td>
-          ${fper(
-            stock.future_fper?.y4
-          )}
+          ${fper(futureFper(stock, 4))}
         </td>
 
       </tr>
@@ -1069,7 +1093,7 @@ function showStock(ticker) {
           현재 FPER
         </div>
         <div class="metric-value">
-          ${fper(stock.current_fper)}
+          ${fper(currentFper(stock))}
         </div>
       </div>
 
