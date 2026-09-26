@@ -825,8 +825,8 @@ function renderStocks() {
 
     if (sort === "fper") {
       return compareAsc(
-        a.current_fper,
-        b.current_fper
+        currentFper(a),
+        currentFper(b)
       );
     }
 
@@ -1155,29 +1155,8 @@ function showStock(ticker) {
 
           let fperValue = null;
 
-          if (offset === 0) {
-            fperValue =
-              stock.future_fper?.current;
-          }
-
-          if (offset === 1) {
-            fperValue =
-              stock.future_fper?.y1;
-          }
-
-          if (offset === 2) {
-            fperValue =
-              stock.future_fper?.y2;
-          }
-
-          if (offset === 3) {
-            fperValue =
-              stock.future_fper?.y3;
-          }
-
-          if (offset === 4) {
-            fperValue =
-              stock.future_fper?.y4;
+          if (offset >= 0 && offset <= 4) {
+            fperValue = futureFper(stock, offset);
           }
 
           let growth = null;
