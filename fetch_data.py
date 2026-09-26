@@ -1702,6 +1702,14 @@ def main():
         ) is not None
     )
 
+    # Business Quant rate limit / temporary outage:
+    # do not replace a previously valid data.json with an empty WAITING file.
+    if eps_success_count == 0:
+        print(
+            "No EPS data received. Keeping last known good data.json."
+        )
+        return
+
     if eps_success_count == len(
         final_stocks
     ):
