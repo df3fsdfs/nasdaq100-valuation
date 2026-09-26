@@ -2,1238 +2,1411 @@
 <html lang="ko">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>NASDAQ-40 Valuation</title>
 
 <style>
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  background: #f5f7fa;
-  color: #111827;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    sans-serif;
-}
-
-header {
-  background: #111827;
-  color: white;
-  padding: 22px 18px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-.subtitle {
-  margin-top: 6px;
-  color: #9ca3af;
-  font-size: 13px;
+    margin: 0;
+    background: #f5f7fa;
+    color: #172033;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
 }
 
 .container {
-  max-width: 1250px;
-  margin: auto;
-  padding: 18px;
+    width: min(1500px, 94%);
+    margin: 0 auto;
+    padding: 32px 0 60px;
+}
+
+header {
+    margin-bottom: 24px;
+}
+
+h1 {
+    margin: 0 0 6px;
+    font-size: 30px;
+}
+
+.subtitle {
+    color: #667085;
+    font-size: 14px;
+}
+
+.status {
+    display: inline-flex;
+    margin-top: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #e8f7ee;
+    color: #168447;
+    font-size: 12px;
+    font-weight: 700;
 }
 
 .cards {
-  display: grid;
-  grid-template-columns:
-    repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 16px;
+    display: grid;
+    grid-template-columns:
+        repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
 }
 
 .card {
-  background: white;
-  border-radius: 14px;
-  padding: 15px;
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.06);
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
 }
 
-.label {
-  color: #6b7280;
-  font-size: 12px;
+.card-label {
+    color: #667085;
+    font-size: 12px;
+    margin-bottom: 8px;
 }
 
-.value {
-  margin-top: 5px;
-  font-size: 22px;
-  font-weight: 700;
-}
-
-.live {
-  color: #059669;
+.card-value {
+    font-size: 22px;
+    font-weight: 750;
 }
 
 .controls {
-  background: white;
-  border-radius: 14px;
-  padding: 13px;
-  margin-bottom: 14px;
-
-  display: grid;
-  grid-template-columns:
-    2fr 1fr;
-  gap: 10px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 input,
-select {
-  width: 100%;
-  padding: 11px;
-  border: 1px solid #d1d5db;
-  border-radius: 9px;
-  background: white;
-  font-size: 14px;
+select,
+button {
+    height: 38px;
+    border: 1px solid #d0d5dd;
+    background: white;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 13px;
+}
+
+input {
+    min-width: 220px;
+}
+
+button {
+    cursor: pointer;
+}
+
+button.active {
+    background: #172033;
+    color: white;
+}
+
+.section {
+    margin-top: 28px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 750;
+    margin-bottom: 12px;
 }
 
 .table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 14px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow-x: auto;
 }
 
 table {
-  width: 100%;
-  min-width: 1050px;
-  border-collapse: collapse;
-  background: white;
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1250px;
 }
 
 th,
 td {
-  padding: 10px 9px;
-  border-bottom:
-    1px solid #edf0f3;
-  font-size: 13px;
-  text-align: right;
-  white-space: nowrap;
+    padding: 11px 10px;
+    border-bottom: 1px solid #edf0f3;
+    text-align: right;
+    white-space: nowrap;
+    font-size: 12px;
 }
 
 th {
-  background: #f3f4f6;
-  font-weight: 700;
+    background: #fafbfc;
+    color: #667085;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
 }
 
 th:first-child,
-td:first-child {
-  text-align: left;
+td:first-child,
+th:nth-child(2),
+td:nth-child(2) {
+    text-align: left;
 }
 
 tbody tr {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 tbody tr:hover {
-  background: #f8fafc;
+    background: #f8fafc;
 }
 
 .ticker {
-  font-weight: 700;
+    font-weight: 800;
 }
 
 .company {
-  margin-top: 2px;
-  color: #6b7280;
-  font-size: 11px;
-}
-
-.na {
-  color: #9ca3af;
+    color: #667085;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .positive {
-  color: #059669;
+    color: #168447;
 }
 
 .negative {
-  color: #dc2626;
+    color: #d92d20;
+}
+
+.na {
+    color: #98a2b3;
 }
 
 .detail {
-  display: none;
-  margin-top: 18px;
-  background: white;
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow:
-    0 2px 8px rgba(0,0,0,0.06);
+    display: none;
+    margin-top: 24px;
 }
 
-.detail h2 {
-  margin: 15px 0 4px;
-}
-
-.detail h3 {
-  margin-top: 24px;
-}
-
-.back {
-  border: 0;
-  background: #111827;
-  color: white;
-  padding: 9px 13px;
-  border-radius: 8px;
-  cursor: pointer;
+.detail.show {
+    display: block;
 }
 
 .detail-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(5, 1fr);
-  gap: 10px;
+    display: grid;
+    grid-template-columns:
+        repeat(3, 1fr);
+    gap: 12px;
 }
 
-.metric {
-  background: #f8fafc;
-  border-radius: 10px;
-  padding: 12px;
+.panel {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 18px;
+}
+
+.panel h3 {
+    margin: 0 0 14px;
+    font-size: 15px;
+}
+
+.metric-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f2f5;
+    font-size: 13px;
+}
+
+.metric-row:last-child {
+    border-bottom: 0;
 }
 
 .metric-label {
-  color: #6b7280;
-  font-size: 12px;
+    color: #667085;
 }
 
 .metric-value {
-  margin-top: 5px;
-  font-size: 18px;
-  font-weight: 700;
+    font-weight: 700;
 }
 
-.metric-sub {
-  margin-top: 5px;
-  color: #6b7280;
-  font-size: 11px;
+.chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 220px;
+    padding: 15px 0;
 }
 
-.note {
-  margin-top: 18px;
-  color: #6b7280;
-  font-size: 12px;
-  line-height: 1.7;
+.bar-wrap {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 
-@media (max-width: 700px) {
+.bar {
+    width: 100%;
+    max-width: 60px;
+    background: #172033;
+    border-radius: 6px 6px 0 0;
+    min-height: 3px;
+}
 
-  .container {
-    padding: 12px;
-  }
+.bar-label {
+    margin-top: 7px;
+    font-size: 11px;
+    color: #667085;
+}
 
-  .cards {
-    grid-template-columns: 1fr;
-  }
+.bar-value {
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 700;
+}
 
-  .controls {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 900px) {
 
-  .detail-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
+    .cards {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
 
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 94%;
+        padding-top: 22px;
+    }
+
+    h1 {
+        font-size: 25px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .card-value {
+        font-size: 18px;
+    }
+
+    input {
+        width: 100%;
+    }
 }
 
 </style>
-
 </head>
-
 
 <body>
 
+<div class="container">
 
 <header>
 
-  <h1>
-    NASDAQ-40 Valuation
-  </h1>
+<h1>NASDAQ-40 Valuation</h1>
 
-  <div class="subtitle">
-    시총 상위 40개 · Forward EPS · 성장률 · FPER
-  </div>
+<div class="subtitle">
+시총 상위 40개 · EPS 성장 · 현재 FPER · Historical Valuation
+</div>
+
+<div id="status" class="status">
+LOADING
+</div>
 
 </header>
 
 
-<div class="container">
+<div class="cards">
+
+<div class="card">
+<div class="card-label">
+분석 종목
+</div>
+<div class="card-value"
+     id="stockCount">
+-
+</div>
+</div>
+
+<div class="card">
+<div class="card-label">
+데이터 기준
+</div>
+<div class="card-value"
+     id="dataDate">
+-
+</div>
+</div>
+
+<div class="card">
+<div class="card-label">
+Historical P/E 확보
+</div>
+<div class="card-value"
+     id="historyCount">
+-
+</div>
+</div>
+
+<div class="card">
+<div class="card-label">
+현재 연도
+</div>
+<div class="card-value"
+     id="currentYear">
+-
+</div>
+</div>
+
+</div>
 
 
-  <!-- 상단 정보 -->
+<div class="controls">
 
-  <div class="cards">
+<input
+    id="search"
+    placeholder="종목 / 기업 검색"
+/>
 
+<select id="sort">
 
-    <div class="card">
+<option value="discount5">
+5Y Historical 저평가순
+</option>
 
-      <div class="label">
-        분석 종목
-      </div>
+<option value="discount3">
+3Y Historical 저평가순
+</option>
 
-      <div
-        class="value"
-        id="count"
-      >
-        -
-      </div>
+<option value="discount10">
+10Y Historical 저평가순
+</option>
 
-    </div>
+<option value="fper">
+현재 FPER 낮은순
+</option>
 
+<option value="cagr">
+4Y EPS CAGR 높은순
+</option>
 
-    <div class="card">
+<option value="futureFper">
+미래 FPER 낮은순
+</option>
 
-      <div class="label">
-        데이터 기준
-      </div>
+<option value="marketCap">
+시가총액순
+</option>
 
-      <div
-        class="value"
-        id="asof"
-      >
-        -
-      </div>
+</select>
 
-    </div>
+<button id="stockBtn"
+        class="active">
+종목
+</button>
 
+<button id="industryBtn">
+산업
+</button>
 
-    <div class="card">
-
-      <div class="label">
-        데이터 상태
-      </div>
-
-      <div
-        class="value"
-        id="status"
-      >
-        LOADING
-      </div>
-
-    </div>
+</div>
 
 
-  </div>
+<div id="stockSection">
+
+<div class="section-title">
+저평가 종목
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Rank</th>
+<th>종목</th>
+<th>산업</th>
+<th>현재 FPER</th>
+<th>5Y Hist.</th>
+<th>5Y Discount</th>
+<th>3Y Discount</th>
+<th>10Y Discount</th>
+<th>현재 EPS 성장</th>
+<th>4Y CAGR</th>
+<th>+1Y FPER</th>
+<th>+2Y FPER</th>
+<th>+3Y FPER</th>
+<th>+4Y FPER</th>
+
+</tr>
+
+</thead>
+
+<tbody id="stockTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 
-  <!-- 검색 / 정렬 -->
+<div id="industrySection"
+     style="display:none">
 
-  <div class="controls">
+<div class="section-title">
+저평가 산업
+</div>
 
-    <input
-      id="search"
-      type="text"
-      placeholder="종목 검색"
-    >
+<div class="table-wrap">
 
-    <select id="sort">
+<table>
 
-      <option value="rank">
-        시가총액 순
-      </option>
+<thead>
 
-      <option value="fper">
-        현재 FPER 낮은 순
-      </option>
+<tr>
 
-      <option value="growth">
-        현재년도 EPS 성장률 높은 순
-      </option>
+<th>Rank</th>
+<th>산업</th>
+<th>종목수</th>
+<th>현재 Median FPER</th>
+<th>5Y Hist. Median</th>
+<th>5Y Discount</th>
+<th>4Y EPS CAGR Median</th>
 
-      <option value="cagr">
-        4Y EPS CAGR 높은 순
-      </option>
+</tr>
 
-      <option value="future">
-        +4Y FPER 낮은 순
-      </option>
+</thead>
 
-    </select>
+<tbody id="industryTable">
+</tbody>
 
-  </div>
+</table>
 
+</div>
 
-  <!-- 메인 테이블 -->
-
-  <div class="table-wrap">
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>종목</th>
-
-          <th>현재 FPER</th>
-
-          <th>이전 실제 EPS</th>
-
-          <th>현재 EPS</th>
-
-          <th>현재 성장</th>
-
-          <th>+1Y EPS</th>
-
-          <th>+2Y EPS</th>
-
-          <th>+3Y EPS</th>
-
-          <th>+4Y EPS</th>
-
-          <th>4Y CAGR</th>
-
-        </tr>
-
-      </thead>
+</div>
 
 
-      <tbody id="stocks">
+<div id="detail"
+     class="detail">
 
-      </tbody>
+<div class="section-title">
+종목 상세
+</div>
 
-    </table>
+<div class="detail-grid">
 
-  </div>
+<div class="panel">
+
+<h3 id="detailTitle">
+-
+</h3>
+
+<div id="valuationPanel">
+</div>
+
+</div>
 
 
-  <!-- 상세 -->
+<div class="panel">
 
-  <div
-    id="detail"
-    class="detail"
-  >
+<h3>
+EPS 성장
+</h3>
 
-  </div>
+<div id="epsPanel">
+</div>
 
+</div>
+
+
+<div class="panel">
+
+<h3>
+Historical Valuation
+</h3>
+
+<div id="historyPanel">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="panel"
+     style="margin-top:12px">
+
+<h3>
+EPS Trajectory
+</h3>
+
+<div id="epsChart"
+     class="chart">
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 
 <script>
 
-
-let stocks = [];
-
-let currentYear = 2026;
+let DATA = null;
+let selectedMode = "stocks";
 
 
-/* ============================================================
-   숫자 표시
-============================================================ */
+const $ = id =>
+    document.getElementById(id);
 
-function number(value) {
 
-  if (
-    value === null ||
-    value === undefined ||
-    !Number.isFinite(Number(value))
-  ) {
+function fmt(value, digits = 1) {
 
-    return '<span class="na">N/A</span>';
+    if (
+        value === null ||
+        value === undefined ||
+        Number.isNaN(Number(value))
+    ) {
+        return `<span class="na">N/A</span>`;
+    }
 
-  }
-
-  return Number(value).toFixed(2);
-
+    return Number(value)
+        .toLocaleString(
+            "en-US",
+            {
+                maximumFractionDigits:
+                    digits
+            }
+        );
 }
 
 
-function percent(value) {
+function fmtX(value) {
 
-  if (
-    value === null ||
-    value === undefined ||
-    !Number.isFinite(Number(value))
-  ) {
+    if (
+        value === null ||
+        value === undefined ||
+        Number.isNaN(Number(value))
+    ) {
+        return `<span class="na">N/A</span>`;
+    }
 
-    return '<span class="na">N/A</span>';
-
-  }
-
-  const n = Number(value);
-
-  const cls =
-    n >= 0
-      ? "positive"
-      : "negative";
-
-  return `
-    <span class="${cls}">
-      ${n.toFixed(1)}%
-    </span>
-  `;
-
+    return `${fmt(value, 1)}x`;
 }
 
 
-function multiple(value) {
+function fmtPct(value) {
 
-  if (
-    value === null ||
-    value === undefined ||
-    !Number.isFinite(Number(value))
-  ) {
+    if (
+        value === null ||
+        value === undefined ||
+        Number.isNaN(Number(value))
+    ) {
+        return `<span class="na">N/A</span>`;
+    }
 
-    return '<span class="na">N/A</span>';
+    const cls =
+        value < 0
+            ? "negative"
+            : value > 0
+                ? "positive"
+                : "";
 
-  }
-
-  return (
-    Number(value).toFixed(1)
-    + "x"
-  );
-
+    return `
+        <span class="${cls}">
+            ${value > 0 ? "+" : ""}
+            ${fmt(value, 1)}%
+        </span>
+    `;
 }
 
 
-/* ============================================================
-   날짜
-============================================================ */
+function stockValue(
+    stock,
+    path
+) {
 
-function formatDate(value) {
+    let value = stock;
 
-  if (!value) {
-    return "-";
-  }
+    for (
+        const key of path
+    ) {
 
-  /*
-    generated_date_kst가 있으면 그것을 사용.
-    없으면 ISO timestamp에서 날짜만 추출.
-  */
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return null;
+        }
 
-  if (
-    typeof value === "string" &&
-    value.length >= 10
-  ) {
+        value = value[key];
+    }
 
-    return value.slice(0, 10);
-
-  }
-
-  return value;
-
+    return value;
 }
 
 
-/* ============================================================
-   정렬
-============================================================ */
+function sortStocks(
+    stocks,
+    sort
+) {
 
-function sortStocks(list) {
+    const copy = [...stocks];
 
-  const sort =
-    document.getElementById(
-      "sort"
-    ).value;
+    const val = (
+        stock
+    ) => {
 
-
-  const copy = [...list];
-
-
-  if (sort === "rank") {
-
-    copy.sort(
-      (a, b) =>
-        (a.rank ?? 9999)
-        -
-        (b.rank ?? 9999)
-    );
-
-  }
-
-
-  if (sort === "fper") {
-
-    copy.sort(
-      (a, b) => {
-
-        const av =
-          a.current_fper == null
-            ? Infinity
-            : Number(a.current_fper);
-
-        const bv =
-          b.current_fper == null
-            ? Infinity
-            : Number(b.current_fper);
-
-        return av - bv;
-
-      }
-    );
-
-  }
-
-
-  if (sort === "growth") {
-
-    copy.sort(
-      (a, b) => {
-
-        const av =
-          a.current_growth == null
-            ? -Infinity
-            : Number(a.current_growth);
-
-        const bv =
-          b.current_growth == null
-            ? -Infinity
-            : Number(b.current_growth);
-
-        return bv - av;
-
-      }
-    );
-
-  }
-
-
-  if (sort === "cagr") {
-
-    copy.sort(
-      (a, b) => {
-
-        const av =
-          a.cagr_4y == null
-            ? -Infinity
-            : Number(a.cagr_4y);
-
-        const bv =
-          b.cagr_4y == null
-            ? -Infinity
-            : Number(b.cagr_4y);
-
-        return bv - av;
-
-      }
-    );
-
-  }
-
-
-  if (sort === "future") {
-
-    copy.sort(
-      (a, b) => {
-
-        const av =
-          a.future_fper?.[
-            String(currentYear + 4)
-          ] == null
-            ? Infinity
-            : Number(
-                a.future_fper[
-                  String(currentYear + 4)
+        if (
+            sort === "discount5"
+        ) {
+            return stockValue(
+                stock,
+                [
+                    "historical_fper",
+                    "discount_5y"
                 ]
-              );
+            );
+        }
 
-        const bv =
-          b.future_fper?.[
-            String(currentYear + 4)
-          ] == null
-            ? Infinity
-            : Number(
-                b.future_fper[
-                  String(currentYear + 4)
+        if (
+            sort === "discount3"
+        ) {
+            return stockValue(
+                stock,
+                [
+                    "historical_fper",
+                    "discount_3y"
                 ]
-              );
+            );
+        }
 
-        return av - bv;
+        if (
+            sort === "discount10"
+        ) {
+            return stockValue(
+                stock,
+                [
+                    "historical_fper",
+                    "discount_10y"
+                ]
+            );
+        }
 
-      }
+        if (
+            sort === "fper"
+        ) {
+            return stock.current_fper;
+        }
+
+        if (
+            sort === "cagr"
+        ) {
+            return stock.cagr_4y;
+        }
+
+        if (
+            sort === "futureFper"
+        ) {
+            return (
+                stock.future_fper?.y4
+                ?? null
+            );
+        }
+
+        if (
+            sort === "marketCap"
+        ) {
+            return stock.market_cap;
+        }
+
+        return null;
+    };
+
+    copy.sort(
+        (a, b) => {
+
+            const av = val(a);
+            const bv = val(b);
+
+            if (
+                av === null &&
+                bv === null
+            ) {
+                return 0;
+            }
+
+            if (
+                av === null
+            ) {
+                return 1;
+            }
+
+            if (
+                bv === null
+            ) {
+                return -1;
+            }
+
+            if (
+                sort === "cagr"
+            ) {
+                return bv - av;
+            }
+
+            if (
+                sort === "marketCap"
+            ) {
+                return bv - av;
+            }
+
+            return av - bv;
+        }
     );
 
-  }
-
-
-  return copy;
-
+    return copy;
 }
 
 
-/* ============================================================
-   테이블
-============================================================ */
+function renderStocks() {
 
-function render() {
+    const search =
+        $("search")
+            .value
+            .trim()
+            .toLowerCase();
 
-  const query =
-    document.getElementById(
-      "search"
-    ).value
-      .trim()
-      .toUpperCase();
+    const sort =
+        $("sort").value;
 
+    let stocks =
+        DATA.stocks.filter(
+            stock => {
 
-  const filtered =
-    stocks.filter(stock => {
+                if (!search) {
+                    return true;
+                }
 
-      const ticker =
-        String(
-          stock.ticker || ""
-        ).toUpperCase();
+                return (
+                    stock.ticker
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    stock.company
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    stock.industry
+                        .toLowerCase()
+                        .includes(search)
+                );
+            }
+        );
 
-      const company =
-        String(
-          stock.company || ""
-        ).toUpperCase();
+    stocks =
+        sortStocks(
+            stocks,
+            sort
+        );
 
-      return (
-        ticker.includes(query)
-        ||
-        company.includes(query)
-      );
+    $("stockTable").innerHTML =
+        stocks.map(
+            (stock, index) => {
 
-    });
+                const h =
+                    stock.historical_fper;
 
+                return `
 
-  const sorted =
-    sortStocks(filtered);
+<tr
+    onclick="showDetail('${stock.ticker}')"
+>
 
+<td>
+${index + 1}
+</td>
 
-  document.getElementById(
-    "count"
-  ).textContent =
-    sorted.length;
+<td>
 
+<div class="ticker">
+${stock.ticker}
+</div>
 
-  const tbody =
-    document.getElementById(
-      "stocks"
-    );
+<div class="company">
+${stock.company}
+</div>
 
+</td>
 
-  tbody.innerHTML =
-    sorted.map(stock => `
+<td>
+${stock.industry}
+</td>
 
-      <tr
-        onclick="
-          showDetail('${stock.ticker}')
-        "
-      >
+<td>
+${fmtX(stock.current_fper)}
+</td>
 
-        <td>
+<td>
+${fmtX(h?.median_5y)}
+</td>
 
-          <div class="ticker">
-            ${stock.ticker || ""}
-          </div>
+<td>
+${fmtPct(h?.discount_5y)}
+</td>
 
-          <div class="company">
-            ${stock.company || ""}
-          </div>
+<td>
+${fmtPct(h?.discount_3y)}
+</td>
 
-        </td>
+<td>
+${fmtPct(h?.discount_10y)}
+</td>
 
+<td>
+${fmtPct(stock.current_growth)}
+</td>
 
-        <td>
-          ${multiple(
-            stock.current_fper
-          )}
-        </td>
+<td>
+${fmtPct(stock.cagr_4y)}
+</td>
 
+<td>
+${fmtX(stock.future_fper?.y1)}
+</td>
 
-        <td>
-          ${number(
-            stock.previous_eps
-          )}
-        </td>
+<td>
+${fmtX(stock.future_fper?.y2)}
+</td>
 
+<td>
+${fmtX(stock.future_fper?.y3)}
+</td>
 
-        <td>
-          ${number(
-            stock.current_eps
-          )}
-        </td>
+<td>
+${fmtX(stock.future_fper?.y4)}
+</td>
 
+</tr>
 
-        <td>
-          ${percent(
-            stock.current_growth
-          )}
-        </td>
+`;
 
-
-        <td>
-          ${number(
-            stock.y1_eps
-          )}
-        </td>
-
-
-        <td>
-          ${number(
-            stock.y2_eps
-          )}
-        </td>
-
-
-        <td>
-          ${number(
-            stock.y3_eps
-          )}
-        </td>
-
-
-        <td>
-          ${number(
-            stock.y4_eps
-          )}
-        </td>
-
-
-        <td>
-          ${percent(
-            stock.cagr_4y
-          )}
-        </td>
-
-
-      </tr>
-
-    `).join("");
-
+            }
+        ).join("");
 }
 
 
-/* ============================================================
-   상세
-============================================================ */
+function renderIndustries() {
+
+    const industries =
+        [...DATA.industries];
+
+    industries.sort(
+        (
+            a,
+            b
+        ) => {
+
+            const av =
+                a.historical_5y_discount;
+
+            const bv =
+                b.historical_5y_discount;
+
+            if (
+                av === null &&
+                bv === null
+            ) {
+                return 0;
+            }
+
+            if (
+                av === null
+            ) {
+                return 1;
+            }
+
+            if (
+                bv === null
+            ) {
+                return -1;
+            }
+
+            return av - bv;
+        }
+    );
+
+    $("industryTable").innerHTML =
+        industries.map(
+            (industry, index) => {
+
+                return `
+
+<tr>
+
+<td>
+${index + 1}
+</td>
+
+<td>
+<strong>
+${industry.industry}
+</strong>
+</td>
+
+<td>
+${industry.stock_count}
+</td>
+
+<td>
+${fmtX(
+    industry.current_fper_median
+)}
+</td>
+
+<td>
+${fmtX(
+    industry
+        .historical_5y_fper_median
+)}
+</td>
+
+<td>
+${fmtPct(
+    industry
+        .historical_5y_discount
+)}
+</td>
+
+<td>
+${fmtPct(
+    industry
+        .eps_cagr_4y_median
+)}
+</td>
+
+</tr>
+
+`;
+
+            }
+        ).join("");
+}
+
 
 function showDetail(ticker) {
 
-  const stock =
-    stocks.find(
-      x => x.ticker === ticker
+    const stock =
+        DATA.stocks.find(
+            x =>
+                x.ticker === ticker
+        );
+
+    if (!stock) {
+        return;
+    }
+
+    $("detail").classList.add(
+        "show"
     );
 
+    $("detailTitle").textContent =
+        `${stock.ticker} · ${stock.company}`;
 
-  if (!stock) {
-    return;
-  }
+    const h =
+        stock.historical_fper;
+
+    $("valuationPanel").innerHTML = `
+
+<div class="metric-row">
+<span class="metric-label">
+현재 FPER
+</span>
+<span class="metric-value">
+${fmtX(stock.current_fper)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+5Y Historical Median
+</span>
+<span class="metric-value">
+${fmtX(h?.median_5y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+5Y Discount
+</span>
+<span class="metric-value">
+${fmtPct(h?.discount_5y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+3Y Discount
+</span>
+<span class="metric-value">
+${fmtPct(h?.discount_3y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+10Y Discount
+</span>
+<span class="metric-value">
+${fmtPct(h?.discount_10y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+2030 FPER
+</span>
+<span class="metric-value">
+${fmtX(stock.future_fper?.y4)}
+</span>
+</div>
+
+`;
 
 
-  const detail =
-    document.getElementById(
-      "detail"
+    const years =
+        stock.eps_years || [];
+
+    $("epsPanel").innerHTML =
+        years.map(
+            row => `
+
+<div class="metric-row">
+
+<span class="metric-label">
+${row.year}
+</span>
+
+<span class="metric-value">
+${fmt(row.eps, 2)}
+</span>
+
+</div>
+
+`
+        ).join("");
+
+
+    $("historyPanel").innerHTML = `
+
+<div class="metric-row">
+<span class="metric-label">
+3Y Median
+</span>
+<span class="metric-value">
+${fmtX(h?.median_3y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+5Y Median
+</span>
+<span class="metric-value">
+${fmtX(h?.median_5y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+10Y Median
+</span>
+<span class="metric-value">
+${fmtX(h?.median_10y)}
+</span>
+</div>
+
+<div class="metric-row">
+<span class="metric-label">
+Historical observations
+</span>
+<span class="metric-value">
+${fmt(h?.count, 0)}
+</span>
+</div>
+
+`;
+
+    renderChart(
+        stock
     );
 
-
-  detail.style.display =
-    "block";
-
-
-  const years = [
-    currentYear,
-    currentYear + 1,
-    currentYear + 2,
-    currentYear + 3,
-    currentYear + 4
-  ];
-
-
-  detail.innerHTML = `
-
-    <button
-      class="back"
-      onclick="
-        document.getElementById(
-          'detail'
-        ).style.display='none'
-      "
-    >
-      ← 목록
-    </button>
-
-
-    <h2>
-      ${stock.ticker}
-      ·
-      ${stock.company || ""}
-    </h2>
-
-
-    <div class="detail-grid">
-
-
-      <div class="metric">
-
-        <div class="metric-label">
-          현재 FPER
-        </div>
-
-        <div class="metric-value">
-          ${multiple(
-            stock.current_fper
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="metric">
-
-        <div class="metric-label">
-          현재년도 EPS 성장
-        </div>
-
-        <div class="metric-value">
-          ${percent(
-            stock.current_growth
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="metric">
-
-        <div class="metric-label">
-          4Y EPS CAGR
-        </div>
-
-        <div class="metric-value">
-          ${percent(
-            stock.cagr_4y
-          )}
-        </div>
-
-      </div>
-
-
-      <div class="metric">
-
-        <div class="metric-label">
-          성장 추세
-        </div>
-
-        <div class="metric-value">
-          ${
-            stock.growth_trend
-              || "N/A"
-          }
-        </div>
-
-      </div>
-
-
-      <div class="metric">
-
-        <div class="metric-label">
-          현재 주가
-        </div>
-
-        <div class="metric-value">
-          ${
-            stock.price == null
-              ? "N/A"
-              : "$" +
-                Number(
-                  stock.price
-                ).toFixed(2)
-          }
-        </div>
-
-      </div>
-
-
-    </div>
-
-
-    <h3>
-      EPS trajectory
-    </h3>
-
-
-    <div class="detail-grid">
-
-      ${
-        years.map(
-          year => {
-
-            const eps =
-              stock.eps_years?.[
-                String(year)
-              ];
-
-
-            const growth =
-              stock.eps_growth?.[
-                String(year)
-              ];
-
-
-            return `
-
-              <div class="metric">
-
-                <div class="metric-label">
-                  ${year}
-                </div>
-
-                <div class="metric-value">
-                  ${number(eps)}
-                </div>
-
-                <div class="metric-sub">
-                  성장률:
-                  ${percent(growth)}
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        ).join("")
-      }
-
-    </div>
-
-
-    <h3>
-      현재가 유지 시 FPER
-    </h3>
-
-
-    <div class="detail-grid">
-
-      ${
-        years.map(
-          year => {
-
-            const fper =
-              stock.future_fper?.[
-                String(year)
-              ];
-
-
-            return `
-
-              <div class="metric">
-
-                <div class="metric-label">
-                  ${year}
-                </div>
-
-                <div class="metric-value">
-                  ${multiple(fper)}
-                </div>
-
-              </div>
-
-            `;
-
-          }
-        ).join("")
-      }
-
-    </div>
-
-
-    <div class="note">
-
-      ※ 현재 FPER = 현재 주가 ÷ 현재년도 EPS
-
-      <br>
-
-      ※ 현재년도 EPS 성장률 = 현재년도 예상 EPS ÷ 가장 최근 실제 EPS - 1
-
-      <br>
-
-      ※ 미래 FPER = 현재 주가가 그대로라고 가정하고 미래 EPS를 적용한 값
-
-      <br>
-
-      ※ 미래 EPS가 제공되지 않는 연도는 N/A
-
-      <br>
-
-      ※ 미래 EPS는 임의로 외삽하지 않음
-
-    </div>
-
-  `;
-
-
-  detail.scrollIntoView({
-    behavior: "smooth"
-  });
-
+    window.scrollTo({
+        top:
+            $("detail")
+                .offsetTop - 15,
+        behavior:
+            "smooth"
+    });
 }
 
 
-/* ============================================================
-   데이터 로딩
-============================================================ */
+function renderChart(stock) {
+
+    const rows =
+        stock.eps_years || [];
+
+    const valid =
+        rows.filter(
+            x =>
+                x.eps !== null &&
+                x.eps !== undefined
+        );
+
+    if (!valid.length) {
+
+        $("epsChart").innerHTML =
+            `<span class="na">
+                EPS 데이터 없음
+            </span>`;
+
+        return;
+    }
+
+    const max =
+        Math.max(
+            ...valid.map(
+                x => x.eps
+            )
+        );
+
+    $("epsChart").innerHTML =
+        valid.map(
+            row => {
+
+                const height =
+                    max > 0
+                        ? Math.max(
+                            3,
+                            (
+                                row.eps
+                                / max
+                            ) * 170
+                        )
+                        : 3;
+
+                return `
+
+<div class="bar-wrap">
+
+<div class="bar-value">
+${fmt(row.eps, 2)}
+</div>
+
+<div
+    class="bar"
+    style="height:${height}px"
+></div>
+
+<div class="bar-label">
+${row.year}
+</div>
+
+</div>
+
+`;
+
+            }
+        ).join("");
+}
+
+
+function setMode(mode) {
+
+    selectedMode =
+        mode;
+
+    if (
+        mode === "stocks"
+    ) {
+
+        $("stockSection")
+            .style.display =
+            "block";
+
+        $("industrySection")
+            .style.display =
+            "none";
+
+        $("stockBtn")
+            .classList.add(
+                "active"
+            );
+
+        $("industryBtn")
+            .classList.remove(
+                "active"
+            );
+
+    } else {
+
+        $("stockSection")
+            .style.display =
+            "none";
+
+        $("industrySection")
+            .style.display =
+            "block";
+
+        $("stockBtn")
+            .classList.remove(
+                "active"
+            );
+
+        $("industryBtn")
+            .classList.add(
+                "active"
+            );
+    }
+}
+
 
 async function loadData() {
 
-  try {
+    try {
 
-    const response =
-      await fetch(
-        "data.json?ts="
-        +
-        Date.now(),
-        {
-          cache: "no-store"
+        const response =
+            await fetch(
+                "data.json?t="
+                + Date.now()
+            );
+
+        if (!response.ok) {
+            throw new Error(
+                "data.json load failed"
+            );
         }
-      );
 
+        DATA =
+            await response.json();
 
-    if (!response.ok) {
+        if (
+            DATA.status !==
+            "LIVE"
+        ) {
+            throw new Error(
+                "Data is not LIVE"
+            );
+        }
 
-      throw new Error(
-        "HTTP "
-        +
-        response.status
-      );
+        $("status")
+            .textContent =
+            "LIVE";
 
+        $("stockCount")
+            .textContent =
+            DATA.stock_count;
+
+        $("dataDate")
+            .textContent =
+            DATA.generated_date_kst;
+
+        $("historyCount")
+            .textContent =
+            DATA.historical_cache_count;
+
+        $("currentYear")
+            .textContent =
+            DATA.current_year;
+
+        renderStocks();
+
+        renderIndustries();
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+        $("status")
+            .textContent =
+            "DATA ERROR";
+
+        $("status")
+            .style.background =
+            "#fff1f0";
+
+        $("status")
+            .style.color =
+            "#d92d20";
     }
-
-
-    const data =
-      await response.json();
-
-
-    stocks =
-      Array.isArray(
-        data.stocks
-      )
-        ? data.stocks
-        : [];
-
-
-    currentYear =
-      Number(
-        data.current_year
-      )
-      ||
-      new Date().getUTCFullYear();
-
-
-    document.getElementById(
-      "count"
-    ).textContent =
-      stocks.length;
-
-
-    document.getElementById(
-      "asof"
-    ).textContent =
-      formatDate(
-        data.generated_date_kst
-        ||
-        data.generated_at
-      );
-
-
-    const status =
-      document.getElementById(
-        "status"
-      );
-
-
-    status.textContent =
-      "LIVE";
-
-
-    status.classList.add(
-      "live"
-    );
-
-
-    render();
-
-  }
-
-
-  catch (error) {
-
-    console.error(error);
-
-
-    document.getElementById(
-      "status"
-    ).textContent =
-      "ERROR";
-
-
-    document.getElementById(
-      "stocks"
-    ).innerHTML = `
-
-      <tr>
-
-        <td
-          colspan="10"
-          style="
-            text-align:center;
-            padding:30px;
-          "
-        >
-
-          데이터를 불러오지 못했습니다.
-
-        </td>
-
-      </tr>
-
-    `;
-
-  }
-
 }
 
 
-/* ============================================================
-   이벤트
-============================================================ */
+$("search")
+    .addEventListener(
+        "input",
+        renderStocks
+    );
 
-document
-  .getElementById("search")
-  .addEventListener(
-    "input",
-    render
-  );
+$("sort")
+    .addEventListener(
+        "change",
+        renderStocks
+    );
 
+$("stockBtn")
+    .addEventListener(
+        "click",
+        () => setMode(
+            "stocks"
+        )
+    );
 
-document
-  .getElementById("sort")
-  .addEventListener(
-    "change",
-    render
-  );
+$("industryBtn")
+    .addEventListener(
+        "click",
+        () => setMode(
+            "industry"
+        )
+    );
 
-
-/* ============================================================
-   시작
-============================================================ */
 
 loadData();
 
 </script>
 
-
 </body>
-
 </html>
