@@ -1,13 +1,13 @@
 {
   "status": "PARTIAL",
-  "generated_at_kst": "2026-10-01T08:40:27.740230+09:00",
-  "generated_date_kst": "2026-10-01",
+  "generated_at_kst": "2026-10-27T11:18:02.346491+09:00",
+  "generated_date_kst": "2026-10-27",
   "current_year": 2026,
   "top_n": 40,
   "stock_count": 40,
-  "eps_success_count": 38,
+  "eps_success_count": 37,
   "fper_success_count": 40,
-  "fper_updated_date_kst": "2026-10-01",
+  "fper_updated_date_kst": "2026-10-27",
   "historical_available_count": 0,
   "historical_pe_updated_date_kst": null,
   "stocks": [
@@ -15,9 +15,9 @@
       "ticker": "NVDA",
       "company": "NVIDIA Corporation",
       "industry": "반도체",
-      "market_cap": 5514691870720.0,
-      "price": 228.38,
-      "forward_pe": 14.562609,
+      "market_cap": 5215751766016.0,
+      "price": 216.0,
+      "forward_pe": 13.572443,
       "trailing_eps": 7.91,
       "current_eps": 9.30713,
       "y1_eps": 15.68263,
@@ -73,24 +73,24 @@
       "sector": "Technology",
       "industry": "하드웨어·IT",
       "industry_raw": "Consumer Electronics",
-      "market_cap": 4860153954304.0,
+      "market_cap": 5019084521472.0,
       "market_cap_rank": 2,
-      "price": 333.02,
-      "forward_pe": 34.7426,
+      "price": 343.91,
+      "forward_pe": 35.966515,
       "current_year": 2026,
       "previous_actual_year": 2025,
       "previous_actual_eps": 7.46,
-      "current_eps": 9.21,
+      "current_eps": 9.22,
       "y1_eps": 10.05,
-      "y2_eps": 10.39,
+      "y2_eps": 10.37,
       "y3_eps": 12.83,
-      "y4_eps": 13.11,
+      "y4_eps": 13.09,
       "eps_years": {
-        "2026": 9.21,
+        "2026": 9.22,
         "2027": 10.05,
-        "2028": 10.39,
+        "2028": 10.37,
         "2029": 12.83,
-        "2030": 13.11
+        "2030": 13.09
       },
       "reported_years": [
         2021,
@@ -107,26 +107,26 @@
         2030
       ],
       "eps_growth": {
-        "current": 23.45844504021448,
-        "y1": 9.12052117263844,
-        "y2": 3.383084577114426,
-        "y3": 23.484119345524547,
-        "y4": 2.1823850350740415
+        "current": 23.592493297587147,
+        "y1": 9.00216919739696,
+        "y2": 3.184079601990031,
+        "y3": 23.72227579556414,
+        "y4": 2.0265003897116163
       },
-      "current_growth": 23.45844504021448,
-      "cagr_4y": 9.228448618390805,
+      "current_growth": 23.592493297587147,
+      "cagr_4y": 9.157148312621622,
       "growth_trend": "decelerating",
-      "current_fper": 36.15852334419109,
+      "current_fper": 37.300433839479396,
       "future_fper": {
-        "current": 36.15852334419109,
-        "y1": 33.1363184079602,
-        "y2": 32.051973051010584,
-        "y3": 25.95635229929852,
-        "y4": 25.401983218916858
+        "current": 37.300433839479396,
+        "y1": 34.21990049751244,
+        "y2": 33.16393442622951,
+        "y3": 26.80514419329696,
+        "y4": 26.272727272727273
       },
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_basis": "current_eps",
-      "fper_updated_date_kst": "2026-10-01",
+      "fper_updated_date_kst": "2026-10-27",
       "historical_fper": {
         "count": 0,
         "median": null,
@@ -150,12 +150,68 @@
       ]
     },
     {
+      "ticker": "MSFT",
+      "company": "Microsoft Corporation",
+      "industry": "소프트웨어",
+      "market_cap": 3954845417472.0,
+      "price": 532.6,
+      "forward_pe": 22.482325,
+      "trailing_eps": 17.97,
+      "current_eps": 19.75972,
+      "y1_eps": 23.67588,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 19.75972,
+        "2027": 23.67588
+      },
+      "eps_growth": {
+        "2027": 19.818904316457918
+      },
+      "current_growth": 19.818904316457918,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 26.12233371727939,
+        "2027": 21.801512763200353
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 3,
+      "current_year": 2026,
+      "current_fper": 26.12233371727939,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Technology",
+      "industry_raw": "Software - Infrastructure"
+    },
+    {
       "ticker": "GOOGL",
       "company": "Alphabet Inc.",
       "industry": "인터넷·플랫폼",
-      "market_cap": 4208075997184.0,
-      "price": 344.08,
-      "forward_pe": 22.829782,
+      "market_cap": 3874443231232.0,
+      "price": 316.8,
+      "forward_pe": 20.626825,
       "trailing_eps": 19.93,
       "current_eps": 20.62484,
       "y1_eps": 14.9221,
@@ -181,7 +237,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 3,
+      "market_cap_rank": 4,
       "current_year": 2026,
       "current_fper": 16.67503844878312,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -209,9 +265,9 @@
       "ticker": "GOOG",
       "company": "Alphabet Inc.",
       "industry": "인터넷·플랫폼",
-      "market_cap": 4167227932672.0,
-      "price": 340.74,
-      "forward_pe": 22.608173,
+      "market_cap": 3842523267072.0,
+      "price": 314.19,
+      "forward_pe": 20.45689,
       "trailing_eps": 19.93,
       "current_eps": 20.6207,
       "y1_eps": 14.89921,
@@ -237,7 +293,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 4,
+      "market_cap_rank": 5,
       "current_year": 2026,
       "current_fper": 16.540660598330803,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -262,68 +318,12 @@
       "industry_raw": "Internet Content & Information"
     },
     {
-      "ticker": "MSFT",
-      "company": "Microsoft Corporation",
-      "industry": "소프트웨어",
-      "market_cap": 3808562511872.0,
-      "price": 512.9,
-      "forward_pe": 21.692709,
-      "trailing_eps": 17.97,
-      "current_eps": 19.75972,
-      "y1_eps": 23.67588,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 19.75972,
-        "2027": 23.67588
-      },
-      "eps_growth": {
-        "2027": 19.818904316457918
-      },
-      "current_growth": 19.818904316457918,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 26.12233371727939,
-        "2027": 21.801512763200353
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 5,
-      "current_year": 2026,
-      "current_fper": 26.12233371727939,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Software - Infrastructure"
-    },
-    {
       "ticker": "AMZN",
       "company": "Amazon.com, Inc.",
       "industry": "전자상거래",
-      "market_cap": 2687409848320.0,
-      "price": 249.15,
-      "forward_pe": 23.78359,
+      "market_cap": 2686762614784.0,
+      "price": 249.09,
+      "forward_pe": 23.875319,
       "trailing_eps": 12.42,
       "current_eps": 12.87793,
       "y1_eps": 10.49185,
@@ -377,9 +377,9 @@
       "ticker": "META",
       "company": "Meta Platforms, Inc.",
       "industry": "인터넷·플랫폼",
-      "market_cap": 1847400464384.0,
-      "price": 725.18,
-      "forward_pe": 20.817175,
+      "market_cap": 1606355517440.0,
+      "price": 630.56,
+      "forward_pe": 17.968327,
       "trailing_eps": 26.52,
       "current_eps": 31.21292,
       "y1_eps": 34.03168,
@@ -433,9 +433,9 @@
       "ticker": "AVGO",
       "company": "Broadcom Inc.",
       "industry": "반도체",
-      "market_cap": 1676451119104.0,
-      "price": 351.19,
-      "forward_pe": 18.117605,
+      "market_cap": 1571335831552.0,
+      "price": 329.17,
+      "forward_pe": 16.940022,
       "trailing_eps": 7.85,
       "current_eps": 11.65832,
       "y1_eps": 19.38135,
@@ -489,9 +489,9 @@
       "ticker": "TSLA",
       "company": "Tesla, Inc.",
       "industry": "자동차·모빌리티",
-      "market_cap": 1401338986496.0,
-      "price": 354.81,
-      "forward_pe": 164.03606,
+      "market_cap": 1547968184320.0,
+      "price": 391.62,
+      "forward_pe": 179.24342,
       "trailing_eps": 1.1,
       "current_eps": 1.76501,
       "y1_eps": 2.17289,
@@ -545,9 +545,9 @@
       "ticker": "MU",
       "company": "Micron Technology, Inc.",
       "industry": "반도체",
-      "market_cap": 1202927960064.0,
-      "price": 1065.11,
-      "forward_pe": 6.59541,
+      "market_cap": 1022467178496.0,
+      "price": 903.7,
+      "forward_pe": 4.3679414,
       "trailing_eps": 44.19,
       "current_eps": 73.60099,
       "y1_eps": 159.49178,
@@ -598,68 +598,12 @@
       "industry_raw": "Semiconductors"
     },
     {
-      "ticker": "AMD",
-      "company": "Advanced Micro Devices, Inc.",
-      "industry": "반도체",
-      "market_cap": 998682918912.0,
-      "price": 611.76,
-      "forward_pe": 39.270035,
-      "trailing_eps": 3.9,
-      "current_eps": 7.57578,
-      "y1_eps": 15.57829,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 7.57578,
-        "2027": 15.57829
-      },
-      "eps_growth": {
-        "2027": 105.6328193268548
-      },
-      "current_growth": 105.6328193268548,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 83.24291360097574,
-        "2027": 40.481336526666276
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 11,
-      "current_year": 2026,
-      "current_fper": 83.24291360097574,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Semiconductors"
-    },
-    {
       "ticker": "WMT",
       "company": "Walmart Inc.",
       "industry": "유통·소비재",
-      "market_cap": 827003568128.0,
-      "price": 103.92,
-      "forward_pe": 32.218758,
+      "market_cap": 957277339648.0,
+      "price": 120.29,
+      "forward_pe": 37.282,
       "trailing_eps": 2.76,
       "current_eps": 2.88627,
       "y1_eps": 3.22947,
@@ -685,7 +629,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 12,
+      "market_cap_rank": 11,
       "current_year": 2026,
       "current_fper": 37.411607368679995,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -710,12 +654,68 @@
       "industry_raw": "Discount Stores"
     },
     {
+      "ticker": "AMD",
+      "company": "Advanced Micro Devices, Inc.",
+      "industry": "반도체",
+      "market_cap": 867301392384.0,
+      "price": 531.28,
+      "forward_pe": 33.719627,
+      "trailing_eps": 3.9,
+      "current_eps": 7.57578,
+      "y1_eps": 15.57829,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 7.57578,
+        "2027": 15.57829
+      },
+      "eps_growth": {
+        "2027": 105.6328193268548
+      },
+      "current_growth": 105.6328193268548,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 83.24291360097574,
+        "2027": 40.481336526666276
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 12,
+      "current_year": 2026,
+      "current_fper": 83.24291360097574,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Technology",
+      "industry_raw": "Semiconductors"
+    },
+    {
       "ticker": "ASML",
       "company": "ASML Holding N.V.",
       "industry": "반도체 장비",
-      "market_cap": 695862493184.0,
-      "price": 1811.67,
-      "forward_pe": 30.79988,
+      "market_cap": 613161041920.0,
+      "price": 1590.9,
+      "forward_pe": 25.319855,
       "trailing_eps": 29.11,
       "current_eps": 38.32503,
       "y1_eps": 51.72248,
@@ -769,9 +769,9 @@
       "ticker": "INTC",
       "company": "Intel Corporation",
       "industry": "반도체",
-      "market_cap": 635548401664.0,
-      "price": 120.23,
-      "forward_pe": 58.30521,
+      "market_cap": 478233919488.0,
+      "price": 90.47,
+      "forward_pe": 42.185417,
       "trailing_eps": -2.09,
       "current_eps": 1.52026,
       "y1_eps": 2.06208,
@@ -825,9 +825,9 @@
       "ticker": "PLTR",
       "company": "Palantir Technologies Inc.",
       "industry": "소프트웨어",
-      "market_cap": 449492090880.0,
-      "price": 187.05,
-      "forward_pe": 80.521225,
+      "market_cap": 477824122880.0,
+      "price": 198.84,
+      "forward_pe": 84.408745,
       "trailing_eps": 1.17,
       "current_eps": 1.61155,
       "y1_eps": 2.32666,
@@ -878,180 +878,12 @@
       "industry_raw": "Software - Infrastructure"
     },
     {
-      "ticker": "CSCO",
-      "company": "Cisco Systems, Inc.",
-      "industry": "하드웨어·IT",
-      "market_cap": 424340619264.0,
-      "price": 107.63,
-      "forward_pe": 19.14484,
-      "trailing_eps": 3.33,
-      "current_eps": 5.1466,
-      "y1_eps": 5.62188,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 5.1466,
-        "2027": 5.62188
-      },
-      "eps_growth": {
-        "2027": 9.234834648117207
-      },
-      "current_growth": 9.234834648117207,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 20.732133835930515,
-        "2027": 18.97941613837364
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 16,
-      "current_year": 2026,
-      "current_fper": 20.732133835930515,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Communication Equipment"
-    },
-    {
-      "ticker": "LRCX",
-      "company": "Lam Research Corporation",
-      "industry": "반도체 장비",
-      "market_cap": 411105427456.0,
-      "price": 328.51,
-      "forward_pe": 27.98321,
-      "trailing_eps": 5.75,
-      "current_eps": 9.50548,
-      "y1_eps": 11.73954,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 9.50548,
-        "2027": 11.73954
-      },
-      "eps_growth": {
-        "2027": 23.502863611306314
-      },
-      "current_growth": 23.502863611306314,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 33.16087141312169,
-        "2027": 26.850285445596676
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 17,
-      "current_year": 2026,
-      "current_fper": 33.16087141312169,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Semiconductor Equipment & Materials"
-    },
-    {
-      "ticker": "AMAT",
-      "company": "Applied Materials, Inc.",
-      "industry": "반도체 장비",
-      "market_cap": 405829877760.0,
-      "price": 511.38,
-      "forward_pe": 27.702793,
-      "trailing_eps": 11.57,
-      "current_eps": 12.79441,
-      "y1_eps": 18.45479,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 12.79441,
-        "2027": 18.45479
-      },
-      "eps_growth": {
-        "2027": 44.241039641530946
-      },
-      "current_growth": 44.241039641530946,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 37.90717977616787,
-        "2027": 26.280439929145768
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 18,
-      "current_year": 2026,
-      "current_fper": 37.90717977616787,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Semiconductor Equipment & Materials"
-    },
-    {
       "ticker": "COST",
       "company": "Costco Wholesale Corporation",
       "industry": "유통·소비재",
-      "market_cap": 403522781184.0,
-      "price": 910.34,
-      "forward_pe": 36.39254,
+      "market_cap": 445415882752.0,
+      "price": 1005.16,
+      "forward_pe": 40.164116,
       "trailing_eps": 19.9,
       "current_eps": 22.78404,
       "y1_eps": 24.92668,
@@ -1077,7 +909,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 19,
+      "market_cap_rank": 16,
       "current_year": 2026,
       "current_fper": 40.500499472437724,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -1102,12 +934,68 @@
       "industry_raw": "Discount Stores"
     },
     {
+      "ticker": "CSCO",
+      "company": "Cisco Systems, Inc.",
+      "industry": "하드웨어·IT",
+      "market_cap": 434630754304.0,
+      "price": 110.24,
+      "forward_pe": 19.608576,
+      "trailing_eps": 3.33,
+      "current_eps": 5.1466,
+      "y1_eps": 5.62188,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 5.1466,
+        "2027": 5.62188
+      },
+      "eps_growth": {
+        "2027": 9.234834648117207
+      },
+      "current_growth": 9.234834648117207,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 20.732133835930515,
+        "2027": 18.97941613837364
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 17,
+      "current_year": 2026,
+      "current_fper": 20.732133835930515,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Technology",
+      "industry_raw": "Communication Equipment"
+    },
+    {
       "ticker": "PANW",
       "company": "Palo Alto Networks, Inc.",
       "industry": "소프트웨어",
-      "market_cap": 324999577600.0,
-      "price": 397.31,
-      "forward_pe": 81.4315,
+      "market_cap": 319396282368.0,
+      "price": 390.46,
+      "forward_pe": 80.02755,
       "trailing_eps": 0.39,
       "current_eps": 4.1889,
       "y1_eps": 2.21057,
@@ -1133,7 +1021,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 20,
+      "market_cap_rank": 18,
       "current_year": 2026,
       "current_fper": 89.46024015851417,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -1158,40 +1046,40 @@
       "industry_raw": "Software - Infrastructure"
     },
     {
-      "ticker": "ARM",
-      "company": "Arm Holdings plc",
-      "industry": "반도체",
-      "market_cap": 309356462080.0,
-      "price": 289.66,
-      "forward_pe": 94.82251,
-      "trailing_eps": 0.98,
-      "current_eps": 2.22817,
-      "y1_eps": 3.06276,
+      "ticker": "AMAT",
+      "company": "Applied Materials, Inc.",
+      "industry": "반도체 장비",
+      "market_cap": 307590430720.0,
+      "price": 387.59,
+      "forward_pe": 20.961075,
+      "trailing_eps": 11.57,
+      "current_eps": 12.79441,
+      "y1_eps": 18.45479,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 2.22817,
-        "2027": 3.06276
+        "2026": 12.79441,
+        "2027": 18.45479
       },
       "eps_growth": {
-        "2027": 37.45629821781999
+        "2027": 44.241039641530946
       },
-      "current_growth": 37.45629821781999,
+      "current_growth": 44.241039641530946,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 139.27124052473553,
-        "2027": 101.32037769854641
+        "2026": 37.90717977616787,
+        "2027": 26.280439929145768
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 21,
+      "market_cap_rank": 19,
       "current_year": 2026,
-      "current_fper": 139.27124052473553,
+      "current_fper": 37.90717977616787,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -1211,99 +1099,43 @@
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
       "sector": "Technology",
-      "industry_raw": "Semiconductors"
+      "industry_raw": "Semiconductor Equipment & Materials"
     },
     {
-      "ticker": "NFLX",
-      "company": "Netflix, Inc.",
-      "industry": "미디어·엔터테인먼트",
-      "market_cap": 289726922752.0,
-      "price": 69.58,
-      "forward_pe": 18.250301,
-      "trailing_eps": 3.18,
-      "current_eps": 3.58362,
-      "y1_eps": 3.80891,
+      "ticker": "LRCX",
+      "company": "Lam Research Corporation",
+      "industry": "반도체 장비",
+      "market_cap": 297213296640.0,
+      "price": 237.5,
+      "forward_pe": 19.542324,
+      "trailing_eps": 5.75,
+      "current_eps": 9.50548,
+      "y1_eps": 11.73954,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 3.58362,
-        "2027": 3.80891
+        "2026": 9.50548,
+        "2027": 11.73954
       },
       "eps_growth": {
-        "2027": 6.286659857909038
+        "2027": 23.502863611306314
       },
-      "current_growth": 6.286659857909038,
+      "current_growth": 23.502863611306314,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 19.852830378220904,
-        "2027": 18.678572084927183
+        "2026": 33.16087141312169,
+        "2027": 26.850285445596676
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 22,
+      "market_cap_rank": 20,
       "current_year": 2026,
-      "current_fper": 19.852830378220904,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Communication Services",
-      "industry_raw": "Entertainment"
-    },
-    {
-      "ticker": "CRWD",
-      "company": "CrowdStrike Holdings, Inc.",
-      "industry": "소프트웨어",
-      "market_cap": 271086747648.0,
-      "price": 264.75,
-      "forward_pe": 164.8598,
-      "trailing_eps": 0.03,
-      "current_eps": 1.25609,
-      "y1_eps": 1.60591,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 1.25609,
-        "2027": 1.60591
-      },
-      "eps_growth": {
-        "2027": 27.849915213081864
-      },
-      "current_growth": 27.849915213081864,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 200.72606262290122,
-        "2027": 157.00132635079177
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 23,
-      "current_year": 2026,
-      "current_fper": 200.72606262290122,
+      "current_fper": 33.16087141312169,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -1323,15 +1155,15 @@
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
       "sector": "Technology",
-      "industry_raw": "Software - Infrastructure"
+      "industry_raw": "Semiconductor Equipment & Materials"
     },
     {
       "ticker": "TXN",
       "company": "Texas Instruments Incorporated",
       "industry": "반도체",
-      "market_cap": 255791546368.0,
-      "price": 280.09,
-      "forward_pe": 26.312254,
+      "market_cap": 272257400832.0,
+      "price": 298.12,
+      "forward_pe": 25.872766,
       "trailing_eps": 6.58,
       "current_eps": 8.5058,
       "y1_eps": 10.1005,
@@ -1357,7 +1189,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 24,
+      "market_cap_rank": 21,
       "current_year": 2026,
       "current_fper": 32.69181029415222,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -1382,40 +1214,40 @@
       "industry_raw": "Semiconductors"
     },
     {
-      "ticker": "KLAC",
-      "company": "KLA Corporation",
-      "industry": "반도체 장비",
-      "market_cap": 254384898048.0,
-      "price": 194.93,
-      "forward_pe": 29.070642,
-      "trailing_eps": 3.67,
-      "current_eps": 5.4548,
-      "y1_eps": 6.70539,
+      "ticker": "CRWD",
+      "company": "CrowdStrike Holdings, Inc.",
+      "industry": "소프트웨어",
+      "market_cap": 268096847872.0,
+      "price": 261.83,
+      "forward_pe": 162.50317,
+      "trailing_eps": 0.03,
+      "current_eps": 1.25609,
+      "y1_eps": 1.60591,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 5.4548,
-        "2027": 6.70539
+        "2026": 1.25609,
+        "2027": 1.60591
       },
       "eps_growth": {
-        "2027": 22.92641343403976
+        "2027": 27.849915213081864
       },
-      "current_growth": 22.92641343403976,
+      "current_growth": 27.849915213081864,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 34.4503923150253,
-        "2027": 28.025215535561685
+        "2026": 200.72606262290122,
+        "2027": 157.00132635079177
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 25,
+      "market_cap_rank": 22,
       "current_year": 2026,
-      "current_fper": 34.4503923150253,
+      "current_fper": 200.72606262290122,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -1435,7 +1267,7 @@
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
       "sector": "Technology",
-      "industry_raw": "Semiconductor Equipment & Materials"
+      "industry_raw": "Software - Infrastructure"
     },
     {
       "ticker": "AZN",
@@ -1443,10 +1275,10 @@
       "sector": "Healthcare",
       "industry": "제약",
       "industry_raw": "Drug Manufacturers - General",
-      "market_cap": 250423164928.0,
-      "market_cap_rank": 26,
-      "price": 161.47,
-      "forward_pe": 13.943869,
+      "market_cap": 266848829440.0,
+      "market_cap_rank": 23,
+      "price": 172.06,
+      "forward_pe": 15.168385,
       "current_year": 2026,
       "previous_actual_year": null,
       "previous_actual_eps": null,
@@ -1507,40 +1339,40 @@
       ]
     },
     {
-      "ticker": "MRVL",
-      "company": "Marvell Technology, Inc.",
-      "industry": "반도체",
-      "market_cap": 237446742016.0,
-      "price": 264.21,
-      "forward_pe": 39.0316,
-      "trailing_eps": 3.03,
-      "current_eps": 4.2113,
-      "y1_eps": 6.75725,
+      "ticker": "NFLX",
+      "company": "Netflix, Inc.",
+      "industry": "미디어·엔터테인먼트",
+      "market_cap": 266075750400.0,
+      "price": 63.9,
+      "forward_pe": 16.950006,
+      "trailing_eps": 3.18,
+      "current_eps": 3.58362,
+      "y1_eps": 3.80891,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 4.2113,
-        "2027": 6.75725
+        "2026": 3.58362,
+        "2027": 3.80891
       },
       "eps_growth": {
-        "2027": 60.45520385629142
+        "2027": 6.286659857909038
       },
-      "current_growth": 60.45520385629142,
+      "current_growth": 6.286659857909038,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 62.1981335929523,
-        "2027": 38.76355026083096
+        "2026": 19.852830378220904,
+        "2027": 18.678572084927183
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 27,
+      "market_cap_rank": 24,
       "current_year": 2026,
-      "current_fper": 62.1981335929523,
+      "current_fper": 19.852830378220904,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -1559,16 +1391,16 @@
       },
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Semiconductors"
+      "sector": "Communication Services",
+      "industry_raw": "Entertainment"
     },
     {
       "ticker": "AMGN",
       "company": "Amgen Inc.",
       "industry": "제약",
-      "market_cap": 227881795584.0,
-      "price": 421.51,
-      "forward_pe": 17.240398,
+      "market_cap": 240381214720.0,
+      "price": 444.63,
+      "forward_pe": 18.154276,
       "trailing_eps": 16.12,
       "current_eps": 23.05565,
       "y1_eps": 24.44897,
@@ -1594,7 +1426,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 28,
+      "market_cap_rank": 25,
       "current_year": 2026,
       "current_fper": 17.983010672004475,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -1619,12 +1451,68 @@
       "industry_raw": "Drug Manufacturers - General"
     },
     {
+      "ticker": "ARM",
+      "company": "Arm Holdings plc",
+      "industry": "반도체",
+      "market_cap": 238537490432.0,
+      "price": 223.35,
+      "forward_pe": 72.83524,
+      "trailing_eps": 0.98,
+      "current_eps": 2.22817,
+      "y1_eps": 3.06276,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 2.22817,
+        "2027": 3.06276
+      },
+      "eps_growth": {
+        "2027": 37.45629821781999
+      },
+      "current_growth": 37.45629821781999,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 139.27124052473553,
+        "2027": 101.32037769854641
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 26,
+      "current_year": 2026,
+      "current_fper": 139.27124052473553,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Technology",
+      "industry_raw": "Semiconductors"
+    },
+    {
       "ticker": "LIN",
       "company": "Linde plc",
       "industry": "Specialty Chemicals",
-      "market_cap": 218804224000.0,
-      "price": 474.65,
-      "forward_pe": 24.268147,
+      "market_cap": 233975087104.0,
+      "price": 507.56,
+      "forward_pe": 25.929123,
       "trailing_eps": 15.5,
       "current_eps": 17.87772,
       "y1_eps": 18.15318,
@@ -1650,7 +1538,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 29,
+      "market_cap_rank": 27,
       "current_year": 2026,
       "current_fper": 26.283552936280465,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -1675,68 +1563,12 @@
       "industry_raw": "Specialty Chemicals"
     },
     {
-      "ticker": "QCOM",
-      "company": "QUALCOMM Incorporated",
-      "industry": "반도체",
-      "market_cap": 196565843968.0,
-      "price": 184.04,
-      "forward_pe": 18.036045,
-      "trailing_eps": 8.74,
-      "current_eps": 10.48336,
-      "y1_eps": 10.17716,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 10.48336,
-        "2027": 10.17716
-      },
-      "eps_growth": {
-        "2027": -2.9208192793150123
-      },
-      "current_growth": -2.9208192793150123,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 19.265769753208897,
-        "2027": 19.84541856470764
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 30,
-      "current_year": 2026,
-      "current_fper": 19.265769753208897,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Semiconductors"
-    },
-    {
       "ticker": "SHOP",
       "company": "Shopify Inc.",
       "industry": "소프트웨어",
-      "market_cap": 192442187776.0,
-      "price": 148.3,
-      "forward_pe": 60.521225,
+      "market_cap": 218239549440.0,
+      "price": 168.18,
+      "forward_pe": 68.46688,
       "trailing_eps": 1.48,
       "current_eps": 1.91067,
       "y1_eps": 2.45038,
@@ -1762,7 +1594,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 31,
+      "market_cap_rank": 28,
       "current_year": 2026,
       "current_fper": 74.45032370843735,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -1787,15 +1619,71 @@
       "industry_raw": "Software - Application"
     },
     {
+      "ticker": "MRVL",
+      "company": "Marvell Technology, Inc.",
+      "industry": "반도체",
+      "market_cap": 210099175424.0,
+      "price": 233.78,
+      "forward_pe": 31.897766,
+      "trailing_eps": 3.03,
+      "current_eps": 4.2113,
+      "y1_eps": 6.75725,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 4.2113,
+        "2027": 6.75725
+      },
+      "eps_growth": {
+        "2027": 60.45520385629142
+      },
+      "current_growth": 60.45520385629142,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 62.1981335929523,
+        "2027": 38.76355026083096
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 29,
+      "current_year": 2026,
+      "current_fper": 62.1981335929523,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Technology",
+      "industry_raw": "Semiconductors"
+    },
+    {
       "ticker": "ADI",
       "company": "Analog Devices, Inc.",
       "sector": "Technology",
       "industry": "반도체",
       "industry_raw": "Semiconductors",
-      "market_cap": 192231964672.0,
-      "market_cap_rank": 32,
-      "price": 396.71,
-      "forward_pe": 24.2664,
+      "market_cap": 197668782080.0,
+      "market_cap_rank": 30,
+      "price": 407.93,
+      "forward_pe": 24.72186,
       "current_year": 2026,
       "previous_actual_year": null,
       "previous_actual_eps": null,
@@ -1859,9 +1747,9 @@
       "ticker": "GILD",
       "company": "Gilead Sciences, Inc.",
       "industry": "제약",
-      "market_cap": 184815321088.0,
-      "price": 149.05,
-      "forward_pe": 15.072136,
+      "market_cap": 196768497664.0,
+      "price": 158.69,
+      "forward_pe": 15.90992,
       "trailing_eps": -2.65,
       "current_eps": -0.42627,
       "y1_eps": 9.88911,
@@ -1887,7 +1775,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 33,
+      "market_cap_rank": 31,
       "current_year": 2026,
       "current_fper": 15.262243,
       "fper_source": "Yahoo Finance Forward P/E fallback (current EPS non-positive)",
@@ -1913,40 +1801,40 @@
       "industry_raw": "Drug Manufacturers - General"
     },
     {
-      "ticker": "TMUS",
-      "company": "T-Mobile US, Inc.",
-      "industry": "통신",
-      "market_cap": 174931296256.0,
-      "price": 163.08,
-      "forward_pe": 11.295881,
-      "trailing_eps": 9.56,
-      "current_eps": 10.94657,
-      "y1_eps": 13.89709,
+      "ticker": "KLAC",
+      "company": "KLA Corporation",
+      "industry": "반도체 장비",
+      "market_cap": 194720022528.0,
+      "price": 149.21,
+      "forward_pe": 22.136703,
+      "trailing_eps": 3.67,
+      "current_eps": 5.4548,
+      "y1_eps": 6.70539,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 10.94657,
-        "2027": 13.89709
+        "2026": 5.4548,
+        "2027": 6.70539
       },
       "eps_growth": {
-        "2027": 26.953831200092825
+        "2027": 22.92641343403976
       },
-      "current_growth": 26.953831200092825,
+      "current_growth": 22.92641343403976,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 15.112496425821057,
-        "2027": 11.9039309668427
+        "2026": 34.4503923150253,
+        "2027": 28.025215535561685
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 34,
+      "market_cap_rank": 32,
       "current_year": 2026,
-      "current_fper": 15.112496425821057,
+      "current_fper": 34.4503923150253,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -1965,16 +1853,72 @@
       },
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
-      "sector": "Communication Services",
-      "industry_raw": "Telecom Services"
+      "sector": "Technology",
+      "industry_raw": "Semiconductor Equipment & Materials"
+    },
+    {
+      "ticker": "QCOM",
+      "company": "QUALCOMM Incorporated",
+      "industry": "반도체",
+      "market_cap": 191783976960.0,
+      "price": 179.6,
+      "forward_pe": 17.631405,
+      "trailing_eps": 8.74,
+      "current_eps": 10.48336,
+      "y1_eps": 10.17716,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 10.48336,
+        "2027": 10.17716
+      },
+      "eps_growth": {
+        "2027": -2.9208192793150123
+      },
+      "current_growth": -2.9208192793150123,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 19.265769753208897,
+        "2027": 19.84541856470764
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 33,
+      "current_year": 2026,
+      "current_fper": 19.265769753208897,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Technology",
+      "industry_raw": "Semiconductors"
     },
     {
       "ticker": "PEP",
       "company": "PepsiCo, Inc.",
       "industry": "유통·소비재",
-      "market_cap": 173099515904.0,
-      "price": 126.72,
-      "forward_pe": 14.197475,
+      "market_cap": 184596922368.0,
+      "price": 135.46,
+      "forward_pe": 15.680566,
       "trailing_eps": 7.62,
       "current_eps": 8.55717,
       "y1_eps": 8.96089,
@@ -2000,7 +1944,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 35,
+      "market_cap_rank": 34,
       "current_year": 2026,
       "current_fper": 15.03183879717243,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -2025,68 +1969,12 @@
       "industry_raw": "Beverages - Non-Alcoholic"
     },
     {
-      "ticker": "WDC",
-      "company": "Western Digital Corporation",
-      "industry": "하드웨어·IT",
-      "market_cap": 163851419648.0,
-      "price": 454.46,
-      "forward_pe": 14.313912,
-      "trailing_eps": 26.93,
-      "current_eps": 20.09143,
-      "y1_eps": 31.74953,
-      "y2_eps": null,
-      "y3_eps": null,
-      "y4_eps": null,
-      "eps_years": {
-        "2026": 20.09143,
-        "2027": 31.74953
-      },
-      "eps_growth": {
-        "2027": 58.025237626191874
-      },
-      "current_growth": 58.025237626191874,
-      "cagr_4y": null,
-      "growth_trend": null,
-      "future_fper": {
-        "2026": 22.736559816797513,
-        "2027": 14.387929522106312
-      },
-      "sources": [
-        "Yahoo Finance",
-        "Business Quant"
-      ],
-      "error": null,
-      "market_cap_rank": 36,
-      "current_year": 2026,
-      "current_fper": 22.736559816797513,
-      "fper_source": "Yahoo Finance current price + Business Quant EPS",
-      "fper_updated_date_kst": "2026-09-26",
-      "historical_fper": {
-        "count": 0,
-        "median": null,
-        "p25": null,
-        "p75": null,
-        "min": null,
-        "max": null,
-        "median_3y": null,
-        "median_5y": null,
-        "median_10y": null,
-        "discount_3y": null,
-        "discount_5y": null,
-        "discount_10y": null
-      },
-      "historical_pe_source": null,
-      "historical_pe_updated_date_kst": null,
-      "sector": "Technology",
-      "industry_raw": "Computer Hardware"
-    },
-    {
       "ticker": "ISRG",
       "company": "Intuitive Surgical, Inc.",
       "industry": "Medical Instruments & Supplies",
-      "market_cap": 145686609920.0,
-      "price": 406.63,
-      "forward_pe": 33.629215,
+      "market_cap": 159550963712.0,
+      "price": 451.63,
+      "forward_pe": 36.333607,
       "trailing_eps": 8.72,
       "current_eps": 10.77945,
       "y1_eps": 12.09157,
@@ -2112,7 +2000,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 37,
+      "market_cap_rank": 35,
       "current_year": 2026,
       "current_fper": 37.58818863671152,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -2137,40 +2025,40 @@
       "industry_raw": "Medical Instruments & Supplies"
     },
     {
-      "ticker": "VRTX",
-      "company": "Vertex Pharmaceuticals Incorporated",
-      "industry": "바이오",
-      "market_cap": 132511907840.0,
-      "price": 522.81,
-      "forward_pe": 26.019768,
-      "trailing_eps": 17.19,
-      "current_eps": 16.16939,
-      "y1_eps": 20.09747,
+      "ticker": "TMUS",
+      "company": "T-Mobile US, Inc.",
+      "industry": "통신",
+      "market_cap": 157607624704.0,
+      "price": 146.93,
+      "forward_pe": 10.186311,
+      "trailing_eps": 9.56,
+      "current_eps": 10.94657,
+      "y1_eps": 13.89709,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 16.16939,
-        "2027": 20.09747
+        "2026": 10.94657,
+        "2027": 13.89709
       },
       "eps_growth": {
-        "2027": 24.2933097661693
+        "2027": 26.953831200092825
       },
-      "current_growth": 24.2933097661693,
+      "current_growth": 26.953831200092825,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 32.54235317473325,
-        "2027": 26.181902498175145
+        "2026": 15.112496425821057,
+        "2027": 11.9039309668427
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 38,
+      "market_cap_rank": 36,
       "current_year": 2026,
-      "current_fper": 32.54235317473325,
+      "current_fper": 15.112496425821057,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -2189,16 +2077,16 @@
       },
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
-      "sector": "Healthcare",
-      "industry_raw": "Biotechnology"
+      "sector": "Communication Services",
+      "industry_raw": "Telecom Services"
     },
     {
       "ticker": "FTNT",
       "company": "Fortinet, Inc.",
       "industry": "소프트웨어",
-      "market_cap": 131158646784.0,
-      "price": 178.76,
-      "forward_pe": 47.31892,
+      "market_cap": 134511730688.0,
+      "price": 183.33,
+      "forward_pe": 48.353916,
       "trailing_eps": 2.82,
       "current_eps": 3.45008,
       "y1_eps": 3.77777,
@@ -2224,7 +2112,7 @@
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 39,
+      "market_cap_rank": 37,
       "current_year": 2026,
       "current_fper": 50.27709502388351,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
@@ -2249,40 +2137,40 @@
       "industry_raw": "Software - Infrastructure"
     },
     {
-      "ticker": "BKNG",
-      "company": "Booking Holdings Inc.",
-      "industry": "인터넷·플랫폼",
-      "market_cap": 122407395328.0,
-      "price": 162.91,
-      "forward_pe": 13.172843,
-      "trailing_eps": 9,
-      "current_eps": 10.44835,
-      "y1_eps": 12.36832,
+      "ticker": "WDC",
+      "company": "Western Digital Corporation",
+      "industry": "하드웨어·IT",
+      "market_cap": 133307744256.0,
+      "price": 356.13,
+      "forward_pe": 8.917389,
+      "trailing_eps": 26.93,
+      "current_eps": 20.09143,
+      "y1_eps": 31.74953,
       "y2_eps": null,
       "y3_eps": null,
       "y4_eps": null,
       "eps_years": {
-        "2026": 10.44835,
-        "2027": 12.36832
+        "2026": 20.09143,
+        "2027": 31.74953
       },
       "eps_growth": {
-        "2027": 18.37582010556691
+        "2027": 58.025237626191874
       },
-      "current_growth": 18.37582010556691,
+      "current_growth": 58.025237626191874,
       "cagr_4y": null,
       "growth_trend": null,
       "future_fper": {
-        "2026": 15.691472816281996,
-        "2027": 13.255640216294532
+        "2026": 22.736559816797513,
+        "2027": 14.387929522106312
       },
       "sources": [
         "Yahoo Finance",
         "Business Quant"
       ],
       "error": null,
-      "market_cap_rank": 40,
+      "market_cap_rank": 38,
       "current_year": 2026,
-      "current_fper": 15.691472816281996,
+      "current_fper": 22.736559816797513,
       "fper_source": "Yahoo Finance current price + Business Quant EPS",
       "fper_updated_date_kst": "2026-09-26",
       "historical_fper": {
@@ -2301,8 +2189,133 @@
       },
       "historical_pe_source": null,
       "historical_pe_updated_date_kst": null,
-      "sector": "Consumer Cyclical",
-      "industry_raw": "Travel Services"
+      "sector": "Technology",
+      "industry_raw": "Computer Hardware"
+    },
+    {
+      "ticker": "VRTX",
+      "company": "Vertex Pharmaceuticals Incorporated",
+      "industry": "바이오",
+      "market_cap": 131163496448.0,
+      "price": 517.49,
+      "forward_pe": 25.344385,
+      "trailing_eps": 17.19,
+      "current_eps": 16.16939,
+      "y1_eps": 20.09747,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": 16.16939,
+        "2027": 20.09747
+      },
+      "eps_growth": {
+        "2027": 24.2933097661693
+      },
+      "current_growth": 24.2933097661693,
+      "cagr_4y": null,
+      "growth_trend": null,
+      "future_fper": {
+        "2026": 32.54235317473325,
+        "2027": 26.181902498175145
+      },
+      "sources": [
+        "Yahoo Finance",
+        "Business Quant"
+      ],
+      "error": null,
+      "market_cap_rank": 39,
+      "current_year": 2026,
+      "current_fper": 32.54235317473325,
+      "fper_source": "Yahoo Finance current price + Business Quant EPS",
+      "fper_updated_date_kst": "2026-09-26",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sector": "Healthcare",
+      "industry_raw": "Biotechnology"
+    },
+    {
+      "ticker": "ADP",
+      "company": "Automatic Data Processing, Inc.",
+      "sector": "Technology",
+      "industry": "소프트웨어",
+      "industry_raw": "Software - Application",
+      "market_cap": 119319265280.0,
+      "market_cap_rank": 40,
+      "price": 301.12,
+      "forward_pe": 22.464935,
+      "current_year": 2026,
+      "previous_actual_year": null,
+      "previous_actual_eps": null,
+      "current_eps": null,
+      "y1_eps": null,
+      "y2_eps": null,
+      "y3_eps": null,
+      "y4_eps": null,
+      "eps_years": {
+        "2026": null,
+        "2027": null,
+        "2028": null,
+        "2029": null,
+        "2030": null
+      },
+      "reported_years": [],
+      "estimate_years": [],
+      "eps_growth": {
+        "current": null,
+        "y1": null,
+        "y2": null,
+        "y3": null,
+        "y4": null
+      },
+      "current_growth": null,
+      "cagr_4y": null,
+      "growth_trend": "N/A",
+      "current_fper": 22.464935,
+      "future_fper": {
+        "current": null,
+        "y1": null,
+        "y2": null,
+        "y3": null,
+        "y4": null
+      },
+      "fper_source": "Yahoo Finance Forward P/E fallback",
+      "fper_basis": "forward_pe",
+      "fper_updated_date_kst": "2026-10-27",
+      "historical_fper": {
+        "count": 0,
+        "median": null,
+        "p25": null,
+        "p75": null,
+        "min": null,
+        "max": null,
+        "median_3y": null,
+        "median_5y": null,
+        "median_10y": null,
+        "discount_3y": null,
+        "discount_5y": null,
+        "discount_10y": null
+      },
+      "historical_data_available": false,
+      "historical_pe_source": null,
+      "historical_pe_updated_date_kst": null,
+      "sources": [
+        "Yahoo Finance"
+      ]
     }
   ],
   "industries": [
@@ -2315,11 +2328,11 @@
         "MU",
         "AMD",
         "INTC",
-        "ARM",
         "TXN",
+        "ARM",
         "MRVL",
-        "QCOM",
-        "ADI"
+        "ADI",
+        "QCOM"
       ],
       "current_fper_median": 31.477159049868277,
       "historical_3y_fper_median": null,
@@ -2345,18 +2358,21 @@
       "historical_3y_discount": null,
       "historical_5y_discount": null,
       "historical_10y_discount": null,
-      "eps_cagr_4y_median": 9.228448618390805
+      "eps_cagr_4y_median": 9.157148312621622
     },
     {
-      "industry": "인터넷·플랫폼",
-      "stock_count": 4,
+      "industry": "소프트웨어",
+      "stock_count": 7,
       "tickers": [
-        "GOOGL",
-        "GOOG",
-        "META",
-        "BKNG"
+        "MSFT",
+        "PLTR",
+        "PANW",
+        "CRWD",
+        "SHOP",
+        "FTNT",
+        "ADP"
       ],
-      "current_fper_median": 16.60784952355696,
+      "current_fper_median": 74.45032370843735,
       "historical_3y_fper_median": null,
       "historical_5y_fper_median": null,
       "historical_10y_fper_median": null,
@@ -2366,17 +2382,14 @@
       "eps_cagr_4y_median": null
     },
     {
-      "industry": "소프트웨어",
-      "stock_count": 6,
+      "industry": "인터넷·플랫폼",
+      "stock_count": 3,
       "tickers": [
-        "MSFT",
-        "PLTR",
-        "PANW",
-        "CRWD",
-        "SHOP",
-        "FTNT"
+        "GOOGL",
+        "GOOG",
+        "META"
       ],
-      "current_fper_median": 81.95528193347576,
+      "current_fper_median": 16.67503844878312,
       "historical_3y_fper_median": null,
       "historical_5y_fper_median": null,
       "historical_10y_fper_median": null,
@@ -2437,26 +2450,11 @@
       "stock_count": 4,
       "tickers": [
         "ASML",
-        "LRCX",
         "AMAT",
+        "LRCX",
         "KLAC"
       ],
       "current_fper_median": 36.17878604559658,
-      "historical_3y_fper_median": null,
-      "historical_5y_fper_median": null,
-      "historical_10y_fper_median": null,
-      "historical_3y_discount": null,
-      "historical_5y_discount": null,
-      "historical_10y_discount": null,
-      "eps_cagr_4y_median": null
-    },
-    {
-      "industry": "미디어·엔터테인먼트",
-      "stock_count": 1,
-      "tickers": [
-        "NFLX"
-      ],
-      "current_fper_median": 19.852830378220904,
       "historical_3y_fper_median": null,
       "historical_5y_fper_median": null,
       "historical_10y_fper_median": null,
@@ -2483,6 +2481,21 @@
       "eps_cagr_4y_median": null
     },
     {
+      "industry": "미디어·엔터테인먼트",
+      "stock_count": 1,
+      "tickers": [
+        "NFLX"
+      ],
+      "current_fper_median": 19.852830378220904,
+      "historical_3y_fper_median": null,
+      "historical_5y_fper_median": null,
+      "historical_10y_fper_median": null,
+      "historical_3y_discount": null,
+      "historical_5y_discount": null,
+      "historical_10y_discount": null,
+      "eps_cagr_4y_median": null
+    },
+    {
       "industry": "Specialty Chemicals",
       "stock_count": 1,
       "tickers": [
@@ -2498,12 +2511,12 @@
       "eps_cagr_4y_median": null
     },
     {
-      "industry": "통신",
+      "industry": "Medical Instruments & Supplies",
       "stock_count": 1,
       "tickers": [
-        "TMUS"
+        "ISRG"
       ],
-      "current_fper_median": 15.112496425821057,
+      "current_fper_median": 37.58818863671152,
       "historical_3y_fper_median": null,
       "historical_5y_fper_median": null,
       "historical_10y_fper_median": null,
@@ -2513,12 +2526,12 @@
       "eps_cagr_4y_median": null
     },
     {
-      "industry": "Medical Instruments & Supplies",
+      "industry": "통신",
       "stock_count": 1,
       "tickers": [
-        "ISRG"
+        "TMUS"
       ],
-      "current_fper_median": 37.58818863671152,
+      "current_fper_median": 15.112496425821057,
       "historical_3y_fper_median": null,
       "historical_5y_fper_median": null,
       "historical_10y_fper_median": null,
