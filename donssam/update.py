@@ -74,7 +74,9 @@ def metrics(frame,ticker):
         last=float(close.iloc[-1]);high=float(close.tail(252).max())
         cci=cci_weekly(frame)
         ma200=float(close.tail(200).mean()) if len(close)>=200 else None
-        return {"ticker":ticker,"price":round(last,2),"rsi14":round(float(rsi),1),"drawdown52":round((last/high-1)*100,1),"cci_weekly":cci,"ma200_gap":round((last/ma200-1)*100,1) if ma200 else None,"date":str(close.index[-1].date())}
+        ret6=(last/float(close.iloc[-126])-1)*100 if len(close)>126 else None
+        ret12=(last/float(close.iloc[-252])-1)*100 if len(close)>252 else None
+        return {"ticker":ticker,"price":round(last,2),"high52":round(high,2),"ma200":round(ma200,2) if ma200 else None,"return6m":round(ret6,2) if ret6 is not None else None,"return12m":round(ret12,2) if ret12 is not None else None,"rsi14":round(float(rsi),1),"drawdown52":round((last/high-1)*100,1),"cci_weekly":cci,"ma200_gap":round((last/ma200-1)*100,1) if ma200 else None,"date":str(close.index[-1].date())}
     except Exception as e:
         print("Metrics",ticker,str(e));return None
 
@@ -116,8 +118,51 @@ for ticker,name in SECTORS.items():
     sector.append(d)
 sector.sort(key=lambda d:(d["opportunity_score"] is None,-(d["opportunity_score"] or 0)))
 eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and d["opportunity_score"]>=65]
+# Drill-down only for the three highest ranked sector ETFs.
+# ETF weights must come from fund holdings, not from an assumed ticker basket.
+def holdings_above_ten(etf):
+    try:
+        raw=yf.Ticker(etf).funds_data.top_holdings
+        if raw is None or raw.empty:return []
+        results=[]
+        for symbol,row in raw.iterrows():
+            weight=row.get("Holding Percent")
+            if weight is None or pd.isna(weight):continue
+            weight=float(weight)
+            if weight>1:weight/=100
+            if weight>=0.10:
+                symbol=str(symbol).strip().upper().replace(".","-")
+                if symbol and symbol not in ("CASH","USD"):results.append({"ticker":symbol,"weight_pct":round(weight*100,2)})
+        return sorted(results,key=lambda z:-z["weight_pct"])
+    except Exception as exc:
+        print("ETF holdings unavailable",etf,repr(exc))
+        return []
+
+top_three=sector[:3]
+holdings={z["ticker"]:holdings_above_ten(z["ticker"]) for z in top_three}
+names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
+stock_prices=batch_prices(names) if names else {}
+def individual_score(v):
+    # Bottom-opportunity: 0 near bottom, 100 far away. All factors use actual observations.
+    # 30 drawdown, 20 daily RSI, 25 weekly CCI, 25 distance to 200d MA.
+    dd=30*(1-clamp(-v["drawdown52"]/40)/100)
+    rs=20*(1-clamp((55-v["rsi14"])/35)/100)
+    cc=25*(1-clamp((100-v["cci_weekly"])/300)/100) if v["cci_weekly"] is not None else None
+    ma=25*clamp(abs(v["ma200_gap"])/30)/100 if v["ma200_gap"] is not None else None
+    return {"score":round(dd+rs+cc+ma,1) if cc is not None and ma is not None else None,"drawdown":round(dd,1),"rsi":round(rs,1),"cci":round(cc,1) if cc is not None else None,"ma200":round(ma,1) if ma is not None else None}
+top_holdings=[]
+for z in top_three:
+    etf=z["ticker"]
+    rows=[]
+    for h in holdings[etf]:
+        v=stock_prices.get(h["ticker"])
+        if v:
+            rows.append({**h,**v,"opportunity":individual_score(v)})
+        else:
+            rows.append({**h,"price":None,"high52":None,"drawdown52":None,"ma200":None,"rsi14":None,"cci_weekly":None,"opportunity":None})
+    top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":"Yahoo Finance funds_data.top_holdings","status":"available" if rows else "holdings_unavailable"})
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"SOXX는 S&P 500 구성종목만의 지수가 아닌 반도체 참고지표. 종목 선별 제거."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 10% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
