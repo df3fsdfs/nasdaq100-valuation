@@ -396,7 +396,7 @@ tr:hover td {
           시총 순
         </option>
 
-        <option value="discount5">
+        <option value="pe52">52주 PER 대비 할인율</option><option value="discount5">
           5Y Historical 할인율
         </option>
 
@@ -441,12 +441,12 @@ tr:hover td {
             <th>산업</th>
             <th>현재 FPER</th>
 
-            <th>5Y Hist.</th>
+            <th>52주 평균 PER</th><th>현재 FPER 대비</th><th>5Y Hist.</th>
             <th>5Y Discount</th>
             <th>3Y Discount</th>
             <th>10Y Discount</th>
 
-            <th>현재 EPS 성장</th>
+            <th>현재 FEPS</th><th>+1Y FEPS</th><th>+2Y FEPS</th><th>+3Y FEPS</th><th>+4Y FEPS</th><th>현재 EPS 성장</th>
             <th>4Y CAGR</th>
 
             <th>+1Y FPER</th>
@@ -483,7 +483,7 @@ tr:hover td {
   </div>
 
   <div class="note">
-    Historical P/E는 실제 historical P/E 시계열을 사용하며,
+    52주 평균 PER은 동일한 기준의 실제 과거 PER 관측값이 필요하며 미확보 시 N/A로 표시합니다. 미래 FPER = 현재 주가 / 해당 연도 FEPS. <br>Historical P/E는 실제 historical P/E 시계열을 사용하며,
     과거 가격에 현재 EPS를 적용해 재구성하지 않습니다.
     미래 FPER은 현재 가격이 그대로 유지된다는 가정입니다.
   </div>
@@ -820,6 +820,7 @@ function renderStocks() {
 
   rows.sort((a, b) => {
 
+    if (sort === "pe52") return compareAsc(a.pe_52w_premium_pct,b.pe_52w_premium_pct);
     if (sort === "discount5") {
       return compareAsc(
         a.historical_fper?.discount_5y,
@@ -909,6 +910,7 @@ function renderStocks() {
           ${fper(currentFper(stock))}
         </td>
 
+        <td>${fper(stock.pe_52w_avg)}</td><td>${pct(stock.pe_52w_premium_pct)}</td>
         <td>
           ${fper(
             stock.historical_fper
@@ -937,6 +939,7 @@ function renderStocks() {
           )}
         </td>
 
+        <td>${fmt(stock.current_eps,2)}</td><td>${fmt(stock.y1_eps,2)}</td><td>${fmt(stock.y2_eps,2)}</td><td>${fmt(stock.y3_eps,2)}</td><td>${fmt(stock.y4_eps,2)}</td>
         <td>
           ${pct(
             stock.current_growth
