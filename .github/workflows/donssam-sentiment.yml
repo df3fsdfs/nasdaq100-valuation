@@ -1,0 +1,29 @@
+name: Donssam daily sentiment
+on:
+  schedule:
+    - cron: '10 23 * * 1-5'
+  push:
+    branches: [main]
+    paths:
+      - 'donssam/sentiment.py'
+      - '.github/workflows/donssam-sentiment.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sentiment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas yfinance requests
+      - run: python donssam/sentiment.py
+      - name: Save daily snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add donssam/sentiment.json
+          git diff --cached --quiet || (git commit -m "Update Donssam daily sentiment" && git pull --rebase && git push)
