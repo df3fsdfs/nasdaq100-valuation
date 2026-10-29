@@ -10,10 +10,10 @@ STOCKS={"SOXX":["NVDA","AVGO","AMD","MU","AMAT","LRCX","KLAC","QCOM","TXN"],"XLK
 FRED={"VIXCLS":"VIX","BAMLH0A0HYM2":"하이일드 OAS","DGS10":"미국 10년물","T10YIE":"10년 기대인플레","UNRATE":"실업률"}
 def fred(code):
     url="https://fred.stlouisfed.org/graph/fredgraph.csv?id="+code+"&cosd=2024-01-01"
-    for attempt in range(3):
+    for attempt in range(1):
         try:
             req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
-            with urllib.request.urlopen(req,timeout=55) as r: raw=r.read().decode("utf-8-sig")
+            with urllib.request.urlopen(req,timeout=8) as r: raw=r.read().decode("utf-8-sig")
             arr=[]
             for row in csv.DictReader(io.StringIO(raw)):
                 try:
@@ -101,10 +101,10 @@ def metrics(frame,ticker):
 
 def batch_prices(tickers):
     output={}
-    for i in range(0,len(tickers),35):
-        group=tickers[i:i+35]
+    for i in range(0,len(tickers),75):
+        group=tickers[i:i+75]
         try:
-            frame=yf.download(group,period="2y",interval="1d",group_by="ticker",auto_adjust=True,threads=True,progress=False,timeout=30)
+            frame=yf.download(group,period="18mo",interval="1d",group_by="ticker",auto_adjust=True,threads=True,progress=False,timeout=12)
             for ticker in group:
                 try:
                     item=frame[ticker] if isinstance(frame.columns,pd.MultiIndex) else frame
@@ -139,32 +139,3 @@ Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible,"stocks:",len(stocks))
 
-# OECD amplitude-adjusted CLI, sourced from FRED series. EU is not the same as Euro Area.
-CLI_CODES={"G20":["G20LOLITOAASTSAM"],"G7":["G7LOLITOAASTSAM"],"USA":["USALOLITOAASTSAM"],"Korea":["KORLOLITOAASTSAM"],"Euro area":["EA19LOLITOAASTSAM","EA17LOLITOAASTSAM"]}
-def cli_download(code):
-    url="https://fred.stlouisfed.org/graph/fredgraph.csv?id="+code+"&cosd=2010-01-01"
-    for attempt in range(3):
-        try:
-            req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
-            with urllib.request.urlopen(req,timeout=65) as response: body=response.read().decode("utf-8-sig")
-            rows=[]
-            for item in csv.DictReader(io.StringIO(body)):
-                try:
-                    day=item.get("observation_date") or item.get("DATE")
-                    val=float(item[code])
-                    if math.isfinite(val): rows.append({"date":day,"value":round(val,3)})
-                except (ValueError,KeyError,TypeError):pass
-            if len(rows)>=24:return rows
-        except Exception as exc:print("CLI",code,str(exc))
-        time.sleep(3*(attempt+1))
-    return None
-cli={}
-for area,codes in CLI_CODES.items():
-    for code in codes:
-        values=cli_download(code)
-        if values:
-            cli[area]={"code":code,"rows":values,"latest":values[-1]["date"]}
-            break
-    if area not in cli:cli[area]={"code":None,"rows":[],"latest":None}
-Path("donssam/cli.json").write_text(json.dumps({"generated_at":datetime.now(timezone.utc).isoformat(),"source":"FRED / OECD, CLI amplitude-adjusted monthly index","note":"Euro area is not identical to the European Union. Unavailable series are shown as missing, not estimated.","series":cli},ensure_ascii=False),encoding="utf-8")
-print("CLI series:",{k:len(v["rows"]) for k,v in cli.items()})
