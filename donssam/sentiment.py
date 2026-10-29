@@ -94,7 +94,7 @@ def compute(asof=None):
           (label+" 낙폭·속도",25,0.65*scale(-dd,0,40)+0.35*scale(-p["fast20_pct"],0,22),str(dd)+"% / 20일 "+str(p["fast20_pct"])+"%"),
           (label+" 주봉·일봉 과매도",20,0.6*scale(-asset["cci"],0,200)+0.4*scale(50-asset["rsi"],0,35),str(asset["cci"])+" / "+str(asset["rsi"])),
           (label+" 월봉 CCI",10,scale(-asset["monthly_cci"],0,180),asset["monthly_cci"]),
-          (label+" 200주선 접근",15,scale(35-abs(asset["ma200w_gap"]),0,35),asset["ma200w_gap"]),
+          (label+" 200주선 접근",15,scale(25-abs(asset["ma200w_gap"]),0,25),asset["ma200w_gap"]),
           (label+" 바닥형태",20,90 if p["qualified"] else 0,p["pattern"])
         ]
         return [component(n,round(w*weight,3),v,value,"",obs,"높을수록 바닥매수 기회") for n,w,v,value in raw]
@@ -105,7 +105,7 @@ def compute(asof=None):
     cr=[
       component("BTC 자체 낙폭",40,scale(-btc["drawdown"],0,65),btc["drawdown"],"%",btc["date"],"낙폭 클수록 바닥 기회 근접"),
       component("BTC 주봉·일봉 과매도",15,0.6*scale(-btc["cci"],0,200)+0.4*scale(50-btc["rsi"],0,35),str(btc["cci"])+" / "+str(btc["rsi"]),"",btc["date"],"주봉 CCI·일봉 RSI"),
-      component("BTC 월봉 CCI·200주선",15,0.5*scale(-btc["monthly_cci"],0,180)+0.5*scale(35-abs(btc["ma200w_gap"]),0,35),str(btc["monthly_cci"])+" / "+str(btc["ma200w_gap"]),"",btc["date"],"월봉 CCI·200주선 괴리"),
+      component("BTC 월봉 CCI·200주선",15,0.5*scale(-btc["monthly_cci"],0,180)+0.5*scale(25-abs(btc["ma200w_gap"]),0,25),str(btc["monthly_cci"])+" / "+str(btc["ma200w_gap"]),"",btc["date"],"월봉 CCI·200주선 괴리"),
       component("BTC 급락·바닥형태",10,90 if btc["pattern"]["qualified"] else 0,btc["pattern"]["pattern"],"",btc["date"],"송곳형 급락·쌍/삼중바닥 후보"),
       component("S&P 500 낙폭",5,scale(-sp["drawdown"],0,35),sp["drawdown"],"%",sp["date"],"미국 증시 위험 전이"),
     ]
@@ -119,10 +119,10 @@ def compute(asof=None):
     equity=pack(eq)
     # Without a sharp selloff or repeated lows, do not label gradual weakness as an extreme bottom opportunity.
     if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"] and equity["score"] is not None:
-        equity["score"]=max(equity["score"],40)
+        equity["score"]=max(equity["score"],45)
     crypto=pack(cr)
     if not btc["pattern"]["qualified"] and crypto["score"] is not None:
-        crypto["score"]=max(crypto["score"],35)
+        crypto["score"]=max(crypto["score"],40)
     # Observation dates differ; explicitly preserve each.
     return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","score_direction":"zero_is_opportunity","method":"증시·크립토 모두 0=바닥매수 기회 가까움, 100=기회 멀다. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
 def main():
