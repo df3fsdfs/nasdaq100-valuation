@@ -205,15 +205,16 @@ for z in top_three:
     top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":holdings_data[etf][1],"status":holdings_data[etf][2]})
 # Major indices: actual daily closes, normalized to 100 for comparison.
 market_indices={}
-for symbol,name in [("SPY","S&P 500"),("QQQ","NASDAQ 100"),("SOXX","반도체 SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
+for symbol,name in [("^GSPC","SPX"),("QQQ","QQQ"),("SOXX","SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
     try:
         df=yf.Ticker(symbol).history(period="1y",auto_adjust=True)
         close=df["Close"].dropna()
         if len(close)>10:
-            market_indices[symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
+            market_indices["SPX" if symbol=="^GSPC" else symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
     except Exception as e:print("Market index",symbol,repr(e))
 # Retain last confirmed data when a temporary market-data outage occurs.
 for symbol,old in previous.get("market_indices",{}).items():
+    if symbol in ("SPY","^GSPC"):continue
     if symbol not in market_indices and old.get("rows"):
         market_indices[symbol]=old
 for row in top_holdings:
