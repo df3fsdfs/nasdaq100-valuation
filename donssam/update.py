@@ -61,7 +61,7 @@ def cci_weekly(frame):
         value=(tp-ma)/(0.015*md)
         return round(float(value.iloc[-1]),1) if pd.notna(value.iloc[-1]) else None
     except Exception:return None
-def clamp(v):return max(0.,min(100.,float(v)))
+def clamp(v):return max(0.,min(1.,float(v)))
 def metrics(frame,ticker):
     try:
         frame=frame.dropna(subset=["Close"])
@@ -143,12 +143,13 @@ holdings={z["ticker"]:holdings_above_ten(z["ticker"]) for z in top_three}
 names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
 stock_prices=batch_prices(names) if names else {}
 def individual_score(v):
+    # clamp returns 0..100; normalize to 0..1 in each score factor.
     # Bottom-opportunity: 0 near bottom, 100 far away. All factors use actual observations.
     # 30 drawdown, 20 daily RSI, 25 weekly CCI, 25 distance to 200d MA.
-    dd=30*(1-clamp(-v["drawdown52"]/40)/100)
-    rs=20*(1-clamp((55-v["rsi14"])/35)/100)
-    cc=25*(1-clamp((100-v["cci_weekly"])/300)/100) if v["cci_weekly"] is not None else None
-    ma=25*clamp(abs(v["ma200_gap"])/30)/100 if v["ma200_gap"] is not None else None
+    dd=30*(1-clamp(-v["drawdown52"]/40))
+    rs=20*(1-clamp((55-v["rsi14"])/35))
+    cc=25*(1-clamp((100-v["cci_weekly"])/300)) if v["cci_weekly"] is not None else None
+    ma=25*clamp(abs(v["ma200_gap"])/30) if v["ma200_gap"] is not None else None
     return {"score":round(dd+rs+cc+ma,1) if cc is not None and ma is not None else None,"drawdown":round(dd,1),"rsi":round(rs,1),"cci":round(cc,1) if cc is not None else None,"ma200":round(ma,1) if ma is not None else None}
 top_holdings=[]
 for z in top_three:
