@@ -35,7 +35,9 @@ def calc(ticker):
         rs=up.iloc[-1]/down.iloc[-1] if down.iloc[-1]>0 else float("inf")
         rsi=100-100/(1+rs)
         last=float(close.iloc[-1]);peak=float(close.tail(252).max())
-        return {"ticker":ticker,"price":round(last,2),"rsi14":round(float(rsi),1),"drawdown52":round((last/peak-1)*100,1),"date":str(close.index[-1].date())}
+        ret6=(last/float(close.iloc[-126])-1)*100 if len(close)>126 else None
+        ret12=(last/float(close.iloc[-252])-1)*100 if len(close)>252 else None
+        return {"return6m":round(ret6,2) if ret6 is not None else None,"return12m":round(ret12,2) if ret12 is not None else None,"ticker":ticker,"price":round(last,2),"rsi14":round(float(rsi),1),"drawdown52":round((last/peak-1)*100,1),"date":str(close.index[-1].date())}
     except Exception as e:
         print("Price",ticker,repr(e));return None
 macro={}
@@ -59,6 +61,7 @@ def cci_weekly(frame):
         value=(tp-ma)/(0.015*md)
         return round(float(value.iloc[-1]),1) if pd.notna(value.iloc[-1]) else None
     except Exception:return None
+def clamp(v):return max(0.,min(100.,float(v)))
 def metrics(frame,ticker):
     try:
         frame=frame.dropna(subset=["Close"])
@@ -90,18 +93,31 @@ def batch_prices(tickers):
         except Exception as exc:print("Batch",i,str(exc))
     return output
 
-sectorprices=batch_prices(list(SECTORS))
+sectorprices=batch_prices(list(SECTORS)+["SPY"])
+spy=sectorprices.get("SPY")
 sector=[]
 for ticker,name in SECTORS.items():
     d=sectorprices.get(ticker)
-    if d:
-        # An oversold sector needs both meaningful drawdown and weak momentum.
-        d.update(name=name,oversold=d["drawdown52"]<=-12 and (d["rsi14"]<=40 or (d["cci_weekly"] is not None and d["cci_weekly"]<=-100)))
-        sector.append(d)
-sector.sort(key=lambda d:(not d["oversold"],d["cci_weekly"] if d["cci_weekly"] is not None else 999,d["drawdown52"]))
-eligible=[d["ticker"] for d in sector if d["oversold"]]
+    if not d:continue
+    dd=d["drawdown52"];rsi=d["rsi14"];cci=d["cci_weekly"]
+    # 40 points: drawdown and oversold; 35: 6m/12m relative strength vs S&P500;
+    # 25: resilient longer-term trend and distance to 200d average.
+    oversold=round(25*clamp(-dd/35)+15*clamp((50-rsi)/30),1)
+    if spy and d["return6m"] is not None and spy["return6m"] is not None:
+        rel6=d["return6m"]-spy["return6m"]
+        rel12=(d["return12m"]-spy["return12m"]) if d["return12m"] is not None and spy["return12m"] is not None else None
+        strength=round(20*clamp((rel6+20)/40)+15*clamp((rel12+30)/60),1) if rel12 is not None else None
+    else:rel6=None;rel12=None;strength=None
+    trend=round(15*clamp((d["ma200_gap"]+20)/40)+10*clamp((cci+200)/400),1) if d["ma200_gap"] is not None and cci is not None else None
+    score=round(oversold+strength+trend,1) if strength is not None and trend is not None else None
+    d.update(name=name,oversold=dd<=-12 and (rsi<=40 or (cci is not None and cci<=-100)),
+        opportunity_score=score,oversold_points=oversold,relative_strength_points=strength,trend_points=trend,
+        relative6m=round(rel6,1) if rel6 is not None else None,relative12m=round(rel12,1) if rel12 is not None else None)
+    sector.append(d)
+sector.sort(key=lambda d:(d["opportunity_score"] is None,-(d["opportunity_score"] or 0)))
+eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and d["opportunity_score"]>=65]
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"method":{"sector":"S&P 500 GICS 산업 ETF: 52주 낙폭 -12% 이하 + RSI14≤40 또는 주봉 CCI20≤-100","note":"SOXX는 S&P 500 구성종목만의 지수가 아닌 반도체 참고지표. 종목 선별 제거."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"SOXX는 S&P 500 구성종목만의 지수가 아닌 반도체 참고지표. 종목 선별 제거."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
