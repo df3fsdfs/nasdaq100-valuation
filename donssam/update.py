@@ -1,4 +1,4 @@
-"""Weekly market-screen snapshot. Missing observations are never filled with invented values."""
+"""Daily market-screen snapshot. Missing observations are never filled with invented values."""
 import json, math, time, urllib.request, csv, io
 from datetime import datetime, timezone
 from pathlib import Path
@@ -130,26 +130,47 @@ sector.sort(key=lambda d:(d["opportunity_score"] is None,-(d["opportunity_score"
 eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and d["opportunity_score"]>=65]
 # Drill-down only for the three highest ranked sector ETFs.
 # ETF weights must come from fund holdings, not from an assumed ticker basket.
-def holdings_above_ten(etf):
+def holdings_above_five(etf):
+    # First use reported holdings; SOXX falls back to BlackRock/iShares CSV.
     try:
         raw=yf.Ticker(etf).funds_data.top_holdings
-        if raw is None or raw.empty:return []
-        results=[]
-        for symbol,row in raw.iterrows():
-            weight=row.get("Holding Percent")
-            if weight is None or pd.isna(weight):continue
-            weight=float(weight)
-            if weight>1:weight/=100
-            if weight>=0.10:
+        if raw is not None and not raw.empty:
+            rows=[]
+            for symbol,row in raw.iterrows():
+                weight=row.get("Holding Percent")
+                if weight is None or pd.isna(weight):continue
+                weight=float(weight)
+                if weight>1:weight/=100
                 symbol=str(symbol).strip().upper().replace(".","-")
-                if symbol and symbol not in ("CASH","USD"):results.append({"ticker":symbol,"weight_pct":round(weight*100,2)})
-        return sorted(results,key=lambda z:-z["weight_pct"])
-    except Exception as exc:
-        print("ETF holdings unavailable",etf,repr(exc))
-        return []
+                if weight>=0.05 and symbol not in ("CASH","USD","") and symbol.isascii():
+                    rows.append({"ticker":symbol,"weight_pct":round(weight*100,2)})
+            return sorted(rows,key=lambda z:-z["weight_pct"]),"Yahoo Finance fund holdings","available"
+    except Exception as exc:print("Yahoo ETF holdings",etf,repr(exc))
+    if etf=="SOXX":
+        try:
+            url="https://www.ishares.com/us/products/239705/ishares-phlx-semiconductor-etf/1467271812596.ajax?fileType=csv&fileName=SOXX_holdings&dataType=fund"
+            response=requests.get(url,headers={"User-Agent":"Mozilla/5.0","Accept":"text/csv,*/*"},timeout=16)
+            response.raise_for_status()
+            raw=response.content.decode("utf-8-sig",errors="replace")
+            lines=list(csv.reader(io.StringIO(raw)))
+            idx=next(i for i,r in enumerate(lines) if len(r)>5 and "Ticker" in r and "Weight (%)" in r)
+            head=lines[idx]
+            ti=head.index("Ticker");wi=head.index("Weight (%)")
+            rows=[]
+            for r in lines[idx+1:]:
+                if len(r)<=max(ti,wi):continue
+                symbol=r[ti].strip().upper().replace(".","-")
+                try:weight=float(r[wi].replace(",",""))
+                except (ValueError,TypeError):continue
+                if weight>=5 and symbol and symbol!="-" and symbol.isascii():
+                    rows.append({"ticker":symbol,"weight_pct":round(weight,2)})
+            return sorted(rows,key=lambda z:-z["weight_pct"]),"BlackRock iShares official SOXX holdings CSV","available"
+        except Exception as exc:print("iShares SOXX holdings",repr(exc))
+    return [],"No confirmed source","holdings_unavailable"
 
 top_three=sector[:3]
-holdings={z["ticker"]:holdings_above_ten(z["ticker"]) for z in top_three}
+holdings_data={z["ticker"]:holdings_above_five(z["ticker"]) for z in top_three}
+holdings={etf:result[0] for etf,result in holdings_data.items()}
 names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
 stock_prices=batch_prices(names) if names else {}
 def individual_score(v):
@@ -171,7 +192,7 @@ for z in top_three:
             rows.append({**h,**v,"opportunity":individual_score(v)})
         else:
             rows.append({**h,"price":None,"high52":None,"drawdown52":None,"ma200":None,"rsi14":None,"cci_weekly":None,"opportunity":None})
-    top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":"Yahoo Finance funds_data.top_holdings","status":"available" if rows else "holdings_unavailable"})
+    top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":holdings_data[etf][1],"status":holdings_data[etf][2]})
 # Major indices: actual daily closes, normalized to 100 for comparison.
 market_indices={}
 for symbol,name in [("SPY","S&P 500"),("QQQ","NASDAQ 100"),("SOXX","반도체 SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
@@ -182,7 +203,7 @@ for symbol,name in [("SPY","S&P 500"),("QQQ","NASDAQ 100"),("SOXX","반도체 SO
             market_indices[symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
     except Exception as e:print("Market index",symbol,repr(e))
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 10% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
