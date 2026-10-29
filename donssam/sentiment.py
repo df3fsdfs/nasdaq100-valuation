@@ -19,9 +19,30 @@ def cci(f):
     w=f[["High","Low","Close"]].resample("W-FRI").agg({"High":"max","Low":"min","Close":"last"}).dropna()
     tp=(w.High+w.Low+w.Close)/3;m=tp.rolling(20).mean();md=tp.rolling(20).apply(lambda x:abs(x-x.mean()).mean(),raw=True)
     return float(((tp-m)/(0.015*md)).iloc[-1])
+def monthly_cci(f):
+    m=f[["High","Low","Close"]].resample("ME").agg({"High":"max","Low":"min","Close":"last"}).dropna()
+    tp=(m.High+m.Low+m.Close)/3
+    avg=tp.rolling(20).mean()
+    dev=tp.rolling(20).apply(lambda x:abs(x-x.mean()).mean(),raw=True)
+    return float(((tp-avg)/(0.015*dev)).iloc[-1])
+def bottom_pattern(f):
+    c=f.Close.dropna();a=c.tail(90)
+    fast=(float(c.iloc[-1])/float(c.iloc[-21])-1)*100
+    dd=(float(c.iloc[-1])/float(c.tail(252).max())-1)*100
+    local=[]
+    for i in range(3,len(a)-3):
+        if float(a.iloc[i])==float(a.iloc[i-3:i+4].min()):local.append((i,float(a.iloc[i])))
+    near=[(i,v) for i,v in local if v<=float(a.min())*1.05]
+    separated=[]
+    for i,v in near:
+        if not separated or i-separated[-1][0]>=8:separated.append((i,v))
+    count=len(separated)
+    knife=fast<=-15 and dd<=-15
+    multi=count>=2 and dd<=-12 and float(c.iloc[-1])<=float(a.min())*1.12
+    return {"pattern":"송곳형 급락" if knife else ("삼중바닥 후보" if count>=3 and multi else ("쌍바닥 후보" if multi else "미확인")),"fast20_pct":round(fast,2),"lows":count,"qualified":knife or multi}
 def metrics(f):
     c=f.Close;last=float(c.iloc[-1]);wk=c.resample("W-FRI").last().dropna()
-    return {"date":str(c.index[-1].date()),"price":round(last,2),"drawdown":round((last/float(c.tail(252).max())-1)*100,2),"rsi":round(rsi(c),2),"cci":round(cci(f),2),"ma200w_gap":round((last/float(wk.tail(200).mean())-1)*100,2)}
+    return {"date":str(c.index[-1].date()),"price":round(last,2),"drawdown":round((last/float(c.tail(252).max())-1)*100,2),"rsi":round(rsi(c),2),"cci":round(cci(f),2),"ma200w_gap":round((last/float(wk.tail(200).mean())-1)*100,2),"monthly_cci":round(monthly_cci(f),2),"pattern":bottom_pattern(f)}
 def fred(code,asof=None):
     url="https://fred.stlouisfed.org/graph/fredgraph.csv?id="+code+"&cosd=2023-01-01"
     try:
@@ -66,14 +87,23 @@ def compute(asof=None):
         prev=next((x for x in reversed(obj["rows"]) if x.get("date","")<=str(pd.Timestamp(liq["date"])-pd.Timedelta(days=28)) and x.get("net") is not None),None) if liq else None
         liq={"date":liq["date"],"net":liq["net"],"change4w_pct":round((liq["net"]/prev["net"]-1)*100,2)} if liq and prev and prev["net"] else None
     except Exception as e:print("Liquidity unavailable",e)
-    eq=[
-      component("S&P 500 고점 대비 낙폭",30,scale(sp["drawdown"],-35,0),sp["drawdown"],"%",sp["date"],"-35% 이하 극단 공포 / 0% 중립 이상"),
-      component("SOXX 고점 대비 낙폭",25,scale(semi["drawdown"],-45,0),semi["drawdown"],"%",semi["date"],"-45% 이하 극단 공포 / 0% 중립 이상"),
-      component("S&P 500 주봉 CCI",15,scale(sp["cci"],-200,200),sp["cci"],"CCI",sp["date"],"-200 공포 / +200 탐욕"),
-      component("SOXX 일봉 RSI",15,scale(semi["rsi"],20,80),semi["rsi"],"RSI",semi["date"],"20 공포 / 80 탐욕")
-    ]
-    if cnnfg:eq.append(component("CNN 공포·탐욕",15,cnnfg["value"],cnnfg["value"],"점",cnnfg["date"],"CNN 원지수 (참고)"))
-    else:eq.append(component("CNN 공포·탐욕",15,None, None,"점",None,"자료 미확보 · 점수 계산에서 제외"))
+    def market_parts(asset,label):
+        obs=asset["date"]
+        return [
+          component(label+" 52주 낙폭",15,scale(asset["drawdown"],-40,0),asset["drawdown"],"%",obs,"-40% 극단 공포"),
+          component(label+" 일봉 RSI",6,scale(asset["rsi"],20,80),asset["rsi"],"RSI",obs,"20~80"),
+          component(label+" 주봉 CCI",7,scale(asset["cci"],-200,200),asset["cci"],"CCI",obs,"-200~200"),
+          component(label+" 월봉 CCI",5,scale(asset["monthly_cci"],-150,150),asset["monthly_cci"],"CCI",obs,"0 미만 공포"),
+          component(label+" 하락형태",7,0 if asset["pattern"]["qualified"] else 65,asset["pattern"]["pattern"],"",obs,"송곳형 또는 쌍·삼중바닥")
+        ]
+    eq=market_parts(sp,"S&P 500")+market_parts(semi,"SOXX")
+    if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"]:
+        for part in eq:
+            if part["name"].endswith(("52주 낙폭","일봉 RSI","주봉 CCI")):
+                part["score"]=max(25,part["score"])
+                part["points"]=round(part["weight"]*part["score"]/100,2)
+    eq.append(component("신용위험 HY OAS",10,scale(hy[1],8,2),round(hy[1],2),"%p",hy[0],"8%p 공포 / 2%p 안정") if hy else component("신용위험 HY OAS",10,None,None,"%p",None,"자료 없음"))
+    eq.append(component("CNN 공포·탐욕",10,cnnfg["value"],cnnfg["value"],"점",cnnfg["date"],"CNN 원지수") if cnnfg else component("CNN 공포·탐욕",10,None,None,"점",None,"CNN API 차단 시 제외"))
     cr=[
       component("BTC 고점 대비 낙폭",40,scale(btc["drawdown"],-65,0),btc["drawdown"],"%",btc["date"],"-65% 이하 극단 공포 / 0% 중립 이상"),
       component("BTC 주봉 CCI",15,scale(btc["cci"],-200,200),btc["cci"],"CCI",btc["date"],"-200 공포 / +200 탐욕"),
