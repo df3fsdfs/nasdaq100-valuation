@@ -1,7 +1,7 @@
 name: Update Fed liquidity and Donssam portal
 on:
   schedule:
-    - cron: '30 9 * * 4'
+    - cron: '0 9 * * *'
   push:
     branches: [main]
     paths:
@@ -9,14 +9,14 @@ on:
       - '.github/workflows/fed-liquidity.yml'
   workflow_dispatch:
 concurrency:
-  group: donssam-weekly-refresh
+  group: donssam-daily-market-refresh
   cancel-in-progress: true
 permissions:
   contents: write
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 24
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -25,6 +25,7 @@ jobs:
       - name: Install screen dependencies
         run: pip install yfinance pandas requests beautifulsoup4
       - name: Fetch Fed liquidity
+        continue-on-error: true
         run: python fed-liquidity/update.py
       - name: Update market screens
         run: python donssam/update.py
