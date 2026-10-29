@@ -3,6 +3,7 @@ import json, math, time, urllib.request, csv, io
 from datetime import datetime, timezone
 from pathlib import Path
 import yfinance as yf
+import requests
 import pandas as pd
 
 SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산"}
@@ -23,6 +24,15 @@ def fred(code):
             if arr:return arr[-1]
         except Exception as e:print("FRED",code,repr(e))
         time.sleep(2*(attempt+1))
+    # DBnomics mirrors FRED observations when fred.stlouisfed.org blocks CI.
+    try:
+        url="https://api.db.nomics.world/v22/series/FRED/"+code
+        obj=requests.get(url,timeout=12).json()
+        docs=obj.get("series",{}).get("docs",[])
+        if docs:
+            vals=[(d,float(v)) for d,v in zip(docs[0].get("period",[]),docs[0].get("value",[])) if isinstance(v,(int,float)) and math.isfinite(float(v))]
+            if vals:return vals[-1]
+    except Exception as e:print("DBnomics",code,repr(e))
     return None
 def calc(ticker):
     try:
@@ -162,8 +172,17 @@ for z in top_three:
         else:
             rows.append({**h,"price":None,"high52":None,"drawdown52":None,"ma200":None,"rsi14":None,"cci_weekly":None,"opportunity":None})
     top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":"Yahoo Finance funds_data.top_holdings","status":"available" if rows else "holdings_unavailable"})
+# Major indices: actual daily closes, normalized to 100 for comparison.
+market_indices={}
+for symbol,name in [("SPY","S&P 500"),("QQQ","NASDAQ 100"),("SOXX","반도체 SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
+    try:
+        df=yf.Ticker(symbol).history(period="1y",auto_adjust=True)
+        close=df["Close"].dropna()
+        if len(close)>10:
+            market_indices[symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
+    except Exception as e:print("Market index",symbol,repr(e))
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 10% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 10% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
