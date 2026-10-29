@@ -50,30 +50,6 @@ rules=[
  {"label":"장기금리 압박 여부 (10Y ≤ 5%)","status":("pass" if rate["value"]<=5 else "fail") if rate else "unknown","value":rate}
 ]
 allpass=all(r["status"]=="pass" for r in rules)
-# S&P 500 constituent membership and GICS sector are fetched at each refresh.
-# No off-index stock can enter the screen.
-GICS={"Information Technology":"XLK","Communication Services":"XLC","Consumer Discretionary":"XLY","Industrials":"XLI","Financials":"XLF","Energy":"XLE","Health Care":"XLV","Consumer Staples":"XLP","Utilities":"XLU","Materials":"XLB","Real Estate":"XLRE"}
-constituents=[]
-try:
-    import requests
-    from bs4 import BeautifulSoup
-    url="https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-    response=requests.get(url,headers={"User-Agent":"Mozilla/5.0 (compatible; DonssamResearch/1.0; research@example.org)"},timeout=35)
-    response.raise_for_status()
-    soup=BeautifulSoup(response.text,"html.parser")
-    table=soup.select_one("table#constituents")
-    if table is None:raise RuntimeError("S&P 500 constituents table missing")
-    for tr in table.select("tr")[1:]:
-        td=tr.find_all("td")
-        if len(td)<4:continue
-        ticker=td[0].get_text(" ",strip=True).replace(".","-")
-        name=td[1].get_text(" ",strip=True)
-        sector=GICS.get(td[2].get_text(" ",strip=True))
-        if sector:constituents.append({"ticker":ticker,"company":name,"sector":sector})
-    if len(constituents)<450:raise RuntimeError("S&P 500 membership incomplete")
-except Exception as e:
-    raise RuntimeError("S&P 500 membership cannot be verified; refusing stale or invented universe") from e
-
 def cci_weekly(frame):
     try:
         w=frame[["High","Low","Close"]].resample("W-FRI").agg({"High":"max","Low":"min","Close":"last"}).dropna()
@@ -124,18 +100,9 @@ for ticker,name in SECTORS.items():
         sector.append(d)
 sector.sort(key=lambda d:(not d["oversold"],d["cci_weekly"] if d["cci_weekly"] is not None else 999,d["drawdown52"]))
 eligible=[d["ticker"] for d in sector if d["oversold"]]
-# Research every verified constituent so users can open any industry, even when not yet oversold.
-stockprices=batch_prices([x["ticker"] for x in constituents])
 stocks=[]
-for item in constituents:
-    d=stockprices.get(item["ticker"])
-    if d:
-        d.update(company=item["company"],sector=item["sector"],oversold=d["drawdown52"]<=-20 and (d["rsi14"]<=35 or (d["cci_weekly"] is not None and d["cci_weekly"]<=-100)))
-        d["eligible"]=bool(d["oversold"] and d["sector"] in eligible and allpass)
-        stocks.append(d)
-stocks.sort(key=lambda d:(not d["eligible"],not d["oversold"],d["cci_weekly"] if d["cci_weekly"] is not None else 999,d["drawdown52"]))
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":stocks,"universe":"S&P 500 constituents from current public GICS membership","universe_count":len(constituents),"priced_count":len(stocks),"method":{"macro":"VIX≤30, HY OAS≤5%p, 10Y≤5%; 경고 필터로만 활용, 바닥 매수 신호와 구분","sector":"52주 고점 대비 -12% 이하 + (일봉 RSI14≤40 또는 주봉 CCI20≤-100)","stock":"S&P 500 구성종목 한정, 52주 고점 대비 -20% 이하 + (일봉 RSI14≤35 또는 주봉 CCI20≤-100)","eligible":"거시 3개 통과 + 산업 과매도 + 종목 과매도 모두 충족","note":"사용자의 바닥 포착 프레임 중 주봉 CCI, 낙폭, 시장 위험을 자동화. F&G 극단, NQ 고점 -20%, SOXX 절대가격, 거래량 4배, 200주선, VP/OB/ICT 트랩, 기업가치·실적 검증은 별도 확인 필요. 종목 결과는 기술적 후보군이며 매수 권유가 아님."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"method":{"sector":"S&P 500 GICS 산업 ETF: 52주 낙폭 -12% 이하 + RSI14≤40 또는 주봉 CCI20≤-100","note":"SOXX는 S&P 500 구성종목만의 지수가 아닌 반도체 참고지표. 종목 선별 제거."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
-print("Sectors:",len(sector),"eligible:",eligible,"stocks:",len(stocks))
+print("Sectors:",len(sector),"eligible:",eligible)
 
