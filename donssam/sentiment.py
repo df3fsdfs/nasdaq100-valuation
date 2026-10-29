@@ -22,7 +22,7 @@ def cci(f):
 def metrics(f):
     c=f.Close;last=float(c.iloc[-1]);wk=c.resample("W-FRI").last().dropna()
     return {"date":str(c.index[-1].date()),"price":round(last,2),"drawdown":round((last/float(c.tail(252).max())-1)*100,2),"rsi":round(rsi(c),2),"cci":round(cci(f),2),"ma200w_gap":round((last/float(wk.tail(200).mean())-1)*100,2)}
-def fred(code):
+def fred(code,asof=None):
     url="https://fred.stlouisfed.org/graph/fredgraph.csv?id="+code+"&cosd=2023-01-01"
     try:
         req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0"})
@@ -33,7 +33,7 @@ def fred(code):
                 val=float(item[code]);day=item.get("observation_date") or item.get("DATE")
                 if math.isfinite(val):rows.append((day,val))
             except (ValueError,KeyError,TypeError):pass
-        return rows[-1] if rows else None
+        return next((x for x in reversed(rows) if asof is None or x[0]<=asof),None)
     except Exception as e:print("FRED",code,e);return None
 def cnn():
     # CNN Fear & Greed historical endpoint is unofficial; gracefully omit if unavailable.
@@ -49,13 +49,19 @@ def alternative():
     except Exception as e:print("Crypto F&G unavailable",e);return None
 def component(label,weight,score,value,unit,observed,details):
     return {"name":label,"weight":weight,"score":round(score,1) if score is not None else None,"points":round(weight*score/100,2) if score is not None else None,"value":value,"unit":unit,"date":observed,"rule":details}
-def compute():
-    sp=metrics(fetch("SPY"));semi=metrics(fetch("SOXX"));btc=metrics(fetch("BTC-USD"))
-    hy=fred("BAMLH0A0HYM2");vix=fred("VIXCLS");cnnfg=cnn();crypto_fg=alternative()
+def compute(asof=None):
+    def historical(t):
+        x=fetch(t)
+        return x.loc[x.index.date<=pd.Timestamp(asof).date()] if asof else x
+    sp=metrics(historical("SPY"));semi=metrics(historical("SOXX"));btc=metrics(historical("BTC-USD"))
+    effective=sp['date']
+    hy=fred("BAMLH0A0HYM2",effective);vix=fred("VIXCLS",effective)
+    cnnfg=cnn() if asof is None else None
+    crypto_fg=alternative() if asof is None else None
     liq=None
     try:
         obj=json.loads(Path("fed-liquidity/data.json").read_text(encoding="utf-8"))
-        liq=[x for x in obj["rows"] if x.get("net") is not None]
+        liq=[x for x in obj["rows"] if x.get("net") is not None and (asof is None or x.get("date","")<=effective)]
         liq=liq[-1] if liq else None
         prev=next((x for x in reversed(obj["rows"]) if x.get("date","")<=str(pd.Timestamp(liq["date"])-pd.Timedelta(days=28)) and x.get("net") is not None),None) if liq else None
         liq={"date":liq["date"],"net":liq["net"],"change4w_pct":round((liq["net"]/prev["net"]-1)*100,2)} if liq and prev and prev["net"] else None
@@ -89,7 +95,16 @@ def main():
     if OUT.exists():
         try:history=json.loads(OUT.read_text(encoding="utf-8")).get("history",[])
         except Exception:pass
-    history=[x for x in history if x.get("date")!=today["date"]]+[today]
+    # Seed two real historical market sessions; historical CNN/crypto F&G are unavailable and omitted.
+    existing={x.get("date"):x for x in history}
+    sessions=fetch("SPY").index[-3:].date
+    for day in sessions:
+        key=day.isoformat()
+        if key not in existing and key!=today["date"]:
+            try:existing[key]=compute(key)
+            except Exception as exc:print("Historical snapshot unavailable",key,exc)
+    existing[today["date"]]=today
+    history=list(existing.values())
     history.sort(key=lambda x:x["date"])
     OUT.parent.mkdir(parents=True,exist_ok=True)
     OUT.write_text(json.dumps({"latest":today,"history":history[-730:]},ensure_ascii=False,allow_nan=False),encoding="utf-8")
