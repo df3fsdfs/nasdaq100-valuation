@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install screen dependencies
-        run: pip install yfinance pandas
+        run: pip install yfinance pandas requests beautifulsoup4
       - name: Fetch Fed liquidity
         run: python fed-liquidity/update.py
       - name: Update market screens
