@@ -57,21 +57,26 @@ def fred(code,asof=None):
         return next((x for x in reversed(rows) if asof is None or x[0]<=asof),None)
     except Exception as e:print("FRED",code,e);return None
 def cnn():
-    # Browser-like headers and two CNN hosts, matching community-maintained parsers.
-    urls=[
-      "https://production.dataviz.cnn.io/index/fearandgreed/graphdata",
-      "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-01-01"
-    ]
-    headers={"User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36","Referer":"https://www.cnn.com/markets/fear-and-greed","Origin":"https://www.cnn.com","Accept":"application/json, text/plain, */*","Accept-Language":"en-US,en;q=0.9"}
-    for url in urls:
-        try:
-            r=requests.get(url,headers=headers,timeout=9)
-            r.raise_for_status()
-            obj=r.json().get("fear_and_greed",{})
-            val=float(obj["score"])
-            if 0<=val<=100:return {"value":round(val,1),"date":str(obj.get("timestamp",""))[:10],"source":"CNN Fear & Greed"}
-        except Exception as e:print("CNN unavailable",str(e))
-    return None
+    # CNN's public dashboard JSON; never substitute crypto fear/greed.
+    url="https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+    headers={
+      "Content-Type":"application/json",
+      "User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+      "Accept":"application/json, text/plain, */*",
+      "Referer":"https://www.cnn.com/markets/fear-and-greed"
+    }
+    try:
+        r=requests.get(url,headers=headers,timeout=18)
+        r.raise_for_status()
+        body=r.json()
+        obj=body["fear_and_greed"]
+        score=float(obj["score"])
+        if not math.isfinite(score) or not 0<=score<=100:raise ValueError("CNN score out of range")
+        timestamp=str(obj.get("timestamp",""))[:10]
+        return {"value":round(score,1),"date":timestamp,"rating":obj.get("rating"),"previous_close":obj.get("previous_close"),"previous_1_week":obj.get("previous_1_week"),"previous_1_month":obj.get("previous_1_month"),"previous_1_year":obj.get("previous_1_year"),"source":"CNN official fear_and_greed JSON"}
+    except Exception as e:
+        print("CNN unavailable",repr(e))
+        return None
 def alternative():
     try:
         obj=requests.get("https://api.alternative.me/fng/?limit=1",timeout=15).json()["data"][0]
