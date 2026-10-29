@@ -1,7 +1,7 @@
 name: Donssam OECD CLI
 on:
   schedule:
-    - cron: '0 1 1 * *'
+    - cron: '30 9 * * 1'
   push:
     branches: [main]
     paths:
@@ -15,7 +15,7 @@ concurrency:
 jobs:
   cli:
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
