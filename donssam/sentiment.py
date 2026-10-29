@@ -1,4 +1,4 @@
-"""Daily Donssam equity and crypto sentiment, 0=fear, 100=greed."""
+"""Daily Donssam equity bottom opportunity and crypto sentiment."""
 import json, math, time, io, csv, urllib.request
 from datetime import datetime,timezone
 from pathlib import Path
@@ -87,23 +87,21 @@ def compute(asof=None):
         prev=next((x for x in reversed(obj["rows"]) if x.get("date","")<=str(pd.Timestamp(liq["date"])-pd.Timedelta(days=28)) and x.get("net") is not None),None) if liq else None
         liq={"date":liq["date"],"net":liq["net"],"change4w_pct":round((liq["net"]/prev["net"]-1)*100,2)} if liq and prev and prev["net"] else None
     except Exception as e:print("Liquidity unavailable",e)
-    def market_parts(asset,label):
-        obs=asset["date"]
-        return [
-          component(label+" 52주 낙폭",15,scale(asset["drawdown"],-40,0),asset["drawdown"],"%",obs,"-40% 극단 공포"),
-          component(label+" 일봉 RSI",6,scale(asset["rsi"],20,80),asset["rsi"],"RSI",obs,"20~80"),
-          component(label+" 주봉 CCI",7,scale(asset["cci"],-200,200),asset["cci"],"CCI",obs,"-200~200"),
-          component(label+" 월봉 CCI",5,scale(asset["monthly_cci"],-150,150),asset["monthly_cci"],"CCI",obs,"0 미만 공포"),
-          component(label+" 하락형태",7,0 if asset["pattern"]["qualified"] else 65,asset["pattern"]["pattern"],"",obs,"송곳형 또는 쌍·삼중바닥")
+    def opportunity(asset,label,weight):
+        obs=asset["date"];p=asset["pattern"];dd=asset["drawdown"]
+        # Deep drawdown, weekly/daily oversold, monthly CCI, 200-week MA and a bottom pattern.
+        raw=[
+          (label+" 낙폭·속도",25,0.65*scale(-dd,0,40)+0.35*scale(-p["fast20_pct"],0,22),str(dd)+"% / 20일 "+str(p["fast20_pct"])+"%"),
+          (label+" 주봉·일봉 과매도",20,0.6*scale(-asset["cci"],0,200)+0.4*scale(50-asset["rsi"],0,35),str(asset["cci"])+" / "+str(asset["rsi"])),
+          (label+" 월봉 CCI",10,scale(-asset["monthly_cci"],0,180),asset["monthly_cci"]),
+          (label+" 200주선 접근",15,scale(35-abs(asset["ma200w_gap"]),0,35),asset["ma200w_gap"]),
+          (label+" 바닥형태",20,90 if p["qualified"] else 0,p["pattern"])
         ]
-    eq=market_parts(sp,"S&P 500")+market_parts(semi,"SOXX")
-    if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"]:
-        for part in eq:
-            if part["name"].endswith(("52주 낙폭","일봉 RSI","주봉 CCI")):
-                part["score"]=max(25,part["score"])
-                part["points"]=round(part["weight"]*part["score"]/100,2)
-    eq.append(component("신용위험 HY OAS",10,scale(hy[1],8,2),round(hy[1],2),"%p",hy[0],"8%p 공포 / 2%p 안정") if hy else component("신용위험 HY OAS",10,None,None,"%p",None,"자료 없음"))
-    eq.append(component("CNN 공포·탐욕",10,cnnfg["value"],cnnfg["value"],"점",cnnfg["date"],"CNN 원지수") if cnnfg else component("CNN 공포·탐욕",10,None,None,"점",None,"CNN API 차단 시 제외"))
+        return [component(n,round(w*weight/90,3),v,value,"",obs,"높을수록 바닥매수 기회") for n,w,v,value in raw]
+    eq=opportunity(sp,"S&P 500",0.5)+opportunity(semi,"SOXX",0.5)
+    # Macro stress is useful only as corroboration; missing credit data is not fabricated.
+    eq.append(component("HY OAS 신용 스트레스",6,scale(hy[1],2,8),round(hy[1],2),"%p",hy[0],"높은 신용스프레드 = 높은 공포") if hy else component("HY OAS 신용 스트레스",6,None,None,"%p",None,"자료 없음"))
+    eq.append(component("CNN 공포·탐욕 역점수",4,100-cnnfg["value"],cnnfg["value"],"점",cnnfg["date"],"CNN 0이면 기회점수 100") if cnnfg else component("CNN 공포·탐욕 역점수",4,None,None,"점",None,"CNN API 차단 시 제외"))
     cr=[
       component("BTC 고점 대비 낙폭",40,scale(btc["drawdown"],-65,0),btc["drawdown"],"%",btc["date"],"-65% 이하 극단 공포 / 0% 중립 이상"),
       component("BTC 주봉 CCI",15,scale(btc["cci"],-200,200),btc["cci"],"CCI",btc["date"],"-200 공포 / +200 탐욕"),
@@ -116,9 +114,14 @@ def compute(asof=None):
     def pack(parts):
         available=[p for p in parts if p["score"] is not None]
         used=sum(p["weight"] for p in available)
-        return {"score":round(sum(p["points"] for p in available)/used*100,1) if used>=70 else None,"coverage":used,"components":parts}
+        return {"score":round(sum(p["points"] for p in available)/used*100,1) if used>=65 else None,"coverage":round(used,1),"components":parts}
+    equity=pack(eq)
+    # Without a sharp selloff or repeated lows, do not label gradual weakness as an extreme bottom opportunity.
+    if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"] and equity["score"] is not None:
+        equity["score"]=min(equity["score"],60)
+    crypto=pack(cr)
     # Observation dates differ; explicitly preserve each.
-    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":pack(eq),"crypto":pack(cr),"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","method":"0=극단적 공포/과매도, 100=탐욕/과열. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
+    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","method":"증시 0=바닥매수 기회 멀다, 100=바닥매수 조건 근접. 크립토는 기존 공포·탐욕 방향 유지. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
 def main():
     today=compute()
     history=[]
