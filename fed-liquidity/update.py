@@ -1,4 +1,4 @@
-import csv, io, json, urllib.request
+import csv, io, json, urllib.request, time, random
 from datetime import datetime, timezone
 from pathlib import Path
 from collections import defaultdict
@@ -6,8 +6,22 @@ from collections import defaultdict
 BASE="https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 SERIES={"WALCL":1.0,"WTREGEN":1.0,"RRPONTSYD":1000.0,"WRESBAL":1.0} # all in millions USD
 def load(code):
-    req=urllib.request.Request(BASE+code,headers={"User-Agent":"donssam-liquidity/1.0"})
-    with urllib.request.urlopen(req,timeout=40) as r: data=r.read().decode("utf-8-sig")
+    urls=[BASE+code, "https://fred.stlouisfed.org/graph/fredgraph.csv?cosd=2010-01-01&id="+code, "https://fred.stlouisfed.org/graph/fredgraph.csv?id="+code+"&cosd=2010-01-01"]
+    data=None
+    errors=[]
+    for url in urls:
+        for attempt in range(2):
+            try:
+                req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0 (compatible; DonssamDashboard/1.0)","Accept":"text/csv,*/*"})
+                with urllib.request.urlopen(req,timeout=75) as response:
+                    data=response.read().decode("utf-8-sig")
+                if code not in data[:500]: raise ValueError("Unexpected CSV header")
+                break
+            except Exception as exc:
+                errors.append(str(exc))
+                time.sleep(2+attempt*4+random.random())
+        if data: break
+    if data is None: raise RuntimeError(f"Unable to fetch {code}: {errors[-3:]}")
     out={}
     for row in csv.DictReader(io.StringIO(data)):
         try:
