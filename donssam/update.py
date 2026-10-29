@@ -30,7 +30,12 @@ def fred(code):
         obj=requests.get(url,timeout=12).json()
         docs=obj.get("series",{}).get("docs",[])
         if docs:
-            vals=[(d,float(v)) for d,v in zip(docs[0].get("period",[]),docs[0].get("value",[])) if isinstance(v,(int,float)) and math.isfinite(float(v))]
+            vals=[]
+            for d,v in zip(docs[0].get("period",[]),docs[0].get("value",[])):
+                try:
+                    value=float(v)
+                    if math.isfinite(value):vals.append((d,value))
+                except (ValueError,TypeError):pass
             if vals:return vals[-1]
     except Exception as e:print("DBnomics",code,repr(e))
     return None
@@ -50,10 +55,15 @@ def calc(ticker):
         return {"return6m":round(ret6,2) if ret6 is not None else None,"return12m":round(ret12,2) if ret12 is not None else None,"ticker":ticker,"price":round(last,2),"rsi14":round(float(rsi),1),"drawdown52":round((last/peak-1)*100,1),"date":str(close.index[-1].date())}
     except Exception as e:
         print("Price",ticker,repr(e));return None
+# Keep last verified observation on temporary provider outage, with its ORIGINAL date.
+try:
+    previous=json.loads(Path("donssam/screen.json").read_text(encoding="utf-8"))
+except (OSError,ValueError):
+    previous={}
 macro={}
 for code,name in FRED.items():
     item=fred(code)
-    macro[code]={"name":name,"date":item[0],"value":item[1]} if item else None
+    macro[code]={"name":name,"date":item[0],"value":item[1],"source":"FRED/DBnomics"} if item else previous.get("macro",{}).get(code)
 # Thresholds are transparent screening rules, not validated forecasts.
 vix=macro.get("VIXCLS");oas=macro.get("BAMLH0A0HYM2");rate=macro.get("DGS10")
 rules=[
@@ -202,6 +212,15 @@ for symbol,name in [("SPY","S&P 500"),("QQQ","NASDAQ 100"),("SOXX","반도체 SO
         if len(close)>10:
             market_indices[symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
     except Exception as e:print("Market index",symbol,repr(e))
+# Retain last confirmed data when a temporary market-data outage occurs.
+for symbol,old in previous.get("market_indices",{}).items():
+    if symbol not in market_indices and old.get("rows"):
+        market_indices[symbol]=old
+for row in top_holdings:
+    if row["status"]!="available":
+        old=next((z for z in previous.get("top_etf_holdings",[]) if z.get("etf")==row["etf"] and z.get("status") in ("available","stale") and z.get("holdings")),None)
+        if old:
+            row.update(holdings=old["holdings"],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
 stocks=[]
 result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
 Path("donssam").mkdir(exist_ok=True)
