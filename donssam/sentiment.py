@@ -115,16 +115,16 @@ def compute(asof=None):
     def pack(parts):
         available=[p for p in parts if p["score"] is not None]
         used=sum(p["weight"] for p in available)
-        return {"score":round(sum(p["points"] for p in available)/used*100,1) if used>=65 else None,"coverage":round(used,1),"components":parts}
+        return {"score":round(100-sum(p["points"] for p in available)/used*100,1) if used>=65 else None,"coverage":round(used,1),"components":parts}
     equity=pack(eq)
     # Without a sharp selloff or repeated lows, do not label gradual weakness as an extreme bottom opportunity.
     if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"] and equity["score"] is not None:
-        equity["score"]=min(equity["score"],60)
+        equity["score"]=max(equity["score"],40)
     crypto=pack(cr)
     if not btc["pattern"]["qualified"] and crypto["score"] is not None:
-        crypto["score"]=min(crypto["score"],65)
+        crypto["score"]=max(crypto["score"],35)
     # Observation dates differ; explicitly preserve each.
-    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","method":"증시 0=바닥매수 기회 멀다, 100=바닥매수 조건 근접. 크립토도 0=기회 멀다, 100=바닥 조건 근접. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
+    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","score_direction":"zero_is_opportunity","method":"증시·크립토 모두 0=바닥매수 기회 가까움, 100=기회 멀다. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
 def main():
     today=compute()
     history=[]
@@ -132,7 +132,7 @@ def main():
         try:history=json.loads(OUT.read_text(encoding="utf-8")).get("history",[])
         except Exception:pass
     # Seed two real historical market sessions; historical CNN/crypto F&G are unavailable and omitted.
-    existing={x.get("date"):x for x in history}
+    existing={x.get("date"):x for x in history if x.get("score_direction")=="zero_is_opportunity"}
     sessions=fetch("SPY").index[-3:].date
     for day in sessions:
         key=day.isoformat()
