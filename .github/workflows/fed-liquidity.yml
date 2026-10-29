@@ -1,4 +1,4 @@
-name: Update Fed liquidity
+name: Update Fed liquidity and Donssam portal
 on:
   schedule:
     - cron: '30 9 * * 4'
@@ -8,16 +8,21 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Fetch and calculate
+      - name: Install screen dependencies
+        run: pip install yfinance pandas
+      - name: Fetch Fed liquidity
         run: python fed-liquidity/update.py
+      - name: Update market screens
+        run: python donssam/update.py
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add fed-liquidity/data.json
-          git diff --cached --quiet || (git commit -m "Update Fed liquidity data" && git push)
+          git add fed-liquidity/data.json donssam/screen.json
+          git diff --cached --quiet || (git commit -m "Update Fed liquidity and Donssam screens" && git push)
