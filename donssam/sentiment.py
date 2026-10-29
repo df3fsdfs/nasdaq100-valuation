@@ -57,12 +57,21 @@ def fred(code,asof=None):
         return next((x for x in reversed(rows) if asof is None or x[0]<=asof),None)
     except Exception as e:print("FRED",code,e);return None
 def cnn():
-    # CNN Fear & Greed historical endpoint is unofficial; gracefully omit if unavailable.
-    try:
-        r=requests.get("https://production.dataviz.cnn.io/index/fearandgreed/graphdata",headers={"User-Agent":"Mozilla/5.0","Referer":"https://edition.cnn.com/"},timeout=15)
-        r.raise_for_status();obj=r.json().get("fear_and_greed",{})
-        val=float(obj["score"]);return {"value":round(val,1),"date":str(obj.get("timestamp",""))[:10],"source":"CNN Fear & Greed"}
-    except Exception as e:print("CNN unavailable",e);return None
+    # Browser-like headers and two CNN hosts, matching community-maintained parsers.
+    urls=[
+      "https://production.dataviz.cnn.io/index/fearandgreed/graphdata",
+      "https://production.dataviz.cnn.io/index/fearandgreed/graphdata/2026-01-01"
+    ]
+    headers={"User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36","Referer":"https://www.cnn.com/markets/fear-and-greed","Origin":"https://www.cnn.com","Accept":"application/json, text/plain, */*","Accept-Language":"en-US,en;q=0.9"}
+    for url in urls:
+        try:
+            r=requests.get(url,headers=headers,timeout=9)
+            r.raise_for_status()
+            obj=r.json().get("fear_and_greed",{})
+            val=float(obj["score"])
+            if 0<=val<=100:return {"value":round(val,1),"date":str(obj.get("timestamp",""))[:10],"source":"CNN Fear & Greed"}
+        except Exception as e:print("CNN unavailable",str(e))
+    return None
 def alternative():
     try:
         obj=requests.get("https://api.alternative.me/fng/?limit=1",timeout=15).json()["data"][0]
