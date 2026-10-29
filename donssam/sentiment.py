@@ -103,14 +103,15 @@ def compute(asof=None):
     eq.append(component("HY OAS 신용 스트레스",6,scale(hy[1],2,8),round(hy[1],2),"%p",hy[0],"높은 신용스프레드 = 높은 공포") if hy else component("HY OAS 신용 스트레스",6,None,None,"%p",None,"자료 없음"))
     eq.append(component("CNN 공포·탐욕 역점수",4,100-cnnfg["value"],cnnfg["value"],"점",cnnfg["date"],"CNN 0이면 기회점수 100") if cnnfg else component("CNN 공포·탐욕 역점수",4,None,None,"점",None,"CNN API 차단 시 제외"))
     cr=[
-      component("BTC 고점 대비 낙폭",40,scale(btc["drawdown"],-65,0),btc["drawdown"],"%",btc["date"],"-65% 이하 극단 공포 / 0% 중립 이상"),
-      component("BTC 주봉 CCI",15,scale(btc["cci"],-200,200),btc["cci"],"CCI",btc["date"],"-200 공포 / +200 탐욕"),
-      component("BTC 일봉 RSI",10,scale(btc["rsi"],20,80),btc["rsi"],"RSI",btc["date"],"20 공포 / 80 탐욕"),
-      component("S&P 500 낙폭",10,scale(sp["drawdown"],-35,0),sp["drawdown"],"%",sp["date"],"미국 증시 위험 전이"),
+      component("BTC 자체 낙폭",40,scale(-btc["drawdown"],0,65),btc["drawdown"],"%",btc["date"],"낙폭 클수록 바닥 기회 근접"),
+      component("BTC 주봉·일봉 과매도",15,0.6*scale(-btc["cci"],0,200)+0.4*scale(50-btc["rsi"],0,35),str(btc["cci"])+" / "+str(btc["rsi"]),"",btc["date"],"주봉 CCI·일봉 RSI"),
+      component("BTC 월봉 CCI·200주선",15,0.5*scale(-btc["monthly_cci"],0,180)+0.5*scale(35-abs(btc["ma200w_gap"]),0,35),str(btc["monthly_cci"])+" / "+str(btc["ma200w_gap"]),"",btc["date"],"월봉 CCI·200주선 괴리"),
+      component("BTC 급락·바닥형태",10,90 if btc["pattern"]["qualified"] else 0,btc["pattern"]["pattern"],"",btc["date"],"송곳형 급락·쌍/삼중바닥 후보"),
+      component("S&P 500 낙폭",5,scale(-sp["drawdown"],0,35),sp["drawdown"],"%",sp["date"],"미국 증시 위험 전이"),
     ]
-    cr.append(component("신용위험 HY OAS",10,scale(hy[1],8,2),round(hy[1],2) if hy else None,"%p",hy[0] if hy else None,"8%p 이상 공포 / 2%p 이하 탐욕") if hy else component("신용위험 HY OAS",10,None,None,"%p",None,"자료 미확보"))
-    cr.append(component("연준 순유동성 4주 변화",10,scale(liq["change4w_pct"],-5,5),liq["change4w_pct"] if liq else None,"%",liq["date"] if liq else None,"-5% 유동성 위축 / +5% 확대") if liq else component("연준 순유동성 4주 변화",10,None,None,"%",None,"자료 미확보"))
-    cr.append(component("크립토 공포·탐욕",5,crypto_fg["value"],crypto_fg["value"],"점",crypto_fg["date"],"Alternative.me 원지수") if crypto_fg else component("크립토 공포·탐욕",5,None,None,"점",None,"자료 미확보"))
+    cr.append(component("신용위험 HY OAS",5,scale(hy[1],2,8),round(hy[1],2),"%p",hy[0],"신용 스트레스 증가") if hy else component("신용위험 HY OAS",5,None,None,"%p",None,"자료 없음"))
+    cr.append(component("연준 순유동성 4주 변화",5,scale(-liq["change4w_pct"],-5,5),liq["change4w_pct"],"%",liq["date"],"유동성 위축 시 위험·기회 증가") if liq else component("연준 순유동성 4주 변화",5,None,None,"%",None,"자료 없음"))
+    cr.append(component("크립토 공포·탐욕 역점수",5,100-crypto_fg["value"],crypto_fg["value"],"점",crypto_fg["date"],"공포 심할수록 바닥 기회 근접") if crypto_fg else component("크립토 공포·탐욕 역점수",5,None,None,"점",None,"자료 없음"))
     def pack(parts):
         available=[p for p in parts if p["score"] is not None]
         used=sum(p["weight"] for p in available)
@@ -120,8 +121,10 @@ def compute(asof=None):
     if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"] and equity["score"] is not None:
         equity["score"]=min(equity["score"],60)
     crypto=pack(cr)
+    if not btc["pattern"]["qualified"] and crypto["score"] is not None:
+        crypto["score"]=min(crypto["score"],65)
     # Observation dates differ; explicitly preserve each.
-    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","method":"증시 0=바닥매수 기회 멀다, 100=바닥매수 조건 근접. 크립토는 기존 공포·탐욕 방향 유지. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
+    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","method":"증시 0=바닥매수 기회 멀다, 100=바닥매수 조건 근접. 크립토도 0=기회 멀다, 100=바닥 조건 근접. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
 def main():
     today=compute()
     history=[]
