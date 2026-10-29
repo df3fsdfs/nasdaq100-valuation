@@ -2,7 +2,7 @@
 import json,csv,io,urllib.request
 from datetime import datetime,timezone
 from pathlib import Path
-codes={"G20":"G20","G7":"G7","USA":"USA","Korea":"KOR","Euro area":"EA17"}
+codes={"G20":"G20","G7":"G7","USA":"USA","Korea":"KOR","Euro area":"EA20"}
 series={k:{"code":v,"rows":[],"latest":None} for k,v in codes.items()}
 for name,code in codes.items():
     url="https://sdmx.oecd.org/public/rest/data/OECD.SDD.STES,DSD_STES@DF_CLI,4.1/"+code+".M.LI...AA...H?startPeriod=2018-01&dimensionAtObservation=AllDimensions&format=csvfile"
