@@ -97,7 +97,7 @@ def compute(asof=None):
           (label+" 200주선 접근",15,scale(35-abs(asset["ma200w_gap"]),0,35),asset["ma200w_gap"]),
           (label+" 바닥형태",20,90 if p["qualified"] else 0,p["pattern"])
         ]
-        return [component(n,round(w*weight/90,3),v,value,"",obs,"높을수록 바닥매수 기회") for n,w,v,value in raw]
+        return [component(n,round(w*weight,3),v,value,"",obs,"높을수록 바닥매수 기회") for n,w,v,value in raw]
     eq=opportunity(sp,"S&P 500",0.5)+opportunity(semi,"SOXX",0.5)
     # Macro stress is useful only as corroboration; missing credit data is not fabricated.
     eq.append(component("HY OAS 신용 스트레스",6,scale(hy[1],2,8),round(hy[1],2),"%p",hy[0],"높은 신용스프레드 = 높은 공포") if hy else component("HY OAS 신용 스트레스",6,None,None,"%p",None,"자료 없음"))
