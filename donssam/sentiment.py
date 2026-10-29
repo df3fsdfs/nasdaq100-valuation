@@ -48,7 +48,7 @@ def alternative():
         return {"value":float(obj["value"]),"date":datetime.fromtimestamp(int(obj["timestamp"]),timezone.utc).date().isoformat(),"source":"Alternative.me Crypto Fear & Greed"}
     except Exception as e:print("Crypto F&G unavailable",e);return None
 def component(label,weight,score,value,unit,observed,details):
-    return {"name":label,"weight":weight,"score":round(score,1),"points":round(weight*score/100,2),"value":value,"unit":unit,"date":observed,"rule":details}
+    return {"name":label,"weight":weight,"score":round(score,1) if score is not None else None,"points":round(weight*score/100,2) if score is not None else None,"value":value,"unit":unit,"date":observed,"rule":details}
 def compute():
     sp=metrics(fetch("SPY"));semi=metrics(fetch("SOXX"));btc=metrics(fetch("BTC-USD"))
     hy=fred("BAMLH0A0HYM2");vix=fred("VIXCLS");cnnfg=cnn();crypto_fg=alternative()
