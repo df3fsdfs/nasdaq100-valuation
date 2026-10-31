@@ -156,8 +156,8 @@ def main():
     if fear:
         try:
             points=payload.get('fear_and_greed_historical',{}).get('data',[])
-            history={pd.Timestamp(p['x'],unit='ms',tz='UTC').date().isoformat():float(p['y']) for p in points if p.get('x') is not None and p.get('y') is not None}
-            values=[v for d,v in sorted(history.items()) if d<fear['date']][-20:]
+            cnn_history={pd.Timestamp(p['x'],unit='ms',tz='UTC').date().isoformat():float(p['y']) for p in points if p.get('x') is not None and p.get('y') is not None}
+            values=[v for d,v in sorted(cnn_history.items()) if d<fear['date']][-20:]
             fear.update(mean=finite(sum(values)/len(values)) if values else None,mean_n=len(values))
         except Exception:pass
     if crypto_fear:

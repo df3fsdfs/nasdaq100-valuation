@@ -1,4 +1,7 @@
 import unittest
+import json,tempfile
+from pathlib import Path
+from unittest.mock import patch
 from datetime import datetime, timezone
 import numpy as np
 import pandas as pd
@@ -34,5 +37,18 @@ class PineTests(unittest.TestCase):
         self.assertEqual(str(b.completed_bars(f,'ME',early).index[-1].date()),'2026-09-30')
         self.assertEqual(str(b.completed_bars(f,'ME',late).index[-1].date()),'2026-10-31')
         self.assertEqual(b.build(late,{},errors=[])['schema_version'],2)
+
+    def test_full_collection_does_not_shadow_history_function(self):
+        frame=self.frame()
+        def api(url):
+            if 'alternative.me' in url:return {'data':[{'value':'20','timestamp':'1793404800','value_classification':'Fear'},{'value':'25','timestamp':'1793318400'}]}
+            return {'fear_and_greed':{'score':22,'timestamp':'2026-10-30T20:00:00Z','previous_close':25},'fear_and_greed_historical':{'data':[]}}
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(b,'ROOT',Path(folder)),patch.object(b,'history',return_value=(frame,'test fixture')) as fetch,patch.object(b,'request_json',side_effect=api):
+                b.main()
+                result=json.loads((Path(folder)/'bottom.json').read_text())
+                self.assertEqual(fetch.call_count,4)
+                self.assertEqual(set(result['assets']),{'NDX','BTC'})
+                self.assertFalse(result['errors'])
 
 if __name__=='__main__':unittest.main()
