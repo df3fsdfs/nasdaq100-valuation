@@ -64,7 +64,7 @@ def cli_analysis(rows):
 def sector_history(screen):
     tickers=[x['ticker'] for x in screen.get('sectors',[])];frames={}
     def load(t):
-        try:return t,chart_history(t)
+        try:return t,chart_history(t,years=5)
         except Exception:return t,None
     with ThreadPoolExecutor(max_workers=4) as pool:
         frames={t:f for t,f in pool.map(load,list(dict.fromkeys(tickers+['SPY']))) if f is not None}

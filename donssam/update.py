@@ -5,7 +5,7 @@ from pathlib import Path
 import yfinance as yf
 import requests
 import pandas as pd
-from sector_scoring import metrics, cci_weekly, clamp, score_sector, score_individual
+from sector_scoring import metrics, cci_weekly, clamp, score_sector, score_individual, METHOD
 
 SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산","FNGS":"M7"}
 STOCKS={"SOXX":["NVDA","AVGO","AMD","MU","AMAT","LRCX","KLAC","QCOM","TXN"],"XLK":["MSFT","AAPL","ORCL","CRM","ADBE","NOW","PANW"],"XLC":["GOOGL","META","NFLX","DIS"],"XLY":["AMZN","TSLA","HD","MCD","NKE","SBUX"],"XLI":["CAT","GE","DE","ETN","HON","UPS"],"XLF":["JPM","BAC","GS","MS","V","MA"],"XLE":["XOM","CVX","COP","SLB"],"XLV":["LLY","UNH","JNJ","ABBV","MRK"],"XLP":["WMT","COST","PG","KO","PEP"],"XLU":["NEE","DUK","SO"],"XLB":["LIN","SHW","FCX"],"XLRE":["PLD","AMT","EQIX"]}
@@ -42,7 +42,7 @@ def fred(code):
     return None
 def calc(ticker):
     try:
-        frame=yf.Ticker(ticker).history(period="18mo",auto_adjust=True)
+        frame=yf.Ticker(ticker).history(period="5y",auto_adjust=True)
         close=frame["Close"].dropna()
         if len(close)<65:return None
         change=close.diff()
@@ -79,7 +79,7 @@ def batch_prices(tickers):
     for i in range(0,len(tickers),75):
         group=tickers[i:i+75]
         try:
-            frame=yf.download(group,period="18mo",interval="1d",group_by="ticker",auto_adjust=True,threads=True,progress=False,timeout=12)
+            frame=yf.download(group,period="5y",interval="1d",group_by="ticker",auto_adjust=True,threads=True,progress=False,timeout=12)
             for ticker in group:
                 try:
                     item=frame[ticker] if isinstance(frame.columns,pd.MultiIndex) else frame
@@ -92,7 +92,7 @@ def batch_prices(tickers):
         from concurrent.futures import ThreadPoolExecutor
         from price_history import chart_history
         def fallback(t):
-            try:return t,metrics(chart_history(t),t)
+            try:return t,metrics(chart_history(t,years=5),t)
             except Exception as exc:print('Chart fallback',t,type(exc).__name__);return t,None
         with ThreadPoolExecutor(max_workers=4) as pool:
             for t,value in pool.map(fallback,missing):
@@ -194,7 +194,7 @@ for row in top_holdings:
         if old:
             row.update(holdings=[{**h,"opportunity":individual_score(h)} if h.get("return6m") is not None else {**h,"opportunity":None} for h in old["holdings"]],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 산업·개별종목 공통: 상대강도35·과매도40·추세25. 통과=점수70초과 AND RSI14≤20 AND 주봉CCI≤-100. 개별 점수 100=기회 높음, 0=기회 낮음."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":METHOD,"note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 산업·개별종목 공통: 상대강도35·과매도40·추세25. 통과=점수70이상 AND RSI14≤20 AND 주봉CCI≤-100. 개별 점수 100=기회 높음, 0=기회 낮음."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
