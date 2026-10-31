@@ -54,6 +54,9 @@ jobs:
           if [ "$(TZ=Asia/Seoul date +%u)" = '5' ]; then
             python fed-liquidity/update.py
           fi
+      - name: Update institutional positioning sources
+        if: github.event.schedule == '5 22 * * *' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+        run: python donssam/institutional_positions.py
       - name: Update confirmed and forming buy signals
         if: github.event.schedule != '*/30 * * * *' && github.event.schedule != '0 10 * * *' && github.event.schedule != '30 23 * * 1-5'
         run: python donssam/bottom_check.py
@@ -66,7 +69,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add donssam/bottom.json donssam/insights.json donssam/screen.json donssam/cli.json donssam/sentiment.json donssam/quotes.json fed-liquidity/data.json data.json
+          git add donssam/institutional_positions.json donssam/bottom.json donssam/insights.json donssam/screen.json donssam/cli.json donssam/sentiment.json donssam/quotes.json fed-liquidity/data.json data.json
           if [ -f history_cache.json ]; then git add history_cache.json; fi
           if ! git diff --cached --quiet; then
             git commit -m 'Refresh market observations with original timestamps'

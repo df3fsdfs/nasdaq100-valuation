@@ -1,0 +1,17 @@
+{
+  "metric_id":"ms_pb_steno_equity_ls_gross_flow_drawdown_pct_global_gross",
+  "definition":"Equity long/short gross flow, drawdown from running peak as % of total global gross exposure",
+  "unit":"percent_of_total_global_gross_exposure",
+  "observations":[{
+    "date":"2026-10-27",
+    "value":-7.8,
+    "quality":"recreated_approximate",
+    "source_name":"Steno Research, recreated from Morgan Stanley Prime Brokerage",
+    "source_url":"https://fourweekmba.com/ai-big-tech-returned-just-9-3-of-its-cash-a-15-year-low/",
+    "publisher_url":"https://stenoresearch.com/",
+    "published_at":"2026-10-30",
+    "evidence":"사용자 제공 차트의 명시된 날짜·값·정의를 확인하고 공개 인용과 대조. 이미지 곡선은 수치화하지 않음.",
+    "historical_extreme_claim":"2016년 집계 이후 최대 축소라는 원차트 설명",
+    "historical_extreme_verified":false
+  }]
+}
