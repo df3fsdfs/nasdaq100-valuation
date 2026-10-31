@@ -7,6 +7,7 @@
   const local=stamp=>stamp?new Date(stamp).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}):'—';
   const source=(label,url)=>{const a=el('a',label);if(/^https:\/\//.test(url||'')){a.href=url;a.target='_blank';a.rel='noopener noreferrer';}return a;};
   let data;
+  let shortChartDrawn=false;
   let selected='leveraged';
   const notes={
     leveraged:['헤지펀드·CTA 등 레버리지를 활용하는 운용 주체.','기회 관찰: 숏 쏠림 뒤 실제 숏 감소는 숏커버 후보. 숏이 계속 늘면 쏠림만으로 바닥을 판단하지 않아.'],
@@ -38,18 +39,51 @@
     const cot=data?.cot,l=cot?.latest;
     const released=(data?.release_calendar?.rows||[]).filter(x=>Date.parse(x.scheduled_at)+12*3600000<Date.now()).at(-1);
     const calendarCurrent=released&&Date.now()-Date.parse(released.scheduled_at)<14*86400000;
-    return {cot:!l||(calendarCurrent?Date.parse(released.expected_report_date)-2*86400000>Date.parse(l.date):age(l.date)>12),dg:!data?.degrossing?.latest||age(data.degrossing.latest.date)>14};
+    return {cot:!l||(calendarCurrent?Date.parse(released.expected_report_date)-2*86400000>Date.parse(l.date):age(l.date)>12)};
+  }
+  function shortStale(series){
+    const l=series?.latest;if(!l)return true;
+    const releases=data?.short_interest?.release_calendar?.rows||[];
+    const due=releases.filter(x=>Date.parse(x.published_at)+12*3600000<Date.now()).at(-1);
+    return due&&Date.now()-Date.parse(due.published_at)<45*86400000?l.date<due.date:age(l.date)>45;
   }
   function checkpoint(){
-    let box=$('degrossing-checkpoint');if(!data)return;if(!box&&$('change-groups')){box=el('section',null,'change-group');box.id='degrossing-checkpoint';$('change-groups').append(box);}if(!box)return;
-    box.replaceChildren(el('h3','⑤ 디그로싱 변화'));
-    const d=data.degrossing,l=d?.latest,f=freshness();
-    if(!l){box.append(el('p','동일 정의의 관측치 수집 대기','hint'));return;}
-    const row=el('div',null,'change-item');
-    row.append(el('strong',num(l.value,1)+'% · '+(d.direction==='easing'?'축소폭 완화':d.direction==='deepening'?'축소폭 확대':'공개차트 인용값'),d.direction==='easing'?'rise-good':d.direction==='deepening'?'rise-bad':'neutral-change'));
-    row.append(el('div',d.interpretation),el('small',l.date+' 관측 · '+(l.quality==='recreated_approximate'?'재구성 근사치':'원자료 확인값')));
-    if(f.dg)row.append(el('small','갱신 지연 · 마지막 확인값 유지','institution-warning'));
-    box.append(row,el('small','새 관측치가 확인될 때만 방향을 갱신해.','hint'));
+    let box=$('short-interest-checkpoint');if(!data)return;
+    if(!box&&$('change-groups')){box=el('section',null,'change-group');box.id='short-interest-checkpoint';$('change-groups').append(box);}if(!box)return;
+    box.replaceChildren(el('h3','⑤ 공매도 잔고 변화'));
+    for(const symbol of ['QQQ','SPY']){
+      const g=data.short_interest?.series?.[symbol];if(!g){box.append(el('p',symbol+' 공식 잔고 수집 대기','hint'));continue;}
+      const row=el('div',null,'change-item');
+      row.append(el('strong',symbol+' '+sign(g.change_percent,2)+'% · '+(g.change<0?'잔고 감소':g.change>0?'잔고 증가':'직전 대비'),g.change<0?'rise-good':'neutral-change'));
+      row.append(el('small',g.latest.date+' 관측 · '+num(g.latest.shares/10000,1)+'만 주'));
+      if(shortStale(g))row.append(el('small','갱신 지연 · 마지막 정상값 유지','institution-warning'));
+      box.append(row);
+    }
+    box.append(el('small','직전 공식 발표 대비 · 감소는 숏 축소 단서이며 반등 확정 신호는 아님','hint'));
+  }
+  function shortRender(){
+    const si=data.short_interest||{},cards=$('short-interest-cards');cards.replaceChildren();
+    for(const symbol of ['QQQ','SPY']){
+      const g=si.series?.[symbol],card=el('div',null,'short-interest-stat');card.append(el('h4',symbol));
+      if(!g){card.append(el('p','공식 자료 수집 대기'));cards.append(card);continue;}
+      card.append(el('strong',num(g.latest.shares/10000,1)+'만 주'));
+      card.append(el('small','직전 대비 '+sign(g.change_percent,2)+'% / '+sign(g.change===null?null:g.change/10000,1)+'만 주',g.change<0?'rise-good':'neutral-change'));
+      card.append(el('small',g.latest.date+' 관측'),el('small','거래량 기준 상환일수 '+num(g.latest.days_to_cover,2)+'일'));
+      if(shortStale(g))card.append(el('small','갱신 지연 · 마지막 정상값 유지','institution-warning'));
+      cards.append(card);
+    }
+    const q=si.series?.QQQ,p=si.series?.SPY,aligned=q&&p&&q.latest.date===p.latest.date;
+    const direction=g=>g.change===null?'주식분할로 단순 증감 생략':g.change<0?'잔고 감소':g.change>0?'잔고 증가':'변화 없음';
+    $('short-interest-reading').textContent=aligned?'QQQ '+direction(q)+' · SPY '+direction(p)+'. '+(q.change>0&&p.change<0?'나스닥100 ETF와 S&P500 ETF의 숏 흐름이 갈렸어.':q.change<0&&p.change<0?'두 ETF 모두 숏 잔고가 줄었어. 숏 축소 단서로 가격 안정 여부도 함께 확인해.':q.change>0&&p.change>0?'두 ETF 모두 숏 잔고가 늘었어. 숏이 쌓였다는 이유만으로 바닥으로 보진 않아.':'잔고 변화는 헤지·차익거래를 포함한 결과야.'):'두 ETF의 관측일이 다르거나 자료가 부족해. 같은 기준일의 수집을 재확인해.';
+    const calendar=si.release_calendar?.rows||[],next=calendar.find(x=>Date.parse(x.published_at)>Date.now());
+    $('short-interest-date').textContent='수집 확인 '+local(si.checked_at)+' KST · '+(si.fetch_ok?'공식 API 확인':'최근 정상값 유지 · 수집 재시도')+(next?' · 다음 발표 '+local(next.published_at)+' KST':' · 월 2회 발표 후 확인');
+    $('short-interest-source').replaceChildren(source('FINRA 공식 공매도 잔고',si.source_url));
+    $('short-interest-method').textContent=(data.method.short_interest||'')+' 상환일수=잔고/평균 일거래량으로 실제 상환 기한은 아니야. 매일 07:05 KST 새 발표·정정을 확인하고 주 1회 과거 이력을 대조해.';
+    if(!shortChartDrawn&&q&&p){
+      const plot=layout('백만 주');plot.margin.t=45;
+      plot.xaxis={...plot.xaxis,type:'date',range:[new Date(Date.parse(q.latest.date)-365*86400000).toISOString().slice(0,10),q.latest.date],rangeselector:{buttons:[{count:1,label:'1년',step:'year',stepmode:'backward'},{count:3,label:'3년',step:'year',stepmode:'backward'},{label:'전체',step:'all'}],bgcolor:'#1d3c58',activecolor:'#426c9a',font:{color:'#d9eaff'}}};
+      Plotly.newPlot('short-interest-chart',[['QQQ','#6ea8ff'],['SPY','#f5bb65']].map(([symbol,color])=>{const rows=si.series[symbol].rows;return {x:rows.map(r=>r.date),y:rows.map(r=>r.split?null:r.shares/1e6),name:symbol,mode:'lines+markers',marker:{size:3},line:{color,width:2},connectgaps:false,hovertemplate:symbol+' %{x}<br>%{y:.2f}백만 주<extra></extra>'};}),plot,{responsive:true,displayModeBar:false});shortChartDrawn=true;
+    }
   }
   const layout=title=>({paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:60,r:15,t:15,b:55},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',title},legend:{orientation:'h',y:-.25},hovermode:'x unified'});
   function cotGraph(){
@@ -59,20 +93,16 @@
       {x:rows.map(x=>x.date),y:rows.map(x=>x.short),name:'숏',visible:'legendonly',mode:'lines',line:{color:'#ff8a9d'}}],layout('계약'),{responsive:true,displayModeBar:false});
   }
   function graphs(){
-    const cot=$('cot-history-details'),dg=$('dg-history-details');
+    const cot=$('cot-history-details');
     cot.addEventListener('toggle',()=>{if(cot.open&&data)cotGraph();});
-    dg.addEventListener('toggle',()=>{if(!dg.open)return;const rows=data?.degrossing?.rows||[];if(!rows.length)return;
-      const plot=layout('% / 전체 gross exposure');
-      if(rows.length===1){plot.xaxis.range=[new Date(Date.parse(rows[0].date)-7*86400000).toISOString().slice(0,10),new Date(Date.parse(rows[0].date)+7*86400000).toISOString().slice(0,10)];}
-      Plotly.newPlot('dg-history',[{x:rows.map(x=>x.date),y:rows.map(x=>x.value),text:rows.map(x=>(x.quality==='recreated_approximate'?'재구성 근사치':'원자료 확인')+' · '+x.date),hovertemplate:'%{x}<br>%{y:.1f}%<br>%{text}<extra></extra>',name:'확인된 관측',mode:rows.length>1?'lines+markers':'markers',marker:{size:10,color:'#ffa74f'},line:{color:'#ffa74f'}}],plot,{responsive:true,displayModeBar:false});});
   }
   function render(){
-    const c=selectedCot(),l=c?.latest,d=data.degrossing,dl=d?.latest,f=freshness();
+    const c=selectedCot(),l=c?.latest,f=freshness();
     $('cot-title').textContent='COT · Nasdaq-100 '+(c.label||'레버리지 펀드');
     $('cot-participant-note').textContent=notes[selected][0];
     $('cot-opportunity-note').textContent=notes[selected][1]+' 선물 일부의 변화이므로 가격·줍줍 조건과 함께 확인해.';
     participants();
-    $('institution-time').textContent='수집 확인 '+local(data.generated_at)+' KST · 관측일·공개 인용 여부는 각 지표에 표시';
+    $('institution-time').textContent='수집 확인 '+local(data.generated_at)+' KST · 선물·ETF별 관측일은 각 지표에 표시';
     if(l){
       $('cot-value').textContent=num(l.percentile,1)+'%';$('cot-gauge-pin').style.left=(l.percentile??50)+'%';$('cot-gauge').setAttribute('aria-valuenow',l.percentile??0);
       $('cot-bias').textContent='과거 대비 '+c.bias+' · 5년 '+num(l.percentile_n)+'개 보고';
@@ -88,18 +118,8 @@
       $('cot-gauge-pin').style.left='50%';$('cot-gauge').removeAttribute('aria-valuenow');
       $('cot-reading').textContent='선택한 참여자의 공식 자료 수집 재시도 중';$('cot-date').textContent='확인된 관측치 없음';
     }
-    if(dl){
-      $('dg-value').textContent=num(dl.value,1)+'%';$('dg-quality').textContent=dl.quality==='recreated_approximate'?'공개 재구성 차트 · 근사치':'원자료 확인값';
-      $('dg-date').textContent=dl.date+' 관측 · '+(f.dg?'갱신 지연 · 마지막 확인값 유지':'원본 정기 시계열은 미연결');$('dg-date').className=f.dg?'institution-warning':'hint';
-      $('dg-reading').textContent=d.interpretation;
-      $('dg-extreme').textContent=d.historical_extreme?'역사적 수준: '+d.historical_extreme+' · 자체 백분위는 계산하지 않음':'동일 정의의 충분한 과거 관측치가 없어 역사 백분위는 표시하지 않음';
-      $('dg-source').replaceChildren(source('공개 인용 출처',dl.source_url),el('span',' · '+dl.source_name));
-      $('dg-history-note').textContent=d.history_coverage+' 현재 '+num(d.rows.length)+'개 관측. 값 사이를 임의로 채우지 않아.';
-      $('dg-collection').textContent='수치 최초 확인 '+local(dl.collected_at)+' KST · 자동 수집 시도 '+local(d.checked_at)+' KST';
-      $('dg-method').textContent='원차트 정의: '+d.definition+'. 현재 총노출 수준의 단순 고점 대비 수익률과 다른 지표야. '+d.monitor.limitation+' '+(d.monitor.source_status==='unavailable'?'현재 공개 수집 경로 응답 실패로 기존 인용값을 유지하고 있어. ':'')+d.monitor.schedule+' 출처 본문에 같은 정의·관측일·수치가 명시된 경우에만 자동 반영해.';
-    }else{$('dg-reading').textContent='동일 정의의 공개 관측치 수집 대기';}
-    const aligned=l&&dl&&Math.abs(Date.parse(l.date)-Date.parse(dl.date))<=14*86400000;
-    $('institution-combined').textContent=f.cot||f.dg||!aligned?'두 지표의 관측일과 표본을 각각 확인해. 시점이 오래되거나 서로 다르면 동시 변화 신호를 표시하지 않아.':data.combined;
+    shortRender();
+    $('institution-combined').textContent='COT는 나스닥100 선물의 참여자별 포지션, 공매도 잔고는 QQQ·SPY ETF의 미청산 숏이야. 표본·관측일이 달라 각각의 증감을 확인해.';
     checkpoint();
   }
   document.addEventListener('checkpoints-ready',checkpoint);
@@ -107,6 +127,6 @@
   graphs();
   fetch('./institutional_positions.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();}).catch(()=>{
     $('institution-time').textContent='기관 포지션 자료 로딩 재시도 필요';$('cot-reading').textContent='마지막 저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
-    const box=$('degrossing-checkpoint');if(box)box.replaceChildren(el('h3','⑤ 디그로싱 변화'),el('p','저장 자료 로딩 재시도','hint'));
+    const box=$('short-interest-checkpoint');if(box)box.replaceChildren(el('h3','⑤ 공매도 잔고 변화'),el('p','저장 자료 로딩 재시도','hint'));
   });
 })();

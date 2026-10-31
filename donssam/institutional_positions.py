@@ -5,6 +5,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 from urllib.parse import urlparse
 import requests
+import short_interest
 from bs4 import BeautifulSoup
 
 ROOT=Path(__file__).resolve().parent
@@ -231,24 +232,20 @@ def main():
     if schedule.get('year')!=year or not schedule.get('rows') or not cache_fresh(schedule.get('checked_at'),now):
         try:schedule={'source_url':SCHEDULE,'year':year,'rows':parse_schedule(get(SCHEDULE).text,year),'checked_at':stamp}
         except Exception as exc:errors.append('CFTC calendar: '+type(exc).__name__)
-    seed=read(ROOT/'degrossing_observations.json');dg_by_date={r['date']:r for r in previous.get('degrossing',{}).get('rows',[])}
-    today=now.astimezone(ZoneInfo('Asia/Seoul')).date()
-    for r in seed.get('observations',[]):
-        try:
-            item=validate_degross(r,today);item.setdefault('collected_at',stamp)
-            if item['date'] not in dg_by_date:dg_by_date[item['date']]=item
-        except Exception as exc:errors.append('De-grossing seed: '+type(exc).__name__)
-    new,monitor=discover_degross(stamp,today)
-    for r in new:
-        if r['date'] not in dg_by_date or (r['value']!=dg_by_date[r['date']]['value']):dg_by_date[r['date']]=r
-    dg={**degross_summary(list(dg_by_date.values())),'metric_id':METRIC,'definition':seed.get('definition'),'unit':seed.get('unit'),'checked_at':stamp,'monitor':monitor}
-    output={'generated_at':stamp,'cot':cot,'degrossing':dg,'release_calendar':schedule,'combined':combined(summary,dg),'errors':errors,
+    # Retain the retired observations as an archive; no de-grossing network checks.
+    dg=previous.get('degrossing')
+    if dg is None:
+        seed=read(ROOT/'degrossing_observations.json')
+        dg=degross_summary(seed.get('observations',[]))
+    si=short_interest.update(previous.get('short_interest',{}),now)
+    output={'generated_at':stamp,'cot':cot,'degrossing':dg,'short_interest':si,'release_calendar':schedule,'errors':errors+si.get('errors',[]),
             'method':{'cot':'5년=관측일부터 5년 전 이후의 공식 주간 순계약. 백분위=100×(현재보다 작은 관측 수+(동일값 관측 수−1)/2)/(관측 수−1). 4주 변화는 4주 전 또는 그 이전 가장 가까운 보고와 비교. 스프레드 포지션은 롱−숏에서 제외.',
-                      'degrossing':'MS PB gross flow의 누적 고점 대비 감소/전체 global gross exposure. Gross Leverage·Net Exposure·다른 정의의 Gross Flow와 혼합하지 않음. 2016년 이후 최대는 원차트 설명이며 자체 재계산값이 아님.'}}
+                      'short_interest':'FINRA 공식 공매도 잔고(미청산 주식 수). 일별 공매도 거래량과 다름. 월 2회 결제일 기준이며 발표일은 별도. 직전 발표 대비 변화는 FINRA의 previousShortPositionQuantity와 비교. 주식분할 표시가 있으면 단순 증감을 생략. 발행주식 수 대비 비율·헤지펀드만의 숏으로 해석하지 않음.',
+                      'degrossing':previous.get('method',{}).get('degrossing','퇴역 자료 보관')}}
     temporary=OUT.with_suffix('.tmp')
     temporary.write_text(json.dumps(output,ensure_ascii=False,allow_nan=False,separators=(',',':')))
     temporary.replace(OUT)
-    print('COT',cot.get('latest',{}).get('date'),cot.get('latest',{}).get('percentile'),'de-grossing',dg.get('latest',{}).get('date'),dg.get('latest',{}).get('value'))
-    print('Source checks:',errors+monitor['errors'])
+    print('COT',cot.get('latest',{}).get('date'),cot.get('latest',{}).get('percentile'),'short-interest', {k:v['latest']['date'] for k,v in si.get('series',{}).items()})
+    print('Source checks:',output['errors'])
 
 if __name__=='__main__':main()

@@ -49,11 +49,11 @@
     }).catch(()=>{});
     if(traces.length&&typeof Plotly!=='undefined')Plotly.newPlot('clichart',traces,{paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:55,r:10,t:10,b:45},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',zeroline:true,zerolinecolor:'#e7eaf0',title:'가속도 a'},legend:{orientation:'h',y:-.3},hovermode:'x unified'},{responsive:true,displayModeBar:false});
     const groups=document.getElementById('change-groups');groups.replaceChildren();
-    const labels={signals:'① 줍줍신호 전환',opportunity:'② 기회지수 급변',sectors:'③ 산업 기회 급변',other:'④ 공포·거래량 변화',degrossing:'⑤ 디그로싱 변화'};
+    const labels={signals:'① 줍줍신호 전환',opportunity:'② 기회지수 급변',sectors:'③ 산업 기회 급변',other:'④ 공포·거래량 변화',short_interest:'⑤ 공매도 잔고 변화'};
     for(const [key,title] of Object.entries(labels)){
-      const card=el('section',null,'change-group');if(key==='degrossing')card.id='degrossing-checkpoint';card.append(el('h3',title));
+      const card=el('section',null,'change-group');if(key==='short_interest')card.id='short-interest-checkpoint';card.append(el('h3',title));
       const items=d.checkpoints?.[key]||[];
-      if(!items.length)card.append(el('p',key==='degrossing'?'디그로싱 자료 확인 중…':'현재 기준상 급변 없음','hint'));
+      if(!items.length)card.append(el('p',key==='short_interest'?'공매도 잔고 확인 중…':'현재 기준상 급변 없음','hint'));
       for(const item of items.slice(0,6)){
         const r=el('div',null,'change-item');r.append(el('strong',(item.good?'↑ ':'↓ ')+item.title,item.good?'rise-good':'rise-bad'),el('div',item.body),el('small',item.date));card.append(r);
       }

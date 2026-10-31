@@ -8,6 +8,10 @@ from unittest.mock import patch
 import institutional_positions as p
 
 class InstitutionalTests(unittest.TestCase):
+    def setUp(self):
+        mock=patch.object(p.short_interest,'update',side_effect=lambda old,now:old)
+        mock.start();self.addCleanup(mock.stop)
+
     def test_incremental_refresh_keeps_weekly_full_revision_check(self):
         now=datetime(2026,11,1,tzinfo=timezone.utc)
         cot={'raw_rows':self.cot_rows(),'full_history_checked_at':now.isoformat()}
@@ -109,7 +113,7 @@ class InstitutionalTests(unittest.TestCase):
                 p.main()
             new=json.loads(out.read_text())
         self.assertEqual(new['cot']['raw_rows'],previous['cot']['raw_rows'])
-        self.assertFalse(new['cot']['fetch_ok']);self.assertEqual(new['degrossing']['latest']['value'],-7.8)
-        self.assertEqual(new['degrossing']['latest']['collected_at'],'2026-10-30')
+        self.assertFalse(new['cot']['fetch_ok']);self.assertEqual(new['degrossing'],previous['degrossing'])
+        self.assertEqual(new['degrossing']['rows'][0]['collected_at'],'2026-10-30')
 
 if __name__=='__main__':unittest.main()
