@@ -9,7 +9,7 @@ class StockRegistryTests(unittest.TestCase):
         rows,registry=build_registry(groups,{'NVDA':v},{'return6m':0,'return12m':0,'date':'2026-10-30'})
         self.assertEqual(len(registry),1)
         self.assertEqual(registry['NVDA']['price'],100)
-        self.assertEqual(registry['NVDA']['opportunity']['score'],100)
+        self.assertEqual(registry['NVDA']['opportunity']['score'],86)
         self.assertEqual(rows[0]['holdings'],[{'ticker':'NVDA','weight_pct':8}])
         self.assertEqual(rows[1]['holdings'],[{'ticker':'NVDA','weight_pct':10}])
     def test_outage_keeps_old_date_without_borrowing_new_benchmark(self):

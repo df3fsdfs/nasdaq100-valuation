@@ -3,8 +3,8 @@ import math
 import pandas as pd
 from pine_buy import rsi as pine_rsi, rma
 
-MODEL='correction35_multihorizon40_deviation25_v3'
-METHOD='조정기회100=SPY대비 상대조정35+단중장기 과매도40+ATR이격조정25. 상대조정=35−기존 상대강도점수(6개월20·12개월15). 과매도=52주낙폭10+RSI14보완5+RSI30보완10+주봉CCI10+월봉CCI5. 이격조정=MA20/60(5)·MA120(10)·MA200(10), 아래로 멀수록 가점. 통과=점수≥70 AND RSI14≤20 AND 주봉CCI≤-100. 상대강도·추세확인은 별도 참고이며 상승에 가점하지 않음.'
+MODEL='relative_base17p5_long7p5_drawdown10_v4'
+METHOD='조정기회100=완만한상대점수35+과매도40+ATR이격25. 상대점수=17.5−7.5tanh(zL/2)+10tanh(zR/2). zL=(20/35)×SPY대비6개월초과수익률/20+(15/35)×12개월초과수익률/30. 상대가격=종목수정종가/SPY수정종가; 상대조정률=1−상대가격/직전252거래일포함최고상대가격. zR=(현재상대조정률−과거중앙값)/max(과거IQR,1%p). 기준분포는 현재일 제외 직전최대1260공통거래일, 최소252개. 과매도40·ATR이격25와 통과조건은 유지.'
 
 def finite(value):
     return isinstance(value,(int,float)) and math.isfinite(value)
@@ -24,6 +24,36 @@ def trend_strength(slope,previous):
     if not all(finite(x) for x in (slope,previous)):return None
     # Half for slope level, half for improvement. Flat/unchanged scores 50%.
     return .5*clamp(.5+slope/2)+.5*clamp(.5+(slope-previous))
+
+def relative_calibration(frame,benchmark_frame):
+    """Align by session date; reference distribution excludes the observation date."""
+    empty={'relative_z':None,'relative_reference_count':0}
+    if benchmark_frame is None:return empty
+    def dated(f):
+        x=pd.Series(f.Close.to_numpy(),index=pd.Index(f.index.date))
+        return x[~x.index.duplicated(keep='last')]
+    joined=pd.concat([dated(frame).rename('asset'),dated(benchmark_frame).rename('benchmark')],axis=1,join='inner').dropna().sort_index()
+    if joined.empty:return empty
+    ratio=joined.asset/joined.benchmark
+    drawdown=1-ratio/ratio.rolling(252,min_periods=252).max()
+    past=drawdown.iloc[:-1].dropna().tail(1260)
+    empty['relative_reference_count']=len(past)
+    if len(past)<252 or pd.isna(drawdown.iloc[-1]):return empty
+    median=float(past.median());iqr=float(past.quantile(.75)-past.quantile(.25));scale=max(iqr,.01)
+    return {'relative_z':float((drawdown.iloc[-1]-median)/scale),
+            'relative_drawdown':float(drawdown.iloc[-1]*100),'relative_drawdown_median':median*100,
+            'relative_drawdown_iqr':iqr*100,'relative_scale':scale*100,'relative_reference_count':len(past),
+            'relative_reference_start':str(past.index[0]),'relative_reference_end':str(past.index[-1]),
+            'relative_observation_date':str(joined.index[-1])}
+
+def relative_points(rel6,rel12,z):
+    if not all(finite(v) for v in (rel6,rel12,z)):return None,None
+    long_z=(20/35)*rel6/20+(15/35)*rel12/30
+    long_correction=round(-7.5*math.tanh(long_z/2),1)
+    correction=round(10*math.tanh(z/2),1)
+    return round(17.5+long_correction+correction,1),{
+        'base':17.5,'longterm_correction':long_correction,'relative_correction':correction,
+        'longterm_z':long_z,'relative_z':z}
 
 def score_sector(data,spy,name):
     d=dict(data);rsi=d.get('rsi14');cci=d.get('cci_weekly')
@@ -46,7 +76,7 @@ def score_sector(data,spy,name):
         value=trend_strength(d.get('ma'+str(n)+'_slope20'),d.get('ma'+str(n)+'_previous_slope20'))
         trend_parts[key]=round(10*value,1) if finite(value) else None
     trend=round(sum(trend_parts.values()),1) if all(finite(v) for v in trend_parts.values()) else None
-    adjustment=round(35-strength,1) if finite(strength) else None
+    adjustment,relative_breakdown=relative_points(rel6,rel12,d.get('relative_z'))
     dev={n:d.get('atr_dev'+str(n)) for n in (20,60,120,200)}
     deviation_parts={
         'short':round(5*(clamp(-dev[20]/2.20)+clamp(-dev[60]/1.65))/2,1) if all(finite(dev[n]) for n in (20,60)) else None,
@@ -58,14 +88,14 @@ def score_sector(data,spy,name):
     d.update(name=name,oversold=bool(finite(rsi) and finite(cci) and rsi<=20 and cci<=-100),qualified=passed,
              judgement='unknown' if passed is None else 'pass' if passed else 'fail',score_direction='high_is_opportunity',
              scoring_model=MODEL,opportunity_score=score,oversold_points=oversold,relative_strength_points=strength,
-             trend_points=trend,relative_adjustment_points=adjustment,deviation_points=deviation,deviation_breakdown=deviation_parts,relative6m=round(rel6,1) if rel6 is not None else None,relative12m=round(rel12,1) if rel12 is not None else None,
+             trend_points=trend,relative_adjustment_points=adjustment,relative_breakdown=relative_breakdown,deviation_points=deviation,deviation_breakdown=deviation_parts,relative6m=round(rel6,1) if rel6 is not None else None,relative12m=round(rel12,1) if rel12 is not None else None,
              oversold_breakdown=parts,trend_breakdown=trend_parts)
     return d
 
 def score_individual(data,spy):
     if spy and data.get('date') and spy.get('date')!=data.get('date'):spy=None
     z=score_sector(data,spy,data.get('ticker',''))
-    return {k:z[k] for k in ('opportunity_score','relative_strength_points','oversold_points','trend_points','relative6m','relative12m','qualified','judgement','scoring_model','score_direction','oversold_breakdown','trend_breakdown','relative_adjustment_points','deviation_points','deviation_breakdown')} | {'score':z['opportunity_score'],'benchmark':'SPY','benchmark_date':spy.get('date') if spy else None}
+    return {k:z[k] for k in ('opportunity_score','relative_strength_points','oversold_points','trend_points','relative6m','relative12m','qualified','judgement','scoring_model','score_direction','oversold_breakdown','trend_breakdown','relative_adjustment_points','deviation_points','deviation_breakdown','relative_breakdown')} | {'score':z['opportunity_score'],'benchmark':'SPY','benchmark_date':spy.get('date') if spy else None}
 
 def cci_value(frame):
     tp=(frame.High+frame.Low+frame.Close)/3
@@ -76,7 +106,7 @@ def cci_value(frame):
 def cci_weekly(frame):
     return cci_value(frame[['High','Low','Close']].resample('W-FRI').agg({'High':'max','Low':'min','Close':'last'}).dropna())
 
-def metrics(frame,ticker):
+def metrics(frame,ticker,benchmark_frame=None):
     try:
         frame=frame.dropna(subset=['Close'])
         if len(frame)<100:return None
@@ -107,6 +137,7 @@ def metrics(frame,ticker):
         out['ma200_gap']=round((last/out['ma200']-1)*100,1) if out['ma200'] else None
         out['return6m']=round((last/float(close.iloc[-126])-1)*100,2) if len(close)>126 else None
         out['return12m']=round((last/float(close.iloc[-252])-1)*100,2) if len(close)>252 else None
+        out.update(relative_calibration(frame,benchmark_frame))
         return out
     except (ValueError,KeyError,TypeError,IndexError) as exc:
         print('Metrics',ticker,str(exc));return None

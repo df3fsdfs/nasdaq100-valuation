@@ -64,7 +64,7 @@ def cli_analysis(rows):
 def sector_history(screen):
     tickers=[x['ticker'] for x in screen.get('sectors',[])];frames={}
     def load(t):
-        try:return t,chart_history(t,years=5)
+        try:return t,chart_history(t,years=6)
         except Exception:return t,None
     with ThreadPoolExecutor(max_workers=4) as pool:
         frames={t:f for t,f in pool.map(load,list(dict.fromkeys(tickers+['SPY']))) if f is not None}
@@ -77,7 +77,7 @@ def sector_history(screen):
             # Recompute weekly CCI from data available on that date, never future OHLC.
             f=frames[ticker];partial=f[f.index.date<=day.date()]
             spy=frames['SPY'];spy=spy[spy.index.date<=day.date()]
-            a=metrics(partial,ticker);b=metrics(spy,'SPY')
+            a=metrics(partial,ticker,spy);b=metrics(spy,'SPY')
             if a and b:
                 z=score_sector(a,b,ticker)
                 if z['opportunity_score'] is not None:values.append({'date':a['date'],'value':z['opportunity_score']})
