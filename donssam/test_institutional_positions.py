@@ -21,6 +21,7 @@ class InstitutionalTests(unittest.TestCase):
         now=datetime.now(timezone.utc);stamp=now.isoformat();rows=self.cot_rows()
         summary=p.cot_summary(rows)
         old={'cot':{**summary,'raw_rows':rows,'revisions':[{'date':'2020-01-07','net':1}], 'full_history_checked_at':stamp,'summary_version':p.COT_SUMMARY_VERSION},'release_calendar':{'year':now.astimezone(p.ZoneInfo('America/New_York')).year,'rows':[{'release_date':'test'}],'checked_at':stamp}}
+        old['cot']['groups']={key:{'label':label,**p.cot_summary([{**r['positions'][key],'date':r['date']} for r in rows])} for key,(label,_,_) in p.GROUPS.items()}
         with tempfile.TemporaryDirectory() as directory:
             out=Path(directory)/'positions.json';out.write_text(json.dumps(old))
             with patch.object(p,'OUT',out),patch.object(p,'fetch_cot',return_value=copy.deepcopy(rows[-9:])) as fetch,patch.object(p,'get',side_effect=AssertionError('calendar cache should be reused')),patch.object(p,'cot_summary',side_effect=AssertionError('unchanged summary should be reused')),patch.object(p,'discover_degross',return_value=([],{'errors':[]})):
@@ -30,6 +31,7 @@ class InstitutionalTests(unittest.TestCase):
         self.assertEqual(result['cot']['raw_rows'],rows)
         self.assertEqual(result['cot']['rows'],summary['rows'])
         self.assertEqual(result['cot']['revisions'],old['cot']['revisions'])
+        self.assertEqual(result['cot']['groups'],old['cot']['groups'])
         self.assertEqual(result['release_calendar'],old['release_calendar'])
     def test_official_contract_group_and_holiday_observation(self):
         row={'cftc_contract_market_code':'209742','report_date_as_yyyy_mm_dd':'2012-12-24T00:00:00','lev_money_positions_long':'103014','lev_money_positions_short':'72405','open_interest_all':'294127'}
@@ -44,7 +46,19 @@ class InstitutionalTests(unittest.TestCase):
         self.assertIsNone(p.percentile(1,[1]))
     def cot_rows(self):
         start=date(2020,1,7)
-        return [{'date':(start+timedelta(weeks=i)).isoformat(),'long':1000+i,'short':1000,'net':i,'open_interest':10000,'collected_at':'2026-01-01','source_url':p.COT_API} for i in range(350)]
+        return [{'date':(start+timedelta(weeks=i)).isoformat(),'long':1000+i,'short':1000,'net':i,'open_interest':10000,'collected_at':'2026-01-01','source_url':p.COT_API,'positions':{key:{'long':1000+i,'short':1000,'net':i} for key in p.GROUPS}} for i in range(350)]
+    def test_all_groups_and_hydration_preserve_original_collection_dates(self):
+        raw={'cftc_contract_market_code':'209742','report_date_as_yyyy_mm_dd':'2026-10-27','open_interest_all':'10000'}
+        for _,lf,sf in p.GROUPS.values():raw.update({lf:'1200',sf:'1000'})
+        rows=p.parse_cot([raw],'2026-11-01')
+        self.assertEqual(len(rows[0]['positions']),5)
+        self.assertTrue(all(g['net']==200 for g in rows[0]['positions'].values()))
+        old=copy.deepcopy(rows);old[0].pop('positions');old[0].pop('positions_collected_at');old[0]['collected_at']='2026-10-30'
+        merged,revisions=p.merge_cot(old,rows)
+        self.assertEqual(merged[0]['collected_at'],'2026-10-30');self.assertEqual(merged[0]['positions_collected_at'],'2026-11-01');self.assertEqual(revisions,[])
+        changed=copy.deepcopy(rows);changed[0]['positions']['dealer']['short']+=1;changed[0]['positions']['dealer']['net']-=1
+        merged,revisions=p.merge_cot(merged,changed);self.assertEqual(len(revisions),1)
+        self.assertNotEqual(revisions[0]['previous_positions']['dealer'],revisions[0]['positions']['dealer'])
     def test_five_year_window_and_four_week_comparison(self):
         rows=self.cot_rows();rows[0]['net']=999999
         out=p.cot_summary(rows)

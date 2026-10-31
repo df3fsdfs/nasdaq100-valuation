@@ -17,7 +17,13 @@ STENO_FEED='https://stenoresearch.com/feed/'
 STENO_SEARCH='https://stenoresearch.com/wp-json/wp/v2/posts'
 HEADERS={'User-Agent':'DonssamMarketMonitor/1.0 (public market data)','Accept':'application/json,text/html,application/xml'}
 # Increment when summary rules change so an unchanged source is recalculated.
-COT_SUMMARY_VERSION=1
+COT_SUMMARY_VERSION=2
+GROUPS={
+    'leveraged':('레버리지 펀드','lev_money_positions_long','lev_money_positions_short'),
+    'asset_manager':('자산운용사·기관','asset_mgr_positions_long','asset_mgr_positions_short'),
+    'dealer':('딜러·중개기관','dealer_positions_long_all','dealer_positions_short_all'),
+    'other':('기타 보고대상','other_rept_positions_long','other_rept_positions_short'),
+    'nonreportable':('비보고 포지션','nonrept_positions_long_all','nonrept_positions_short_all')}
 
 def read(path):
     try:return json.loads(path.read_text())
@@ -35,15 +41,24 @@ def parse_cot(raw,collected_at):
         long,short,oi=values
         if day>date.fromisoformat(collected_at[:10]) or min(values)<0 or max(long,short)>oi:raise ValueError('Invalid COT observation')
         row={'date':day.isoformat(),'long':long,'short':short,'net':long-short,'open_interest':oi,'source_url':COT_API,'collected_at':collected_at}
-        if row['date'] in result and any(result[row['date']][k]!=row[k] for k in ['long','short','open_interest']):raise ValueError('Conflicting duplicate COT date')
+        positions={}
+        for key,(_,lf,sf) in GROUPS.items():
+            if lf not in r or sf not in r:continue
+            gl,gs=int(r[lf]),int(r[sf])
+            if min(gl,gs)<0 or max(gl,gs)>oi:raise ValueError('Invalid COT group observation')
+            positions[key]={'long':gl,'short':gs,'net':gl-gs}
+        if len(positions)==len(GROUPS):row.update(positions=positions,positions_collected_at=collected_at)
+        if row['date'] in result and any(result[row['date']].get(k)!=row.get(k) for k in ['long','short','open_interest','positions']):raise ValueError('Conflicting duplicate COT date')
         result[row['date']]=row
     return sorted(result.values(),key=lambda r:r['date'])
 
 def fetch_cot(collected_at,since=None):
     params={'$select':'market_and_exchange_names,report_date_as_yyyy_mm_dd,cftc_contract_market_code,lev_money_positions_long,lev_money_positions_short,open_interest_all',
             '$where':"cftc_contract_market_code='209742' AND report_date_as_yyyy_mm_dd >= '"+(since or '2010-01-01')+"T00:00:00'",'$order':'report_date_as_yyyy_mm_dd ASC','$limit':5000}
+    params['$select']=','.join(dict.fromkeys(params['$select'].split(',')+[f for _,lf,sf in GROUPS.values() for f in (lf,sf)]))
     rows=parse_cot(get(COT_API,params).json(),collected_at)
     if not rows or (since is None and (len(rows)<260 or rows[0]['date']>'2016-01-01')):raise ValueError('Incomplete COT history')
+    if any(len(r.get('positions',{}))!=len(GROUPS) for r in rows):raise ValueError('Incomplete COT participant groups')
     return rows
 
 def cache_fresh(stamp,now,days=7):
@@ -52,7 +67,7 @@ def cache_fresh(stamp,now,days=7):
 
 def cot_fetch_since(cot,now):
     rows=cot.get('raw_rows',[])
-    if len(rows)<260 or not cache_fresh(cot.get('full_history_checked_at'),now):return None
+    if len(rows)<260 or any(len(r.get('positions',{}))!=len(GROUPS) for r in rows) or not cache_fresh(cot.get('full_history_checked_at'),now):return None
     # Overlap catches recent revisions; weekly full refresh catches older corrections.
     return (date.fromisoformat(rows[-1]['date'])-timedelta(weeks=8)).isoformat()
 
@@ -69,7 +84,7 @@ def cot_summary(rows):
         try:start=day.replace(year=day.year-5)
         except ValueError:start=day.replace(year=day.year-5,day=28)
         window=[v['net'] for v in rows[:i+1] if v['date']>=start.isoformat()]
-        enriched.append({**r,'percentile':percentile(r['net'],window) if len(window)>=200 else None,'percentile_n':len(window)})
+        enriched.append({**{k:v for k,v in r.items() if k not in ['positions','positions_collected_at']},'percentile':percentile(r['net'],window) if len(window)>=200 else None,'percentile_n':len(window)})
     latest=enriched[-1];previous=enriched[-2] if len(enriched)>1 else None
     four=date.fromisoformat(latest['date'])-timedelta(weeks=4)
     past=next((r for r in reversed(enriched) if r['date']<=four.isoformat()),None)
@@ -111,9 +126,15 @@ def merge_cot(old,new):
     merged={r['date']:copy.deepcopy(r) for r in old};revisions=[]
     for r in new:
         previous=merged.get(r['date'])
-        if previous and all(previous.get(k)==r[k] for k in ['long','short','net','open_interest']):continue
-        if previous:revisions.append({'date':r['date'],'previous_net':previous['net'],'net':r['net'],'revised_at':r['collected_at']})
-        merged[r['date']]=r
+        same=previous and all(previous.get(k)==r[k] for k in ['long','short','net','open_interest'])
+        same_groups=previous and previous.get('positions')==r.get('positions')
+        if same and same_groups:continue
+        updated=copy.deepcopy(r)
+        if previous:
+            if not same or (previous.get('positions') and not same_groups):revisions.append({'date':r['date'],'previous_net':previous['net'],'net':r['net'],'revised_at':r['collected_at'],'previous_positions':previous.get('positions'),'positions':r.get('positions')})
+            if same:updated['collected_at']=previous['collected_at']
+            if same_groups and previous.get('positions_collected_at'):updated['positions_collected_at']=previous['positions_collected_at']
+        merged[r['date']]=updated
     return sorted(merged.values(),key=lambda r:r['date']),revisions
 
 def validate_degross(row,today):
@@ -201,6 +222,10 @@ def main():
     cot={**(summary or {}),'raw_rows':rows,'source_url':COT_REPORT,'api_url':COT_API,'contract':'209742','group':'Leveraged Funds','report_type':'TFF Futures Only','checked_at':stamp,
          'last_success_at':stamp if cot_ok else old_cot.get('last_success_at'),'fetch_ok':cot_ok,'revisions':old_cot.get('revisions',[])+revisions,
          'full_history_checked_at':stamp if cot_ok and since is None else old_cot.get('full_history_checked_at'),'summary_version':COT_SUMMARY_VERSION}
+    if rows==old_rows and old_cot.get('summary_version')==COT_SUMMARY_VERSION and old_cot.get('groups'):
+        cot['groups']=old_cot['groups']
+    else:
+        cot['groups']={key:{'label':label,**cot_summary([{**r['positions'][key],'date':r['date']} for r in rows if key in r.get('positions',{})])} for key,(label,_,_) in GROUPS.items() if any(key in r.get('positions',{}) for r in rows)}
     schedule=previous.get('release_calendar',{})
     year=now.astimezone(ZoneInfo('America/New_York')).year
     if schedule.get('year')!=year or not schedule.get('rows') or not cache_fresh(schedule.get('checked_at'),now):
