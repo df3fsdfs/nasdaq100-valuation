@@ -82,6 +82,7 @@ def sector_history(screen):
                 z=score_sector(a,b,ticker)
                 if z['opportunity_score'] is not None:values.append({'date':a['date'],'value':z['opportunity_score']})
         output[ticker]=compare(values)
+        if output[ticker]:output[ticker].update(oversold=z['oversold'],rsi14=z['rsi14'],cci_weekly=z['cci_weekly'])
     return output
 
 def opportunity_changes(sentiment):
@@ -107,7 +108,7 @@ def checkpoints(bottom,opportunities,sectors):
             groups['opportunity'].append({'title':('증시' if key=='equity' else '크립토')+' 기회지수 급변','good':z['mean_delta']<0,'body':'최근 '+str(z['mean_n'])+'거래일 평균 '+str(round(z['mean'],1))+' → '+str(z['value'])+' ('+f"{z['mean_delta']:+.1f}"+'점) · 0에 가까울수록 기회','date':z['date']})
     for ticker,z in sectors.items():
         if z and z.get('mean_delta') is not None and (abs(z['mean_delta'])>=10 or abs(z.get('delta') or 0)>=8):
-            groups['sectors'].append({'title':ticker+' 기회점수 '+('급상승' if z['mean_delta']>0 else '급하락'),'good':z['mean_delta']>0,'body':str(z['mean_n'])+'거래일 평균 '+str(round(z['mean'],1))+' → '+str(z['value'])+' ('+f"{z['mean_delta']:+.1f}"+'점) · 전일 '+f"{z['delta']:+.1f}"+'점','date':z['date']})
+            groups['sectors'].append({'title':ticker+' 기회점수 '+('급상승' if z['mean_delta']>0 else '급하락'),'good':z['mean_delta']>0,'oversold':bool(z.get('oversold')),'body':str(z['mean_n'])+'거래일 평균 '+str(round(z['mean'],1))+' → '+str(z['value'])+' ('+f"{z['mean_delta']:+.1f}"+'점) · 전일 '+f"{z['delta']:+.1f}"+'점 · 과매도 '+('통과' if z.get('oversold') else '미충족'),'date':z['date']})
     groups['sectors'].sort(key=lambda x:(not x['good'],x['title']))
     for key,x in bottom.get('fear',{}).items():
         if x and x.get('previous') is not None and (abs(x['value']-x['previous'])>=10 or (x['previous']>15>=x['value'])):

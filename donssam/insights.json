@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T12:03:47.808433+00:00",
+  "generated_at": "2026-10-31T12:00:17.736774+00:00",
   "risk": {
     "vix": {
       "name": "VIX",
@@ -1109,7 +1109,10 @@
           "date": "2026-10-30",
           "value": 59.3
         }
-      ]
+      ],
+      "oversold": true,
+      "rsi14": 36.1,
+      "cci_weekly": -118.0
     },
     "XLV": {
       "date": "2026-10-30",
@@ -1210,7 +1213,10 @@
           "date": "2026-10-30",
           "value": 55.7
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 72.6,
+      "cci_weekly": 188.8
     },
     "XLE": {
       "date": "2026-10-30",
@@ -1311,7 +1317,10 @@
           "date": "2026-10-30",
           "value": 55.2
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 67.9,
+      "cci_weekly": 134.3
     },
     "XLK": {
       "date": "2026-10-30",
@@ -1412,7 +1421,10 @@
           "date": "2026-10-30",
           "value": 50.2
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 36.8,
+      "cci_weekly": -46.0
     },
     "FNGS": {
       "date": "2026-10-30",
@@ -1513,7 +1525,10 @@
           "date": "2026-10-30",
           "value": 46.6
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 30.3,
+      "cci_weekly": -27.7
     },
     "XLP": {
       "date": "2026-10-30",
@@ -1614,7 +1629,10 @@
           "date": "2026-10-30",
           "value": 41.3
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 65.6,
+      "cci_weekly": 197.8
     },
     "XLB": {
       "date": "2026-10-30",
@@ -1715,7 +1733,10 @@
           "date": "2026-10-30",
           "value": 37.1
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 71.4,
+      "cci_weekly": 81.1
     },
     "XLF": {
       "date": "2026-10-30",
@@ -1816,7 +1837,10 @@
           "date": "2026-10-30",
           "value": 37.0
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 58.4,
+      "cci_weekly": 34.3
     },
     "XLI": {
       "date": "2026-10-30",
@@ -1917,7 +1941,10 @@
           "date": "2026-10-30",
           "value": 31.3
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 46.1,
+      "cci_weekly": -92.4
     },
     "XLC": {
       "date": "2026-10-30",
@@ -2018,7 +2045,10 @@
           "date": "2026-10-30",
           "value": 30.2
         }
-      ]
+      ],
+      "oversold": true,
+      "rsi14": 22.9,
+      "cci_weekly": -268.3
     },
     "XLRE": {
       "date": "2026-10-30",
@@ -2119,7 +2149,10 @@
           "date": "2026-10-30",
           "value": 29.4
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 60.0,
+      "cci_weekly": -42.8
     },
     "XLY": {
       "date": "2026-10-30",
@@ -2220,7 +2253,10 @@
           "date": "2026-10-30",
           "value": 28.6
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 57.7,
+      "cci_weekly": 22.3
     },
     "XLU": {
       "date": "2026-10-30",
@@ -2321,7 +2357,10 @@
           "date": "2026-10-30",
           "value": 26.2
         }
-      ]
+      ],
+      "oversold": false,
+      "rsi14": 65.6,
+      "cci_weekly": 3.2
     }
   },
   "opportunity_changes": {
@@ -2393,7 +2432,14 @@
     }
   },
   "checkpoints": {
-    "signals": [],
+    "signals": [
+      {
+        "title": "NDX 일봉 새 줍",
+        "good": true,
+        "body": "직전 확정봉 없음 → 현재 있음",
+        "date": "2026-10-30"
+      }
+    ],
     "opportunity": [
       {
         "title": "증시 기회지수 급변",
@@ -2406,16 +2452,14 @@
       {
         "title": "XLV 기회점수 급상승",
         "good": true,
-        "body": "20거래일 평균 45.2 → 55.7 (+10.5점) · 전일 +0.8점",
-        "date": "2026-10-30"
+        "body": "20거래일 평균 45.2 → 55.7 (+10.5점) · 전일 +0.8점 · 과매도 미충족",
+        "date": "2026-10-30",
+        "oversold": false
       }
     ],
     "other": []
   },
-  "errors": [
-    "yield10: HTTPError",
-    "hy: HTTPError"
-  ],
+  "errors": [],
   "method": {
     "risk": "전일=직전 관측 거래일; 평균=현재일 제외 직전20관측 거래일. 관측일은 지표별 표시.",
     "liquidity": "수요일 정렬 주간값. 전주 및 현재주 제외 직전13주 평균 대비.",
