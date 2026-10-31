@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-10-31T12:06:39.166577+00:00",
+  "generated_at": "2026-10-31T12:07:46.790073+00:00",
   "assets": {
     "NDX": {
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793448399&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793448466&interval=1d&events=splits",
       "daily_date": "2026-10-30",
       "timeframes": {
         "D": {
@@ -259,7 +259,7 @@
       "fresh": true
     },
     "BTC": {
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793448399&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793448466&interval=1d&events=splits",
       "daily_date": "2026-10-30",
       "timeframes": {
         "D": {
@@ -314,16 +314,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": -197.748,
+            "cci20": -197.926,
             "cci_below100": true,
             "cci_below200": false,
             "rsi": {
-              "14": 35.729,
-              "30": 45.629,
-              "100": 50.512,
-              "200": 49.657
+              "14": 35.662,
+              "30": 45.603,
+              "100": 50.505,
+              "200": 49.654
             },
-            "rsi_position": 3.536,
+            "rsi_position": 3.368,
             "rsi_limit": 22,
             "rsi_extreme": true,
             "rsi_checks": {
@@ -337,10 +337,10 @@
             "last_buy_date": "2026-07-01",
             "long_history_ready": true,
             "deviations": {
-              "20": -1.753,
-              "60": -1.942,
-              "120": 1.602,
-              "200": 2.159
+              "20": -1.759,
+              "60": -1.949,
+              "120": 1.596,
+              "200": 2.152
             }
           },
           "forming": true
@@ -397,16 +397,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": 46.051,
+            "cci20": 46.018,
             "cci_below100": false,
             "cci_below200": false,
             "rsi": {
-              "14": 51.251,
-              "30": 49.118,
-              "100": 51.233,
-              "200": 52.465
+              "14": 51.235,
+              "30": 49.111,
+              "100": 51.231,
+              "200": 52.463
             },
-            "rsi_position": 67.096,
+            "rsi_position": 67.052,
             "rsi_limit": 27,
             "rsi_extreme": false,
             "rsi_checks": {
@@ -420,10 +420,10 @@
             "last_buy_date": "2026-08-09",
             "long_history_ready": true,
             "deviations": {
-              "20": 0.749,
-              "60": -0.695,
-              "120": -1.395,
-              "200": 1.66
+              "20": 0.747,
+              "60": -0.697,
+              "120": -1.397,
+              "200": 1.658
             }
           },
           "forming": true
@@ -480,16 +480,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": -34.13,
+            "cci20": -34.149,
             "cci_below100": false,
             "cci_below200": false,
             "rsi": {
-              "14": 50.278,
-              "30": 53.505,
-              "100": 56.304,
+              "14": 50.272,
+              "30": 53.502,
+              "100": 56.303,
               "200": null
             },
-            "rsi_position": 27.298,
+            "rsi_position": 27.281,
             "rsi_limit": 32,
             "rsi_extreme": true,
             "rsi_checks": {
@@ -503,9 +503,9 @@
             "last_buy_date": null,
             "long_history_ready": false,
             "deviations": {
-              "20": -0.627,
-              "60": 1.232,
-              "120": 2.722,
+              "20": -0.628,
+              "60": 1.231,
+              "120": 2.721,
               "200": null
             }
           },
