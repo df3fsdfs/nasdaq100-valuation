@@ -9,9 +9,15 @@ OUT=Path("donssam/sentiment.json")
 def bound(x):return max(0.,min(100.,float(x)))
 def scale(v,lo,hi):return round(bound(100*(v-lo)/(hi-lo)),1)
 def fetch(symbol):
-    x=yf.Ticker(symbol).history(period="6y",interval="1d",auto_adjust=True)
+    try:
+        x=yf.Ticker(symbol).history(period="6y",interval="1d",auto_adjust=True)
+        if x.empty or len(x)<260:raise ValueError("Missing "+symbol)
+    except Exception:
+        from price_history import chart_history
+        x=chart_history(symbol,years=6)
     if x.empty or len(x)<260:raise ValueError("Missing "+symbol)
     return x.dropna(subset=["Close"])
+
 def rsi(s):
     d=s.diff();u=d.clip(lower=0).ewm(alpha=1/14,adjust=False,min_periods=14).mean();v=(-d.clip(upper=0)).ewm(alpha=1/14,adjust=False,min_periods=14).mean()
     return float((100-100/(1+u/v.replace(0,float("nan")))).iloc[-1])
@@ -129,16 +135,27 @@ def compute(asof=None):
     def pack(parts):
         available=[p for p in parts if p["score"] is not None]
         used=sum(p["weight"] for p in available)
-        return {"score":round(100-sum(p["points"] for p in available)/used*100,1) if used>=65 else None,"coverage":round(used,1),"components":parts}
+        return {"score":round(sum(p["points"] for p in available)/used*100,1) if used>=65 else None,"coverage":round(used,1),"components":parts}
     equity=pack(eq)
     # Without a sharp selloff or repeated lows, do not label gradual weakness as an extreme bottom opportunity.
     if not sp["pattern"]["qualified"] and not semi["pattern"]["qualified"] and equity["score"] is not None:
-        equity["score"]=max(equity["score"],45)
+        equity["score"]=min(equity["score"],55)
     crypto=pack(cr)
     if not btc["pattern"]["qualified"] and crypto["score"] is not None:
-        crypto["score"]=max(crypto["score"],40)
+        crypto["score"]=min(crypto["score"],60)
     # Observation dates differ; explicitly preserve each.
-    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","score_direction":"zero_is_opportunity","method":"증시·크립토 모두 0=바닥매수 기회 가까움, 100=기회 멀다. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 70% 미만은 점수 보류."}
+    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","score_direction":"high_is_opportunity","method":"증시·크립토 모두 100=매수 기회 가까움, 0=매수 기회 멀다. 가용 구성요소 가중평균을 0~100으로 정규화. 급락·다중바닥 미확인 시 증시는 55점, 크립토는 60점으로 상한. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 65% 미만은 점수 보류."}
+def normalize_snapshot(row):
+    import copy
+    x=copy.deepcopy(row)
+    if x.get('score_direction')=='zero_is_opportunity':
+        for key in ('equity','crypto'):
+            value=x.get(key,{}).get('score')
+            if value is not None:x[key]['score']=round(100-value,1)
+        x['score_direction']='high_is_opportunity'
+        x['method']='100=매수 기회 가까움, 0=기회 멀다. 기존 지수를 100-기존값으로 방향 통일. 원래 구성요소·기준일 보존.'
+    return x
+
 def main():
     today=compute()
     history=[]
@@ -146,7 +163,7 @@ def main():
         try:history=json.loads(OUT.read_text(encoding="utf-8")).get("history",[])
         except Exception:pass
     # Seed two real historical market sessions; historical CNN/crypto F&G are unavailable and omitted.
-    existing={x.get("date"):x for x in history if x.get("score_direction")=="zero_is_opportunity"}
+    existing={x.get("date"):normalize_snapshot(x) for x in history if x.get("score_direction") in ("zero_is_opportunity","high_is_opportunity")}
     sessions=fetch("SPY").index[-3:].date
     for day in sessions:
         key=day.isoformat()
@@ -160,3 +177,4 @@ def main():
     OUT.write_text(json.dumps({"latest":today,"history":history[-730:]},ensure_ascii=False,allow_nan=False),encoding="utf-8")
     print("Sentiment",today["date"],today["equity"]["score"],today["crypto"]["score"])
 if __name__=="__main__":main()
+

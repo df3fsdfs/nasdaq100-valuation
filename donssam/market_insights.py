@@ -88,7 +88,11 @@ def sector_history(screen):
 def opportunity_changes(sentiment):
     output={}
     for key in ('equity','crypto'):
-        rows=[{'date':r['date'],'value':r.get(key,{}).get('score')} for r in sentiment.get('history',[]) if r.get('score_direction')=='zero_is_opportunity']
+        rows=[]
+        for r in sentiment.get('history',[]):
+            value=r.get(key,{}).get('score');direction=r.get('score_direction')
+            if value is not None and direction in ('zero_is_opportunity','high_is_opportunity'):
+                rows.append({'date':r['date'],'value':round(100-value,1) if direction=='zero_is_opportunity' else value})
         output[key]=compare(rows)
     return output
 
@@ -105,7 +109,7 @@ def checkpoints(bottom,opportunities,sectors):
                 groups['signals'].append({'title':asset+' '+tf+' 진행 중 줍 변화','good':z['latest']['signals']['buy'],'body':'확정봉 '+('있음' if c['signals']['buy'] else '없음')+' → 진행 중 '+('있음' if z['latest']['signals']['buy'] else '없음')+' · 마감 전 변동 가능','date':bottom.get('generated_at','')[:10]})
     for key,z in opportunities.items():
         if z and z.get('mean_delta') is not None and (abs(z['mean_delta'])>=10 or abs(z.get('delta') or 0)>=10):
-            groups['opportunity'].append({'title':('증시' if key=='equity' else '크립토')+' 기회지수 급변','good':z['mean_delta']<0,'body':'최근 '+str(z['mean_n'])+'거래일 평균 '+str(round(z['mean'],1))+' → '+str(z['value'])+' ('+f"{z['mean_delta']:+.1f}"+'점) · 0에 가까울수록 기회','date':z['date']})
+            groups['opportunity'].append({'title':('증시' if key=='equity' else '크립토')+' 기회지수 급변','good':z['mean_delta']>0,'body':'최근 '+str(z['mean_n'])+'거래일 평균 '+str(round(z['mean'],1))+' → '+str(z['value'])+' ('+f"{z['mean_delta']:+.1f}"+'점) · 100에 가까울수록 기회','date':z['date']})
     for ticker,z in sectors.items():
         if z and z.get('mean_delta') is not None and (abs(z['mean_delta'])>=10 or abs(z.get('delta') or 0)>=8):
             groups['sectors'].append({'title':ticker+' 기회점수 '+('급상승' if z['mean_delta']>0 else '급하락'),'good':z['mean_delta']>0,'oversold':bool(z.get('oversold')),'body':str(z['mean_n'])+'거래일 평균 '+str(round(z['mean'],1))+' → '+str(z['value'])+' ('+f"{z['mean_delta']:+.1f}"+'점) · 전일 '+f"{z['delta']:+.1f}"+'점 · 과매도 '+('통과' if z.get('oversold') else '미충족'),'date':z['date']})

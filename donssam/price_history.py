@@ -4,8 +4,13 @@ import urllib.request
 from urllib.parse import quote
 import pandas as pd
 
-def chart_history(symbol):
-    url='https://query1.finance.yahoo.com/v8/finance/chart/'+quote(symbol,safe='')+'?range=2y&interval=1d'
+def chart_history(symbol,years=None):
+    suffix='range=2y'
+    if years:
+        from datetime import datetime,timezone,timedelta
+        now=datetime.now(timezone.utc)
+        suffix='period1='+str(int((now-timedelta(days=366*years)).timestamp()))+'&period2='+str(int(now.timestamp()))
+    url='https://query1.finance.yahoo.com/v8/finance/chart/'+quote(symbol,safe='')+'?'+suffix+'&interval=1d'
     req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0'})
     with urllib.request.urlopen(req,timeout=16) as r:obj=json.load(r)['chart']['result'][0]
     q=obj['indicators']['quote'][0]

@@ -1,12 +1,6 @@
 name: Donssam daily sentiment
+# Scheduled refreshes are centralized in update-data.yml.
 on:
-  schedule:
-    - cron: '10 9 * * *'
-  push:
-    branches: [main]
-    paths:
-      - 'donssam/sentiment.py'
-      - '.github/workflows/donssam-sentiment.yml'
   workflow_dispatch:
 concurrency:
   group: donssam-daily-sentiment
@@ -30,3 +24,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add donssam/sentiment.json
           git diff --cached --quiet || (git commit -m "Update Donssam daily sentiment" && (git pull --rebase -X theirs || (git rebase --abort && git pull --no-rebase -X theirs)) && git push)
+

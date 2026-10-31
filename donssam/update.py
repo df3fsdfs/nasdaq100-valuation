@@ -7,7 +7,7 @@ import requests
 import pandas as pd
 from sector_scoring import metrics, cci_weekly, clamp, score_sector
 
-SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산","FNGS":"FANG+ (ETN)"}
+SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산","FNGS":"M7"}
 STOCKS={"SOXX":["NVDA","AVGO","AMD","MU","AMAT","LRCX","KLAC","QCOM","TXN"],"XLK":["MSFT","AAPL","ORCL","CRM","ADBE","NOW","PANW"],"XLC":["GOOGL","META","NFLX","DIS"],"XLY":["AMZN","TSLA","HD","MCD","NKE","SBUX"],"XLI":["CAT","GE","DE","ETN","HON","UPS"],"XLF":["JPM","BAC","GS","MS","V","MA"],"XLE":["XOM","CVX","COP","SLB"],"XLV":["LLY","UNH","JNJ","ABBV","MRK"],"XLP":["WMT","COST","PG","KO","PEP"],"XLU":["NEE","DUK","SO"],"XLB":["LIN","SHW","FCX"],"XLRE":["PLD","AMT","EQIX"]}
 FRED={"VIXCLS":"VIX","BAMLH0A0HYM2":"하이일드 OAS","DGS10":"미국 10년물","T10YIE":"10년 기대인플레","UNRATE":"실업률"}
 def fred(code):
@@ -113,7 +113,11 @@ eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and 
 # ETF weights must come from fund holdings, not from an assumed ticker basket.
 def holdings_above_five(etf):
     if etf=='FNGS':
-        return [],'https://www.bmoetn.com/ETN/FNGS.P/','etn_not_fund'
+        from fang_weights import fetch_weights
+        try:return fetch_weights()
+        except Exception as exc:
+            print('FANG+ weights',type(exc).__name__)
+            return [],'https://microsectors.com/fang/','holdings_unavailable'
 
     # First use reported holdings; SOXX falls back to BlackRock/iShares CSV.
     try:
@@ -159,13 +163,13 @@ names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
 stock_prices=batch_prices(names) if names else {}
 def individual_score(v):
     # clamp returns 0..100; normalize to 0..1 in each score factor.
-    # Bottom-opportunity: 0 near bottom, 100 far away. All factors use actual observations.
+    # Bottom-opportunity: 100 near bottom, 0 far away. All factors use actual observations.
     # 30 drawdown, 20 daily RSI, 25 weekly CCI, 25 distance to 200d MA.
     dd=30*(1-clamp(-v["drawdown52"]/40))
     rs=20*(1-clamp((55-v["rsi14"])/35))
     cc=25*(1-clamp((100-v["cci_weekly"])/300)) if v["cci_weekly"] is not None else None
     ma=25*clamp(abs(v["ma200_gap"])/30) if v["ma200_gap"] is not None else None
-    return {"score":round(dd+rs+cc+ma,1) if cc is not None and ma is not None else None,"drawdown":round(dd,1),"rsi":round(rs,1),"cci":round(cc,1) if cc is not None else None,"ma200":round(ma,1) if ma is not None else None}
+    return {"score_direction":"high_is_opportunity","score":round(100-(dd+rs+cc+ma),1) if cc is not None and ma is not None else None,"drawdown":round(30-dd,1),"rsi":round(20-rs,1),"cci":round(25-cc,1) if cc is not None else None,"ma200":round(25-ma,1) if ma is not None else None}
 top_holdings=[]
 for z in top_three:
     etf=z["ticker"]
@@ -197,7 +201,7 @@ for row in top_holdings:
         if old:
             row.update(holdings=old["holdings"],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 100=바닥 근접, 0=기회 멀다."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)

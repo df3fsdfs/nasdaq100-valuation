@@ -1,101 +1,83 @@
 name: NASDAQ-40 Build and Deploy
-
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: "30 23 * * 1-5"
-    - cron: "10 23 * * *"
-    - cron: "0 9 * * *"
-
+    - cron: '5 22 * * *'
+    - cron: '10 1 * * *'
+    - cron: '*/30 * * * *'
+    - cron: '0 10 * * *'
+    - cron: '30 23 * * 1-5'
 permissions:
   contents: write
   pages: write
   id-token: write
-
 concurrency:
   group: nasdaq40-pages
-  cancel-in-progress: true
-
+  cancel-in-progress: false
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 28
     environment:
       name: github-pages
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
+          python-version: '3.11'
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install yfinance requests 'pandas>=2.2,<3' 'exchange-calendars>=4.5,<5'
-
-      - name: Update data
-        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 23 * * 1-5'
+        run: pip install yfinance requests beautifulsoup4 'pandas>=2.2,<3' 'exchange-calendars>=4.5,<5'
+      - name: Verify calculations
+        if: github.event.schedule != '*/30 * * * *'
+        run: python -m unittest discover -s donssam -p 'test_*.py'
+      - name: Update NASDAQ-40 valuation
+        if: github.event.schedule == '30 23 * * 1-5'
         env:
           BUSINESSQUANT_API_KEY: ${{ secrets.BUSINESSQUANT_API_KEY }}
         run: python fetch_data.py
-
-      - name: Commit data update
-        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 23 * * 1-5'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.json
-          if [ -f history_cache.json ]; then git add history_cache.json; fi
-          if git diff --cached --quiet; then
-            echo "No data changes."
-          else
-            git commit -m "Update NASDAQ-40 data"
-            git push
-          fi
-
-      - name: Verify bottom checklist
-        run: python -m unittest discover -s donssam -p 'test_*.py'
-
-      - name: Update all sector details
-        if: github.event_name != 'push'
+      - name: Update regular-session sectors and constituent weights
+        if: github.event.schedule == '5 22 * * *' || github.event_name == 'workflow_dispatch'
         run: python donssam/update.py
-
-      - name: Update bottom checklist
-        run: python donssam/bottom_check.py
-
-      - name: Analyze daily changes
-        run: python donssam/market_insights.py
-
-      - name: Commit bottom checklist
+      - name: Update daily opportunity scores
+        if: github.event.schedule == '5 22 * * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        run: python donssam/sentiment.py
+      - name: Check monthly OECD releases
+        if: github.event.schedule == '0 10 * * *' || github.event_name == 'workflow_dispatch'
+        run: python donssam/cli_update.py
+      - name: Check weekly Fed release on Friday morning
+        if: github.event.schedule == '5 22 * * *' || github.event.schedule == '10 1 * * *' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add donssam/bottom.json donssam/insights.json
-          if [ -f donssam/screen.json ]; then git add donssam/screen.json; fi
+          if [ "$(TZ=Asia/Seoul date +%u)" = '5' ]; then
+            python fed-liquidity/update.py
+          fi
+      - name: Update confirmed and forming buy signals
+        if: github.event.schedule != '*/30 * * * *' && github.event.schedule != '0 10 * * *' && github.event.schedule != '30 23 * * 1-5'
+        run: python donssam/bottom_check.py
+      - name: Analyze daily changes
+        if: github.event.schedule != '*/30 * * * *' && github.event.schedule != '30 23 * * 1-5'
+        run: python donssam/market_insights.py
+      - name: Fetch extended-session and futures quotes
+        run: python donssam/quotes_update.py
+      - name: Save dated observations
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add donssam/bottom.json donssam/insights.json donssam/screen.json donssam/cli.json donssam/sentiment.json donssam/quotes.json fed-liquidity/data.json data.json
+          if [ -f history_cache.json ]; then git add history_cache.json; fi
           if ! git diff --cached --quiet; then
-            git commit -m "Update bottom checklist"
+            git commit -m 'Refresh market observations with original timestamps'
             git pull --rebase origin main
             git push
           fi
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
         with:
           name: nasdaq40-pages
           path: .
-
-      - name: Deploy Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@v4
         with:
           artifact_name: nasdaq40-pages
-

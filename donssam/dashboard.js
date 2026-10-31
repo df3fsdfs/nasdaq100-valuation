@@ -32,15 +32,21 @@
       card.append(el('p',x.interpretation,'cli-main'));
       const trend=x.acceleration<0?(x.jerk>0?'감속 강도는 전월보다 완화 · 가속도는 아직 음수':x.jerk<0?'감속 강도가 전월보다 확대':'감속 강도 유지'):(x.acceleration>0?(x.jerk<0?'가속 강도는 전월보다 약화':x.jerk>0?'가속 강도가 전월보다 확대':'가속 강도 유지'):'가속도 0 · 다음 월 방향 확인');
       card.append(el('p',trend));
-      card.append(el('p','변화량 v: '+signed(x.previous_velocity,4)+' → '+signed(x.velocity,4)+' pt/월'));
-      const a=el('p','가속도 a: '+signed(x.previous_acceleration,4)+' → '+signed(x.acceleration,4)+' pt/월²','cli-main');a.style.color=x.acceleration>0?'#b4ff60':x.acceleration<0?'#ff8a9d':'#a1b6d0';card.append(a);
-      card.append(el('p',crossLabel(x.acceleration_cross,'a')));
-      card.append(el('p','가속도 변화 j: '+signed(x.previous_jerk,4)+' → '+signed(x.jerk,4)+' pt/월³'));
-      card.append(el('p',crossLabel(x.jerk_cross,'j')));
-      const diff=el('small','수준 '+fmt(x.previous_level,4)+' → '+fmt(x.level,4)+' · 직전 비교 '+x.previous_date);card.append(diff);box.append(card);
+      const detail=el('details');detail.append(el('summary','전월 수치·계산 펼치기'));
+      detail.append(el('p','변화량 v: '+signed(x.previous_velocity,4)+' → '+signed(x.velocity,4)+' pt/월'));
+      const a=el('p','가속도 a: '+signed(x.previous_acceleration,4)+' → '+signed(x.acceleration,4)+' pt/월²','cli-main');a.style.color=x.acceleration>0?'#b4ff60':x.acceleration<0?'#ff8a9d':'#a1b6d0';detail.append(a);
+      detail.append(el('p',crossLabel(x.acceleration_cross,'a')));
+      detail.append(el('p','가속도 변화 j: '+signed(x.previous_jerk,4)+' → '+signed(x.jerk,4)+' pt/월³'));
+      detail.append(el('p',crossLabel(x.jerk_cross,'j')));
+      const diff=el('small','수준 '+fmt(x.previous_level,4)+' → '+fmt(x.level,4)+' · 직전 비교 '+x.previous_date);detail.append(diff);card.append(detail);box.append(card);
       const aRows=x.rows.slice(2).map((r,i)=>({date:r.date,value:r.value-2*x.rows[i+1].value+x.rows[i].value}));
       traces.push({x:aRows.map(r=>r.date),y:aRows.map(r=>r.value),name:name+' 가속도',mode:'lines+markers',line:{width:2,color:key==='USA'?'#6ea8ff':'#c299ff'}});
     }
+    load('./cli.json').then(raw=>{
+      const colors={G20:'#f2bd6a',G7:'#c299ff',USA:'#6ea8ff',Korea:'#ff8a9d'};
+      const lines=['G20','G7','USA','Korea'].filter(k=>raw.series?.[k]?.rows?.length).map(k=>({name:k==='USA'?'미국':k==='Korea'?'한국':k,x:raw.series[k].rows.map(r=>r.date),y:raw.series[k].rows.map(r=>r.value),mode:'lines',line:{color:colors[k],width:2}}));
+      Plotly.newPlot('cli-level-chart',lines,{paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:45,r:10,t:10,b:45},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',title:'CLI'},legend:{orientation:'h',y:-.3},hovermode:'x unified'},{responsive:true,displayModeBar:false});
+    }).catch(()=>{});
     if(traces.length&&typeof Plotly!=='undefined')Plotly.newPlot('clichart',traces,{paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:55,r:10,t:10,b:45},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',zeroline:true,zerolinecolor:'#e7eaf0',title:'가속도 a'},legend:{orientation:'h',y:-.3},hovermode:'x unified'},{responsive:true,displayModeBar:false});
     const groups=document.getElementById('change-groups');groups.replaceChildren();
     const labels={signals:'① 줍줍신호 전환',opportunity:'② 기회지수 급변',sectors:'③ 산업 기회 급변',other:'④ 공포·거래량 변화'};
@@ -67,6 +73,7 @@
       }liqnote.after(detail);
     }
   }).catch(()=>{document.getElementById('change-summary').textContent='변화 분석 갱신 대기';});
+  document.getElementById('toggle-sector-details').onclick=()=>{const table=document.querySelector('.sector-table');const open=table.classList.toggle('show-details');document.getElementById('toggle-sector-details').textContent=open?'핵심 열만 보기':'가격·낙폭·날짜 열 보기';};
   document.getElementById('toggle-liquidity').onclick=()=>{
     const r=window.liqAllRows;if(!r)return;window.liqExpanded=!window.liqExpanded;
     const keys=['WALCL','WTREGEN','RRPONTSYD','WRESBAL','net'];const body=document.getElementById('liqrows');body.replaceChildren();
