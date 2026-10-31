@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-31T11:20:28.522693+00:00",
+  "assets": {
+    "NDX": {
+      "date": "2026-10-30",
+      "price": 28384.85,
+      "peak_close": 31224.471,
+      "drawdown_pct": -9.094,
+      "weekly_cci": -98.197,
+      "monthly_cci": 102.703,
+      "weekly_rsi": 46.81,
+      "weekly_date": "2026-10-30",
+      "monthly_date": "2026-10-31",
+      "volume_pct": 114.275,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "fresh": true
+    },
+    "SOXX": {
+      "date": "2026-10-30",
+      "price": 471.51,
+      "peak_close": 655.01,
+      "drawdown_pct": -28.015,
+      "weekly_cci": -118.456,
+      "monthly_cci": 87.192,
+      "weekly_rsi": 44.506,
+      "weekly_date": "2026-10-30",
+      "monthly_date": "2026-10-31",
+      "volume_pct": 210.573,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "fresh": true
+    },
+    "NQ": {
+      "date": "2026-10-30",
+      "price": 28534.0,
+      "peak_close": 31483.25,
+      "drawdown_pct": -9.368,
+      "weekly_cci": -83.676,
+      "monthly_cci": 103.534,
+      "weekly_rsi": 46.925,
+      "weekly_date": "2026-10-30",
+      "monthly_date": "2026-10-31",
+      "volume_pct": 125.943,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/NQ%3DF?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "fresh": true
+    },
+    "BTC": {
+      "date": "2026-10-30",
+      "price": 77198.211,
+      "peak_close": 124752.531,
+      "drawdown_pct": -38.119,
+      "weekly_cci": 73.016,
+      "monthly_cci": -28.919,
+      "weekly_rsi": 54.509,
+      "weekly_date": "2026-10-25",
+      "monthly_date": "2026-09-30",
+      "volume_pct": 182.709,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "fresh": true
+    },
+    "TQQQ": {
+      "date": "2026-10-30",
+      "price": 62.01,
+      "peak_close": 87.22,
+      "drawdown_pct": -28.904,
+      "weekly_cci": -130.47,
+      "monthly_cci": 83.923,
+      "weekly_rsi": 43.051,
+      "weekly_date": "2026-10-30",
+      "monthly_date": "2026-10-31",
+      "volume_pct": 192.067,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TQQQ?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "fresh": true
+    },
+    "SOXL": {
+      "date": "2026-10-30",
+      "price": 77.05,
+      "peak_close": 300.77,
+      "drawdown_pct": -74.382,
+      "weekly_cci": -120.244,
+      "monthly_cci": 38.642,
+      "weekly_rsi": 40.176,
+      "weekly_date": "2026-10-30",
+      "monthly_date": "2026-10-31",
+      "volume_pct": 224.092,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXL?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "fresh": true
+    }
+  },
+  "fear": {
+    "value": 26.239,
+    "date": "2026-10-30",
+    "fresh": true,
+    "source": "https://www.cnn.com/markets/fear-and-greed"
+  },
+  "checks": [
+    {
+      "id": "ndx_dd",
+      "label": "나스닥100 고점 대비 -20% 이하",
+      "value": -9.094,
+      "threshold": -20,
+      "unit": "%",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": ""
+    },
+    {
+      "id": "fear",
+      "label": "CNN 공포·탐욕 10 이하",
+      "value": 26.239,
+      "threshold": 10,
+      "unit": "점",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": ""
+    },
+    {
+      "id": "soxx",
+      "label": "SOXX 400달러 이하",
+      "value": 471.51,
+      "threshold": 400,
+      "unit": "달러",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": ""
+    },
+    {
+      "id": "nq",
+      "label": "미니 나스닥 선물 26,000 이하",
+      "value": 28534.0,
+      "threshold": 26000,
+      "unit": "pt",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": ""
+    },
+    {
+      "id": "btc",
+      "label": "BTC 73,000달러 이하",
+      "value": 77198.211,
+      "threshold": 73000,
+      "unit": "달러",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": ""
+    },
+    {
+      "id": "tqqq_volume",
+      "label": "TQQQ 거래량 20일 평균의 400% 이상",
+      "value": 192.067,
+      "threshold": 400,
+      "unit": "%",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": "당일 제외 직전 20거래일 평균 대비 · 400%=4배"
+    },
+    {
+      "id": "soxl_volume",
+      "label": "SOXL 거래량 20일 평균의 400% 이상",
+      "value": 224.092,
+      "threshold": 400,
+      "unit": "%",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": "당일 제외 직전 20거래일 평균 대비 · 400%=4배"
+    },
+    {
+      "id": "weekly_cci200",
+      "label": "나스닥100 주봉 CCI -200 이하",
+      "value": -98.197,
+      "threshold": -200,
+      "unit": "",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": "수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"
+    },
+    {
+      "id": "weekly_cci100",
+      "label": "나스닥100 주봉 CCI -100 이하",
+      "value": -98.197,
+      "threshold": -100,
+      "unit": "",
+      "date": "2026-10-30",
+      "status": "fail",
+      "note": "수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"
+    },
+    {
+      "id": "monthly_cci100",
+      "label": "나스닥100 월봉 CCI -100 이하",
+      "value": 102.703,
+      "threshold": -100,
+      "unit": "",
+      "date": "2026-10-31",
+      "status": "fail",
+      "note": "수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"
+    },
+    {
+      "id": "joopjoop",
+      "label": "필수: 전 자산 주봉·월봉 줍줍신호",
+      "status": "unknown",
+      "value": null,
+      "threshold": null,
+      "unit": "",
+      "date": null,
+      "note": "원본 지표·패턴 정의 연결 대기"
+    },
+    {
+      "id": "weekly_pattern",
+      "label": "주봉 CCI -200 송곳형 또는 -100 쌍바닥",
+      "status": "unknown",
+      "value": null,
+      "threshold": null,
+      "unit": "",
+      "date": null,
+      "note": "원본 지표·패턴 정의 연결 대기"
+    },
+    {
+      "id": "monthly_pattern",
+      "label": "월봉 CCI -100·쌍바닥 또는 주봉 RSI 상승 다이버전스",
+      "status": "unknown",
+      "value": null,
+      "threshold": null,
+      "unit": "",
+      "date": null,
+      "note": "원본 지표·패턴 정의 연결 대기"
+    }
+  ],
+  "summary": {
+    "numeric_pass": 0,
+    "numeric_total": 7,
+    "final_status": "pending_definition"
+  },
+  "method": {
+    "benchmark": "NASDAQ-100 (^NDX), 나스닥 종합·QQQ 대체 안 함",
+    "drawdown": "확보한 전체 일별 종가의 최고값 대비 (최소 1980년부터 요청)",
+    "indicators": "CCI20(HLC3), 주봉 RSI14(Wilder); 기존 사이트 기간을 사용. 확정봉만 판정",
+    "volume": "당일을 제외한 직전 20거래일 평균, 400%=4배. 분할 발생 구간은 주의",
+    "nq": "Yahoo NQ=F 근월물 연속 시세, 만기 교체 영향 있음",
+    "pending": "줍줍 원본·전 자산 범위·송곳형/쌍바닥/다이버전스 정의 확정 후 최종 조건 연결"
+  },
+  "errors": []
+}

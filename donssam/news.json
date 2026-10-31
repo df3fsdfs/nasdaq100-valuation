@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-31",
+  "cutoff_at": "2026-10-31T08:00:00+09:00",
+  "items": [
+    {
+      "title": "인텔 급락, 반도체 전반으로 번짐",
+      "sentences": [
+        "인텔이 PC 시장 부진이 내년 상반기까지 이어질 것으로 전망하면서 주가가 28.6% 급락했어.",
+        "이번 분기 매출은 전년보다 21% 늘었지만 다음 분기 매출 전망은 이번 분기보다 낮게 제시했음.",
+        "반도체지수도 7.2% 하락하면서 인텔의 실적 우려가 업종 전반의 매도로 번졌어."
+      ],
+      "sources": [
+        {
+          "label": "인텔 공시",
+          "url": "https://www.sec.gov/Archives/edgar/data/50863/000005086326000188/q326earningsrelease.htm"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/nasdaq-futures-tumble-amazon-intel-results-deepen-ai-spending-woes-2026-10-30/"
+        }
+      ]
+    },
+    {
+      "title": "아마존, 성장하는 클라우드와 커지는 투자 부담",
+      "sentences": [
+        "아마존의 클라우드 사업 AWS 매출은 전년보다 약 39% 증가했어.",
+        "하지만 최근 12개월 영업현금에서 설비투자를 뺀 현금흐름은 1년 전 148억달러 흑자에서 424억달러 적자로 바뀌었음.",
+        "AI 매출이 늘어도 투자비가 더 빠르게 커지면 현금 부담이 늘어난다는 점이 대형 기술주 평가에 부담을 줬어."
+      ],
+      "sources": [
+        {
+          "label": "아마존 실적",
+          "url": "https://ir.aboutamazon.com/news-release/news-release-details/2026/Amazon-com-Announces-Third-Quarter-Results/default.aspx"
+        }
+      ]
+    },
+    {
+      "title": "연준 동결 직후, 로건은 추가 인상 주장",
+      "sentences": [
+        "로건 댈러스 연은 총재가 금리를 0.25%포인트씩 최소 두 번 더 올려야 한다고 밝혔어.",
+        "이번 주 동결에는 찬성했지만 시장에 적응할 시간을 준 것이며 추가 인상 필요성은 유지했음.",
+        "로건의 전망대로 금리가 더 오르면 기업의 이자 부담이 늘고, 미래 성장 기대가 많이 반영된 주식에는 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "댈러스 연은 연설",
+          "url": "https://www.dallasfed.org/news/speeches/logan/2026/lkl261030"
+        }
+      ]
+    },
+    {
+      "title": "바이낸스 해킹, 코인 관련주 동반 하락",
+      "sentences": [
+        "바이낸스에서 63억달러 규모의 자산이 탈취됐다는 소식에 가상자산과 관련 주식이 함께 하락했어.",
+        "바이낸스는 출금을 중단하고 회사 자금으로 손실을 메우겠다고 밝혔음.",
+        "거래소 안전성 우려가 더해지면서 코인베이스·스트래티지·로빈후드는 미국 정규장에서 각각 7~11%가량 빠졌어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters·Euronext",
+          "url": "https://live.euronext.com/en/financial-news/binance-seeks-shore-confidence-after-record-63-billion-heist"
+        },
+        {
+          "label": "Reuters 시장 마감",
+          "url": "https://www.reuters.com/business/nasdaq-futures-tumble-amazon-intel-results-deepen-ai-spending-woes-2026-10-30/"
+        }
+      ]
+    },
+    {
+      "title": "일본은행, 금리는 동결하고 ETF 매각 확대",
+      "sentences": [
+        "일본은행이 금리를 1.25%로 유지하면서 내년 1월부터 보유 주식 ETF 매각을 늘리기로 했어.",
+        "연간 매각 규모는 장부가 기준 3,300억엔에서 8,600억엔으로 늘어남.",
+        "일본 주식에는 중앙은행 매도 물량이 늘어나는 부담이 생기고, 추가 금리 인상까지 이어지면 엔화를 빌려 투자하는 비용도 높아질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://ca.marketscreener.com/news/bank-of-japan-to-hold-rates-signal-further-hikes-ce785fdadc8ef326"
+        }
+      ]
+    }
+  ]
+}

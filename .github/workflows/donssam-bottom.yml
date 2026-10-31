@@ -1,0 +1,49 @@
+name: Donssam Bottom Checklist
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 23 * * *'
+    - cron: '0 9 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'donssam/bottom_check.py'
+      - '.github/workflows/donssam-bottom.yml'
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: nasdaq40-pages
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install 'pandas>=2.2,<3' 'exchange-calendars>=4.5,<5'
+      - run: python -m unittest discover -s donssam -p 'test_bottom_check.py'
+      - run: python donssam/bottom_check.py
+      - name: Commit snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add donssam/bottom.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update bottom checklist'
+            git pull --rebase origin main
+            git push
+          fi
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          name: nasdaq40-pages
+          path: .
+      - uses: actions/deploy-pages@v4
+        with:
+          artifact_name: nasdaq40-pages
