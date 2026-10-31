@@ -5,7 +5,7 @@ from pathlib import Path
 import yfinance as yf
 import requests
 import pandas as pd
-from sector_scoring import metrics, cci_weekly, clamp, score_sector
+from sector_scoring import metrics, cci_weekly, clamp, score_sector, score_individual
 
 SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산","FNGS":"M7"}
 STOCKS={"SOXX":["NVDA","AVGO","AMD","MU","AMAT","LRCX","KLAC","QCOM","TXN"],"XLK":["MSFT","AAPL","ORCL","CRM","ADBE","NOW","PANW"],"XLC":["GOOGL","META","NFLX","DIS"],"XLY":["AMZN","TSLA","HD","MCD","NKE","SBUX"],"XLI":["CAT","GE","DE","ETN","HON","UPS"],"XLF":["JPM","BAC","GS","MS","V","MA"],"XLE":["XOM","CVX","COP","SLB"],"XLV":["LLY","UNH","JNJ","ABBV","MRK"],"XLP":["WMT","COST","PG","KO","PEP"],"XLU":["NEE","DUK","SO"],"XLB":["LIN","SHW","FCX"],"XLRE":["PLD","AMT","EQIX"]}
@@ -108,7 +108,7 @@ for ticker,name in SECTORS.items():
     d=score_sector(d,spy,name)
     sector.append(d)
 sector.sort(key=lambda d:(d["opportunity_score"] is None,-(d["opportunity_score"] or 0)))
-eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and d["opportunity_score"]>=65]
+eligible=[d["ticker"] for d in sector if d.get("qualified") is True]
 # Drill-down for every tracked sector ETF (11 GICS sectors plus semiconductors).
 # ETF weights must come from fund holdings, not from an assumed ticker basket.
 def holdings_above_five(etf):
@@ -162,14 +162,7 @@ holdings={etf:result[0] for etf,result in holdings_data.items()}
 names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
 stock_prices=batch_prices(names) if names else {}
 def individual_score(v):
-    # clamp returns 0..100; normalize to 0..1 in each score factor.
-    # Bottom-opportunity: 100 near bottom, 0 far away. All factors use actual observations.
-    # 30 drawdown, 20 daily RSI, 25 weekly CCI, 25 distance to 200d MA.
-    dd=30*(1-clamp(-v["drawdown52"]/40))
-    rs=20*(1-clamp((55-v["rsi14"])/35))
-    cc=25*(1-clamp((100-v["cci_weekly"])/300)) if v["cci_weekly"] is not None else None
-    ma=25*clamp(abs(v["ma200_gap"])/30) if v["ma200_gap"] is not None else None
-    return {"score_direction":"high_is_opportunity","score":round(100-(dd+rs+cc+ma),1) if cc is not None and ma is not None else None,"drawdown":round(30-dd,1),"rsi":round(20-rs,1),"cci":round(25-cc,1) if cc is not None else None,"ma200":round(25-ma,1) if ma is not None else None}
+    return score_individual(v,spy)
 top_holdings=[]
 for z in top_three:
     etf=z["ticker"]
@@ -199,9 +192,9 @@ for row in top_holdings:
     if row["status"]!="available":
         old=next((z for z in previous.get("top_etf_holdings",[]) if z.get("etf")==row["etf"] and z.get("status") in ("available","stale") and z.get("holdings")),None)
         if old:
-            row.update(holdings=old["holdings"],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
+            row.update(holdings=[{**h,"opportunity":individual_score(h)} if h.get("return6m") is not None else {**h,"opportunity":None} for h in old["holdings"]],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 100=바닥 근접, 0=기회 멀다."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 산업·개별종목 공통: 상대강도35·과매도40·추세25. 통과=점수70초과 AND RSI14≤20 AND 주봉CCI≤-100. 개별 점수 100=기회 높음, 0=기회 낮음."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)

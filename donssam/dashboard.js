@@ -63,7 +63,7 @@
       }groups.append(card);
     }
     const c=d.checkpoints||{};const count=k=>(c[k]||[]).filter(x=>x.good).length;
-    document.getElementById('change-summary').textContent='최근 새 줍 '+count('signals')+'건 · 기회지수 개선 '+count('opportunity')+'건 · 산업 점수 상승 '+count('sectors')+'곳 (과매도 통과 '+(c.sectors||[]).filter(x=>x.good&&x.oversold).length+'곳) · '+new Date(d.generated_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'});
+    document.getElementById('change-summary').textContent='최근 새 줍 '+count('signals')+'건 · 기회지수 개선 '+count('opportunity')+'건 · 산업 점수 상승 '+count('sectors')+'곳 (종합 통과 '+(c.sectors||[]).filter(x=>x.good&&x.qualified).length+'곳) · '+new Date(d.generated_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'});
     // A compact weekly comparison under each latest liquidity value.
     const liqnote=document.getElementById('liqdate');if(liqnote){
       const detail=el('div',null,'compact-note');

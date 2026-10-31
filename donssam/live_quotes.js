@@ -9,7 +9,7 @@
   window.refreshLiveStockCells=ticker=>{
     const data=(window.etfHoldings||[]).find(x=>x.etf===ticker);if(!data)return;
     const trs=document.querySelectorAll('#etfrows tr');
-    (data.holdings||[]).forEach((x,i)=>{if(trs[i]?.cells.length>3)priceCell(trs[i].cells[3],quotes[x.ticker]);});
+    (data.holdings||[]).forEach((x,i)=>{if(trs[i])priceCell(trs[i].querySelector('[data-live-price]'),quotes[x.ticker]);});
   };
   window.refreshLiveQuotes=()=>{
     if(!Object.keys(quotes).length)return;

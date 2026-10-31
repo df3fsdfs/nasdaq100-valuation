@@ -1110,9 +1110,10 @@
           "value": 59.3
         }
       ],
-      "oversold": true,
+      "oversold": false,
       "rsi14": 36.1,
-      "cci_weekly": -118.0
+      "cci_weekly": -118.0,
+      "qualified": false
     },
     "XLV": {
       "date": "2026-10-30",
@@ -1216,7 +1217,8 @@
       ],
       "oversold": false,
       "rsi14": 72.6,
-      "cci_weekly": 188.8
+      "cci_weekly": 188.8,
+      "qualified": false
     },
     "XLE": {
       "date": "2026-10-30",
@@ -1320,7 +1322,8 @@
       ],
       "oversold": false,
       "rsi14": 67.9,
-      "cci_weekly": 134.3
+      "cci_weekly": 134.3,
+      "qualified": false
     },
     "XLK": {
       "date": "2026-10-30",
@@ -1424,7 +1427,8 @@
       ],
       "oversold": false,
       "rsi14": 36.8,
-      "cci_weekly": -46.0
+      "cci_weekly": -46.0,
+      "qualified": false
     },
     "FNGS": {
       "date": "2026-10-30",
@@ -1528,7 +1532,8 @@
       ],
       "oversold": false,
       "rsi14": 30.3,
-      "cci_weekly": -27.7
+      "cci_weekly": -27.7,
+      "qualified": false
     },
     "XLP": {
       "date": "2026-10-30",
@@ -1632,7 +1637,8 @@
       ],
       "oversold": false,
       "rsi14": 65.6,
-      "cci_weekly": 197.8
+      "cci_weekly": 197.8,
+      "qualified": false
     },
     "XLB": {
       "date": "2026-10-30",
@@ -1736,7 +1742,8 @@
       ],
       "oversold": false,
       "rsi14": 71.4,
-      "cci_weekly": 81.1
+      "cci_weekly": 81.1,
+      "qualified": false
     },
     "XLF": {
       "date": "2026-10-30",
@@ -1840,7 +1847,8 @@
       ],
       "oversold": false,
       "rsi14": 58.4,
-      "cci_weekly": 34.3
+      "cci_weekly": 34.3,
+      "qualified": false
     },
     "XLI": {
       "date": "2026-10-30",
@@ -1944,7 +1952,8 @@
       ],
       "oversold": false,
       "rsi14": 46.1,
-      "cci_weekly": -92.4
+      "cci_weekly": -92.4,
+      "qualified": false
     },
     "XLC": {
       "date": "2026-10-30",
@@ -2046,9 +2055,10 @@
           "value": 30.2
         }
       ],
-      "oversold": true,
+      "oversold": false,
       "rsi14": 22.9,
-      "cci_weekly": -268.3
+      "cci_weekly": -268.3,
+      "qualified": false
     },
     "XLRE": {
       "date": "2026-10-30",
@@ -2152,7 +2162,8 @@
       ],
       "oversold": false,
       "rsi14": 60.0,
-      "cci_weekly": -42.8
+      "cci_weekly": -42.8,
+      "qualified": false
     },
     "XLY": {
       "date": "2026-10-30",
@@ -2256,7 +2267,8 @@
       ],
       "oversold": false,
       "rsi14": 57.7,
-      "cci_weekly": 22.3
+      "cci_weekly": 22.3,
+      "qualified": false
     },
     "XLU": {
       "date": "2026-10-30",
@@ -2360,7 +2372,8 @@
       ],
       "oversold": false,
       "rsi14": 65.6,
-      "cci_weekly": 3.2
+      "cci_weekly": 3.2,
+      "qualified": false
     }
   },
   "opportunity_changes": {
@@ -2453,7 +2466,8 @@
         "title": "XLV 기회점수 급상승",
         "good": true,
         "oversold": false,
-        "body": "20거래일 평균 45.2 → 55.7 (+10.5점) · 전일 +0.8점 · 과매도 미충족",
+        "qualified": false,
+        "body": "20거래일 평균 45.2 → 55.7 (+10.5점) · 전일 +0.8점 · 종합판정 미충족",
         "date": "2026-10-30"
       }
     ],
