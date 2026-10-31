@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-10-31T13:12:35.354466+00:00",
+  "generated_at": "2026-10-31T13:17:17.495711+00:00",
   "assets": {
     "NDX": {
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793452355&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793452637&interval=1d&events=splits",
       "daily_date": "2026-10-30",
       "timeframes": {
         "D": {
@@ -259,7 +259,7 @@
       "fresh": true
     },
     "BTC": {
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793452355&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793452637&interval=1d&events=splits",
       "daily_date": "2026-10-30",
       "timeframes": {
         "D": {
@@ -314,16 +314,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": -198.838,
+            "cci20": -198.948,
             "cci_below100": true,
             "cci_below200": false,
             "rsi": {
-              "14": 35.045,
-              "30": 45.369,
-              "100": 50.447,
-              "200": 49.627
+              "14": 35.003,
+              "30": 45.353,
+              "100": 50.443,
+              "200": 49.625
             },
-            "rsi_position": 1.807,
+            "rsi_position": 1.7,
             "rsi_limit": 22,
             "rsi_extreme": true,
             "rsi_checks": {
@@ -337,10 +337,10 @@
             "last_buy_date": "2026-07-01",
             "long_history_ready": true,
             "deviations": {
-              "20": -1.814,
-              "60": -2.005,
-              "120": 1.532,
-              "200": 2.087
+              "20": -1.818,
+              "60": -2.009,
+              "120": 1.528,
+              "200": 2.083
             }
           },
           "forming": true
@@ -397,16 +397,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": 45.718,
+            "cci20": 45.698,
             "cci_below100": false,
             "cci_below200": false,
             "rsi": {
-              "14": 51.088,
-              "30": 49.051,
-              "100": 51.211,
-              "200": 52.451
+              "14": 51.078,
+              "30": 49.047,
+              "100": 51.21,
+              "200": 52.45
             },
-            "rsi_position": 66.647,
+            "rsi_position": 66.62,
             "rsi_limit": 27,
             "rsi_extreme": false,
             "rsi_checks": {
@@ -420,10 +420,10 @@
             "last_buy_date": "2026-08-09",
             "long_history_ready": true,
             "deviations": {
-              "20": 0.727,
-              "60": -0.717,
-              "120": -1.418,
-              "200": 1.638
+              "20": 0.726,
+              "60": -0.718,
+              "120": -1.419,
+              "200": 1.636
             }
           },
           "forming": true
@@ -480,16 +480,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": -34.324,
+            "cci20": -34.336,
             "cci_below100": false,
             "cci_below200": false,
             "rsi": {
-              "14": 50.215,
-              "30": 53.469,
-              "100": 56.286,
+              "14": 50.211,
+              "30": 53.467,
+              "100": 56.285,
               "200": null
             },
-            "rsi_position": 27.118,
+            "rsi_position": 27.107,
             "rsi_limit": 32,
             "rsi_extreme": true,
             "rsi_checks": {
@@ -503,7 +503,7 @@
             "last_buy_date": null,
             "long_history_ready": false,
             "deviations": {
-              "20": -0.636,
+              "20": -0.637,
               "60": 1.223,
               "120": 2.713,
               "200": null

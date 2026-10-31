@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T13:13:00.622735+00:00",
+  "generated_at": "2026-10-31T13:17:44.858692+00:00",
   "risk": {
     "vix": {
       "name": "VIX",
@@ -1111,9 +1111,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 36.1,
-      "cci_weekly": -118.0,
-      "qualified": false
+      "cci_weekly": -118.0
     },
     "XLV": {
       "date": "2026-10-30",
@@ -1216,9 +1216,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 72.6,
-      "cci_weekly": 188.8,
-      "qualified": false
+      "cci_weekly": 188.8
     },
     "XLE": {
       "date": "2026-10-30",
@@ -1321,9 +1321,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 67.9,
-      "cci_weekly": 134.3,
-      "qualified": false
+      "cci_weekly": 134.3
     },
     "XLK": {
       "date": "2026-10-30",
@@ -1426,9 +1426,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 36.8,
-      "cci_weekly": -46.0,
-      "qualified": false
+      "cci_weekly": -46.0
     },
     "FNGS": {
       "date": "2026-10-30",
@@ -1531,9 +1531,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 30.3,
-      "cci_weekly": -27.7,
-      "qualified": false
+      "cci_weekly": -27.7
     },
     "XLP": {
       "date": "2026-10-30",
@@ -1636,9 +1636,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 65.6,
-      "cci_weekly": 197.8,
-      "qualified": false
+      "cci_weekly": 197.8
     },
     "XLB": {
       "date": "2026-10-30",
@@ -1741,9 +1741,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 71.4,
-      "cci_weekly": 81.1,
-      "qualified": false
+      "cci_weekly": 81.1
     },
     "XLF": {
       "date": "2026-10-30",
@@ -1846,9 +1846,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 58.4,
-      "cci_weekly": 34.3,
-      "qualified": false
+      "cci_weekly": 34.3
     },
     "XLI": {
       "date": "2026-10-30",
@@ -1951,9 +1951,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 46.1,
-      "cci_weekly": -92.4,
-      "qualified": false
+      "cci_weekly": -92.4
     },
     "XLC": {
       "date": "2026-10-30",
@@ -2056,9 +2056,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 22.9,
-      "cci_weekly": -268.3,
-      "qualified": false
+      "cci_weekly": -268.3
     },
     "XLRE": {
       "date": "2026-10-30",
@@ -2161,9 +2161,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 60.0,
-      "cci_weekly": -42.8,
-      "qualified": false
+      "cci_weekly": -42.8
     },
     "XLY": {
       "date": "2026-10-30",
@@ -2266,9 +2266,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 57.7,
-      "cci_weekly": 22.3,
-      "qualified": false
+      "cci_weekly": 22.3
     },
     "XLU": {
       "date": "2026-10-30",
@@ -2371,9 +2371,9 @@
         }
       ],
       "oversold": false,
+      "qualified": false,
       "rsi14": 65.6,
-      "cci_weekly": 3.2,
-      "qualified": false
+      "cci_weekly": 3.2
     }
   },
   "opportunity_changes": {
@@ -2474,8 +2474,8 @@
     "other": []
   },
   "errors": [
-    "hy: HTTPError",
-    "yield10: HTTPError"
+    "yield10: HTTPError",
+    "hy: HTTPError"
   ],
   "method": {
     "risk": "전일=직전 관측 거래일; 평균=현재일 제외 직전20관측 거래일. 관측일은 지표별 표시.",
