@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-10-31T12:09:41.517893+00:00",
+  "generated_at": "2026-10-31T12:36:33.879165+00:00",
   "assets": {
     "NDX": {
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793448581&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793450193&interval=1d&events=splits",
       "daily_date": "2026-10-30",
       "timeframes": {
         "D": {
@@ -259,7 +259,7 @@
       "fresh": true
     },
     "BTC": {
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793448581&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793450193&interval=1d&events=splits",
       "daily_date": "2026-10-30",
       "timeframes": {
         "D": {
@@ -314,16 +314,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": -197.716,
+            "cci20": -197.611,
             "cci_below100": true,
             "cci_below200": false,
             "rsi": {
-              "14": 35.74,
-              "30": 45.633,
-              "100": 50.513,
-              "200": 49.657
+              "14": 35.78,
+              "30": 45.648,
+              "100": 50.517,
+              "200": 49.659
             },
-            "rsi_position": 3.566,
+            "rsi_position": 3.665,
             "rsi_limit": 22,
             "rsi_extreme": true,
             "rsi_checks": {
@@ -337,10 +337,10 @@
             "last_buy_date": "2026-07-01",
             "long_history_ready": true,
             "deviations": {
-              "20": -1.752,
-              "60": -1.941,
-              "120": 1.603,
-              "200": 2.16
+              "20": -1.748,
+              "60": -1.937,
+              "120": 1.607,
+              "200": 2.164
             }
           },
           "forming": true
@@ -397,16 +397,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": 46.057,
+            "cci20": 46.076,
             "cci_below100": false,
             "cci_below200": false,
             "rsi": {
-              "14": 51.254,
-              "30": 49.119,
-              "100": 51.233,
-              "200": 52.465
+              "14": 51.263,
+              "30": 49.123,
+              "100": 51.235,
+              "200": 52.466
             },
-            "rsi_position": 67.104,
+            "rsi_position": 67.13,
             "rsi_limit": 27,
             "rsi_extreme": false,
             "rsi_checks": {
@@ -420,10 +420,10 @@
             "last_buy_date": "2026-08-09",
             "long_history_ready": true,
             "deviations": {
-              "20": 0.749,
-              "60": -0.694,
-              "120": -1.395,
-              "200": 1.661
+              "20": 0.75,
+              "60": -0.693,
+              "120": -1.394,
+              "200": 1.662
             }
           },
           "forming": true
@@ -480,16 +480,16 @@
               "restricted": false
             },
             "previous_buy": false,
-            "cci20": -34.127,
+            "cci20": -34.116,
             "cci_below100": false,
             "cci_below200": false,
             "rsi": {
-              "14": 50.279,
-              "30": 53.506,
-              "100": 56.305,
+              "14": 50.283,
+              "30": 53.508,
+              "100": 56.306,
               "200": null
             },
-            "rsi_position": 27.302,
+            "rsi_position": 27.312,
             "rsi_limit": 32,
             "rsi_extreme": true,
             "rsi_checks": {
@@ -504,8 +504,8 @@
             "long_history_ready": false,
             "deviations": {
               "20": -0.627,
-              "60": 1.232,
-              "120": 2.722,
+              "60": 1.233,
+              "120": 2.723,
               "200": null
             }
           },
