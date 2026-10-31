@@ -5,6 +5,7 @@ from pathlib import Path
 import yfinance as yf
 import requests
 import pandas as pd
+from stock_registry import build_registry, membership
 from sector_scoring import metrics, cci_weekly, clamp, score_sector, score_individual, METHOD
 
 SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산","FNGS":"M7"}
@@ -158,22 +159,16 @@ def holdings_above_five(etf):
 
 top_three=sector
 holdings_data={z["ticker"]:holdings_above_five(z["ticker"]) for z in top_three}
-holdings={etf:result[0] for etf,result in holdings_data.items()}
-names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
+# Reuse unavailable weight memberships before fetching/scoring their tickers.
+for etf,(items,source,state) in list(holdings_data.items()):
+    if state!='available':
+        old=next((g for g in previous.get('top_etf_holdings',[]) if g.get('etf')==etf and g.get('holdings')),None)
+        if old:holdings_data[etf]=([membership(h) for h in old['holdings']],old.get('holdings_source','')+' (이전 비중)','stale')
+names=list(dict.fromkeys(h['ticker'] for values in holdings_data.values() for h in values[0]))
 stock_prices=batch_prices(names) if names else {}
-def individual_score(v):
-    return score_individual(v,spy)
-top_holdings=[]
-for z in top_three:
-    etf=z["ticker"]
-    rows=[]
-    for h in holdings[etf]:
-        v=stock_prices.get(h["ticker"])
-        if v:
-            rows.append({**h,**v,"opportunity":individual_score(v)})
-        else:
-            rows.append({**h,"price":None,"high52":None,"drawdown52":None,"ma200":None,"rsi14":None,"cci_weekly":None,"opportunity":None})
-    top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":holdings_data[etf][1],"status":holdings_data[etf][2]})
+groups=[{'etf':z['ticker'],'rank':sector.index(z)+1,'holdings':holdings_data[z['ticker']][0],
+         'holdings_source':holdings_data[z['ticker']][1],'status':holdings_data[z['ticker']][2]} for z in top_three]
+top_holdings,stock_observations=build_registry(groups,stock_prices,spy,previous)
 # Major indices: actual daily closes, normalized to 100 for comparison.
 market_indices={}
 for symbol,name in [("^GSPC","SPX"),("^NDX","NAS100"),("SOXX","SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
@@ -188,13 +183,8 @@ for symbol,old in previous.get("market_indices",{}).items():
     if symbol in ("SPY","^GSPC","QQQ"):continue
     if symbol not in market_indices and old.get("rows"):
         market_indices[symbol]=old
-for row in top_holdings:
-    if row["status"]!="available":
-        old=next((z for z in previous.get("top_etf_holdings",[]) if z.get("etf")==row["etf"] and z.get("status") in ("available","stale") and z.get("holdings")),None)
-        if old:
-            row.update(holdings=[{**h,"opportunity":individual_score(h)} if h.get("return6m") is not None else {**h,"opportunity":None} for h in old["holdings"]],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":METHOD,"note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 산업·개별종목 공통: 상대강도35·과매도40·추세25. 통과=점수70이상 AND RSI14≤20 AND 주봉CCI≤-100. 개별 점수 100=기회 높음, 0=기회 낮음."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"scored_at":datetime.now(timezone.utc).isoformat(),"observation_date":spy.get("date") if spy else None,"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"stock_observations":stock_observations,"market_indices":market_indices,"method":{"sector":METHOD,"note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 산업·개별종목 공통: 상대조정35·과매도40·이격조정25. ETF에는 비중만 저장하고 종목별 공통 관측값을 참조. 통과=점수70이상 AND RSI14≤20 AND 주봉CCI≤-100. 개별 점수 100=기회 높음, 0=기회 낮음."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
