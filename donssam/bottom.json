@@ -1,242 +1,544 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-10-31T11:23:11.500425+00:00",
+  "schema_version": 2,
+  "generated_at": "2026-10-31T11:31:19.247724+00:00",
   "assets": {
     "NDX": {
-      "date": "2026-10-30",
-      "price": 28384.85,
-      "peak_close": 31224.471,
-      "drawdown_pct": -9.094,
-      "weekly_cci": -98.197,
-      "monthly_cci": 102.703,
-      "weekly_rsi": 46.81,
-      "weekly_date": "2026-10-30",
-      "monthly_date": "2026-10-31",
-      "volume_pct": 114.275,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793445791&interval=1d&events=splits",
-      "fresh": true
-    },
-    "SOXX": {
-      "date": "2026-10-30",
-      "price": 471.51,
-      "peak_close": 655.01,
-      "drawdown_pct": -28.015,
-      "weekly_cci": -118.456,
-      "monthly_cci": 87.192,
-      "weekly_rsi": 44.506,
-      "weekly_date": "2026-10-30",
-      "monthly_date": "2026-10-31",
-      "volume_pct": 210.573,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX?period1=315532800&period2=1793445791&interval=1d&events=splits",
-      "fresh": true
-    },
-    "NQ": {
-      "date": "2026-10-30",
-      "price": 28534.0,
-      "peak_close": 31483.25,
-      "drawdown_pct": -9.368,
-      "weekly_cci": -83.676,
-      "monthly_cci": 103.534,
-      "weekly_rsi": 46.925,
-      "weekly_date": "2026-10-30",
-      "monthly_date": "2026-10-31",
-      "volume_pct": 125.943,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/NQ%3DF?period1=315532800&period2=1793445791&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793446279&interval=1d&events=splits",
+      "daily_date": "2026-10-30",
+      "timeframes": {
+        "D": {
+          "confirmed": {
+            "date": "2026-10-30",
+            "bars": 10351,
+            "signals": {
+              "buy": true,
+              "sharp": false,
+              "normal": true,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -150.148,
+            "cci_below100": true,
+            "cci_below200": false,
+            "rsi": {
+              "14": 34.9,
+              "30": 42.629,
+              "100": 50.397,
+              "200": 52.328
+            },
+            "rsi_position": 0.0,
+            "rsi_limit": 22,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": false,
+              "sharp_rsi_low": true,
+              "normal_rsi_low": true,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2026-10-30",
+            "long_history_ready": true,
+            "deviations": {
+              "20": -2.967,
+              "60": -2.67,
+              "120": -2.273,
+              "200": 0.877
+            }
+          },
+          "latest": {
+            "date": "2026-10-30",
+            "bars": 10351,
+            "signals": {
+              "buy": true,
+              "sharp": false,
+              "normal": true,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -150.148,
+            "cci_below100": true,
+            "cci_below200": false,
+            "rsi": {
+              "14": 34.9,
+              "30": 42.629,
+              "100": 50.397,
+              "200": 52.328
+            },
+            "rsi_position": 0.0,
+            "rsi_limit": 22,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": false,
+              "sharp_rsi_low": true,
+              "normal_rsi_low": true,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2026-10-30",
+            "long_history_ready": true,
+            "deviations": {
+              "20": -2.967,
+              "60": -2.67,
+              "120": -2.273,
+              "200": 0.877
+            }
+          },
+          "forming": false
+        },
+        "W": {
+          "confirmed": {
+            "date": "2026-10-30",
+            "bars": 2144,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -98.197,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 46.81,
+              "30": 53.822,
+              "100": 57.208,
+              "200": 57.388
+            },
+            "rsi_position": 25.44,
+            "rsi_limit": 27,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": true,
+              "sharp_rsi_low": false,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2025-04-04",
+            "long_history_ready": true,
+            "deviations": {
+              "20": -0.94,
+              "60": 1.182,
+              "120": 3.822,
+              "200": 6.675
+            }
+          },
+          "latest": {
+            "date": "2026-10-30",
+            "bars": 2144,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -98.197,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 46.81,
+              "30": 53.822,
+              "100": 57.208,
+              "200": 57.388
+            },
+            "rsi_position": 25.44,
+            "rsi_limit": 27,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": true,
+              "sharp_rsi_low": false,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2025-04-04",
+            "long_history_ready": true,
+            "deviations": {
+              "20": -0.94,
+              "60": 1.182,
+              "120": 3.822,
+              "200": 6.675
+            }
+          },
+          "forming": false
+        },
+        "M": {
+          "confirmed": {
+            "date": "2026-10-31",
+            "bars": 493,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": 102.703,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 62.58,
+              "30": 64.973,
+              "100": 65.179,
+              "200": 64.683
+            },
+            "rsi_position": 21.35,
+            "rsi_limit": 32,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": true,
+              "sharp_rsi_low": true,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2009-03-31",
+            "long_history_ready": true,
+            "deviations": {
+              "20": 1.371,
+              "60": 4.433,
+              "120": 6.856,
+              "200": 8.851
+            }
+          },
+          "latest": {
+            "date": "2026-10-31",
+            "bars": 493,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": 102.703,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 62.58,
+              "30": 64.973,
+              "100": 65.179,
+              "200": 64.683
+            },
+            "rsi_position": 21.35,
+            "rsi_limit": 32,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": true,
+              "sharp_rsi_low": true,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2009-03-31",
+            "long_history_ready": true,
+            "deviations": {
+              "20": 1.371,
+              "60": 4.433,
+              "120": 6.856,
+              "200": 8.851
+            }
+          },
+          "forming": false
+        }
+      },
       "fresh": true
     },
     "BTC": {
-      "date": "2026-10-30",
-      "price": 77198.211,
-      "peak_close": 124752.531,
-      "drawdown_pct": -38.119,
-      "weekly_cci": 73.016,
-      "monthly_cci": -28.919,
-      "weekly_rsi": 54.509,
-      "weekly_date": "2026-10-25",
-      "monthly_date": "2026-09-30",
-      "volume_pct": 182.709,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793445791&interval=1d&events=splits",
-      "fresh": true
-    },
-    "TQQQ": {
-      "date": "2026-10-30",
-      "price": 62.01,
-      "peak_close": 87.22,
-      "drawdown_pct": -28.904,
-      "weekly_cci": -130.47,
-      "monthly_cci": 83.923,
-      "weekly_rsi": 43.051,
-      "weekly_date": "2026-10-30",
-      "monthly_date": "2026-10-31",
-      "volume_pct": 192.067,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TQQQ?period1=315532800&period2=1793445791&interval=1d&events=splits",
-      "fresh": true
-    },
-    "SOXL": {
-      "date": "2026-10-30",
-      "price": 77.05,
-      "peak_close": 300.77,
-      "drawdown_pct": -74.382,
-      "weekly_cci": -120.244,
-      "monthly_cci": 38.642,
-      "weekly_rsi": 40.176,
-      "weekly_date": "2026-10-30",
-      "monthly_date": "2026-10-31",
-      "volume_pct": 224.092,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXL?period1=315532800&period2=1793445791&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793446279&interval=1d&events=splits",
+      "daily_date": "2026-10-30",
+      "timeframes": {
+        "D": {
+          "confirmed": {
+            "date": "2026-10-30",
+            "bars": 4427,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -236.725,
+            "cci_below100": true,
+            "cci_below200": true,
+            "rsi": {
+              "14": 34.331,
+              "30": 45.101,
+              "100": 50.38,
+              "200": 49.597
+            },
+            "rsi_position": 0.0,
+            "rsi_limit": 22,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": true,
+              "sharp_rsi_low": true,
+              "normal_rsi_low": true,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2026-07-01",
+            "long_history_ready": true,
+            "deviations": {
+              "20": -1.932,
+              "60": -1.965,
+              "120": 1.443,
+              "200": 1.919
+            }
+          },
+          "latest": {
+            "date": "2026-10-31",
+            "bars": 4428,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -201.133,
+            "cci_below100": true,
+            "cci_below200": true,
+            "rsi": {
+              "14": 34.78,
+              "30": 45.269,
+              "100": 50.422,
+              "200": 49.616
+            },
+            "rsi_position": 1.135,
+            "rsi_limit": 22,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": true,
+              "sharp_rsi_low": true,
+              "normal_rsi_low": true,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": true
+            },
+            "last_buy_date": "2026-07-01",
+            "long_history_ready": true,
+            "deviations": {
+              "20": -1.846,
+              "60": -2.039,
+              "120": 1.513,
+              "200": 2.07
+            }
+          },
+          "forming": true
+        },
+        "W": {
+          "confirmed": {
+            "date": "2026-10-25",
+            "bars": 632,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": 73.016,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 54.509,
+              "30": 50.402,
+              "100": 51.651,
+              "200": 52.729
+            },
+            "rsi_position": 76.053,
+            "rsi_limit": 27,
+            "rsi_extreme": false,
+            "rsi_checks": {
+              "sharp_rsi_drop": false,
+              "sharp_rsi_low": false,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": false,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2026-08-09",
+            "long_history_ready": true,
+            "deviations": {
+              "20": 1.264,
+              "60": -0.364,
+              "120": -0.945,
+              "200": 2.124
+            }
+          },
+          "latest": {
+            "date": "2026-11-01",
+            "bars": 633,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": 45.59,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 51.026,
+              "30": 49.025,
+              "100": 51.202,
+              "200": 52.445
+            },
+            "rsi_position": 66.476,
+            "rsi_limit": 27,
+            "rsi_extreme": false,
+            "rsi_checks": {
+              "sharp_rsi_drop": false,
+              "sharp_rsi_low": false,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": "2026-08-09",
+            "long_history_ready": true,
+            "deviations": {
+              "20": 0.719,
+              "60": -0.725,
+              "120": -1.426,
+              "200": 1.629
+            }
+          },
+          "forming": true
+        },
+        "M": {
+          "confirmed": {
+            "date": "2026-09-30",
+            "bars": 145,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -28.919,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 53.267,
+              "30": 55.158,
+              "100": 57.149,
+              "200": null
+            },
+            "rsi_position": 35.852,
+            "rsi_limit": 32,
+            "rsi_extreme": false,
+            "rsi_checks": {
+              "sharp_rsi_drop": false,
+              "sharp_rsi_low": false,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": null,
+            "long_history_ready": false,
+            "deviations": {
+              "20": -0.242,
+              "60": 1.619,
+              "120": 3.103,
+              "200": null
+            }
+          },
+          "latest": {
+            "date": "2026-10-31",
+            "bars": 146,
+            "signals": {
+              "buy": false,
+              "sharp": false,
+              "normal": false,
+              "time": false,
+              "restricted": false
+            },
+            "cci20": -34.399,
+            "cci_below100": false,
+            "cci_below200": false,
+            "rsi": {
+              "14": 50.191,
+              "30": 53.456,
+              "100": 56.279,
+              "200": null
+            },
+            "rsi_position": 27.049,
+            "rsi_limit": 32,
+            "rsi_extreme": true,
+            "rsi_checks": {
+              "sharp_rsi_drop": false,
+              "sharp_rsi_low": false,
+              "normal_rsi_low": false,
+              "normal_rsi_cooling": true,
+              "long_rsi_cooling": false,
+              "short_rsi_turning": false
+            },
+            "last_buy_date": null,
+            "long_history_ready": false,
+            "deviations": {
+              "20": -0.639,
+              "60": 1.22,
+              "120": 2.71,
+              "200": null
+            }
+          },
+          "forming": true
+        }
+      },
       "fresh": true
     }
   },
   "fear": {
-    "value": 26.239,
-    "date": "2026-10-30",
-    "fresh": true,
-    "source": "https://www.cnn.com/markets/fear-and-greed"
-  },
-  "checks": [
-    {
-      "id": "ndx_dd",
-      "label": "나스닥100 고점 대비 -20% 이하",
-      "value": -9.094,
-      "threshold": -20,
-      "unit": "%",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": ""
-    },
-    {
-      "id": "fear",
-      "label": "CNN 공포·탐욕 10 이하",
+    "cnn": {
       "value": 26.239,
-      "threshold": 10,
-      "unit": "점",
       "date": "2026-10-30",
-      "status": "fail",
-      "note": ""
+      "fresh": true,
+      "source": "https://www.cnn.com/markets/fear-and-greed"
     },
-    {
-      "id": "soxx",
-      "label": "SOXX 400달러 이하",
-      "value": 471.51,
-      "threshold": 400,
-      "unit": "달러",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": ""
-    },
-    {
-      "id": "nq",
-      "label": "미니 나스닥 선물 26,000 이하",
-      "value": 28534.0,
-      "threshold": 26000,
-      "unit": "pt",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": ""
-    },
-    {
-      "id": "btc",
-      "label": "BTC 73,000달러 이하",
-      "value": 77198.211,
-      "threshold": 73000,
-      "unit": "달러",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": ""
-    },
-    {
-      "id": "tqqq_volume",
-      "label": "TQQQ 거래량 20일 평균의 400% 이상",
-      "value": 192.067,
-      "threshold": 400,
-      "unit": "%",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": "당일 제외 직전 20거래일 평균 대비 · 400%=4배"
-    },
-    {
-      "id": "soxl_volume",
-      "label": "SOXL 거래량 20일 평균의 400% 이상",
-      "value": 224.092,
-      "threshold": 400,
-      "unit": "%",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": "당일 제외 직전 20거래일 평균 대비 · 400%=4배"
-    },
-    {
-      "id": "weekly_cci200",
-      "label": "나스닥100 주봉 CCI -200 이하",
-      "value": -98.197,
-      "threshold": -200,
-      "unit": "",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": "수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"
-    },
-    {
-      "id": "weekly_cci100",
-      "label": "나스닥100 주봉 CCI -100 이하",
-      "value": -98.197,
-      "threshold": -100,
-      "unit": "",
-      "date": "2026-10-30",
-      "status": "fail",
-      "note": "수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"
-    },
-    {
-      "id": "monthly_cci100",
-      "label": "나스닥100 월봉 CCI -100 이하",
-      "value": 102.703,
-      "threshold": -100,
-      "unit": "",
+    "crypto": {
+      "value": 30.0,
       "date": "2026-10-31",
-      "status": "fail",
-      "note": "수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"
-    },
-    {
-      "id": "joopjoop",
-      "label": "필수: 전 자산 주봉·월봉 줍줍신호",
-      "status": "unknown",
-      "value": null,
-      "threshold": null,
-      "unit": "",
-      "date": null,
-      "note": "원본 지표·패턴 정의 연결 대기"
-    },
-    {
-      "id": "weekly_pattern",
-      "label": "주봉 CCI -200 송곳형 또는 -100 쌍바닥",
-      "status": "unknown",
-      "value": null,
-      "threshold": null,
-      "unit": "",
-      "date": null,
-      "note": "원본 지표·패턴 정의 연결 대기"
-    },
-    {
-      "id": "monthly_pattern",
-      "label": "월봉 CCI -100·쌍바닥 또는 주봉 RSI 상승 다이버전스",
-      "status": "unknown",
-      "value": null,
-      "threshold": null,
-      "unit": "",
-      "date": null,
-      "note": "원본 지표·패턴 정의 연결 대기"
+      "fresh": true,
+      "source": "https://alternative.me/crypto/fear-and-greed-index/",
+      "label": "Fear"
     }
-  ],
-  "summary": {
-    "numeric_pass": 0,
-    "numeric_total": 7,
-    "final_status": "pending_definition"
   },
+  "errors": [],
   "method": {
-    "benchmark": "NASDAQ-100 (^NDX), 나스닥 종합·QQQ 대체 안 함",
-    "drawdown": "확보한 전체 일별 종가의 최고값 대비 (최소 1980년부터 요청)",
-    "indicators": "CCI20(HLC3), 주봉 RSI14(Wilder); 기존 사이트 기간을 사용. 확정봉만 판정",
-    "volume": "당일을 제외한 직전 20거래일 평균, 400%=4배. 분할 발생 구간은 주의",
-    "nq": "Yahoo NQ=F 근월물 연속 시세, 만기 교체 영향 있음",
-    "pending": "줍줍 원본·전 자산 범위·송곳형/쌍바닥/다이버전스 정의 확정 후 최종 조건 연결"
+    "signals": "moodcomp 제공 Pine buySignal 이식: 급락형/일반조정형/기간조정형/재상승형 OR. 매도·MA 표시 코드는 제외.",
+    "basis": "확정봉과 진행 중 봉을 나란히 표시. 진행 중 신호는 봉 마감 전 바뀔 수 있음.",
+    "sources": "나스닥100 ^NDX / BTC-USD Yahoo OHLC. TradingView의 거래소·봉 구성에 따라 수치 차이가 있을 수 있음.",
+    "indicators": "CCI20(HLC3) -100/-200은 별도 참고 조건. RSI14/30/100/200은 Wilder RMA. RSI 상대위치 한도: 일22/주27/월32.",
+    "unused": "Pine의 priceExtreme·rsiExtreme·atrLimit는 최종 buySignal의 필수조건이 아님. RSI 상대위치 조건은 별도 참고 표시.",
+    "history": "RSI200은 201개 종가 필요. 이력이 짧은 분기는 원본 Pine처럼 충족되지 않으며 이력 부족을 별도 표기.",
+    "thresholds": "고정 가격·고점대비 하락률 조건은 제거. 원본 줍 신호 내부의 이동평균·ATR 가격식은 유지.",
+    "volume": "TQQQ/SOXL은 직전20거래일 평균 대비 400%=4배를 별도 참고 표시"
   },
-  "errors": []
+  "volume": {
+    "TQQQ": {
+      "value": 192.067,
+      "date": "2026-10-30",
+      "pass": false
+    },
+    "SOXL": {
+      "value": 224.092,
+      "date": "2026-10-30",
+      "pass": false
+    }
+  }
 }

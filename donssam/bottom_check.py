@@ -8,7 +8,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent
-ASSETS = {"NDX": "^NDX", "SOXX": "SOXX", "NQ": "NQ=F", "BTC": "BTC-USD", "TQQQ": "TQQQ", "SOXL": "SOXL"}
+ASSETS = {"NDX": "^NDX", "BTC": "BTC-USD", "TQQQ": "TQQQ", "SOXL": "SOXL"}
 
 def request_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36", "Content-Type":"application/json", "Accept": "application/json, text/plain, */*", "Referer": "https://www.cnn.com/markets/fear-and-greed"})
@@ -32,13 +32,6 @@ def history(symbol, now):
         ratio=float(event["numerator"])/float(event["denominator"])
         split_day=pd.Timestamp(event["date"],unit="s",tz="UTC").tz_convert(zone).date()
         f.loc[f.index.date < split_day,"Volume"] *= ratio
-    if symbol == "BTC-USD":
-        f = f[f.index.date < now.date()]  # UTC daily candle must have closed.
-    else:
-        local = now.astimezone(ZoneInfo("America/New_York"))
-        # Conservatively wait until 18:00 ET for NQ daily settlement too.
-        hour = 18 if symbol == "NQ=F" else 16
-        f = f[(f.index.date < local.date()) | ((f.index.date == local.date()) & (local.hour >= hour))]
     if len(f) < 500:
         raise ValueError("insufficient history")
     return f, url
@@ -82,82 +75,90 @@ def completed_bars(frame, frequency, now, crypto=False):
 def finite(value):
     return round(float(value), 3) if value is not None and math.isfinite(float(value)) else None
 
-def metrics(frame, symbol, now):
-    crypto = symbol == "BTC-USD"
-    w = completed_bars(frame, "W-SUN" if crypto else "W-FRI", now, crypto)
-    m = completed_bars(frame, "ME", now, crypto)
-    return {"date": frame.index[-1].date().isoformat(), "price": finite(frame.Close.iloc[-1]),
-            "peak_close": finite(frame.Close.max()), "drawdown_pct": finite((frame.Close.iloc[-1]/frame.Close.max()-1)*100),
-            "weekly_cci": finite(cci(w).iloc[-1]) if len(w) >= 20 else None,
-            "monthly_cci": finite(cci(m).iloc[-1]) if len(m) >= 20 else None,
-            "weekly_rsi": finite(rsi(w.Close)),
-            "weekly_date": w.index[-1].date().isoformat() if len(w) else None,
-            "monthly_date": m.index[-1].date().isoformat() if len(m) else None,
-            "volume_pct": finite(frame.Volume.iloc[-1]/frame.Volume.iloc[-21:-1].mean()*100) if len(frame)>=21 and frame.Volume.iloc[-21:-1].mean()>0 else None}
+def serialize_bar(frame, tf):
+    from pine_buy import evaluate
+    series=evaluate(frame,tf)
+    z=series.iloc[-1]
+    rsilimit=series.attrs['rsi_limit']
+    signals={k:bool(z[k]) for k in ['buy','sharp','normal','time','restricted']}
+    last_buy=series.index[series.buy]
+    return {"date":str(frame.index[-1].date()),"bars":len(frame),"signals":signals,
+            "cci20":finite(cci(frame).iloc[-1]),
+            "cci_below100":bool(cci(frame).iloc[-1]<=-100),"cci_below200":bool(cci(frame).iloc[-1]<=-200),
+            "rsi":{str(n):finite(z['rsi'+str(n)]) for n in (14,30,100,200)},
+            "rsi_position":finite(z.rsi_position),"rsi_limit":rsilimit,"rsi_extreme":bool(z.rsi_extreme),
+            "rsi_checks":{k:bool(z[k]) for k in ['sharp_rsi_drop','sharp_rsi_low','normal_rsi_low','normal_rsi_cooling','long_rsi_cooling','short_rsi_turning']},
+            "last_buy_date":str(last_buy[-1].date()) if len(last_buy) else None,
+            "long_history_ready":bool(pd.notna(z.rsi200)),
+            "deviations":{str(n):finite(z['dev'+str(n)]) for n in (20,60,120,200)}}
 
-def row(key, label, value, threshold, unit, date, fresh, note=""):
-    status = "unknown" if value is None or not fresh else ("pass" if value <= threshold else "fail")
-    return {"id":key,"label":label,"value":value,"threshold":threshold,"unit":unit,"date":date,"status":status,"note":note}
+def daily_closed(frame,now,crypto):
+    if crypto:return frame[frame.index.date<now.date()]
+    local=now.astimezone(ZoneInfo('America/New_York'))
+    return frame[(frame.index.date<local.date())|((frame.index.date==local.date())&(local.hour>=16))]
 
-def build(now, frames, fear=None, errors=None):
-    assets = {}
-    for name, (frame, source) in frames.items():
-        a = metrics(frame, ASSETS[name], now)
-        a["source"] = source
-        observed=pd.Timestamp(a["date"]).date()
-        if name=="BTC":
-            a["fresh"] = observed == now.date()-timedelta(days=1)
-        else:
-            import exchange_calendars as xcals
-            cal=xcals.get_calendar("XNYS")
-            sessions=cal.sessions_in_range(pd.Timestamp(now.date()-timedelta(days=10)),pd.Timestamp(now.date()))
-            # NQ settlement is accepted conservatively after 18:00 ET.
-            clock=now-timedelta(hours=2) if name=="NQ" else now
-            closed=[s for s in sessions if cal.session_close(s)<=pd.Timestamp(clock)]
-            a["fresh"] = bool(closed) and observed == closed[-1].date()
-        assets[name] = a
-    def get(name, key): return assets.get(name, {}).get(key)
-    checks = []
-    for key, label, name, field, threshold, unit in [
-        ("ndx_dd","나스닥100 고점 대비 -20% 이하","NDX","drawdown_pct",-20,"%"),
-        ("fear","CNN 공포·탐욕 10 이하",None,None,10,"점"),
-        ("soxx","SOXX 400달러 이하","SOXX","price",400,"달러"),
-        ("nq","미니 나스닥 선물 26,000 이하","NQ","price",26000,"pt"),
-        ("btc","BTC 73,000달러 이하","BTC","price",73000,"달러")]:
-        a = fear or {} if name is None else assets.get(name,{})
-        checks.append(row(key,label,a.get("value") if name is None else a.get(field),threshold,unit,a.get("date"),a.get("fresh",False)))
-    for name in ("TQQQ","SOXL"):
-        a=assets.get(name,{})
-        z=row(name.lower()+"_volume",name+" 거래량 20일 평균의 400% 이상",a.get("volume_pct"),400,"%",a.get("date"),a.get("fresh",False))
-        if z["status"]!="unknown": z["status"]="pass" if z["value"]>=400 else "fail"
-        z["note"]="당일 제외 직전 20거래일 평균 대비 · 400%=4배"
-        checks.append(z)
-    for key,label,field,threshold in [("weekly_cci200","나스닥100 주봉 CCI -200 이하","weekly_cci",-200),("weekly_cci100","나스닥100 주봉 CCI -100 이하","weekly_cci",-100),("monthly_cci100","나스닥100 월봉 CCI -100 이하","monthly_cci",-100)]:
-        a=assets.get("NDX",{})
-        checks.append(row(key,label,a.get(field),threshold,"",a.get("monthly_date" if field.startswith("monthly") else "weekly_date"),a.get("fresh",False),"수치 조건만 표시 · 패턴 포함 최종 판정은 아래 별도"))
-    for key,label in [("joopjoop","필수: 전 자산 주봉·월봉 줍줍신호"),("weekly_pattern","주봉 CCI -200 송곳형 또는 -100 쌍바닥"),("monthly_pattern","월봉 CCI -100·쌍바닥 또는 주봉 RSI 상승 다이버전스")]:
-        checks.append({"id":key,"label":label,"status":"unknown","value":None,"threshold":None,"unit":"","date":None,"note":"원본 지표·패턴 정의 연결 대기"})
-    return {"schema_version":1,"generated_at":now.isoformat(),"assets":assets,"fear":fear,"checks":checks,
-            "summary":{"numeric_pass":sum(z["status"]=="pass" for z in checks[:7]),"numeric_total":7,"final_status":"pending_definition"},
-            "method":{"benchmark":"NASDAQ-100 (^NDX), 나스닥 종합·QQQ 대체 안 함","drawdown":"확보한 전체 일별 종가의 최고값 대비 (최소 1980년부터 요청)","indicators":"CCI20(HLC3), 주봉 RSI14(Wilder); 기존 사이트 기간을 사용. 확정봉만 판정","volume":"당일을 제외한 직전 20거래일 평균, 400%=4배. 분할 발생 구간은 주의","nq":"Yahoo NQ=F 근월물 연속 시세, 만기 교체 영향 있음","pending":"줍줍 원본·전 자산 범위·송곳형/쌍바닥/다이버전스 정의 확정 후 최종 조건 연결"},"errors":errors or []}
+def asset_result(frame,name,now,source):
+    crypto=name=='BTC'
+    closed=daily_closed(frame,now,crypto)
+    result={"source":source,"daily_date":str(closed.index[-1].date()),"timeframes":{}}
+    for tf,freq in [('D',None),('W','W-SUN' if crypto else 'W-FRI'),('M','ME')]:
+        complete=closed if tf=='D' else completed_bars(closed,freq,now,crypto)
+        forming=frame if tf=='D' else frame.resample(freq).agg({'High':'max','Low':'min','Close':'last','Volume':'sum'}).dropna()
+        result['timeframes'][tf]={"confirmed":serialize_bar(complete,tf),"latest":serialize_bar(forming,tf),"forming":bool(complete.index[-1]!=forming.index[-1] or not complete.iloc[-1].equals(forming.iloc[-1]))}
+    observed=pd.Timestamp(result['daily_date']).date()
+    if crypto:result['fresh']=observed==now.date()-timedelta(days=1)
+    else:
+        import exchange_calendars as xcals
+        cal=xcals.get_calendar('XNYS')
+        sessions=cal.sessions_in_range(pd.Timestamp(now.date()-timedelta(days=10)),pd.Timestamp(now.date()))
+        done=[x for x in sessions if cal.session_close(x)<=pd.Timestamp(now)]
+        result['fresh']=bool(done) and observed==done[-1].date()
+    return result
+
+def build(now,frames,fear=None,errors=None,crypto_fear=None):
+    assets={}
+    for name,(frame,source) in frames.items():
+        if name not in ('NDX','BTC'):continue
+        try:assets[name]=asset_result(frame,name,now,source)
+        except Exception as exc:(errors if errors is not None else []).append(name+': '+type(exc).__name__)
+    return {"schema_version":2,"generated_at":now.isoformat(),"assets":assets,
+            "fear":{"cnn":fear,"crypto":crypto_fear},"errors":errors or [],
+            "method":{"signals":"moodcomp 제공 Pine buySignal 이식: 급락형/일반조정형/기간조정형/재상승형 OR. 매도·MA 표시 코드는 제외.",
+                      "basis":"확정봉과 진행 중 봉을 나란히 표시. 진행 중 신호는 봉 마감 전 바뀔 수 있음.",
+                      "sources":"나스닥100 ^NDX / BTC-USD Yahoo OHLC. TradingView의 거래소·봉 구성에 따라 수치 차이가 있을 수 있음.",
+                      "indicators":"CCI20(HLC3) -100/-200은 별도 참고 조건. RSI14/30/100/200은 Wilder RMA. RSI 상대위치 한도: 일22/주27/월32.",
+                      "unused":"Pine의 priceExtreme·rsiExtreme·atrLimit는 최종 buySignal의 필수조건이 아님. RSI 상대위치 조건은 별도 참고 표시.",
+                      "history":"RSI200은 201개 종가 필요. 이력이 짧은 분기는 원본 Pine처럼 충족되지 않으며 이력 부족을 별도 표기.",
+                      "thresholds":"고정 가격·고점대비 하락률 조건은 제거. 원본 줍 신호 내부의 이동평균·ATR 가격식은 유지.",
+                      "volume":"TQQQ/SOXL은 직전20거래일 평균 대비 400%=4배를 별도 참고 표시"}}
 
 def main():
     now=datetime.now(timezone.utc)
-    frames, errors={},[]
+    frames,errors={},[]
     for name,symbol in ASSETS.items():
-        try: frames[name]=history(symbol,now)
-        except Exception as exc: errors.append(name+": "+type(exc).__name__)
-    fear=None
+        try:frames[name]=history(symbol,now)
+        except Exception as exc:errors.append(name+': '+type(exc).__name__)
+    fear=crypto_fear=None
     try:
-        obj=request_json("https://production.dataviz.cnn.io/index/fearandgreed/graphdata")["fear_and_greed"]
-        v=float(obj["score"])
-        if not 0<=v<=100: raise ValueError("invalid score")
-        day=pd.Timestamp(obj["timestamp"]).date()
-        fear={"value":finite(v),"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=5,"source":"https://www.cnn.com/markets/fear-and-greed"}
-    except Exception as exc: errors.append("CNN: "+type(exc).__name__)
-    result=build(now,frames,fear,errors)
-    # Failed retrieval cannot retain yesterday's green pass under today's timestamp.
-    (ROOT/"bottom.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False,indent=2),encoding="utf-8")
-    print("Bottom checklist:",len(frames),"assets;",len(errors),"source errors")
+        obj=request_json('https://production.dataviz.cnn.io/index/fearandgreed/graphdata')['fear_and_greed']
+        value=float(obj['score']);day=pd.Timestamp(obj['timestamp']).date()
+        if not 0<=value<=100:raise ValueError('invalid score')
+        fear={"value":finite(value),"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=5,"source":"https://www.cnn.com/markets/fear-and-greed"}
+    except Exception as exc:errors.append('CNN: '+type(exc).__name__)
+    try:
+        obj=request_json('https://api.alternative.me/fng/?limit=1')['data'][0]
+        value=float(obj['value']);day=datetime.fromtimestamp(int(obj['timestamp']),timezone.utc).date()
+        if not 0<=value<=100:raise ValueError('invalid score')
+        crypto_fear={"value":value,"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=2,"source":"https://alternative.me/crypto/fear-and-greed-index/","label":obj.get('value_classification')}
+    except Exception as exc:errors.append('Crypto Fear: '+type(exc).__name__)
+    result=build(now,frames,fear,errors,crypto_fear)
+    result['volume']={}
+    for name in ('TQQQ','SOXL'):
+        if name in frames:
+            f=daily_closed(frames[name][0],now,False)
+            value=finite(f.Volume.iloc[-1]/f.Volume.iloc[-21:-1].mean()*100) if len(f)>20 and f.Volume.iloc[-21:-1].mean()>0 else None
+            result['volume'][name]={"value":value,"date":str(f.index[-1].date()),"pass":value>=400 if value is not None else None}
+    (ROOT/'bottom.json').write_text(json.dumps(result,ensure_ascii=False,allow_nan=False,indent=2),encoding='utf-8')
+    print('Pine signal snapshot:',list(result['assets']),'; source errors:',errors)
 
-if __name__=="__main__": main()
+if __name__=='__main__':main()

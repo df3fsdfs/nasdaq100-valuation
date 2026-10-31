@@ -113,6 +113,16 @@ def batch_prices(tickers):
                     if result:output[ticker]=result
                 except Exception as exc:print("Ticker",ticker,str(exc))
         except Exception as exc:print("Batch",i,str(exc))
+    missing=[t for t in tickers if t not in output]
+    if missing:
+        from concurrent.futures import ThreadPoolExecutor
+        from price_history import chart_history
+        def fallback(t):
+            try:return t,metrics(chart_history(t),t)
+            except Exception as exc:print('Chart fallback',t,type(exc).__name__);return t,None
+        with ThreadPoolExecutor(max_workers=4) as pool:
+            for t,value in pool.map(fallback,missing):
+                if value:output[t]=value
     return output
 
 sectorprices=batch_prices(list(SECTORS)+["SPY"])
@@ -138,7 +148,7 @@ for ticker,name in SECTORS.items():
     sector.append(d)
 sector.sort(key=lambda d:(d["opportunity_score"] is None,-(d["opportunity_score"] or 0)))
 eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and d["opportunity_score"]>=65]
-# Drill-down only for the three highest ranked sector ETFs.
+# Drill-down for every tracked sector ETF (11 GICS sectors plus semiconductors).
 # ETF weights must come from fund holdings, not from an assumed ticker basket.
 def holdings_above_five(etf):
     # First use reported holdings; SOXX falls back to BlackRock/iShares CSV.
@@ -178,7 +188,7 @@ def holdings_above_five(etf):
         except Exception as exc:print("iShares SOXX holdings",repr(exc))
     return [],"No confirmed source","holdings_unavailable"
 
-top_three=sector[:3]
+top_three=sector
 holdings_data={z["ticker"]:holdings_above_five(z["ticker"]) for z in top_three}
 holdings={etf:result[0] for etf,result in holdings_data.items()}
 names=list(dict.fromkeys(h["ticker"] for arr in holdings.values() for h in arr))
@@ -223,8 +233,9 @@ for row in top_holdings:
         if old:
             row.update(holdings=old["holdings"],holdings_source=old.get("holdings_source","previous snapshot")+" (이전 수집)",status="stale")
 stocks=[]
-result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"상위 3개 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
+result={"generated_at":datetime.now(timezone.utc).isoformat(),"macro":macro,"rules":rules,"macro_pass":allpass,"sectors":sector,"eligible_sectors":eligible,"stocks":[],"top_etf_holdings":top_holdings,"market_indices":market_indices,"method":{"sector":"기회점수 100점: 과매도 40, S&P500 대비 6·12개월 상대강도 35, 200일선·주봉CCI 추세 25. 이익률/실적성장은 미포함이므로 수익성 순위로 해석 금지.","note":"전체 산업 ETF에서 공시 보유비중 5% 이상 종목만 개별 점수 산출. 보유비중을 확인하지 못하면 종목을 추정하지 않음. 개별 점수 0=바닥 근접, 100=기회 멀다."}}
 Path("donssam").mkdir(exist_ok=True)
 Path("donssam/screen.json").write_text(json.dumps(result,ensure_ascii=False,allow_nan=False),encoding="utf-8")
 print("Sectors:",len(sector),"eligible:",eligible)
+
 
