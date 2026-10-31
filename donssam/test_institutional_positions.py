@@ -8,6 +8,29 @@ from unittest.mock import patch
 import institutional_positions as p
 
 class InstitutionalTests(unittest.TestCase):
+    def test_incremental_refresh_keeps_weekly_full_revision_check(self):
+        now=datetime(2026,11,1,tzinfo=timezone.utc)
+        cot={'raw_rows':self.cot_rows(),'full_history_checked_at':now.isoformat()}
+        self.assertEqual(p.cot_fetch_since(cot,now),(date.fromisoformat(cot['raw_rows'][-1]['date'])-timedelta(weeks=8)).isoformat())
+        self.assertIsNone(p.cot_fetch_since(cot,now+timedelta(days=7)))
+        self.assertIsNone(p.cot_fetch_since({'raw_rows':[]},now))
+        self.assertFalse(p.cache_fresh('invalid',now))
+        self.assertFalse(p.cache_fresh((now+timedelta(days=1)).isoformat(),now))
+    def test_unchanged_data_reuses_summary_and_keeps_revision_history(self):
+        from types import SimpleNamespace
+        now=datetime.now(timezone.utc);stamp=now.isoformat();rows=self.cot_rows()
+        summary=p.cot_summary(rows)
+        old={'cot':{**summary,'raw_rows':rows,'revisions':[{'date':'2020-01-07','net':1}], 'full_history_checked_at':stamp,'summary_version':p.COT_SUMMARY_VERSION},'release_calendar':{'year':now.astimezone(p.ZoneInfo('America/New_York')).year,'rows':[{'release_date':'test'}],'checked_at':stamp}}
+        with tempfile.TemporaryDirectory() as directory:
+            out=Path(directory)/'positions.json';out.write_text(json.dumps(old))
+            with patch.object(p,'OUT',out),patch.object(p,'fetch_cot',return_value=copy.deepcopy(rows[-9:])) as fetch,patch.object(p,'get',side_effect=AssertionError('calendar cache should be reused')),patch.object(p,'cot_summary',side_effect=AssertionError('unchanged summary should be reused')),patch.object(p,'discover_degross',return_value=([],{'errors':[]})):
+                p.main()
+            result=json.loads(out.read_text())
+        self.assertIsNotNone(fetch.call_args.args[1])
+        self.assertEqual(result['cot']['raw_rows'],rows)
+        self.assertEqual(result['cot']['rows'],summary['rows'])
+        self.assertEqual(result['cot']['revisions'],old['cot']['revisions'])
+        self.assertEqual(result['release_calendar'],old['release_calendar'])
     def test_official_contract_group_and_holiday_observation(self):
         row={'cftc_contract_market_code':'209742','report_date_as_yyyy_mm_dd':'2012-12-24T00:00:00','lev_money_positions_long':'103014','lev_money_positions_short':'72405','open_interest_all':'294127'}
         result=p.parse_cot([row,row],'2026-11-01T00:00:00+00:00')

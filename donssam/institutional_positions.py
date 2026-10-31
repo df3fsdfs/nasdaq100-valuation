@@ -16,6 +16,8 @@ SCHEDULE='https://www.cftc.gov/MarketReports/CommitmentsofTraders/ReleaseSchedul
 STENO_FEED='https://stenoresearch.com/feed/'
 STENO_SEARCH='https://stenoresearch.com/wp-json/wp/v2/posts'
 HEADERS={'User-Agent':'DonssamMarketMonitor/1.0 (public market data)','Accept':'application/json,text/html,application/xml'}
+# Increment when summary rules change so an unchanged source is recalculated.
+COT_SUMMARY_VERSION=1
 
 def read(path):
     try:return json.loads(path.read_text())
@@ -37,12 +39,22 @@ def parse_cot(raw,collected_at):
         result[row['date']]=row
     return sorted(result.values(),key=lambda r:r['date'])
 
-def fetch_cot(collected_at):
+def fetch_cot(collected_at,since=None):
     params={'$select':'market_and_exchange_names,report_date_as_yyyy_mm_dd,cftc_contract_market_code,lev_money_positions_long,lev_money_positions_short,open_interest_all',
-            '$where':"cftc_contract_market_code='209742' AND report_date_as_yyyy_mm_dd >= '2010-01-01T00:00:00'",'$order':'report_date_as_yyyy_mm_dd ASC','$limit':5000}
+            '$where':"cftc_contract_market_code='209742' AND report_date_as_yyyy_mm_dd >= '"+(since or '2010-01-01')+"T00:00:00'",'$order':'report_date_as_yyyy_mm_dd ASC','$limit':5000}
     rows=parse_cot(get(COT_API,params).json(),collected_at)
-    if len(rows)<260 or rows[0]['date']>'2016-01-01':raise ValueError('Incomplete COT history')
+    if not rows or (since is None and (len(rows)<260 or rows[0]['date']>'2016-01-01')):raise ValueError('Incomplete COT history')
     return rows
+
+def cache_fresh(stamp,now,days=7):
+    try:return timedelta(0)<=now-datetime.fromisoformat(stamp)<timedelta(days=days)
+    except (TypeError,ValueError):return False
+
+def cot_fetch_since(cot,now):
+    rows=cot.get('raw_rows',[])
+    if len(rows)<260 or not cache_fresh(cot.get('full_history_checked_at'),now):return None
+    # Overlap catches recent revisions; weekly full refresh catches older corrections.
+    return (date.fromisoformat(rows[-1]['date'])-timedelta(weeks=8)).isoformat()
 
 def percentile(value,values):
     if len(values)<2:return None
@@ -180,15 +192,20 @@ def combined(cot,dg):
 
 def main():
     now=datetime.now(timezone.utc);stamp=now.isoformat();previous=read(OUT);errors=[]
-    old_rows=previous.get('cot',{}).get('raw_rows',[]);rows=old_rows;cot_ok=False;revisions=[]
-    try:rows,revisions=merge_cot(old_rows,fetch_cot(stamp));cot_ok=True
+    old_cot=previous.get('cot',{});old_rows=old_cot.get('raw_rows',[]);rows=old_rows;cot_ok=False;revisions=[]
+    since=cot_fetch_since(old_cot,now)
+    try:rows,revisions=merge_cot(old_rows,fetch_cot(stamp,since));cot_ok=True
     except Exception as exc:errors.append('CFTC: '+type(exc).__name__)
-    summary=cot_summary(rows)
+    summary_keys=['latest','bias','interpretation','long_change_1w','short_change_1w','net_change_1w','comparison_1w_date','comparison_4w_date','long_change_4w','short_change_4w','net_change_4w','percentile_change_4w','rows']
+    summary=({k:old_cot[k] for k in summary_keys} if rows==old_rows and old_cot.get('summary_version')==COT_SUMMARY_VERSION and all(k in old_cot for k in summary_keys) else cot_summary(rows))
     cot={**(summary or {}),'raw_rows':rows,'source_url':COT_REPORT,'api_url':COT_API,'contract':'209742','group':'Leveraged Funds','report_type':'TFF Futures Only','checked_at':stamp,
-         'last_success_at':stamp if cot_ok else previous.get('cot',{}).get('last_success_at'),'fetch_ok':cot_ok,'revisions':revisions}
+         'last_success_at':stamp if cot_ok else old_cot.get('last_success_at'),'fetch_ok':cot_ok,'revisions':old_cot.get('revisions',[])+revisions,
+         'full_history_checked_at':stamp if cot_ok and since is None else old_cot.get('full_history_checked_at'),'summary_version':COT_SUMMARY_VERSION}
     schedule=previous.get('release_calendar',{})
-    try:schedule={'source_url':SCHEDULE,'year':now.astimezone(ZoneInfo('America/New_York')).year,'rows':parse_schedule(get(SCHEDULE).text,now.astimezone(ZoneInfo('America/New_York')).year),'checked_at':stamp}
-    except Exception as exc:errors.append('CFTC calendar: '+type(exc).__name__)
+    year=now.astimezone(ZoneInfo('America/New_York')).year
+    if schedule.get('year')!=year or not schedule.get('rows') or not cache_fresh(schedule.get('checked_at'),now):
+        try:schedule={'source_url':SCHEDULE,'year':year,'rows':parse_schedule(get(SCHEDULE).text,year),'checked_at':stamp}
+        except Exception as exc:errors.append('CFTC calendar: '+type(exc).__name__)
     seed=read(ROOT/'degrossing_observations.json');dg_by_date={r['date']:r for r in previous.get('degrossing',{}).get('rows',[])}
     today=now.astimezone(ZoneInfo('Asia/Seoul')).date()
     for r in seed.get('observations',[]):
