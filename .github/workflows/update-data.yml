@@ -60,7 +60,7 @@ jobs:
           fi
 
       - name: Verify bottom checklist
-        run: python -m unittest discover -s donssam -p 'test_bottom_check.py'
+        run: python -m unittest discover -s donssam -p 'test_*.py'
 
       - name: Update all sector details
         if: github.event_name != 'push'
@@ -69,11 +69,14 @@ jobs:
       - name: Update bottom checklist
         run: python donssam/bottom_check.py
 
+      - name: Analyze daily changes
+        run: python donssam/market_insights.py
+
       - name: Commit bottom checklist
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add donssam/bottom.json
+          git add donssam/bottom.json donssam/insights.json
           if [ -f donssam/screen.json ]; then git add donssam/screen.json; fi
           if ! git diff --cached --quiet; then
             git commit -m "Update bottom checklist"

@@ -5,8 +5,9 @@ from pathlib import Path
 import yfinance as yf
 import requests
 import pandas as pd
+from sector_scoring import metrics, cci_weekly, clamp, score_sector
 
-SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산"}
+SECTORS={"XLK":"기술","SOXX":"반도체","XLC":"통신서비스","XLY":"경기소비재","XLI":"산업재","XLF":"금융","XLE":"에너지","XLV":"헬스케어","XLP":"필수소비재","XLU":"유틸리티","XLB":"소재","XLRE":"부동산","FNGS":"FANG+ (ETN)"}
 STOCKS={"SOXX":["NVDA","AVGO","AMD","MU","AMAT","LRCX","KLAC","QCOM","TXN"],"XLK":["MSFT","AAPL","ORCL","CRM","ADBE","NOW","PANW"],"XLC":["GOOGL","META","NFLX","DIS"],"XLY":["AMZN","TSLA","HD","MCD","NKE","SBUX"],"XLI":["CAT","GE","DE","ETN","HON","UPS"],"XLF":["JPM","BAC","GS","MS","V","MA"],"XLE":["XOM","CVX","COP","SLB"],"XLV":["LLY","UNH","JNJ","ABBV","MRK"],"XLP":["WMT","COST","PG","KO","PEP"],"XLU":["NEE","DUK","SO"],"XLB":["LIN","SHW","FCX"],"XLRE":["PLD","AMT","EQIX"]}
 FRED={"VIXCLS":"VIX","BAMLH0A0HYM2":"하이일드 OAS","DGS10":"미국 10년물","T10YIE":"10년 기대인플레","UNRATE":"실업률"}
 def fred(code):
@@ -72,33 +73,6 @@ rules=[
  {"label":"장기금리 압박 여부 (10Y ≤ 5%)","status":("pass" if rate["value"]<=5 else "fail") if rate else "unknown","value":rate}
 ]
 allpass=all(r["status"]=="pass" for r in rules)
-def cci_weekly(frame):
-    try:
-        w=frame[["High","Low","Close"]].resample("W-FRI").agg({"High":"max","Low":"min","Close":"last"}).dropna()
-        tp=(w["High"]+w["Low"]+w["Close"])/3
-        ma=tp.rolling(20).mean()
-        md=tp.rolling(20).apply(lambda x:float(abs(x-x.mean()).mean()),raw=True)
-        value=(tp-ma)/(0.015*md)
-        return round(float(value.iloc[-1]),1) if pd.notna(value.iloc[-1]) else None
-    except Exception:return None
-def clamp(v):return max(0.,min(1.,float(v)))
-def metrics(frame,ticker):
-    try:
-        frame=frame.dropna(subset=["Close"])
-        if len(frame)<100:return None
-        close=frame["Close"]
-        delta=close.diff()
-        gain=delta.clip(lower=0).ewm(alpha=1/14,adjust=False,min_periods=14).mean()
-        loss=(-delta.clip(upper=0)).ewm(alpha=1/14,adjust=False,min_periods=14).mean()
-        rsi=100-100/(1+gain.iloc[-1]/loss.iloc[-1]) if loss.iloc[-1]>0 else 100.
-        last=float(close.iloc[-1]);high=float(close.tail(252).max())
-        cci=cci_weekly(frame)
-        ma200=float(close.tail(200).mean()) if len(close)>=200 else None
-        ret6=(last/float(close.iloc[-126])-1)*100 if len(close)>126 else None
-        ret12=(last/float(close.iloc[-252])-1)*100 if len(close)>252 else None
-        return {"ticker":ticker,"price":round(last,2),"high52":round(high,2),"ma200":round(ma200,2) if ma200 else None,"return6m":round(ret6,2) if ret6 is not None else None,"return12m":round(ret12,2) if ret12 is not None else None,"rsi14":round(float(rsi),1),"drawdown52":round((last/high-1)*100,1),"cci_weekly":cci,"ma200_gap":round((last/ma200-1)*100,1) if ma200 else None,"date":str(close.index[-1].date())}
-    except Exception as e:
-        print("Metrics",ticker,str(e));return None
 
 def batch_prices(tickers):
     output={}
@@ -131,26 +105,16 @@ sector=[]
 for ticker,name in SECTORS.items():
     d=sectorprices.get(ticker)
     if not d:continue
-    dd=d["drawdown52"];rsi=d["rsi14"];cci=d["cci_weekly"]
-    # 40 points: drawdown and oversold; 35: 6m/12m relative strength vs S&P500;
-    # 25: resilient longer-term trend and distance to 200d average.
-    oversold=round(25*clamp(-dd/35)+15*clamp((50-rsi)/30),1)
-    if spy and d["return6m"] is not None and spy["return6m"] is not None:
-        rel6=d["return6m"]-spy["return6m"]
-        rel12=(d["return12m"]-spy["return12m"]) if d["return12m"] is not None and spy["return12m"] is not None else None
-        strength=round(20*clamp((rel6+20)/40)+15*clamp((rel12+30)/60),1) if rel12 is not None else None
-    else:rel6=None;rel12=None;strength=None
-    trend=round(15*clamp((d["ma200_gap"]+20)/40)+10*clamp((cci+200)/400),1) if d["ma200_gap"] is not None and cci is not None else None
-    score=round(oversold+strength+trend,1) if strength is not None and trend is not None else None
-    d.update(name=name,oversold=dd<=-12 and (rsi<=40 or (cci is not None and cci<=-100)),
-        opportunity_score=score,oversold_points=oversold,relative_strength_points=strength,trend_points=trend,
-        relative6m=round(rel6,1) if rel6 is not None else None,relative12m=round(rel12,1) if rel12 is not None else None)
+    d=score_sector(d,spy,name)
     sector.append(d)
 sector.sort(key=lambda d:(d["opportunity_score"] is None,-(d["opportunity_score"] or 0)))
 eligible=[d["ticker"] for d in sector if d["opportunity_score"] is not None and d["opportunity_score"]>=65]
 # Drill-down for every tracked sector ETF (11 GICS sectors plus semiconductors).
 # ETF weights must come from fund holdings, not from an assumed ticker basket.
 def holdings_above_five(etf):
+    if etf=='FNGS':
+        return [],'https://www.bmoetn.com/ETN/FNGS.P/','etn_not_fund'
+
     # First use reported holdings; SOXX falls back to BlackRock/iShares CSV.
     try:
         raw=yf.Ticker(etf).funds_data.top_holdings
@@ -215,16 +179,16 @@ for z in top_three:
     top_holdings.append({"etf":etf,"rank":sector.index(z)+1,"holdings":rows,"holdings_source":holdings_data[etf][1],"status":holdings_data[etf][2]})
 # Major indices: actual daily closes, normalized to 100 for comparison.
 market_indices={}
-for symbol,name in [("^GSPC","SPX"),("QQQ","QQQ"),("SOXX","SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
+for symbol,name in [("^GSPC","SPX"),("^NDX","NAS100"),("SOXX","SOXX"),("IWM","Russell 2000"),("BTC-USD","Bitcoin")]:
     try:
         df=yf.Ticker(symbol).history(period="1y",auto_adjust=True)
         close=df["Close"].dropna()
         if len(close)>10:
-            market_indices["SPX" if symbol=="^GSPC" else symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
+            market_indices["SPX" if symbol=="^GSPC" else "NAS100" if symbol=="^NDX" else symbol]={"name":name,"rows":[{"date":str(dt.date()),"close":round(float(val),4)} for dt,val in close.items()]}
     except Exception as e:print("Market index",symbol,repr(e))
 # Retain last confirmed data when a temporary market-data outage occurs.
 for symbol,old in previous.get("market_indices",{}).items():
-    if symbol in ("SPY","^GSPC"):continue
+    if symbol in ("SPY","^GSPC","QQQ"):continue
     if symbol not in market_indices and old.get("rows"):
         market_indices[symbol]=old
 for row in top_holdings:

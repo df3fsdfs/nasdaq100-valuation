@@ -56,7 +56,7 @@
     for (const [key, name, url] of [['cnn','CNN 주식 공포·탐욕','https://www.cnn.com/markets/fear-and-greed'],['crypto','크립토 공포·탐욕 · Alternative.me','https://alternative.me/crypto/fear-and-greed-index/']]) {
       const x = d.fear?.[key]; const card = element('div', null, 'checkpoint');
       card.append(element('strong', name), element('div', num(x?.value), 'fear-number'));
-      card.append(line('10 이하', badge(!x || !x.fresh || stale ? null : x.value <= 10)));
+      card.append(line('15 이하', badge(!x || !x.fresh || stale ? null : x.value <= 15)));
       const a = element('a', '출처 · ' + (x?.date || '수집 대기')); a.href = url; a.target='_blank'; a.rel='noopener noreferrer'; a.style.color='#9cc5ff';card.append(a);fg.append(card);
     }
     const box=document.getElementById('bottom-assets'); box.replaceChildren();

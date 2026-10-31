@@ -82,7 +82,7 @@ def serialize_bar(frame, tf):
     rsilimit=series.attrs['rsi_limit']
     signals={k:bool(z[k]) for k in ['buy','sharp','normal','time','restricted']}
     last_buy=series.index[series.buy]
-    return {"date":str(frame.index[-1].date()),"bars":len(frame),"signals":signals,
+    return {"date":str(frame.index[-1].date()),"bars":len(frame),"signals":signals,"previous_buy":bool(series.buy.iloc[-2]) if len(series)>1 else None,
             "cci20":finite(cci(frame).iloc[-1]),
             "cci_below100":bool(cci(frame).iloc[-1]<=-100),"cci_below200":bool(cci(frame).iloc[-1]<=-200),
             "rsi":{str(n):finite(z['rsi'+str(n)]) for n in (14,30,100,200)},
@@ -140,17 +140,29 @@ def main():
         except Exception as exc:errors.append(name+': '+type(exc).__name__)
     fear=crypto_fear=None
     try:
-        obj=request_json('https://production.dataviz.cnn.io/index/fearandgreed/graphdata')['fear_and_greed']
+        payload=request_json('https://production.dataviz.cnn.io/index/fearandgreed/graphdata')
+        obj=payload['fear_and_greed']
         value=float(obj['score']);day=pd.Timestamp(obj['timestamp']).date()
         if not 0<=value<=100:raise ValueError('invalid score')
-        fear={"value":finite(value),"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=5,"source":"https://www.cnn.com/markets/fear-and-greed"}
+        fear={"value":finite(value),"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=5,"source":"https://www.cnn.com/markets/fear-and-greed","previous":finite(obj.get("previous_close"))}
     except Exception as exc:errors.append('CNN: '+type(exc).__name__)
     try:
-        obj=request_json('https://api.alternative.me/fng/?limit=1')['data'][0]
+        items=request_json('https://api.alternative.me/fng/?limit=21')['data']
+        obj=items[0]
         value=float(obj['value']);day=datetime.fromtimestamp(int(obj['timestamp']),timezone.utc).date()
         if not 0<=value<=100:raise ValueError('invalid score')
-        crypto_fear={"value":value,"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=2,"source":"https://alternative.me/crypto/fear-and-greed-index/","label":obj.get('value_classification')}
+        crypto_fear={"value":value,"date":day.isoformat(),"fresh":0<=(now.date()-day).days<=2,"source":"https://alternative.me/crypto/fear-and-greed-index/","label":obj.get('value_classification'),"previous":float(items[1]["value"]) if len(items)>1 else None}
     except Exception as exc:errors.append('Crypto Fear: '+type(exc).__name__)
+    if fear:
+        try:
+            points=payload.get('fear_and_greed_historical',{}).get('data',[])
+            history={pd.Timestamp(p['x'],unit='ms',tz='UTC').date().isoformat():float(p['y']) for p in points if p.get('x') is not None and p.get('y') is not None}
+            values=[v for d,v in sorted(history.items()) if d<fear['date']][-20:]
+            fear.update(mean=finite(sum(values)/len(values)) if values else None,mean_n=len(values))
+        except Exception:pass
+    if crypto_fear:
+        values=[float(x['value']) for x in items[1:21]]
+        crypto_fear.update(mean=finite(sum(values)/len(values)) if values else None,mean_n=len(values))
     result=build(now,frames,fear,errors,crypto_fear)
     result['volume']={}
     for name in ('TQQQ','SOXL'):
