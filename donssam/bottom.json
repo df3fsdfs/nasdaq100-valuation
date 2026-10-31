@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-10-31T11:20:28.522693+00:00",
+  "generated_at": "2026-10-31T11:23:11.500425+00:00",
   "assets": {
     "NDX": {
       "date": "2026-10-30",
@@ -13,7 +13,7 @@
       "weekly_date": "2026-10-30",
       "monthly_date": "2026-10-31",
       "volume_pct": 114.275,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/%5ENDX?period1=315532800&period2=1793445791&interval=1d&events=splits",
       "fresh": true
     },
     "SOXX": {
@@ -27,7 +27,7 @@
       "weekly_date": "2026-10-30",
       "monthly_date": "2026-10-31",
       "volume_pct": 210.573,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX?period1=315532800&period2=1793445791&interval=1d&events=splits",
       "fresh": true
     },
     "NQ": {
@@ -41,7 +41,7 @@
       "weekly_date": "2026-10-30",
       "monthly_date": "2026-10-31",
       "volume_pct": 125.943,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/NQ%3DF?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/NQ%3DF?period1=315532800&period2=1793445791&interval=1d&events=splits",
       "fresh": true
     },
     "BTC": {
@@ -55,7 +55,7 @@
       "weekly_date": "2026-10-25",
       "monthly_date": "2026-09-30",
       "volume_pct": 182.709,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BTC-USD?period1=315532800&period2=1793445791&interval=1d&events=splits",
       "fresh": true
     },
     "TQQQ": {
@@ -69,7 +69,7 @@
       "weekly_date": "2026-10-30",
       "monthly_date": "2026-10-31",
       "volume_pct": 192.067,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TQQQ?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TQQQ?period1=315532800&period2=1793445791&interval=1d&events=splits",
       "fresh": true
     },
     "SOXL": {
@@ -83,7 +83,7 @@
       "weekly_date": "2026-10-30",
       "monthly_date": "2026-10-31",
       "volume_pct": 224.092,
-      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXL?period1=315532800&period2=1793445628&interval=1d&events=splits",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXL?period1=315532800&period2=1793445791&interval=1d&events=splits",
       "fresh": true
     }
   },
