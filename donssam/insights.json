@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T12:00:17.736774+00:00",
+  "generated_at": "2026-10-31T12:05:41.249117+00:00",
   "risk": {
     "vix": {
       "name": "VIX",
@@ -2432,14 +2432,7 @@
     }
   },
   "checkpoints": {
-    "signals": [
-      {
-        "title": "NDX 일봉 새 줍",
-        "good": true,
-        "body": "직전 확정봉 없음 → 현재 있음",
-        "date": "2026-10-30"
-      }
-    ],
+    "signals": [],
     "opportunity": [
       {
         "title": "증시 기회지수 급변",
@@ -2452,14 +2445,17 @@
       {
         "title": "XLV 기회점수 급상승",
         "good": true,
+        "oversold": false,
         "body": "20거래일 평균 45.2 → 55.7 (+10.5점) · 전일 +0.8점 · 과매도 미충족",
-        "date": "2026-10-30",
-        "oversold": false
+        "date": "2026-10-30"
       }
     ],
     "other": []
   },
-  "errors": [],
+  "errors": [
+    "yield10: HTTPError",
+    "hy: HTTPError"
+  ],
   "method": {
     "risk": "전일=직전 관측 거래일; 평균=현재일 제외 직전20관측 거래일. 관측일은 지표별 표시.",
     "liquidity": "수요일 정렬 주간값. 전주 및 현재주 제외 직전13주 평균 대비.",
