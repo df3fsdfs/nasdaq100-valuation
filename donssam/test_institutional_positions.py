@@ -49,6 +49,14 @@ class InstitutionalTests(unittest.TestCase):
         self.assertIsNone(p.parse_steno_article(text.replace('gross flow drawdown:','gross leverage:'),'https://stenoresearch.com/test','2026-11-01',date(2026,11,1)))
         self.assertIsNone(p.parse_steno_article(text,'https://untrusted.example/test','2026-11-01',date(2026,11,1)))
         self.assertIsNone(p.parse_steno_article(text.replace('Data as of Oct 30, 2026.',''),'https://stenoresearch.com/test','2026-11-01',date(2026,11,1)))
+    def test_public_feed_candidate_fetches_full_same_definition_article(self):
+        from types import SimpleNamespace
+        rss='<rss><channel><item><title>De-grossing update</title><link>https://stenoresearch.com/example</link><description>Read the full article</description></item></channel></rss>'
+        article='Morgan Stanley equity long/short gross flow drawdown: -8.2%. Drawdown from running peak as % of total global gross exposure. Data as of Oct 30, 2026.'
+        with patch.object(p,'get',side_effect=[SimpleNamespace(text=rss),SimpleNamespace(text=article)]):
+            rows,monitor=p.discover_degross('2026-11-01',date(2026,11,1))
+        self.assertEqual(len(rows),1);self.assertEqual(rows[0]['value'],-8.2)
+        self.assertIn('https://stenoresearch.com/example',monitor['checked_sources'])
     def test_one_approximate_point_does_not_become_full_history_or_percentile(self):
         row={'date':'2026-10-27','value':-7.8,'quality':'recreated_approximate','source_url':'https://stenoresearch.com/test'}
         d=p.degross_summary([row])

@@ -151,8 +151,12 @@ def discover_degross(collected_at,today):
         if urlparse(url).hostname not in ['stenoresearch.com','www.stenoresearch.com']:continue
         try:
             candidate=parse_steno_article(body,url,collected_at,today)
+            if candidate is None:
+                article=get(url).text;checked.append(url)
+                candidate=parse_steno_article(article,url,collected_at,today)
             if candidate:rows.append(candidate)
         except (ValueError,KeyError,TypeError):errors.append('Steno candidate: rejected invalid metric/date/value')
+        except requests.RequestException:errors.append('Steno candidate: public article unavailable')
     return rows,{'mode':'public_text_monitor','checked_sources':checked,'attempted_sources':attempted,'source_status':'unavailable' if not checked else 'checked','candidate_count':len(seen),'errors':errors,
                 'schedule':'매일 07:05 KST 공개 본문 확인; 정의·관측일·수치가 모두 일치할 때만 반영',
                 'limitation':'원본 정기 시계열·고정 발표일은 연결되지 않음. 이미지·유료자료만 있으면 숫자를 자동 갱신하지 않음.'}

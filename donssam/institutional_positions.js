@@ -41,7 +41,7 @@
     $('institution-time').textContent='수집 확인 '+local(data.generated_at)+' KST · 관측일·공개 인용 여부는 각 지표에 표시';
     if(l){
       $('cot-value').textContent=num(l.percentile,1)+'%';$('cot-gauge-pin').style.left=(l.percentile??50)+'%';$('cot-gauge').setAttribute('aria-valuenow',l.percentile??0);
-      $('cot-bias').textContent=c.bias+' · 5년 '+num(l.percentile_n)+'개 보고';
+      $('cot-bias').textContent='과거 대비 '+c.bias+' · 5년 '+num(l.percentile_n)+'개 보고';
       $('cot-fourweek').textContent='4주 백분위 '+sign(c.percentile_change_4w,1)+'%p · 순포지션 '+sign(c.net_change_4w)+'계약';
       $('cot-counts').textContent='롱 '+num(l.long)+' / 숏 '+num(l.short)+' / 순 '+sign(l.net)+'계약';
       $('cot-week').textContent='전주 대비 롱 '+sign(c.long_change_1w)+' · 숏 '+sign(c.short_change_1w)+' · 순 '+sign(c.net_change_1w)+'계약';
