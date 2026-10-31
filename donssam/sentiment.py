@@ -5,9 +5,14 @@ from pathlib import Path
 import pandas as pd
 import yfinance as yf
 import requests
+from functools import lru_cache
+from pine_buy import rsi as pine_rsi, rma
+
+MODEL_VERSION="rsi_relative_atr_v1"
 OUT=Path("donssam/sentiment.json")
 def bound(x):return max(0.,min(100.,float(x)))
 def scale(v,lo,hi):return round(bound(100*(v-lo)/(hi-lo)),1)
+@lru_cache(maxsize=8)
 def fetch(symbol):
     try:
         x=yf.Ticker(symbol).history(period="6y",interval="1d",auto_adjust=True)
@@ -46,9 +51,27 @@ def bottom_pattern(f):
     knife=fast<=-15 and dd<=-15
     multi=count>=2 and dd<=-12 and float(c.iloc[-1])<=float(a.min())*1.12
     return {"pattern":"송곳형 급락" if knife else ("삼중바닥 후보" if count>=3 and multi else ("쌍바닥 후보" if multi else "미확인")),"fast20_pct":round(fast,2),"lows":count,"qualified":knife or multi}
+def refinements(f):
+    close=f.Close
+    rs=pine_rsi(close,14)
+    recent=rs.tail(65)
+    span=float(recent.max()-recent.min())
+    position=float((rs.iloc[-1]-recent.min())/span*100) if span>0 else 50.
+    tr=pd.concat([f.High-f.Low,(f.High-close.shift()).abs(),(f.Low-close.shift()).abs()],axis=1).max(axis=1)
+    atr=float(rma(tr,14).iloc[-1])
+    dev20=float((close.iloc[-1]-close.tail(20).mean())/atr) if atr>0 else 0.
+    dev60=float((close.iloc[-1]-close.tail(60).mean())/atr) if atr>0 else 0.
+    return {"rsi_position65":round(position,6),"atr_dev20":round(dev20,6),"atr_dev60":round(dev60,6)}
+
+def rsi_opportunity(asset):
+    return .5*scale(50-asset["rsi"],0,35)+.5*scale(100-asset["rsi_position65"],0,100)
+
+def atr_opportunity(asset):
+    return .5*scale(-asset["atr_dev20"],0,2.2)+.5*scale(-asset["atr_dev60"],0,1.65)
+
 def metrics(f):
     c=f.Close;last=float(c.iloc[-1]);wk=c.resample("W-FRI").last().dropna()
-    return {"date":str(c.index[-1].date()),"price":round(last,2),"drawdown":round((last/float(c.tail(252).max())-1)*100,2),"rsi":round(rsi(c),2),"cci":round(cci(f),2),"ma200w_gap":round((last/float(wk.tail(200).mean())-1)*100,2),"monthly_cci":round(monthly_cci(f),2),"pattern":bottom_pattern(f)}
+    return {**refinements(f),"date":str(c.index[-1].date()),"price":round(last,2),"drawdown":round((last/float(c.tail(252).max())-1)*100,2),"rsi":round(rsi(c),2),"cci":round(cci(f),2),"ma200w_gap":round((last/float(wk.tail(200).mean())-1)*100,2),"monthly_cci":round(monthly_cci(f),2),"pattern":bottom_pattern(f)}
 def fred(code,asof=None):
     url="https://fred.stlouisfed.org/graph/fredgraph.csv?id="+code+"&cosd=2023-01-01"
     try:
@@ -111,8 +134,8 @@ def compute(asof=None):
         obs=asset["date"];p=asset["pattern"];dd=asset["drawdown"]
         # Deep drawdown, weekly/daily oversold, monthly CCI, 200-week MA and a bottom pattern.
         raw=[
-          (label+" 낙폭·속도",25,0.65*scale(-dd,0,40)+0.35*scale(-p["fast20_pct"],0,22),str(dd)+"% / 20일 "+str(p["fast20_pct"])+"%"),
-          (label+" 주봉·일봉 과매도",20,0.6*scale(-asset["cci"],0,200)+0.4*scale(50-asset["rsi"],0,35),str(asset["cci"])+" / "+str(asset["rsi"])),
+          (label+" 낙폭·속도",25,0.65*scale(-dd,0,40)+0.35*atr_opportunity(asset),str(dd)+"% / ATR이격 "+str(asset["atr_dev20"])+" / "+str(asset["atr_dev60"])),
+          (label+" 주봉·일봉 과매도",20,0.6*scale(-asset["cci"],0,200)+0.4*rsi_opportunity(asset),str(asset["cci"])+" / "+str(asset["rsi"])),
           (label+" 월봉 CCI",10,scale(-asset["monthly_cci"],0,180),asset["monthly_cci"]),
           (label+" 200주선 접근",15,scale(25-abs(asset["ma200w_gap"]),0,25),asset["ma200w_gap"]),
           (label+" 바닥형태",20,90 if p["qualified"] else 0,p["pattern"])
@@ -124,7 +147,7 @@ def compute(asof=None):
     eq.append(component("CNN 공포·탐욕 역점수",4,100-cnnfg["value"],cnnfg["value"],"점",cnnfg["date"],"CNN 0이면 기회점수 100") if cnnfg else component("CNN 공포·탐욕 역점수",4,None,None,"점",None,"CNN API 차단 시 제외"))
     cr=[
       component("BTC 자체 낙폭",40,scale(-btc["drawdown"],0,65),btc["drawdown"],"%",btc["date"],"낙폭 클수록 바닥 기회 근접"),
-      component("BTC 주봉·일봉 과매도",15,0.6*scale(-btc["cci"],0,200)+0.4*scale(50-btc["rsi"],0,35),str(btc["cci"])+" / "+str(btc["rsi"]),"",btc["date"],"주봉 CCI·일봉 RSI"),
+      component("BTC 주봉·일봉 과매도",15,0.6*scale(-btc["cci"],0,200)+0.4*rsi_opportunity(btc),str(btc["cci"])+" / "+str(btc["rsi"]),"",btc["date"],"주봉 CCI60% + 일봉 RSI보완40%; RSI보완=절대값50%+65일 상대위치 역점수50%"),
       component("BTC 월봉 CCI·200주선",15,0.5*scale(-btc["monthly_cci"],0,180)+0.5*scale(25-abs(btc["ma200w_gap"]),0,25),str(btc["monthly_cci"])+" / "+str(btc["ma200w_gap"]),"",btc["date"],"월봉 CCI·200주선 괴리"),
       component("BTC 급락·바닥형태",10,90 if btc["pattern"]["qualified"] else 0,btc["pattern"]["pattern"],"",btc["date"],"송곳형 급락·쌍/삼중바닥 후보"),
       component("S&P 500 낙폭",5,scale(-sp["drawdown"],0,35),sp["drawdown"],"%",sp["date"],"미국 증시 위험 전이"),
@@ -144,7 +167,7 @@ def compute(asof=None):
     if not btc["pattern"]["qualified"] and crypto["score"] is not None:
         crypto["score"]=min(crypto["score"],60)
     # Observation dates differ; explicitly preserve each.
-    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","score_direction":"high_is_opportunity","method":"증시·크립토 모두 100=매수 기회 가까움, 0=매수 기회 멀다. 가용 구성요소 가중평균을 0~100으로 정규화. 급락·다중바닥 미확인 시 증시는 55점, 크립토는 60점으로 상한. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 65% 미만은 점수 보류."}
+    return {"date":sp["date"],"generated_at":datetime.now(timezone.utc).isoformat(),"equity":equity,"crypto":crypto,"assets":{"SPY":sp,"SOXX":semi,"BTC":btc},"source_notes":"CNN은 공식 공개 JSON 접근 가능할 때만 사용. FRED HY OAS, 순유동성, ETF·BTC 가격의 관측일은 서로 다름.","score_direction":"high_is_opportunity","model_version":MODEL_VERSION,"method":"RSI보완=절대 RSI점수50%+65일 RSI상대위치 역점수50%. 증시 낙폭·속도의 속도35%를 ATR20/60 이격 역점수의 평균으로 교체(만점 -2.20/-1.65). BTC는 RSI만 보완. 증시·크립토 모두 100=매수 기회 가까움, 0=매수 기회 멀다. 가용 구성요소 가중평균을 0~100으로 정규화. 급락·다중바닥 미확인 시 증시는 55점, 크립토는 60점으로 상한. 선형 점수 기준은 연구용이며 백테스트되지 않음. 누락 항목은 제외 후 가용 가중치로 재정규화; 커버리지 65% 미만은 점수 보류."}
 def normalize_snapshot(row):
     import copy
     x=copy.deepcopy(row)
@@ -156,6 +179,41 @@ def normalize_snapshot(row):
         x['method']='100=매수 기회 가까움, 0=기회 멀다. 기존 지수를 100-기존값으로 방향 통일. 원래 구성요소·기준일 보존.'
     return x
 
+def revise_snapshot(row):
+    """Recalculate stored technical components while preserving dated macro inputs."""
+    x=normalize_snapshot(row)
+    if x.get('model_version')==MODEL_VERSION:return x
+    for key,symbol in [('SPY','SPY'),('SOXX','SOXX'),('BTC','BTC-USD')]:
+        asset=x['assets'][key]
+        f=fetch(symbol)
+        f=f.loc[f.index.date<=pd.Timestamp(asset['date']).date()].copy()
+        # Preserve the original observation's BTC intraday close, not a later daily close.
+        f.loc[f.index[-1],'Close']=asset['price']
+        asset.update(refinements(f))
+    for key,label in [('SPY','S&P 500'),('SOXX','SOXX')]:
+        a=x['assets'][key]
+        for part in x['equity']['components']:
+            if part['name']==label+' 낙폭·속도':
+                value=.65*scale(-a['drawdown'],0,40)+.35*atr_opportunity(a)
+                part.update(score=round(value,1),points=round(part['weight']*value/100,2),value=str(a['drawdown'])+'% / ATR이격 '+str(a['atr_dev20'])+' / '+str(a['atr_dev60']))
+            elif part['name']==label+' 주봉·일봉 과매도':
+                value=.6*scale(-a['cci'],0,200)+.4*rsi_opportunity(a)
+                part.update(score=round(value,1),points=round(part['weight']*value/100,2))
+    a=x['assets']['BTC']
+    for part in x['crypto']['components']:
+        if part['name']=='BTC 주봉·일봉 과매도':
+            value=.6*scale(-a['cci'],0,200)+.4*rsi_opportunity(a)
+            part.update(score=round(value,1),points=round(part['weight']*value/100,2))
+    for key in ('equity','crypto'):
+        parts=[p for p in x[key]['components'] if p['score'] is not None]
+        used=sum(p['weight'] for p in parts)
+        score=round(sum(p['points'] for p in parts)/used*100,1) if used>=65 else None
+        qualified=(x['assets']['SPY']['pattern']['qualified'] or x['assets']['SOXX']['pattern']['qualified']) if key=='equity' else a['pattern']['qualified']
+        x[key]['score']=min(score,55 if key=='equity' else 60) if score is not None and not qualified else score
+    x['model_version']=MODEL_VERSION
+    x['method']='기존 배점 유지. RSI=절대값50%+65일상대위치 역점수50%; 증시 속도=ATR20/60 이격 역점수 평균. 기존 관측일·공포·신용·유동성 입력 보존 후 재산출.'
+    return x
+
 def main():
     today=compute()
     history=[]
@@ -163,7 +221,7 @@ def main():
         try:history=json.loads(OUT.read_text(encoding="utf-8")).get("history",[])
         except Exception:pass
     # Seed two real historical market sessions; historical CNN/crypto F&G are unavailable and omitted.
-    existing={x.get("date"):normalize_snapshot(x) for x in history if x.get("score_direction") in ("zero_is_opportunity","high_is_opportunity")}
+    existing={x.get("date"):revise_snapshot(x) for x in history if x.get("score_direction") in ("zero_is_opportunity","high_is_opportunity")}
     sessions=fetch("SPY").index[-3:].date
     for day in sessions:
         key=day.isoformat()
