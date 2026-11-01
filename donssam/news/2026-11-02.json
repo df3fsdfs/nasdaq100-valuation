@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-02",
+  "cutoff_at": "2026-11-02T07:00:00+09:00",
+  "items": [
+    {
+      "title": "이란, 호르무즈 유조선 2척 기뢰 폭발 주장",
+      "sentences": [
+        "이란 혁명수비대 해군이 11월 1일 호르무즈 해협에서 허가되지 않은 항로를 이용하던 유조선 2척이 기뢰에 부딪혀 폭발했다고 주장했어.",
+        "같은 날 카타르 중재 협상은 계속됐지만, 이란 외무장관은 최종 결론에 도달하지 않았다고 밝혔음.",
+        "해협 통항 위험이 커지면 원유 공급과 운송비 부담이 이어질 수 있어, 항공·운송·제조업 비용과 물가에 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters · 유조선 관련 이란 측 발표",
+          "url": "https://www.reuters.com/world/middle-east/irans-irgc-navy-says-two-tankers-exploded-after-hitting-mines-hormuz-2026-11-01/"
+        },
+        {
+          "label": "Reuters · 카타르 중재 협상",
+          "url": "https://www.reuters.com/world/middle-east/iranian-negotiators-doha-continue-talks-end-us-iran-war-official-says-2026-11-01/"
+        }
+      ]
+    },
+    {
+      "title": "한국 10월 수출 93.7% 증가, 반도체가 견인",
+      "sentences": [
+        "산업통상부가 발표한 한국의 10월 수출은 전년 동월보다 93.7% 늘어난 1,152.8억달러였고, 반도체 수출은 259.4% 증가했어.",
+        "수출액은 9월보다 적었으며, 전년 대비 증가율에는 추석 연휴 이동에 따른 조업일수 증가도 반영됐음.",
+        "AI 설비 수요가 반도체 출하를 뒷받침한 자료지만, 이 성장률만으로 반도체 기업의 이익이 같은 속도로 늘어난다고 보긴 어려워."
+      ],
+      "sources": [
+        {
+          "label": "산업통상부 · 2026년 10월 수출입 동향",
+          "url": "https://www.motir.go.kr/kor/article/ATCL3f49a5a8c/172360/view"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/asia-pacific/south-korea-exports-nearly-double-october-strongest-growth-since-1974-2026-11-01/"
+        }
+      ]
+    },
+    {
+      "title": "미국·캐나다 무역협상 진전, 관세 철회는 미정",
+      "sentences": [
+        "카니 캐나다 총리가 트럼프 대통령과 무역 문제를 논의했으며, 앞으로 수주 동안 실무 협상을 진행한다고 밝혔어.",
+        "트럼프도 새 협정의 구상이 있다고 말했지만 세부 내용을 공개하지 않았고, 철강·자동차 관세 완화는 확정되지 않았음.",
+        "실제 관세 인하로 이어지면 북미 자동차·부품·철강 기업의 비용 부담을 줄일 수 있지만, 지금은 협상 진전 단계야."
+      ],
+      "sources": [
+        {
+          "label": "AP",
+          "url": "https://apnews.com/article/canada-us-trump-canada-trade-d0bfffc67ecdf22d9a5abffb2d26d848"
+        },
+        {
+          "label": "Reuters · 트럼프 발언",
+          "url": "https://www.reuters.com/business/autos-transportation/trump-says-us-canada-have-concept-new-trade-deal-2026-11-01/"
+        }
+      ]
+    },
+    {
+      "title": "OPEC+ 7개국, 12월 원유 생산목표 유지",
+      "sentences": [
+        "사우디·러시아 등 OPEC+ 7개국이 11월 1일 회의에서 12월 생산목표를 9월 수준으로 유지하기로 확정했어.",
+        "전날 보도된 잠정 방침이 공식 결정됐으며, 다음 회의는 11월 29일에 열릴 예정이야.",
+        "목표 동결이 전쟁으로 막힌 실제 생산·수출의 회복을 뜻하진 않아, 에너지주 이익과 운송업 비용은 실제 공급 회복 속도에도 영향을 받아."
+      ],
+      "sources": [
+        {
+          "label": "OPEC · 11월 1일 공식 발표",
+          "url": "https://www.opec.org/pr-detail/620-1-november-2026.html"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/opec-set-keep-oil-output-targets-steady-sources-say-2026-11-01/"
+        }
+      ]
+    },
+    {
+      "title": "바이낸스 출금 재개, 초기 순유출 36.4억달러",
+      "sentences": [
+        "바이낸스가 해킹 이후 출금을 단계적으로 재개했고, 회사 발표를 인용한 The Block은 재개 후 9시간 반 동안 36.4억달러가 순유출됐다고 보도했어.",
+        "회사가 밝힌 피해 자산 보충 비율은 직전 90%에서 95%로 높아졌지만, 일부 자산·네트워크 출금 제한은 남아 있음.",
+        "접근 제한은 풀리기 시작했어도 거래소 신뢰 회복이 끝난 건 아니어서, 자금 유출이 이어지는지는 코인과 관련주 투자심리에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Binance · 공식 복구 공지",
+          "url": "https://www.binance.com/en-GB/support/announcement/security-incident-recovery-update-4-withdrawals-resume-in-phases-2026-11-01-73911fb819b240f88b88256bdd318eda"
+        },
+        {
+          "label": "The Block",
+          "url": "https://www.theblock.co/news/business/2026-11-01-binance-sees-3-64-billion-in-net-outflows-after-reopening-withdrawals-following-record-hack-432259"
+        }
+      ]
+    }
+  ]
+}
