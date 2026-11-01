@@ -18,10 +18,7 @@
       const q=quotes[symbol];if(!q)continue;const row=el('div');row.className='kpi';const left=el('span',name);const stamp=el('small',text(q));stamp.style.display='block';left.append(stamp);
       const value=el('strong',fmt(q.price));value.style.textAlign='right';const pct=el('small',typeof q.change_pct==='number'?(q.change_pct>0?'+':'')+fmt(q.change_pct)+'%':'비교 기준 수집 대기');pct.style.display='block';pct.title=['postmarket','premarket'].includes(q.session)?'정규장 가격 대비':'제공처 이전 종가 대비';value.append(pct);row.append(left,value);box.append(row);
     }
-    for(const row of document.querySelectorAll('#sectorrows tr')){
-      const ticker=row.querySelector('button')?.textContent.match(/\(([A-Z]+)\)\s*▾/)?.[1];
-      if(ticker&&row.cells.length>8)priceCell(row.cells[8],quotes[ticker]);
-    }
+    for(const cell of document.querySelectorAll('[data-quote-symbol]'))priceCell(cell,quotes[cell.dataset.quoteSymbol]);
     if(window.selectedETF)window.refreshLiveStockCells(window.selectedETF);
   };
   async function refresh(){
@@ -30,3 +27,4 @@
   }
   refresh();setInterval(refresh,5*60*1000);
 })();
+

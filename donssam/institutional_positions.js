@@ -86,6 +86,12 @@
     const due=releases.filter(x=>Date.parse(x.published_at)+12*3600000<Date.now()).at(-1);
     return due&&Date.now()-Date.parse(due.published_at)<45*86400000?l.date<due.date:age(l.date)>45;
   }
+  const published=r=>r?.publication_date||'공식 발표일 확인 중';
+  function shortComparison(g){
+    const previous=g.previous;
+    return '직전 관측 '+(previous?.date||'—')+' / 발표 '+published(previous)+' · '+num(previous?.shares/10000,1)+'만 주 대비 '+sign(g.change_percent,2)+'%';
+  }
+  function shortMean(g){return '직전 4개 관측 평균 '+num(g.mean4==null?null:g.mean4/10000,1)+'만 주 대비 '+sign(g.mean4_percent,2)+'%'+(g.mean4_n<4?' · 평균 이력 확인 중':'');}
   function checkpoint(){
     let box=$('short-interest-checkpoint');if(!data)return;
     if(!box&&$('change-groups')){box=el('section',null,'change-group');box.id='short-interest-checkpoint';$('change-groups').append(box);}if(!box)return;
@@ -93,12 +99,12 @@
     for(const symbol of ['QQQ','SPY']){
       const g=data.short_interest?.series?.[symbol];if(!g){box.append(el('p',symbol+' 공식 잔고 수집 대기','hint'));continue;}
       const row=el('div',null,'change-item');
-      row.append(el('strong',symbol+' '+sign(g.change_percent,2)+'% · '+(g.change<0?'잔고 감소':g.change>0?'잔고 증가':'직전 대비'),g.change<0?'rise-good':'neutral-change'));
-      row.append(el('small',g.latest.date+' 관측 · '+num(g.latest.shares/10000,1)+'만 주'));
-      if(shortStale(g))row.append(el('small','갱신 지연 · 마지막 정상값 유지','institution-warning'));
-      box.append(row);
+      row.append(el('strong',symbol+' '+num(g.latest.shares/10000,1)+'만 주'),el('div',shortComparison(g)),el('div',shortMean(g)),el('small','현재 관측 '+g.latest.date+' / 발표 '+published(g.latest)));
+      const detail=el('details');detail.append(el('summary','평균에 사용한 4개 관측·발표일'));
+      for(const r of g.mean4_observations||[])detail.append(el('p','관측 '+r.date+' / 발표 '+published(r)+' · '+num(r.shares/10000,1)+'만 주','hint'));
+      row.append(detail);if(shortStale(g))row.append(el('small','갱신 지연 · 마지막 정상값 유지','institution-warning'));box.append(row);
     }
-    box.append(el('small','직전 공식 발표 대비 · 감소는 숏 축소 단서이며 반등 확정 신호는 아님','hint'));
+    box.append(el('small','월 2회 발표 · 평균은 현재를 제외한 직전 4개 관측 기준','hint'));
   }
   function shortRender(){
     const si=data.short_interest||{},cards=$('short-interest-cards');cards.replaceChildren();
@@ -106,8 +112,8 @@
       const g=si.series?.[symbol],card=el('div',null,'short-interest-stat');card.append(el('h4',symbol));
       if(!g){card.append(el('p','공식 자료 수집 대기'));cards.append(card);continue;}
       card.append(el('strong',num(g.latest.shares/10000,1)+'만 주'));
-      card.append(el('small','직전 대비 '+sign(g.change_percent,2)+'% / '+sign(g.change===null?null:g.change/10000,1)+'만 주',g.change<0?'rise-good':'neutral-change'));
-      card.append(el('small',g.latest.date+' 관측'),el('small','거래량 기준 상환일수 '+num(g.latest.days_to_cover,2)+'일'));
+      card.append(el('small',shortComparison(g)),el('small',shortMean(g)));
+      card.append(el('small',g.latest.date+' 관측 / '+published(g.latest)+' 발표'),el('small','상환일수 '+num(g.latest.days_to_cover,2)+'일'));
       if(shortStale(g))card.append(el('small','갱신 지연 · 마지막 정상값 유지','institution-warning'));
       cards.append(card);
     }
@@ -117,7 +123,7 @@
     const calendar=si.release_calendar?.rows||[],next=calendar.find(x=>Date.parse(x.published_at)>Date.now());
     $('short-interest-date').textContent='수집 확인 '+local(si.checked_at)+' KST · '+(si.fetch_ok?'공식 API 확인':'최근 정상값 유지 · 수집 재시도')+(next?' · 다음 발표 '+local(next.published_at)+' KST':' · 월 2회 발표 후 확인');
     $('short-interest-source').replaceChildren(source('FINRA 공식 공매도 잔고',si.source_url));
-    $('short-interest-method').textContent=(data.method.short_interest||'')+' 상환일수=잔고/평균 일거래량으로 실제 상환 기한은 아니야. 매일 07:05 KST 새 발표·정정을 확인하고 주 1회 과거 이력을 대조해.';
+    $('short-interest-method').textContent=(data.method.short_interest||'')+' 실제 상환 기한을 뜻하지 않아. 관측일과 발표일을 구분해.';
     if(!shortChartDrawn&&q&&p){
       const plot=layout('백만 주');plot.margin.t=45;
       plot.xaxis={...plot.xaxis,type:'date',range:[new Date(Date.parse(q.latest.date)-365*86400000).toISOString().slice(0,10),q.latest.date],rangeselector:{buttons:[{count:1,label:'1년',step:'year',stepmode:'backward'},{count:3,label:'3년',step:'year',stepmode:'backward'},{label:'전체',step:'all'}],bgcolor:'#1d3c58',activecolor:'#426c9a',font:{color:'#d9eaff'}}};
@@ -165,9 +171,10 @@
   document.addEventListener('checkpoints-ready',checkpoint);
   $('cot-participant-select').addEventListener('change',event=>{selected=event.target.value;if(!data)return;render();if($('cot-history-details').open)cotGraph();});
   graphs();
-  fetch('./institutional_positions.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();}).catch(()=>{
+  fetch('./institutional_positions_public.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();}).catch(()=>{
     $('cot-main-reading').textContent='저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     $('institution-time').textContent='기관 포지션 자료 로딩 재시도 필요';$('cot-reading').textContent='마지막 저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     const box=$('short-interest-checkpoint');if(box)box.replaceChildren(el('h3','⑤ 공매도 잔고 변화'),el('p','저장 자료 로딩 재시도','hint'));
   });
 })();
+

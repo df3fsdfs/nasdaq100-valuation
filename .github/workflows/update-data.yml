@@ -4,10 +4,6 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: '5 22 * * *'
-    - cron: '10 1 * * *'
-    - cron: '*/30 * * * *'
-    - cron: '0 10 * * *'
     - cron: '30 23 * * 1-5'
 permissions:
   contents: write
@@ -19,70 +15,59 @@ concurrency:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 28
+    timeout-minutes: 20
     environment:
       name: github-pages
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: main
       - uses: actions/setup-python@v5
+        if: github.event.schedule == '30 23 * * 1-5'
         with:
           python-version: '3.11'
-          cache: pip
-          cache-dependency-path: donssam/requirements.txt
-      - name: Install dependencies
-        run: pip install -r donssam/requirements.txt
-      - name: Verify calculations
-        if: github.event.schedule != '*/30 * * * *'
-        run: python -m unittest discover -s donssam -p 'test_*.py'
+      - name: Install valuation dependencies
+        if: github.event.schedule == '30 23 * * 1-5'
+        run: pip install requests yfinance
       - name: Update NASDAQ-40 valuation
         if: github.event.schedule == '30 23 * * 1-5'
         env:
           BUSINESSQUANT_API_KEY: ${{ secrets.BUSINESSQUANT_API_KEY }}
         run: python fetch_data.py
-      - name: Update regular-session sectors and constituent weights
-        if: github.event.schedule == '5 22 * * *' || github.event_name == 'workflow_dispatch'
-        run: python donssam/update.py
-      - name: Update daily opportunity scores
-        if: github.event.schedule == '5 22 * * *' || github.event_name == 'workflow_dispatch'
-        continue-on-error: true
-        run: python donssam/sentiment.py
-      - name: Check monthly OECD releases
-        if: github.event.schedule == '0 10 * * *' || github.event_name == 'workflow_dispatch'
-        run: python donssam/cli_update.py
-      - name: Check weekly Fed release on Friday morning
-        if: github.event.schedule == '5 22 * * *' || github.event.schedule == '10 1 * * *' || github.event_name == 'workflow_dispatch'
-        continue-on-error: true
-        run: |
-          if [ "$(TZ=Asia/Seoul date +%u)" = '5' ]; then
-            python fed-liquidity/update.py
-          fi
-      - name: Update institutional positioning sources
-        if: github.event.schedule == '5 22 * * *' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
-        run: python donssam/institutional_positions.py
-      - name: Update confirmed and forming buy signals
-        if: github.event.schedule != '*/30 * * * *' && github.event.schedule != '0 10 * * *' && github.event.schedule != '30 23 * * 1-5'
-        run: python donssam/bottom_check.py
-      - name: Analyze daily changes
-        if: github.event.schedule != '*/30 * * * *' && github.event.schedule != '30 23 * * 1-5'
-        run: python donssam/market_insights.py
-      - name: Fetch extended-session and futures quotes
-        run: python donssam/quotes_update.py
-      - name: Save dated observations
+      - name: Preserve valuation observations
+        if: github.event.schedule == '30 23 * * 1-5'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add donssam/institutional_positions.json donssam/bottom.json donssam/insights.json donssam/screen.json donssam/cli.json donssam/sentiment.json donssam/quotes.json fed-liquidity/data.json data.json
-          if [ -f history_cache.json ]; then git add history_cache.json; fi
+          git add data.json history_cache.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Refresh market observations with original timestamps'
+            git commit -m 'Refresh NASDAQ-40 valuation'
             git pull --rebase origin main
             git push
           fi
+      - name: Prepare public assets only
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import shutil
+          files = ['.nojekyll','index.html','data.json','fed-liquidity/index.html','fed-liquidity/data.json','donssam/index.html','donssam/public.js','donssam/institutional_positions.js','donssam/live_quotes.js','donssam/news.json','donssam/quotes.json','donssam/sentiment.html','donssam/public_dashboard.json','donssam/institutional_positions_public.json']
+          files += [str(p) for p in Path('donssam/news').glob('*.json')]
+          out=Path('_public')
+          out.mkdir(exist_ok=True)
+          for name in files:
+              src=Path(name)
+              if not src.is_file(): raise SystemExit('Missing public asset: '+name)
+              dst=out/name
+              dst.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copyfile(src,dst)
+          forbidden={'bottom.json','screen.json','insights.json','sentiment.json','institutional_positions.json','cli.json','degrossing_observations.json'}
+          assert not any(p.suffix=='.py' or p.name in forbidden for p in out.rglob('*') if p.is_file())
+          PY
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
           name: nasdaq40-pages
-          path: .
+          path: _public
       - uses: actions/deploy-pages@v4
         with:
           artifact_name: nasdaq40-pages
