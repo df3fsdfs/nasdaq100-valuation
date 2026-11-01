@@ -8,6 +8,7 @@
   const source=(label,url)=>{const a=el('a',label);if(/^https:\/\//.test(url||'')){a.href=url;a.target='_blank';a.rel='noopener noreferrer';}return a;};
   let data;
   let shortChartDrawn=false;
+  let cotComparisonDrawn=false;
   let selected='leveraged';
   const notes={
     leveraged:['헤지펀드·CTA 등 레버리지를 활용하는 운용 주체.','기회 관찰: 숏 쏠림 뒤 실제 숏 감소는 숏커버 후보. 숏이 계속 늘면 쏠림만으로 바닥을 판단하지 않아.'],
@@ -22,8 +23,6 @@
   function participants(){
     const box=$('cot-participants');box.replaceChildren();
     const groups=data.cot?.groups||{};
-    const am=groups.asset_manager;
-    $('cot-manager-summary').textContent=am?'자산운용사·기관 · 5년 백분위 '+num(am.latest.percentile,1)+'% · 순 '+sign(am.latest.net)+'계약 · 전주 '+sign(am.net_change_1w)+'계약':'';
     Object.entries(groups).forEach(([key,g])=>{
       const card=el('div',null,'cot-participant');
       card.append(el('h4',g.label),el('strong','5년 백분위 '+num(g.latest.percentile,1)+'% · '+g.bias));
@@ -34,6 +33,46 @@
       card.append(el('p',g.interpretation,'hint'));box.append(card);
       card.append(el('p',notes[key][1],'hint'));
     });
+  }
+  // Weekly holdings changes describe balances, not individual executions or motives.
+  function cotFlow(g){
+    const l=g?.long_change_1w,s=g?.short_change_1w;
+    if(!Number.isFinite(l)||!Number.isFinite(s))return '전주 비교 자료 부족';
+    if(l<0&&s>0)return '롱 축소 · 숏 확대';
+    if(l>0&&s<0)return '롱 확대 · 숏 축소';
+    if(l<0&&s<0)return '양방향 축소'+(s<l?' · 숏 감소 우세':l<s?' · 롱 감소 우세':' · 감소 폭 같음');
+    if(l>0&&s>0)return '양방향 확대'+(l>s?' · 롱 증가 우세':s>l?' · 숏 증가 우세':' · 증가 폭 같음');
+    if(l===0&&s===0)return '롱·숏 변화 없음';
+    return '롱 '+(l>0?'확대':l<0?'축소':'유지')+' · 숏 '+(s>0?'확대':s<0?'축소':'유지');
+  }
+  function cotMain(){
+    const groups=data.cot?.groups||{},a=groups.asset_manager,h=groups.leveraged;
+    const box=$('cot-main-cards');box.replaceChildren();
+    const aligned=a?.latest&&h?.latest&&a.latest.date===h.latest.date;
+    $('cot-main-reading').textContent=aligned?'기관: '+cotFlow(a)+' / 레버리지 펀드: '+cotFlow(h):'두 집단의 같은 관측일 자료가 부족해. 각 카드의 기준일을 확인해.';
+    for(const [key,color] of [['asset_manager','#64d9b1'],['leveraged','#6ea8ff']]){
+      const g=groups[key],card=el('div',null,'cot-main-card');card.style.setProperty('--group-color',color);
+      card.append(el('h4',key==='asset_manager'?'자산운용사·기관':'레버리지 펀드'),el('small',notes[key][0]));
+      if(!g?.latest){card.append(el('p','확인된 관측치 없음'));box.append(card);continue;}
+      card.append(el('strong',num(g.latest.percentile,1)+' / 100','cot-percentile'),el('small','자기 과거 5년 순포지션 백분위'));
+      card.append(el('p','전주 롱 '+sign(g.long_change_1w)+'계약'),el('p','전주 숏 '+sign(g.short_change_1w)+'계약'));
+      card.append(el('p',cotFlow(g)));
+      if(g.net_change_1w>0&&g.long_change_1w<=0&&g.short_change_1w<0)card.append(el('small','순포지션 개선은 롱 잔고 증가가 아닌 숏 잔고 감소에서 나왔어.'));
+      if(key==='asset_manager')card.append(el('small','선물 숏에는 현물 보유분의 헤지가 포함될 수 있어.'));
+      card.append(el('small',g.latest.date+' 관측'));box.append(card);
+    }
+    $('cot-main-date').textContent=(freshness().cot?'갱신 지연 · 마지막 정상값 유지 · ':'')+(data.cot?.fetch_ok?'CFTC 공식 자료':'최근 정상값 · 수집 재시도')+' · 전주 대비 주간 잔고 변화이며 개별 거래·의도는 알 수 없어.';
+    $('cot-main-date').className=freshness().cot?'institution-warning':'hint';
+    if(cotComparisonDrawn||!a?.rows?.length||!h?.rows?.length)return;
+    const end=[a.latest.date,h.latest.date].sort().at(-1),plot=layout('백분위');
+    plot.margin={l:42,r:12,t:45,b:64};
+    plot.yaxis={...plot.yaxis,range:[0,100],fixedrange:true,tickvals:[0,10,50,90,100]};
+    plot.xaxis={...plot.xaxis,type:'date',range:[new Date(Date.parse(end)-365*86400000).toISOString().slice(0,10),end],rangeselector:{buttons:[{count:1,label:'1년',step:'year',stepmode:'backward'},{count:3,label:'3년',step:'year',stepmode:'backward'},{label:'전체',step:'all'}],bgcolor:'#1d3c58',activecolor:'#426c9a',font:{color:'#d9eaff'}}};
+    plot.legend={orientation:'h',y:-.22,font:{size:11}};
+    plot.shapes=[{y0:0,y1:10},{y0:90,y1:100}].map(b=>({type:'rect',xref:'paper',x0:0,x1:1,yref:'y',...b,fillcolor:'#b7cce8',opacity:.09,line:{width:0},layer:'below'}));
+    plot.shapes.push(...[10,90].map(y=>({type:'line',xref:'paper',x0:0,x1:1,yref:'y',y0:y,y1:y,line:{color:'#7890ac',width:1,dash:'dot'}})));
+    Plotly.newPlot('cot-comparison-chart',[['asset_manager','#64d9b1','자산운용사·기관'],['leveraged','#6ea8ff','레버리지 펀드']].map(([key,color,name])=>({x:groups[key].rows.map(r=>r.date),y:groups[key].rows.map(r=>r.percentile),name,mode:'lines',connectgaps:false,line:{color,width:2},hovertemplate:name+' %{x}<br>백분위 %{y:.1f} / 100<extra></extra>'})),plot,{responsive:true,displayModeBar:false});
+    cotComparisonDrawn=true;
   }
   function freshness(){
     const cot=data?.cot,l=cot?.latest;
@@ -98,10 +137,11 @@
   }
   function render(){
     const c=selectedCot(),l=c?.latest,f=freshness();
-    $('cot-title').textContent='COT · Nasdaq-100 '+(c.label||'레버리지 펀드');
+    $('cot-detail-title').textContent='참여자 상세 · '+(c.label||'레버리지 펀드');
     $('cot-participant-note').textContent=notes[selected][0];
     $('cot-opportunity-note').textContent=notes[selected][1]+' 선물 일부의 변화이므로 가격·줍줍 조건과 함께 확인해.';
     participants();
+    cotMain();
     $('institution-time').textContent='수집 확인 '+local(data.generated_at)+' KST · 선물·ETF별 관측일은 각 지표에 표시';
     if(l){
       $('cot-value').textContent=num(l.percentile,1)+'%';$('cot-gauge-pin').style.left=(l.percentile??50)+'%';$('cot-gauge').setAttribute('aria-valuenow',l.percentile??0);
@@ -126,6 +166,7 @@
   $('cot-participant-select').addEventListener('change',event=>{selected=event.target.value;if(!data)return;render();if($('cot-history-details').open)cotGraph();});
   graphs();
   fetch('./institutional_positions.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();}).catch(()=>{
+    $('cot-main-reading').textContent='저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     $('institution-time').textContent='기관 포지션 자료 로딩 재시도 필요';$('cot-reading').textContent='마지막 저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     const box=$('short-interest-checkpoint');if(box)box.replaceChildren(el('h3','⑤ 공매도 잔고 변화'),el('p','저장 자료 로딩 재시도','hint'));
   });
