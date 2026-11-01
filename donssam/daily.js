@@ -44,7 +44,7 @@
       card.append(sources); box.append(card);
     });
   }).catch(() => {document.getElementById('news-items').textContent = '뉴스 파일을 불러오지 못했어. 잠시 후 새로고침해줘.';});
-  const badge = (value, yes = '충족', no = '미충족') => element('span', value == null ? '자료 부족' : value ? yes : no, 'badge ' + (value == null ? 'wait' : value ? 'on' : 'off'));
+  const badge = (value, yes = '충족', no = '미충족', unknown = '확인 대기') => element('span', value == null ? unknown : value ? yes : no, 'badge ' + (value == null ? 'wait' : value ? 'on' : 'off'));
   const line = (title, right) => {
     const e = element('div', null, 'signal-line'); e.append(element('span', title, 'signal-label'), right); return e;
   };
@@ -63,12 +63,15 @@
     for (const [key,title] of [['NDX','나스닥100 · NAS100'],['BTC','비트코인 · BTC']]) {
       const asset=d.assets?.[key]; const section=element('section', null, 'checkpoint');section.append(element('h3',title));
       if (!asset) {section.append(element('p','시세 수집 대기'));box.append(section);continue;}
+      if(stale || !asset.fresh) section.append(element('p','갱신 지연 · 마지막 확정 일봉 '+asset.daily_date+' · 아래 수치는 해당 관측 기준이며 신호 판정은 갱신 대기 중','institution-warning'));
+      const repaired=asset.data_quality?.repaired_rows?.filter(r=>r.provider)||[];
+      if(repaired.length) section.append(element('p','누락 일봉 '+repaired.map(r=>r.date).join(', ')+'은 Coinbase Exchange BTC-USD 실관측으로 보완','hint'));
       for (const [tf,label] of [['D','일봉'],['W','주봉'],['M','월봉']]) {
         const data=asset.timeframes[tf], c=data.confirmed, current=data.latest;
         const unavailable=stale || !asset.fresh;
         const card=element('div', null, 'tfcard');card.append(element('h4',label));
-        card.append(line('확정 줍 · ' + c.date, badge(unavailable ? null : c.signals.buy, '신호 있음', '신호 없음')));
-        card.append(line(data.forming ? '진행 중 줍 · 마감 전 변동 가능' : '최신 봉 · 마감 완료', badge(unavailable ? null : current.signals.buy,'신호 있음','신호 없음')));
+        card.append(line('확정 줍 · ' + c.date, badge(unavailable ? null : c.signals.buy, '신호 있음', '신호 없음', '갱신 대기')));
+        card.append(line((data.forming ? '진행 중 줍 · 마감 전 변동 가능' : '최신 봉 · 마감 완료')+' · '+current.date, badge(unavailable ? null : current.signals.buy,'신호 있음','신호 없음','갱신 대기')));
         const cci=element('span',num(c.cci20));
         cci.append(document.createTextNode('  '),badge(c.cci20==null||unavailable?null:c.cci_below100,'≤ -100','> -100'),document.createTextNode(' '),badge(c.cci20==null||unavailable?null:c.cci_below200,'≤ -200','> -200'));
         card.append(line('CCI20 · 확정봉',cci));
@@ -82,7 +85,7 @@
         const conditions={sharp_rsi_drop:'급락형 RSI 하락폭: 5봉 11.5 또는 10봉 17 이상',sharp_rsi_low:'급락형 RSI 상대위치 ≤22',normal_rsi_low:'일반형 RSI14 ≤42 또는 RSI30 ≤46',normal_rsi_cooling:'일반형 RSI30 <10봉 전',long_rsi_cooling:'기간형 RSI100 ≤48 · RSI200 ≤54',short_rsi_turning:'기간형 RSI14 ≤48 · 전봉보다 상승'};
         for (const [k,n] of Object.entries(conditions)) detail.append(line(n,badge(unavailable || (k==='long_rsi_cooling' && !c.long_history_ready)?null:c.rsi_checks[k])));
         detail.append(element('p','최근 확정 줍: '+(c.last_buy_date||'관측 이력 내 없음')));
-        if (!c.long_history_ready) detail.append(element('p','RSI200 계산 이력 부족 · 장기 RSI가 필요한 유형은 원본처럼 미충족 처리'));
+        if (!c.long_history_ready) detail.append(element('p','장기 지표 계산 전 · 현재 '+c.bars+'봉(RSI200은 201봉, MA200은 200봉 필요). 수집 오류가 아니며 장기 지표가 필요 없는 급락형 등은 별도로 계산해.'));
         detail.append(element('p','진행 중 CCI20 '+num(current.cci20)+' / RSI14 '+num(current.rsi['14'])+' / RSI 상대위치 '+num(current.rsi_position)));
         card.append(detail);section.append(card);
       }

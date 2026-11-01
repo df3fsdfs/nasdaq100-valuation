@@ -15,18 +15,66 @@ def request_json(url):
     with urllib.request.urlopen(req, timeout=20) as response:
         return json.load(response)
 
+def chart_frame(result, crypto=False):
+    q = result['indicators']['quote'][0]
+    zone = 'UTC' if crypto else result['meta'].get('exchangeTimezoneName', 'America/New_York')
+    dates = pd.to_datetime(result['timestamp'], unit='s', utc=True).tz_convert(zone)
+    f = pd.DataFrame({k.title():q[k] for k in ('high','low','close','volume')}, index=pd.DatetimeIndex(dates.date))
+    f = f.dropna(subset=['High','Low','Close'])
+    return f[~f.index.duplicated(keep='last')].sort_index()
+
+def crypto_gaps(frame, now):
+    # A live quote for today does not prove yesterday's completed candle exists.
+    end = pd.Timestamp(now.astimezone(timezone.utc).date()) - pd.Timedelta(days=1)
+    start = max(end-pd.Timedelta(days=13), frame.index.min())
+    return pd.date_range(start, end).difference(frame.index)
+
+def repair_crypto_history(frame, now):
+    gaps = crypto_gaps(frame, now)
+    repairs, failures = [], []
+    if not len(gaps):return frame
+    end = int(now.timestamp())
+    start = int((pd.Timestamp(now.astimezone(timezone.utc).date(), tz='UTC')-pd.Timedelta(days=15)).timestamp())
+    for host in ('query1.finance.yahoo.com','query2.finance.yahoo.com'):
+        url = f'https://{host}/v8/finance/chart/BTC-USD?period1={start}&period2={end}&interval=1d'
+        try:
+            recent = chart_frame(request_json(url)['chart']['result'][0], True)
+            added = gaps.intersection(recent.index)
+            frame = frame.combine_first(recent).sort_index()
+            repairs.extend({'date':str(day.date()),'source_url':url} for day in added)
+            gaps = crypto_gaps(frame, now)
+            if not len(gaps):break
+        except Exception as exc:failures.append(host+': '+type(exc).__name__)
+    if len(gaps):
+        # Same BTC/USD currency, explicitly attributed exchange observations only.
+        # Never synthesize a missing daily candle from an intraday quote or ffill.
+        from urllib.parse import urlencode
+        params = urlencode({'granularity':86400,'start':gaps[0].isoformat()+'Z','end':(gaps[-1]+pd.Timedelta(days=1)).isoformat()+'Z'})
+        url = 'https://api.exchange.coinbase.com/products/BTC-USD/candles?'+params
+        try:
+            records = request_json(url)
+            if not isinstance(records,list):raise ValueError('invalid candle response')
+            for row in records:
+                stamp = datetime.fromtimestamp(int(row[0]),timezone.utc)
+                day = pd.Timestamp(stamp.date())
+                if day not in gaps or stamp.hour or stamp.minute or stamp.second:continue
+                low,high,opening,close,volume = map(float,row[1:6])
+                if not all(math.isfinite(v) for v in (low,high,opening,close,volume)) or not 0<low<=min(opening,close)<=max(opening,close)<=high or volume<0:
+                    raise ValueError('invalid OHLC candle')
+                frame.loc[day,['High','Low','Close','Volume']] = [high,low,close,volume]
+                repairs.append({'date':str(day.date()),'source_url':url,'provider':'Coinbase Exchange BTC-USD','ohlcv':{'high':high,'low':low,'open':opening,'close':close,'volume':volume},'collected_at':now.isoformat()})
+            frame = frame.sort_index()
+        except Exception as exc:failures.append('Coinbase: '+type(exc).__name__)
+    frame.attrs['data_quality'] = {'repaired_rows':repairs,'missing_closed_dates':[str(x.date()) for x in crypto_gaps(frame,now)],'retry_errors':failures}
+    return frame
+
 def history(symbol, now):
     from urllib.parse import quote
     # Raw closing prices: price thresholds must not use dividend-adjusted prices.
     url = "https://query1.finance.yahoo.com/v8/finance/chart/" + quote(symbol, safe="") + "?period1=315532800&period2=" + str(int(now.timestamp())) + "&interval=1d&events=splits"
     result = request_json(url)["chart"]["result"][0]
-    q = result["indicators"]["quote"][0]
-    dates = pd.to_datetime(result["timestamp"], unit="s", utc=True)
-    zone = result["meta"].get("exchangeTimezoneName", "America/New_York")
-    f = pd.DataFrame({k: q[k] for k in ("high", "low", "close", "volume")}, index=dates.tz_convert(zone).date)
-    f.columns = ["High", "Low", "Close", "Volume"]
-    f.index = pd.DatetimeIndex(f.index)
-    f = f.dropna(subset=["High", "Low", "Close"])
+    zone = 'UTC' if symbol=='BTC-USD' else result['meta'].get('exchangeTimezoneName','America/New_York')
+    f = chart_frame(result, symbol=='BTC-USD')
     # Compare share counts on today's split basis (leveraged ETFs can reverse split).
     for event in result.get("events", {}).get("splits", {}).values():
         ratio=float(event["numerator"])/float(event["denominator"])
@@ -34,6 +82,7 @@ def history(symbol, now):
         f.loc[f.index.date < split_day,"Volume"] *= ratio
     if len(f) < 500:
         raise ValueError("insufficient history")
+    if symbol=='BTC-USD':f = repair_crypto_history(f, now)
     return f, url
 
 def cci(frame):
@@ -55,7 +104,7 @@ def rsi(close):
 
 def completed_bars(frame, frequency, now, crypto=False):
     bars = frame.resample(frequency).agg({"High":"max", "Low":"min", "Close":"last", "Volume":"sum"}).dropna()
-    local = now if crypto else now.astimezone(ZoneInfo("America/New_York"))
+    local = now.astimezone(timezone.utc) if crypto else now.astimezone(ZoneInfo("America/New_York"))
     last = bars.index[-1].date()
     if crypto:
         # Bitcoin weekly candles run Monday-Sunday UTC, months end at UTC midnight.
@@ -93,20 +142,20 @@ def serialize_bar(frame, tf):
             "deviations":{str(n):finite(z['dev'+str(n)]) for n in (20,60,120,200)}}
 
 def daily_closed(frame,now,crypto):
-    if crypto:return frame[frame.index.date<now.date()]
+    if crypto:return frame[frame.index.date<now.astimezone(timezone.utc).date()]
     local=now.astimezone(ZoneInfo('America/New_York'))
     return frame[(frame.index.date<local.date())|((frame.index.date==local.date())&(local.hour>=16))]
 
 def asset_result(frame,name,now,source):
     crypto=name=='BTC'
     closed=daily_closed(frame,now,crypto)
-    result={"source":source,"daily_date":str(closed.index[-1].date()),"timeframes":{}}
+    result={"source":source,"daily_date":str(closed.index[-1].date()),"timeframes":{},"last_success_at":now.isoformat(),"data_quality":frame.attrs.get('data_quality',{})}
     for tf,freq in [('D',None),('W','W-SUN' if crypto else 'W-FRI'),('M','ME')]:
         complete=closed if tf=='D' else completed_bars(closed,freq,now,crypto)
         forming=frame if tf=='D' else frame.resample(freq).agg({'High':'max','Low':'min','Close':'last','Volume':'sum'}).dropna()
         result['timeframes'][tf]={"confirmed":serialize_bar(complete,tf),"latest":serialize_bar(forming,tf),"forming":bool(complete.index[-1]!=forming.index[-1] or not complete.iloc[-1].equals(forming.iloc[-1]))}
     observed=pd.Timestamp(result['daily_date']).date()
-    if crypto:result['fresh']=observed==now.date()-timedelta(days=1)
+    if crypto:result['fresh']=observed==now.astimezone(timezone.utc).date()-timedelta(days=1) and not len(crypto_gaps(frame,now))
     else:
         import exchange_calendars as xcals
         cal=xcals.get_calendar('XNYS')
@@ -125,7 +174,7 @@ def build(now,frames,fear=None,errors=None,crypto_fear=None):
             "fear":{"cnn":fear,"crypto":crypto_fear},"errors":errors or [],
             "method":{"signals":"moodcomp 제공 Pine buySignal 이식: 급락형/일반조정형/기간조정형/재상승형 OR. 매도·MA 표시 코드는 제외.",
                       "basis":"확정봉과 진행 중 봉을 나란히 표시. 진행 중 신호는 봉 마감 전 바뀔 수 있음.",
-                      "sources":"나스닥100 ^NDX / BTC-USD Yahoo OHLC. TradingView의 거래소·봉 구성에 따라 수치 차이가 있을 수 있음.",
+                      "sources":"나스닥100 ^NDX / BTC-USD Yahoo OHLC. BTC는 UTC 일봉의 최근 누락을 재조회하고 미복구분만 Coinbase Exchange BTC-USD 실관측으로 보완하며 날짜·출처를 기록. TradingView 거래소별 수치 차이 가능.",
                       "indicators":"CCI20(HLC3) -100/-200은 별도 참고 조건. RSI14/30/100/200은 Wilder RMA. RSI 상대위치 한도: 일22/주27/월32.",
                       "unused":"Pine의 priceExtreme·rsiExtreme·atrLimit는 최종 buySignal의 필수조건이 아님. RSI 상대위치 조건은 별도 참고 표시.",
                       "history":"RSI200은 201개 종가 필요. 이력이 짧은 분기는 원본 Pine처럼 충족되지 않으며 이력 부족을 별도 표기.",
@@ -134,6 +183,8 @@ def build(now,frames,fear=None,errors=None,crypto_fear=None):
 
 def main():
     now=datetime.now(timezone.utc)
+    try:previous=json.loads((ROOT/'bottom.json').read_text(encoding='utf-8'))
+    except (OSError,ValueError):previous={}
     frames,errors={},[]
     for name,symbol in ASSETS.items():
         try:frames[name]=history(symbol,now)
@@ -164,6 +215,9 @@ def main():
         values=[float(x['value']) for x in items[1:21]]
         crypto_fear.update(mean=finite(sum(values)/len(values)) if values else None,mean_n=len(values))
     result=build(now,frames,fear,errors,crypto_fear)
+    for name in ('NDX','BTC'):
+        if name not in result['assets'] and name in previous.get('assets',{}):
+            result['assets'][name]={**previous['assets'][name],'fresh':False,'retained_at':now.isoformat(),'last_success_at':previous['assets'][name].get('last_success_at',previous.get('generated_at'))}
     result['volume']={}
     for name in ('TQQQ','SOXL'):
         if name in frames:

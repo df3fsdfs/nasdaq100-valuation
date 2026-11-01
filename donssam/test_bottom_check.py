@@ -51,4 +51,57 @@ class PineTests(unittest.TestCase):
                 self.assertEqual(set(result['assets']),{'NDX','BTC'})
                 self.assertFalse(result['errors'])
 
+    def crypto_gap_frame(self):
+        f=self.frame()
+        f.index=pd.date_range(end='2026-11-01',periods=len(f))
+        return f.drop(pd.Timestamp('2026-10-31'))
+
+    def test_live_quote_cannot_make_missing_closed_crypto_candle_fresh(self):
+        now=datetime(2026,11,1,3,tzinfo=timezone.utc)
+        f=self.crypto_gap_frame()
+        self.assertEqual(list(b.crypto_gaps(f,now)),[pd.Timestamp('2026-10-31')])
+        self.assertEqual(b.daily_closed(f,now,True).index[-1],pd.Timestamp('2026-10-30'))
+        self.assertFalse(b.asset_result(f,'BTC',now,'test')['fresh'])
+
+    def test_crypto_gap_retries_same_provider_before_exchange_fallback(self):
+        now=datetime(2026,11,1,3,tzinfo=timezone.utc)
+        payload={'chart':{'result':[{'meta':{'exchangeTimezoneName':'UTC'},'timestamp':[int(pd.Timestamp('2026-10-31',tz='UTC').timestamp())],'indicators':{'quote':[{'high':[103.],'low':[99.],'close':[101.],'volume':[50.]}]}}]}}
+        with patch.object(b,'request_json',return_value=payload) as api:
+            f=b.repair_crypto_history(self.crypto_gap_frame(),now)
+        self.assertEqual(api.call_count,1)
+        self.assertFalse(len(b.crypto_gaps(f,now)))
+        self.assertEqual(f.loc['2026-10-31','Close'],101.)
+        self.assertTrue(b.asset_result(f,'BTC',now,'test')['fresh'])
+
+    def test_crypto_exchange_repair_is_actual_utc_closed_candle_with_provenance(self):
+        now=datetime(2026,11,1,3,tzinfo=timezone.utc)
+        stamp=int(pd.Timestamp('2026-10-31',tz='UTC').timestamp())
+        with patch.object(b,'request_json',side_effect=[OSError('offline'),OSError('offline'),[[stamp,99,103,100,101,50]]]):
+            f=b.repair_crypto_history(self.crypto_gap_frame(),now)
+        self.assertFalse(len(b.crypto_gaps(f,now)))
+        self.assertEqual(f.loc['2026-10-31','Close'],101)
+        repair=f.attrs['data_quality']['repaired_rows'][0]
+        self.assertEqual(repair['provider'],'Coinbase Exchange BTC-USD')
+        self.assertIn('api.exchange.coinbase.com',repair['source_url'])
+        self.assertEqual(repair['ohlcv']['close'],101)
+
+    def test_failed_repairs_do_not_fabricate_missing_crypto_day(self):
+        now=datetime(2026,11,1,3,tzinfo=timezone.utc)
+        f=self.crypto_gap_frame()
+        with patch.object(b,'request_json',side_effect=OSError('offline')):
+            result=b.repair_crypto_history(f.copy(),now)
+        pd.testing.assert_frame_equal(f,result)
+        self.assertEqual(result.attrs['data_quality']['missing_closed_dates'],['2026-10-31'])
+
+    def test_failed_collection_preserves_last_observed_asset(self):
+        previous={'generated_at':'2026-10-31T00:00:00+00:00','assets':{'BTC':{'daily_date':'2026-10-30','fresh':True,'timeframes':{'D':{'unchanged':1}}}}}
+        with tempfile.TemporaryDirectory() as folder:
+            out=Path(folder)/'bottom.json';out.write_text(json.dumps(previous))
+            with patch.object(b,'ROOT',Path(folder)),patch.object(b,'history',side_effect=OSError('offline')),patch.object(b,'request_json',side_effect=OSError('offline')):
+                b.main()
+            result=json.loads(out.read_text())
+        self.assertEqual(result['assets']['BTC']['timeframes'],previous['assets']['BTC']['timeframes'])
+        self.assertFalse(result['assets']['BTC']['fresh'])
+        self.assertEqual(result['assets']['BTC']['last_success_at'],previous['generated_at'])
+
 if __name__=='__main__':unittest.main()
