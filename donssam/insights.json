@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T02:59:26.151072+00:00",
+  "generated_at": "2026-11-01T03:32:35.440244+00:00",
   "risk": {
     "vix": {
       "name": "VIX",
@@ -2546,8 +2546,8 @@
     "other": []
   },
   "errors": [
-    "hy: HTTPError",
-    "yield10: HTTPError"
+    "yield10: HTTPError",
+    "hy: HTTPError"
   ],
   "method": {
     "risk": "전일=직전 관측 거래일; 평균=현재일 제외 직전20관측 거래일. 관측일은 지표별 표시.",
