@@ -1,0 +1,45 @@
+name: Donssaem Threads Publish
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'donssam/threads_queue/*.json'
+      - 'donssam/threads_publish.py'
+      - 'donssam/test_threads_publish.py'
+      - '.github/workflows/threads-publish.yml'
+  workflow_dispatch:
+    inputs:
+      check_only:
+        description: Verify account and permissions without publishing
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency:
+  group: donssam-threads-publisher
+  cancel-in-progress: false
+jobs:
+  threads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify publishing safeguards
+        run: python -m unittest discover -s donssam -p test_threads_publish.py
+      - name: Verify account and publish reviewed daily queue
+        env:
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_APP_ID: ${{ secrets.THREADS_APP_ID }}
+          GITHUB_TOKEN: ${{ github.token }}
+          CHECK_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.check_only }}
+        run: |
+          if [ "$CHECK_ONLY" = "true" ]; then
+            python donssam/threads_publish.py --check-only
+          else
+            python donssam/threads_publish.py
+          fi
