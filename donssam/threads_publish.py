@@ -13,7 +13,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
@@ -39,8 +39,17 @@ def request_json(method, url, token, values=None):
         with urlopen(Request(url, data=body, headers=headers, method=method), timeout=35) as response:
             return json.load(response)
     except HTTPError as error:
-        # Error messages can contain request parameters, including credentials.
-        raise PublishError("Provider HTTP " + str(error.code)) from None
+        # Only numeric codes and the endpoint path are safe to log.
+        codes = {}
+        try:
+            failure = json.loads(error.read()).get("error", {})
+            codes = {key: failure[key] for key in ("code", "error_subcode")
+                     if isinstance(failure.get(key), int)}
+        except (ValueError, OSError):
+            pass
+        endpoint = urlsplit(url).path
+        raise PublishError("Provider HTTP " + str(error.code) + " at " + endpoint
+                           + " codes=" + json.dumps(codes)) from None
     except (URLError, TimeoutError, ValueError, OSError):
         raise PublishError("Provider network/response error; no automatic publish retry") from None
 
@@ -56,7 +65,9 @@ class Threads:
         return request_json("POST", BASE + path, self.token, values)
 
     def verify(self):
+        print("Verifying Threads profile")
         profile = self.get("me", fields="id,username")
+        print("Verifying Threads token scopes")
         details = self.get("debug_token", input_token=self.token).get("data", {})
         required = {"threads_basic", "threads_content_publish"}
         if not details.get("is_valid") or not required.issubset(set(details.get("scopes", []))):
