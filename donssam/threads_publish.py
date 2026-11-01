@@ -61,8 +61,9 @@ class Threads:
         required = {"threads_basic", "threads_content_publish"}
         if not details.get("is_valid") or not required.issubset(set(details.get("scopes", []))):
             raise PublishError("Threads token invalid or missing threads_basic/threads_content_publish")
-        expected_app = os.environ.get("THREADS_APP_ID", "")
-        if expected_app and str(details.get("app_id")) != expected_app:
+        expected_app = os.environ.get("THREADS_APP_ID", "").strip()
+        if expected_app and str(details.get("app_id", "")).strip() != expected_app:
+            print("Token validity and publishing scopes: OK; app_id field present:", bool(details.get("app_id")))
             raise PublishError("Threads token belongs to a different app")
         if str(details.get("user_id")) != str(profile.get("id")):
             raise PublishError("Token/profile account mismatch")
