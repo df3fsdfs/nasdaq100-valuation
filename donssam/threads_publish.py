@@ -41,15 +41,18 @@ def request_json(method, url, token, values=None):
     except HTTPError as error:
         # Only numeric codes and the endpoint path are safe to log.
         codes = {}
+        safe_message = ""
         try:
             failure = json.loads(error.read()).get("error", {})
+            safe_message = str(failure.get("message", "")).replace(token, "[redacted]")
+            safe_message = re.sub(r"[A-Za-z0-9_\\-]{16,}", "[redacted]", safe_message)[:300]
             codes = {key: failure[key] for key in ("code", "error_subcode")
                      if isinstance(failure.get(key), int)}
         except (ValueError, OSError):
             pass
         endpoint = urlsplit(url).path
         raise PublishError("Provider HTTP " + str(error.code) + " at " + endpoint
-                           + " codes=" + json.dumps(codes)) from None
+                           + " codes=" + json.dumps(codes) + " reason=" + safe_message) from None
     except (URLError, TimeoutError, ValueError, OSError):
         raise PublishError("Provider network/response error; no automatic publish retry") from None
 
