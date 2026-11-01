@@ -42,12 +42,20 @@
       const aRows=x.rows.slice(2).map((r,i)=>({date:r.date,value:r.value-2*x.rows[i+1].value+x.rows[i].value}));
       traces.push({x:aRows.map(r=>r.date),y:aRows.map(r=>r.value),name:name+' 가속도',mode:'lines+markers',line:{width:2,color:key==='USA'?'#6ea8ff':'#c299ff'}});
     }
+    const drawAcceleration=traces=>{
+    if(traces.length&&typeof Plotly!=='undefined')Plotly.newPlot('clichart',traces,{paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:55,r:10,t:10,b:45},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',zeroline:true,zerolinecolor:'#e7eaf0',title:'가속도 a'},legend:{orientation:'h',y:-.3},hovermode:'x unified'},{responsive:true,displayModeBar:false});
+    };
     load('./cli.json').then(raw=>{
       const colors={G20:'#f2bd6a',G7:'#c299ff',USA:'#6ea8ff',Korea:'#ff8a9d'};
+      const accelerationLines=['USA','G7','Korea','G20'].filter(k=>raw.series?.[k]?.rows?.length>=3).map(k=>{
+        const rows=raw.series[k].rows.slice(-24);
+        const points=rows.slice(2).map((r,i)=>({date:r.date,value:r.value-2*rows[i+1].value+rows[i].value}));
+        return {name:(k==='USA'?'미국':k==='Korea'?'한국':k)+' 가속도',x:points.map(r=>r.date),y:points.map(r=>r.value),mode:'lines+markers',line:{color:colors[k],width:2}};
+      });
+      drawAcceleration(accelerationLines);
       const lines=['G20','G7','USA','Korea'].filter(k=>raw.series?.[k]?.rows?.length).map(k=>({name:k==='USA'?'미국':k==='Korea'?'한국':k,x:raw.series[k].rows.map(r=>r.date),y:raw.series[k].rows.map(r=>r.value),mode:'lines',line:{color:colors[k],width:2}}));
       Plotly.newPlot('cli-level-chart',lines,{paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:45,r:10,t:10,b:45},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',title:'CLI'},legend:{orientation:'h',y:-.3},hovermode:'x unified'},{responsive:true,displayModeBar:false});
-    }).catch(()=>{});
-    if(traces.length&&typeof Plotly!=='undefined')Plotly.newPlot('clichart',traces,{paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:55,r:10,t:10,b:45},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',zeroline:true,zerolinecolor:'#e7eaf0',title:'가속도 a'},legend:{orientation:'h',y:-.3},hovermode:'x unified'},{responsive:true,displayModeBar:false});
+    }).catch(()=>{drawAcceleration(traces);});
     const groups=document.getElementById('change-groups');groups.replaceChildren();
     const labels={signals:'① 줍줍신호 전환',opportunity:'② 기회지수 급변',sectors:'③ 산업 기회 급변',other:'④ 공포·거래량 변화',short_interest:'⑤ 공매도 잔고 변화'};
     for(const [key,title] of Object.entries(labels)){
