@@ -216,9 +216,24 @@ def publish_parts(api, store, queue, parts, profile):
     print("Threads publication complete:", state["root_url"])
 
 
+def publication_date(requested, now):
+    today = now.date().isoformat()
+    target = requested or today
+    try:
+        parsed = datetime.strptime(target, "%Y-%m-%d").date()
+    except ValueError:
+        raise PublishError("Recovery date must be YYYY-MM-DD") from None
+    if parsed.isoformat() != target or target > today:
+        raise PublishError("Publication date cannot be future or malformed")
+    if target == today and now.hour < 7:
+        raise PublishError("Before today's 07:00 cutoff")
+    return target
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--date", help="Explicit recovery of an approved dated queue; retains original date")
     args = parser.parse_args()
     token = os.environ.get("THREADS_ACCESS_TOKEN", "")
     if not token:
@@ -238,13 +253,11 @@ def main():
     if args.check_only:
         print("Authentication and publishing scopes verified; no public post created")
         return
-    today = datetime.now(KST).date().isoformat()
+    today = publication_date(args.date, datetime.now(KST))
     queue_path = Path("donssam/threads_queue") / (today + ".json")
     if not queue_path.exists():
         print("No reviewed queue for today; no public post created")
         return
-    if datetime.now(KST).hour < 7:
-        raise PublishError("Before today's 07:00 cutoff")
     queue = json.loads(queue_path.read_text())
     news = json.loads((Path("donssam/news") / (today + ".json")).read_text())
     parts = validate_queue(queue, today, news)

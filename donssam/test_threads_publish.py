@@ -2,7 +2,8 @@ import copy
 import hashlib
 import json
 import unittest
-from threads_publish import PublishError, publish_parts, validate_queue
+from threads_publish import PublishError, publish_parts, validate_queue, publication_date
+from datetime import datetime
 
 
 class MemoryStore:
@@ -116,3 +117,13 @@ class Safeguards(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RecoveryDateTests(unittest.TestCase):
+    def test_recovery_keeps_original_date_after_midnight(self):
+        self.assertEqual(publication_date("2026-11-02", datetime(2026,11,3,0,59)), "2026-11-02")
+
+    def test_today_before_cutoff_and_future_are_rejected(self):
+        for target in (None, "2026-11-04", "2026-11-2"):
+            with self.assertRaises(PublishError):
+                publication_date(target, datetime(2026,11,3,0,59))
