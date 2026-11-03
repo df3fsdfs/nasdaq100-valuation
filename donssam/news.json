@@ -1,87 +1,75 @@
 {
   "schema_version": 1,
-  "date": "2026-11-03",
-  "cutoff_at": "2026-11-03T07:00:00+09:00",
+  "date": "2026-11-04",
+  "cutoff_at": "2026-11-04T07:00:00+09:00",
   "items": [
     {
-      "title": "종전 협상 기대에 브렌트유 7.6% 하락",
+      "title": "AMD, 4분기 매출 전망 시장 예상 상회",
       "sentences": [
-        "이란과 카타르의 종전 협상이 이어지고 이란 대통령이 협상 권한을 언급하면서, 2일 브렌트유가 7.6% 하락했어.",
-        "공급 차질 우려가 누그러졌지만, 최종 종전 합의가 나온 단계는 아니야.",
-        "유가 하락이 이어지면 항공·운송업의 연료비와 물가 부담이 줄고, 에너지 기업의 이익에는 부담이 될 수 있어."
+        "AMD가 4분기 매출을 약 170억 달러로 전망했고 주가는 발표 직후 시간외에서 6% 넘게 올랐어.",
+        "시장 예상은 162.3억 달러였고, 3분기에는 데이터센터 매출이 전년보다 97% 늘었어.",
+        "AI 서버 수요가 실제 매출로 이어졌다는 점은 관련 반도체 업체에도 긍정적이야."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/amd-forecasts-quarterly-revenue-above-estimates-data-center-growth-accelerates-2026-11-03/"
+        }
+      ]
+    },
+    {
+      "title": "미국 9월 구인 752.3만 건",
+      "sentences": [
+        "미국의 9월 구인 건수가 752.3만 건으로 집계됐어.",
+        "수정된 8월보다 33.3만 건 많지만, 노동통계국은 전월 변화가 통계적으로 뚜렷하지 않다고 봤어.",
+        "고용 수요가 버티면서 금리 인하 기대가 약해지면 성장주에 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미국 노동통계국",
+          "url": "https://www.bls.gov/news.release/jolts.nr0.htm"
+        }
+      ]
+    },
+    {
+      "title": "미국, 이란 케슘섬 타격…중재 협의 지속",
+      "sentences": [
+        "미국 당국자는 이란 케슘섬의 지대공 미사일을 겨냥해 제한적 타격을 했다고 밝혔어.",
+        "전날 종전 기대에 유가가 급락한 뒤 타격 소식이 나왔지만, 카타르는 양측이 중재안을 계속 검토 중이라고 밝혔어.",
+        "호르무즈 통항에 추가 차질이 생기면 유가와 운송비가 다시 오를 수 있어."
       ],
       "sources": [
         {
           "label": "Reuters·Euronext",
-          "url": "https://live.euronext.com/en/financial-news/oil-drops-7-iran-signals-openness-peace-talks"
-        },
-        {
-          "label": "AP",
-          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-475bb37b4d95dd99e26c94e708c99f8f"
+          "url": "https://live.euronext.com/en/financial-news/oil-prices-ease-nearly-four-week-low-amid-peace-talks"
         }
       ]
     },
     {
-      "title": "오라클, 200억 달러 조달 절차 착수",
+      "title": "중국, 외화예금 지급준비율 6%로 인상",
       "sentences": [
-        "오라클이 2일 공시를 통해 채권과 주식으로 총 200억 달러를 조달하는 절차에 나섰어.",
-        "지난주 공개한 계획이 실제 자금 조달 단계로 넘어간 것으로, 갑자기 추가된 새 투자 계획은 아니야.",
-        "AI 시설 확장을 뒷받침하지만, 이자 비용과 주식 수 증가가 기존 주주의 이익에 얼마나 영향을 주는지도 봐야 해."
+        "중국 인민은행이 11월 15일부터 금융기관의 외화예금 지급준비율을 4%에서 6%로 올리기로 했어.",
+        "위안화 약세를 막기 위해 2023년에 비율을 내렸던 것과 반대 방향의 조치야.",
+        "은행이 묶어두는 외화가 늘면 최근 위안화 강세가 둔화할 수 있어 중국 매출 비중이 큰 기업의 환율 변수가 돼."
       ],
       "sources": [
         {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/business/oracle-offer-10-billion-bonds-2026-11-02/"
-        },
-        {
-          "label": "Oracle IR",
-          "url": "https://investor.oracle.com/investor-news/news-details/2026/Oracle-Investor-Day-2026-Accelerating-Value-Creation/default.aspx"
+          "label": "Reuters·MarketScreener",
+          "url": "https://www.marketscreener.com/news/china-to-raise-fx-reserve-requirement-to-slow-yuan-s-rally-ce785fd9dd8efe2c"
         }
       ]
     },
     {
-      "title": "마벨, 루멘텀과 1,150억 달러 규모 주식 인수 합의",
+      "title": "호주 기준금리 4.85%로 인상",
       "sentences": [
-        "마벨이 루멘텀의 기업가치를 1,150억 달러로 산정한 전액 주식 교환 인수 계약을 발표했어.",
-        "루멘텀 주식 1주당 마벨 4.5주를 받는 구조라, 현금으로 같은 금액을 지급하는 거래는 아니야.",
-        "AI 데이터센터의 반도체와 광통신 기술을 묶는 시도지만, 인수 승인과 통합 비용이 실제 수익 개선으로 이어질지가 관건이야."
+        "호주 중앙은행이 기준금리를 0.25%포인트 올려 4.85%로 정했어.",
+        "직전 금리는 4.60%였고, 이번 결정에선 이사 6명이 인상, 3명이 동결에 표를 던졌어.",
+        "호주 금리 상승은 현지 은행의 대출 수요와 부동산 관련 기업의 자금 조달 비용에 영향을 줄 수 있어."
       ],
       "sources": [
         {
-          "label": "Marvell·SEC",
-          "url": "https://www.sec.gov/Archives/edgar/data/1835632/000119312526442714/d81187dex991.htm"
-        }
-      ]
-    },
-    {
-      "title": "애플 분기 매출 12% 증가, 이익에는 관세환급 반영",
-      "sentences": [
-        "애플의 회계연도 4분기 매출이 1,145억 달러로 전년보다 12% 늘었어.",
-        "아이폰은 같은 분기 기준 최대 매출, 서비스는 역대 최대 매출을 기록했고 주당이익에는 관세환급 효과 0.05달러가 포함됐어.",
-        "기기·서비스 수요에는 긍정적인 실적이지만, 환급으로 늘어난 이익이 다음 분기에도 반복된다고 보면 안 돼."
-      ],
-      "sources": [
-        {
-          "label": "Apple Newsroom",
-          "url": "https://www.apple.com/newsroom/2026/11/apple-reports-fourth-quarter-results/"
-        }
-      ]
-    },
-    {
-      "title": "팔란티어 매출 96% 증가, 연간 전망 상향",
-      "sentences": [
-        "팔란티어의 3분기 매출이 23.1억 달러로 전년보다 96% 늘었어.",
-        "회사는 연간 매출 전망을 종전 약 81.5억 달러에서 85.30억~85.34억 달러로 높였어.",
-        "AI 소프트웨어 수요가 실제 매출로 이어지고 있다는 신호지만, 다음 분기에도 높아진 전망을 충족하는지에 따라 주가 평가가 달라질 수 있어."
-      ],
-      "sources": [
-        {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/technology/palantir-tops-third-quarter-revenue-estimates-strong-ai-software-demand-2026-11-02/"
-        },
-        {
-          "label": "Palantir IR",
-          "url": "https://investors.palantir.com/files/Palantir%20-%20Q3%202026%20Business%20Update.pdf"
+          "label": "호주 중앙은행",
+          "url": "https://www.rba.gov.au/media-releases/2026/mr-26-30.html"
         }
       ]
     }

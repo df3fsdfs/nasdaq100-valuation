@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "cutoff_at": "2026-11-04T07:00:00+09:00",
+  "items": [
+    {
+      "title": "AMD, 4분기 매출 전망 시장 예상 상회",
+      "sentences": [
+        "AMD가 4분기 매출을 약 170억 달러로 전망했고 주가는 발표 직후 시간외에서 6% 넘게 올랐어.",
+        "시장 예상은 162.3억 달러였고, 3분기에는 데이터센터 매출이 전년보다 97% 늘었어.",
+        "AI 서버 수요가 실제 매출로 이어졌다는 점은 관련 반도체 업체에도 긍정적이야."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/amd-forecasts-quarterly-revenue-above-estimates-data-center-growth-accelerates-2026-11-03/"
+        }
+      ]
+    },
+    {
+      "title": "미국 9월 구인 752.3만 건",
+      "sentences": [
+        "미국의 9월 구인 건수가 752.3만 건으로 집계됐어.",
+        "수정된 8월보다 33.3만 건 많지만, 노동통계국은 전월 변화가 통계적으로 뚜렷하지 않다고 봤어.",
+        "고용 수요가 버티면서 금리 인하 기대가 약해지면 성장주에 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미국 노동통계국",
+          "url": "https://www.bls.gov/news.release/jolts.nr0.htm"
+        }
+      ]
+    },
+    {
+      "title": "미국, 이란 케슘섬 타격…중재 협의 지속",
+      "sentences": [
+        "미국 당국자는 이란 케슘섬의 지대공 미사일을 겨냥해 제한적 타격을 했다고 밝혔어.",
+        "전날 종전 기대에 유가가 급락한 뒤 타격 소식이 나왔지만, 카타르는 양측이 중재안을 계속 검토 중이라고 밝혔어.",
+        "호르무즈 통항에 추가 차질이 생기면 유가와 운송비가 다시 오를 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters·Euronext",
+          "url": "https://live.euronext.com/en/financial-news/oil-prices-ease-nearly-four-week-low-amid-peace-talks"
+        }
+      ]
+    },
+    {
+      "title": "중국, 외화예금 지급준비율 6%로 인상",
+      "sentences": [
+        "중국 인민은행이 11월 15일부터 금융기관의 외화예금 지급준비율을 4%에서 6%로 올리기로 했어.",
+        "위안화 약세를 막기 위해 2023년에 비율을 내렸던 것과 반대 방향의 조치야.",
+        "은행이 묶어두는 외화가 늘면 최근 위안화 강세가 둔화할 수 있어 중국 매출 비중이 큰 기업의 환율 변수가 돼."
+      ],
+      "sources": [
+        {
+          "label": "Reuters·MarketScreener",
+          "url": "https://www.marketscreener.com/news/china-to-raise-fx-reserve-requirement-to-slow-yuan-s-rally-ce785fd9dd8efe2c"
+        }
+      ]
+    },
+    {
+      "title": "호주 기준금리 4.85%로 인상",
+      "sentences": [
+        "호주 중앙은행이 기준금리를 0.25%포인트 올려 4.85%로 정했어.",
+        "직전 금리는 4.60%였고, 이번 결정에선 이사 6명이 인상, 3명이 동결에 표를 던졌어.",
+        "호주 금리 상승은 현지 은행의 대출 수요와 부동산 관련 기업의 자금 조달 비용에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "호주 중앙은행",
+          "url": "https://www.rba.gov.au/media-releases/2026/mr-26-30.html"
+        }
+      ]
+    }
+  ]
+}
