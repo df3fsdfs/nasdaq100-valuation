@@ -52,7 +52,7 @@ class Safeguards(unittest.TestCase):
                      "items": [{"title": str(i)} for i in range(5)]}
         digest = hashlib.sha256(json.dumps(self.news, sort_keys=True, ensure_ascii=False,
                                          separators=(",", ":")).encode()).hexdigest()
-        self.parts = ["2026-11-02 07:00 기준\n\n1. 첫째입니다.\n\n2. 둘째입니다.",
+        self.parts = ["주가가 올랐습니다.\n간밤에 무슨 일이 있었는지 살펴보겠습니다.\n11월 2일 이슈 정리입니다.\n\n1. 첫째입니다.\n\n2. 둘째입니다.",
                       "3. 셋째입니다.\n\n4. 넷째입니다.", "5. 다섯째입니다."]
         self.queue = {"schema_version": 1, "date": self.news["date"],
                       "cutoff_at": self.news["cutoff_at"], "source_sha256": digest, "parts": self.parts}

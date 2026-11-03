@@ -149,8 +149,12 @@ def validate_queue(queue, today, news):
         found = [int(n) for n in re.findall(r"(?m)^([1-5])\.\s", part)]
         if found != numbers:
             raise PublishError("Expected item split: body 1-2, reply1 3-4, reply2 5")
-    if today not in parts[0] or "07:00" not in parts[0]:
-        raise PublishError("Body must show date and 07:00 cutoff")
+    _, month, day = today.split("-")
+    intro = parts[0].split("\n1. ", 1)[0]
+    date_line = rf"(?m)^0?{int(month)}월\s*0?{int(day)}일 이슈 정리입니다\.$"
+    legacy = today in intro and "07:00" in intro
+    if not re.search(date_line, intro) and not legacy:
+        raise PublishError("Body introduction must show the issue date")
     return parts
 
 
