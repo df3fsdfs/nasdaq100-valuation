@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "cutoff_at": "2026-11-05T07:00:00+09:00",
+  "items": [
+    {
+      "title": "미국 민주당, 중간선거에서 상·하원 장악",
+      "sentences": [
+        "미국 중간선거에서 민주당이 상·하원 다수당을 차지했고, S&P 500은 정규장에서 1.6% 올랐어.",
+        "트럼프 대통령의 공화당이 양원 주도권을 잃은 가운데, 같은 날 일부 데이터센터 관련주는 하락했어.",
+        "의회 구도가 바뀌면서 AI 인프라 규제와 입법 움직임이 관련주에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/us-stock-index-futures-steady-democrats-seize-congress-2026-11-04/"
+        }
+      ]
+    },
+    {
+      "title": "퀄컴 스마트폰 칩 매출 26% 감소",
+      "sentences": [
+        "퀄컴의 회계연도 4분기 스마트폰 칩 매출이 전년보다 26% 줄어 51.4억 달러를 기록했어.",
+        "시장 예상치인 52.5억 달러를 밑돌았고, 실적 발표 뒤 주가도 시간외에서 내렸어.",
+        "스마트폰 수요 둔화가 이어지면 모바일 부품업체의 매출 회복이 늦어질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters·WKZO",
+          "url": "https://wkzo.com/2026/11/04/qualcomms-smartphone-chip-sales-miss-estimates-shares-fall/"
+        }
+      ]
+    },
+    {
+      "title": "미국 10월 민간 고용 8.6만 명 증가",
+      "sentences": [
+        "ADP가 10월 미국 민간 고용이 8.6만 명 늘었다고 발표했어.",
+        "하향 수정된 9월과 같은 증가폭이며, 로이터 조사 예상치인 6.9만 명보다는 많았어.",
+        "민간 고용이 예상보다 견조해 금리 인하 기대를 판단할 때 공식 고용보고서도 함께 볼 필요가 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/us-private-payrolls-rise-october-adp-says-2026-11-04/"
+        }
+      ]
+    },
+    {
+      "title": "미국 서비스업 확장 속도 둔화",
+      "sentences": [
+        "미국 10월 ISM 서비스업 지수가 54.5를 기록했어.",
+        "9월 54.9에서 소폭 내려왔지만 확장은 이어졌고, 기업이 지급하는 가격 지수도 73으로 높았어.",
+        "서비스 기업은 수요가 늘어도 비용 상승이 이어지면 이익률 개선이 더딜 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "ISM",
+          "url": "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/services/october/"
+        }
+      ]
+    },
+    {
+      "title": "Arm 분기 매출 27% 증가",
+      "sentences": [
+        "Arm의 회계연도 2분기 매출이 14.4억 달러로 전년보다 27% 늘었어.",
+        "라이선스 매출이 7.73억 달러를 기록하며 전체 매출의 절반을 넘었어.",
+        "반도체 설계 계약이 실제 칩 출하로 이어지면 이후 판매량에 연동되는 로열티 수입에도 도움이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Arm Newsroom",
+          "url": "https://newsroom.arm.com/news/arm-q2-fye27-results"
+        }
+      ]
+    }
+  ]
+}
