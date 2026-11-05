@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "cutoff_at": "2026-11-06T07:00:00+09:00",
+  "items": [
+    {
+      "title": "AI·반도체 매도 확산, 나스닥 5.5% 급락",
+      "sentences": [
+        "AI 데이터센터 투자와 규제 우려가 겹치며 나스닥은 5.5%, S&P 500은 4.4% 급락했어.",
+        "나스닥은 10월 고점에서 10% 넘게 밀려 조정 구간에 들어갔고, 반도체·데이터센터 관련주가 하락을 주도했어.",
+        "AI 투자 회수 속도와 데이터센터 증설 정책에 대한 의심이 커져 반도체와 전력·인프라 종목의 변동성이 이어질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/markets/us/nasdaq-set-correction-investors-reassess-ai-spending-boom-2026-11-05/"
+        },
+        {
+          "label": "AP",
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-afe254c608c3d1fe2ea792812ba9765a"
+        }
+      ]
+    },
+    {
+      "title": "유가, 전날 급락 뒤 공급 불안으로 반등",
+      "sentences": [
+        "유조선 공격과 중동 공급 불안이 다시 부각되며 브렌트유는 3.88% 오른 배럴당 98.29달러에 마감했어.",
+        "전날 8% 넘게 급락했지만, 외교 진전이 실제 운송 정상화로 이어질지 불확실해 하루 만에 방향이 바뀌었어.",
+        "유가 변동이 커지면 항공·운송에는 비용 부담이 되고, 에너지주는 상대적으로 방어력을 보일 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/oil-falls-fourth-day-expectations-lower-risk-iran-war-escalation-2026-11-05/"
+        }
+      ]
+    },
+    {
+      "title": "미국 생산성 3.6% 증가, 단위노동비용 하락",
+      "sentences": [
+        "미국 3분기 비농업 생산성은 연율 3.6% 늘었고 단위노동비용은 0.7% 감소했어.",
+        "생산성은 시장 예상 2.8%를 웃돌았고, 신규 실업수당 청구는 18만9천 건으로 예상 19만6천 건보다 적었어.",
+        "고용은 버티면서 임금발 물가 압력은 낮아진 조합이라 금리에는 엇갈린 신호를 줬어."
+      ],
+      "sources": [
+        {
+          "label": "미국 노동통계국",
+          "url": "https://www.bls.gov/news.release/archives/prod2_11052026.htm"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/world-at-work/us-weekly-jobless-claims-57-year-lows-amid-low-layoffs-2026-11-05/"
+        }
+      ]
+    },
+    {
+      "title": "영란은행, 기준금리 4%로 인상",
+      "sentences": [
+        "영란은행은 8대1 표결로 기준금리를 0.25%포인트 올려 4%로 결정했어.",
+        "중동발 에너지 가격 상승으로 영국 물가가 2027년 중반 약 5%까지 오를 수 있다고 전망했어.",
+        "주요국의 금리 인상 흐름이 이어지면 글로벌 장기금리와 성장주 할인율에도 부담이 남아."
+      ],
+      "sources": [
+        {
+          "label": "영란은행",
+          "url": "https://www.bankofengland.co.uk/monetary-policy-summary-and-minutes/2026/november-2026"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/asia-pacific/global-markets-central-banks-graphic-2026-11-05/"
+        }
+      ]
+    },
+    {
+      "title": "에어비앤비, 연간 매출 성장 전망 상향",
+      "sentences": [
+        "에어비앤비는 2026년 매출 성장 전망을 기존 최소 중반대에서 후반대로 높였고, 시간외 주가는 10% 올랐어.",
+        "3분기 매출은 48억7천만달러로 전년 대비 약 19% 늘었고 예약 건수는 16% 증가했어.",
+        "지정학적 불확실성 속에서도 여행 수요가 유지돼 숙박·온라인 여행 업종의 수요 둔화 우려를 일부 낮췄어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/airbnb-lifts-annual-revenue-growth-forecast-resilient-global-travel-demand-2026-11-05/"
+        }
+      ]
+    }
+  ]
+}
