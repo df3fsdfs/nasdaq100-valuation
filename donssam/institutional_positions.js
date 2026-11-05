@@ -10,6 +10,7 @@
   let shortChartDrawn=false;
   let cotComparisonDrawn=false;
   let selected='leveraged';
+  const cotSeries=[['asset_manager','#64d9b1','자산운용사·기관'],['leveraged','#6ea8ff','레버리지 펀드'],['dealer','#ff8a9d','딜러·중개기관'],['other','#f5bb65','기타 보고대상'],['nonreportable','#c3a6ff','비보고 포지션']];
   const notes={
     leveraged:['헤지펀드·CTA 등 레버리지를 활용하는 운용 주체.','기회 관찰: 숏 쏠림 뒤 실제 숏 감소는 숏커버 후보. 숏이 계속 늘면 쏠림만으로 바닥을 판단하지 않아.'],
     asset_manager:['연기금·보험·펀드 등 기관 자산을 운용하는 주체.','기회 관찰: 롱 축소가 둔화되거나 롱이 다시 늘면 기관 선물 노출 회복 단서. 현물 매수와는 구분해.'],
@@ -63,15 +64,27 @@
     }
     $('cot-main-date').textContent=(freshness().cot?'갱신 지연 · 마지막 정상값 유지 · ':'')+(data.cot?.fetch_ok?'CFTC 공식 자료':'최근 정상값 · 수집 재시도')+' · 전주 대비 주간 잔고 변화이며 개별 거래·의도는 알 수 없어.';
     $('cot-main-date').className=freshness().cot?'institution-warning':'hint';
-    if(cotComparisonDrawn||!a?.rows?.length||!h?.rows?.length)return;
-    const end=[a.latest.date,h.latest.date].sort().at(-1),plot=layout('백분위');
-    plot.margin={l:42,r:12,t:45,b:64};
+    if(cotComparisonDrawn)return;
+    const available=cotSeries.filter(([key])=>groups[key]?.rows?.length);
+    if(!available.length)return;
+    const end=available.map(([key])=>groups[key].rows.at(-1).date).sort().at(-1),plot=layout('백분위');
+    plot.margin={l:42,r:65,t:45,b:110};
     plot.yaxis={...plot.yaxis,range:[0,100],fixedrange:true,tickvals:[0,10,50,90,100]};
     plot.xaxis={...plot.xaxis,type:'date',range:[new Date(Date.parse(end)-365*86400000).toISOString().slice(0,10),end],rangeselector:{buttons:[{count:1,label:'1년',step:'year',stepmode:'backward'},{count:3,label:'3년',step:'year',stepmode:'backward'},{label:'전체',step:'all'}],bgcolor:'#1d3c58',activecolor:'#426c9a',font:{color:'#d9eaff'}}};
     plot.legend={orientation:'h',y:-.22,font:{size:11}};
     plot.shapes=[{y0:0,y1:10},{y0:90,y1:100}].map(b=>({type:'rect',xref:'paper',x0:0,x1:1,yref:'y',...b,fillcolor:'#b7cce8',opacity:.09,line:{width:0},layer:'below'}));
     plot.shapes.push(...[10,90].map(y=>({type:'line',xref:'paper',x0:0,x1:1,yref:'y',y0:y,y1:y,line:{color:'#7890ac',width:1,dash:'dot'}})));
-    Plotly.newPlot('cot-comparison-chart',[['asset_manager','#64d9b1','자산운용사·기관'],['leveraged','#6ea8ff','레버리지 펀드']].map(([key,color,name])=>({x:groups[key].rows.map(r=>r.date),y:groups[key].rows.map(r=>r.percentile),name,mode:'lines',connectgaps:false,line:{color,width:2},hovertemplate:name+' %{x}<br>백분위 %{y:.1f} / 100<extra></extra>'})),plot,{responsive:true,displayModeBar:false});
+    const traces=available.map(([key,color,name])=>({x:groups[key].rows.map(r=>r.date),y:groups[key].rows.map(r=>r.percentile),name,mode:'lines',connectgaps:false,line:{color,width:2},hovertemplate:name+' %{x}<br>백분위 %{y:.1f} / 100<extra></extra>'}));
+    const total=data.cot?.total,rows=total?.rows||[];
+    plot.yaxis2={title:'전체 순포지션 · 계약',overlaying:'y',side:'right',showgrid:false,zeroline:false,...(rows.length&&rows.every(r=>r.net===0)?{range:[-1,1],tickvals:[0]}:{})};
+    if(rows.length)traces.push({x:rows.map(r=>r.date),y:rows.map(r=>r.net),name:'전체 순포지션 · 계약(오른쪽)',yaxis:'y2',mode:'lines',line:{color:'#ffffff',width:2,dash:'dash'},hovertemplate:'전체 %{x}<br>순포지션 %{y:,.0f}계약<extra></extra>'});
+    Plotly.newPlot('cot-comparison-chart',traces,plot,{responsive:true,displayModeBar:false});
+    const netPlot=layout('순포지션 · 계약');
+    netPlot.margin={l:65,r:15,t:45,b:110};netPlot.xaxis={...plot.xaxis};netPlot.legend={...plot.legend};
+    const netTraces=available.map(([key,color,name])=>({x:groups[key].rows.map(r=>r.date),y:groups[key].rows.map(r=>r.net),name,mode:'lines',connectgaps:false,line:{color,width:2},hovertemplate:name+' %{x}<br>순포지션 %{y:,.0f}계약<extra></extra>'}));
+    if(rows.length)netTraces.push({x:rows.map(r=>r.date),y:rows.map(r=>r.net),name:'전체 순포지션',mode:'lines',line:{color:'#ffffff',width:2,dash:'dash'},hovertemplate:'전체 %{x}<br>순포지션 %{y:,.0f}계약<extra></extra>'});
+    Plotly.newPlot('cot-net-comparison-chart',netTraces,netPlot,{responsive:true,displayModeBar:false});
+    $('cot-total-reading').textContent=rows.length?'전체 순포지션 '+sign(rows.at(-1).net)+'계약 · '+rows.at(-1).date+' 관측. 전체는 5개 참여자의 같은 날짜 순포지션 합계야. 합계가 0인 시계열은 쏠림 백분위를 표시하지 않아.':'전체 합산에 필요한 5개 참여자의 같은 날짜 자료가 부족해.';
     cotComparisonDrawn=true;
   }
   function freshness(){
