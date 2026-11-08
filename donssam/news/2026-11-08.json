@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-08",
+  "cutoff_at": "2026-11-08T07:00:00+09:00",
+  "items": [
+    {
+      "title": "버크셔, 96억달러 자사주 매입에도 영업이익 6% 감소",
+      "sentences": [
+        "버크셔 해서웨이는 3분기에 자사주 96억달러어치를 사들였지만 영업이익은 127억500만달러로 전년보다 6% 줄었어.",
+        "보험 인수이익이 43% 감소한 반면 BNSF 철도 이익은 19%, 에너지 부문은 8% 늘었어.",
+        "대규모 현금의 활용은 주주환원에 긍정적이지만 보험 수익성 약화와 일부 소비사업의 둔화는 미국 경기의 엇갈린 흐름을 보여줘."
+      ],
+      "sources": [
+        {
+          "label": "Berkshire Hathaway",
+          "url": "https://berkshirehathaway.com/news/nov0726.pdf"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/finance/berkshire-hathaway-accelerates-stock-buybacks-operating-profit-falls-2026-11-07/"
+        }
+      ]
+    },
+    {
+      "title": "미군, 이란 육상·카스피해 제재 우회 차단 확대",
+      "sentences": [
+        "미 중부사령부는 이란의 무기·제재 물자와 불법 수익 이동을 막는 태스크포스 아이언 게이트를 출범했어.",
+        "해상 봉쇄로 이란 원유 수출 250억달러 이상을 막았다는 게 미군 설명이고, 같은 날 오만만에서 이란 항구를 떠난 화물선도 공격해 운항을 중단시켰어.",
+        "압박이 육상과 카스피해까지 넓어져 중동 긴장과 원유 공급 불확실성이 다시 커질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미 중부사령부",
+          "url": "https://www.centcom.mil/MEDIA/PRESS-RELEASES/Press-Release-View/Article/4329946/centcom-launches-task-force-to-disrupt-iranian-ground-transit-routes-supporting/"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/middle-east/us-military-says-it-disabled-cargo-vessel-gulf-oman-2026-11-07/"
+        }
+      ]
+    },
+    {
+      "title": "테슬라, 사이버트럭 종료 전 추가 생산 교대",
+      "sentences": [
+        "테슬라는 남은 사이버트럭 주문을 처리하려고 추가 생산 교대를 투입한 뒤 내년 중반 생산라인을 철거할 계획이야.",
+        "철거된 공간은 자율주행 택시 사이버캡 생산 확대에 사용돼.",
+        "기존 픽업트럭 사업을 줄이고 로보택시에 자원을 옮기는 전환이라 향후 사이버캡 양산 속도와 수익성이 테슬라 평가에 더 크게 작용할 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/autos-transportation/tesla-expand-cybertruck-production-bid-fill-orders-before-dismantling-line-next-2026-11-07/"
+        }
+      ]
+    },
+    {
+      "title": "미 서부 최대 항만, 파업 위험 11월 20일까지 유예",
+      "sentences": [
+        "로스앤젤레스·롱비치 항만 사용자와 경비 노동조합은 협상 기한을 11월 20일까지 연장했어.",
+        "약 250명이 참여하는 파업은 당장 피했고, 이들이 지키는 터미널은 롱비치 화물의 약 85%와 로스앤젤레스 화물의 33%를 처리해.",
+        "연말 소매품·자동차 부품·AI 데이터센터 장비의 단기 물류 차질 위험은 낮아졌지만 협상 결과는 계속 확인해야 해."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/world-at-work/employers-watchmen-california-ports-extend-contract-talks-2026-11-07/"
+        }
+      ]
+    },
+    {
+      "title": "뉴질랜드 총선, 여권 과반 한 석 차로 불확실",
+      "sentences": [
+        "뉴질랜드 예비 개표에서 국민당 중심 연정은 131석 중 67석을 얻어 과반 기준을 한 석 넘겼어.",
+        "특별투표 약 39만9천표가 남아 있고 공식 결과는 11월 27일 발표돼, 어느 진영도 승리를 선언하지 않았어.",
+        "정부 구성이 바뀌면 재정정책과 규제 방향이 달라질 수 있어 뉴질랜드달러·국채·현지 주식은 최종 개표까지 정치 불확실성을 반영할 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "뉴질랜드 선거관리위원회",
+          "url": "https://elections.nz/media-and-news/2026/2026-general-election-preliminary-results"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/asia-pacific/new-zealand-vote-leaves-national-labour-nearly-deadlocked-2026-11-07/"
+        }
+      ]
+    }
+  ]
+}
