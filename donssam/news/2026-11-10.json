@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-10",
+  "cutoff_at": "2026-11-10T07:00:00+09:00",
+  "items": [
+    {
+      "title": "유가 하락에 미국 증시 급반등, 엔비디아는 홀로 약세",
+      "sentences": [
+        "트럼프 대통령이 이란 추가 공격 가능성을 낮게 말하면서 유가가 밀렸고, S&P500은 2.35%, 나스닥은 2.74% 반등했어.",
+        "필라델피아 반도체지수는 6.9% 뛰었지만 엔비디아는 CEO 관련 조사 여파로 4.2% 하락해 지수 반등과 엇갈렸어.",
+        "유가 하락이 물가 부담을 누그러뜨리면 성장주에 유리하지만, 이란 협상과 엔비디아 거버넌스 위험은 따로 봐야 해."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/wall-st-futures-rise-after-rough-week-nvidia-unsettles-investors-2026-11-09/"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/middle-east/trump-says-qatar-saudi-arabia-want-peaceful-solution-iran-us-ready-strikes-if-2026-11-09/"
+        }
+      ]
+    },
+    {
+      "title": "컨스텔레이션, 실적 호조와 전망 상향에 10% 넘게 상승",
+      "sentences": [
+        "컨스텔레이션 에너지는 3분기 조정 주당이익 5.06달러를 발표하고 연간 조정이익 전망을 주당 12.50~12.80달러로 높였어.",
+        "회사는 구글과 신규 원전용량 협력을 맺고, 원전 증설을 지원할 최대 50억달러의 조건부 미국 에너지부 대출도 공개했어.",
+        "주가가 10% 넘게 오른 건 AI 데이터센터 전력 수요가 원전 사업자의 계약과 이익으로 이어지고 있다는 평가를 반영해."
+      ],
+      "sources": [
+        {
+          "label": "Constellation Energy 8-K",
+          "url": "https://constellationenergy.gcs-web.com/static-files/f5c183d2-d3a6-4d9f-8806-692942a2c15b"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/wall-st-futures-rise-after-rough-week-nvidia-unsettles-investors-2026-11-09/"
+        }
+      ]
+    },
+    {
+      "title": "미 의회, 데이터센터의 전력망 비용 부담 법안 논의",
+      "sentences": [
+        "미 상원 논의 법안은 발전소·송전선 허가를 빠르게 하는 대신 대형 데이터센터가 필요한 전력망 증설 비용을 더 부담하도록 설계됐어.",
+        "선거 전 40%였던 통과 가능성은 25%로 낮아졌고 환경단체와 일부 민주당의 반대도 남아 있어.",
+        "통과 여부와 별개로 데이터센터의 전력비용 책임이 의회 의제로 올라와 AI 인프라·전력·유틸리티 기업의 사업성 계산이 달라질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/legal/litigation/us-congress-gets-first-post-blue-wave-crack-data-centers-with-permitting-bill-2026-11-09/"
+        }
+      ]
+    },
+    {
+      "title": "KKR 분기 이익 사상 최대, 운용자산 8천억달러 돌파",
+      "sentences": [
+        "KKR의 조정 순이익은 16억달러로 29% 늘었고 주당 1.78달러로 시장 예상 1.59달러를 웃돌았어.",
+        "3분기 신규 자금은 250억달러, 운용자산은 8천억달러를 넘었고 올해 고객에게 돌려줄 자금은 400억달러 이상으로 제시했어.",
+        "고금리에도 자산매각과 수수료 수익이 늘면서 대체투자 운용사의 회수·자금유입 여건이 예상보다 견조하다는 신호야."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/legal/transactional/kkr-profit-hits-record-asset-sales-fees-surge-2026-11-09/"
+        }
+      ]
+    },
+    {
+      "title": "중국 생산자물가 5.7% 상승, 소비자물가는 0.7%로 둔화",
+      "sentences": [
+        "중국 10월 생산자물가는 전년 대비 5.7% 올라 9월 5.0%와 시장 예상 5.3%를 웃돌았어.",
+        "소비자물가는 0.7%로 9월 0.9%와 예상 0.8%보다 낮아 제조 원가 압력과 약한 내수가 함께 나타났어.",
+        "중국 제조업은 비용 부담이 커지고 소비 회복은 약해 중국 매출 비중이 큰 산업재·소비재 기업의 마진 차별화가 이어질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.brecorder.com/news/40448099/chinas-factory-gate-inflation-at-fastest-in-nearly-4-12-years-in-october-while-cpi-rise-moderates"
+        }
+      ]
+    }
+  ]
+}

@@ -1,79 +1,83 @@
 {
   "schema_version": 1,
-  "date": "2026-11-09",
-  "cutoff_at": "2026-11-09T07:00:00+09:00",
+  "date": "2026-11-10",
+  "cutoff_at": "2026-11-10T07:00:00+09:00",
   "items": [
     {
-      "title": "후티 공격으로 아람코 건물 손상, 사우디 증시 하락",
+      "title": "유가 하락에 미국 증시 급반등, 엔비디아는 홀로 약세",
       "sentences": [
-        "후티 미사일 공격 과정에서 사우디 아람코의 리야드 사무동이 손상됐지만 인명피해는 없었어.",
-        "사우디 지수는 0.8%, 아람코는 0.3% 하락했고 카타르 지수도 0.5% 밀렸어.",
-        "석유시설과 주요 항로를 겨냥한 공격이 이어지면 원유·운송비와 중동 위험 프리미엄이 다시 높아질 수 있어."
+        "트럼프 대통령이 이란 추가 공격 가능성을 낮게 말하면서 유가가 밀렸고, S&P500은 2.35%, 나스닥은 2.74% 반등했어.",
+        "필라델피아 반도체지수는 6.9% 뛰었지만 엔비디아는 CEO 관련 조사 여파로 4.2% 하락해 지수 반등과 엇갈렸어.",
+        "유가 하락이 물가 부담을 누그러뜨리면 성장주에 유리하지만, 이란 협상과 엔비디아 거버넌스 위험은 따로 봐야 해."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/middle-east/houthi-attack-damages-aramco-building-riyadhs-financial-district-2026-11-08/"
+          "url": "https://www.reuters.com/business/wall-st-futures-rise-after-rough-week-nvidia-unsettles-investors-2026-11-09/"
         },
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/middle-east/gulf-markets-retreat-traders-await-trumps-next-move-iran-2026-11-08/"
+          "url": "https://www.reuters.com/world/middle-east/trump-says-qatar-saudi-arabia-want-peaceful-solution-iran-us-ready-strikes-if-2026-11-09/"
         }
       ]
     },
     {
-      "title": "엔비디아, CEO 관련 독립 조사 착수",
+      "title": "컨스텔레이션, 실적 호조와 전망 상향에 10% 넘게 상승",
       "sentences": [
-        "엔비디아 이사회는 젠슨 황 CEO가 중국 정보활동의 표적이 됐다는 보도와 관련해 독립 조사에 착수했어.",
-        "회사는 미국 국가안보나 영업비밀이 침해됐다고 볼 이유는 아직 없다고 밝혔고, 황 CEO도 조사에 협조하기로 했어.",
-        "AI 칩 대중국 수출통제와 CEO 거버넌스가 함께 얽혀 있어 조사 범위와 의회 대응이 엔비디아의 규제 부담에 영향을 줄 수 있어."
+        "컨스텔레이션 에너지는 3분기 조정 주당이익 5.06달러를 발표하고 연간 조정이익 전망을 주당 12.50~12.80달러로 높였어.",
+        "회사는 구글과 신규 원전용량 협력을 맺고, 원전 증설을 지원할 최대 50억달러의 조건부 미국 에너지부 대출도 공개했어.",
+        "주가가 10% 넘게 오른 건 AI 데이터센터 전력 수요가 원전 사업자의 계약과 이익으로 이어지고 있다는 평가를 반영해."
       ],
       "sources": [
         {
+          "label": "Constellation Energy 8-K",
+          "url": "https://constellationenergy.gcs-web.com/static-files/f5c183d2-d3a6-4d9f-8806-692942a2c15b"
+        },
+        {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/china/nvidia-launches-probe-after-report-ceo-huang-was-target-foreign-intelligence-2026-11-08/"
+          "url": "https://www.reuters.com/business/wall-st-futures-rise-after-rough-week-nvidia-unsettles-investors-2026-11-09/"
         }
       ]
     },
     {
-      "title": "앤트로픽, AI 데이터센터용 발전기 34억달러 확보 보도",
+      "title": "미 의회, 데이터센터의 전력망 비용 부담 법안 논의",
       "sentences": [
-        "파이낸셜타임스는 앤트로픽이 AI 데이터센터에 쓸 1.7기가와트 규모 가스발전기 계약을 약 34억달러에 체결했다고 보도했어.",
-        "로이터는 계약을 독립적으로 확인하지 못했고 앤트로픽과 공급사도 즉시 답하지 않았어.",
-        "사실로 확인되면 AI 투자 경쟁이 GPU뿐 아니라 독립형 발전설비와 가스발전 공급망까지 확대되고 있다는 신호가 돼."
+        "미 상원 논의 법안은 발전소·송전선 허가를 빠르게 하는 대신 대형 데이터센터가 필요한 전력망 증설 비용을 더 부담하도록 설계됐어.",
+        "선거 전 40%였던 통과 가능성은 25%로 낮아졌고 환경단체와 일부 민주당의 반대도 남아 있어.",
+        "통과 여부와 별개로 데이터센터의 전력비용 책임이 의회 의제로 올라와 AI 인프라·전력·유틸리티 기업의 사업성 계산이 달라질 수 있어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/business/energy/anthropic-secures-34-billion-generator-deal-ai-data-centers-ft-reports-2026-11-08/"
+          "url": "https://www.reuters.com/legal/litigation/us-congress-gets-first-post-blue-wave-crack-data-centers-with-permitting-bill-2026-11-09/"
         }
       ]
     },
     {
-      "title": "민주당, 머스크·대기업 의회조사 예고",
+      "title": "KKR 분기 이익 사상 최대, 운용자산 8천억달러 돌파",
       "sentences": [
-        "미국 민주당 지도부는 내년 의회 장악 뒤 일론 머스크의 연방 인력감축 관여와 일부 대기업을 조사하겠다고 예고했어.",
-        "상원 은행위원장을 맡을 엘리자베스 워런은 소비자나 투자자 피해 의혹이 있는 기업을 강하게 조사하겠다고 밝혔어.",
-        "구체적인 조사 대상은 아직 확정되지 않았지만 테슬라와 대형 기술·금융기업의 정치·규제 변동성은 커질 수 있어."
+        "KKR의 조정 순이익은 16억달러로 29% 늘었고 주당 1.78달러로 시장 예상 1.59달러를 웃돌았어.",
+        "3분기 신규 자금은 250억달러, 운용자산은 8천억달러를 넘었고 올해 고객에게 돌려줄 자금은 400억달러 이상으로 제시했어.",
+        "고금리에도 자산매각과 수수료 수익이 늘면서 대체투자 운용사의 회수·자금유입 여건이 예상보다 견조하다는 신호야."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/legal/government/democrats-eye-musk-miller-probes-after-midterm-rout-2026-11-08/"
+          "url": "https://www.reuters.com/legal/transactional/kkr-profit-hits-record-asset-sales-fees-surge-2026-11-09/"
         }
       ]
     },
     {
-      "title": "유럽, 우크라이나 종전회담 참여",
+      "title": "중국 생산자물가 5.7% 상승, 소비자물가는 0.7%로 둔화",
       "sentences": [
-        "프랑스 외무장관은 유럽 대표단이 11월 10~11일 아부다비에서 열리는 우크라이나 관련 회담에 참여한다고 밝혔어.",
-        "미국은 러시아와 우크라이나 대표단을 불러 종전과 전후 안전보장, 긴장 완화를 논의할 예정이야.",
-        "협상이 진전되면 유럽 에너지·방산·재건 관련주의 기대가 달라질 수 있지만 아직 합의된 조건은 없어."
+        "중국 10월 생산자물가는 전년 대비 5.7% 올라 9월 5.0%와 시장 예상 5.3%를 웃돌았어.",
+        "소비자물가는 0.7%로 9월 0.9%와 예상 0.8%보다 낮아 제조 원가 압력과 약한 내수가 함께 나타났어.",
+        "중국 제조업은 비용 부담이 커지고 소비 회복은 약해 중국 매출 비중이 큰 산업재·소비재 기업의 마진 차별화가 이어질 수 있어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/europe/europeans-will-join-ukraine-talks-abu-dhabi-french-foreign-minister-says-2026-11-08/"
+          "url": "https://www.brecorder.com/news/40448099/chinas-factory-gate-inflation-at-fastest-in-nearly-4-12-years-in-october-while-cpi-rise-moderates"
         }
       ]
     }
