@@ -90,11 +90,38 @@
     $('etfdetail').scrollIntoView({behavior:'smooth',block:'start'});if(window.refreshLiveQuotes)window.refreshLiveQuotes();
   }
   function meter(prefix,value){$(prefix+'score').textContent=fmt(value);$(prefix+'pin').style.left=(typeof value==='number'?value:50)+'%';}
+  function sentimentChart(s){
+    const rows=(s.history||[]).filter(r=>r.date>='2020-01-01').sort((a,b)=>a.date.localeCompare(b.date));
+    if(!rows.length)return;
+    const first=rows[0].date,last=rows.at(-1).date,start=$('sent-start'),end=$('sent-end');
+    for(const input of [start,end]){input.min=first;input.max=last;}
+    const draw=(from,to)=>{
+      if(!from||!to||from>to){$('sent-range-status').textContent='시작일과 종료일을 확인해.';return;}
+      const selected=rows.filter(r=>r.date>=from&&r.date<=to);
+      if(!selected.length){$('sent-range-status').textContent='선택한 기간에 관측값이 없어.';return;}
+      start.value=from;end.value=to;
+      plot('sentchart',[['equity','증시','#6ea8ff'],['crypto','크립토','#ffa44e']].map(([key,name,color])=>({x:rows.map(r=>r.date),y:rows.map(r=>r[key]),name,mode:'lines',line:{color,width:2},connectgaps:false,customdata:rows.map(r=>r.kind==='reconstructed'?'과거 복원값':'실제 기록'),hovertemplate:'%{x}<br>%{y:.1f}점 · %{customdata}<extra>'+name+'</extra>'})),'점수',{xaxis:{type:'date',range:[from,to],gridcolor:'#233d56',rangeslider:{visible:true,thickness:.12}},yaxis:{range:[0,100],gridcolor:'#233d56'},margin:{l:42,r:12,t:15,b:95},legend:{orientation:'h',y:-.5}});
+      const rebuilt=selected.filter(r=>r.kind==='reconstructed').length;
+      $('sent-range-status').textContent=selected[0].date+' ~ '+selected.at(-1).date+' · '+selected.length+'개 관측'+(rebuilt?' · 과거 복원 '+rebuilt+'개':'')+' · 전체 제공 '+first+'부터';
+    };
+    const preset=value=>{
+      let from;
+      if(value==='20d')from=rows.slice(-20)[0].date;
+      else if(value==='all')from=first;
+      else{const date=new Date(last+'T00:00:00Z');if(value==='3m')date.setUTCMonth(date.getUTCMonth()-3);else date.setUTCFullYear(date.getUTCFullYear()-(value==='1y'?1:3));from=date.toISOString().slice(0,10);if(from<first)from=first;}
+      draw(from,last);
+      document.querySelectorAll('[data-sent-range]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.sentRange===value)));
+    };
+    document.querySelectorAll('[data-sent-range]').forEach(b=>b.onclick=()=>preset(b.dataset.sentRange));
+    $('sent-apply').onclick=()=>{draw(start.value,end.value);document.querySelectorAll('[data-sent-range]').forEach(b=>b.setAttribute('aria-pressed','false'));};
+    $('sent-history-note').textContent=s.history_note||'';
+    preset('20d');
+  }
   function market(d){
     $('updated').textContent='지표·점수 기준일 '+(d.screen.observation_date||'—')+' 정규장 · 재계산 '+kst(d.screen.scored_at)+' · 최신 시세는 별도';
     meter('eq',d.sentiment.equity);meter('cr',d.sentiment.crypto);meter('cnn',d.bottom.fear?.cnn?.value);
     $('eqlabel').textContent='100에 가까울수록 기회';$('crlabel').textContent='100에 가까울수록 기회';$('cnnlabel').textContent=fearCompare(d.bottom.fear?.cnn||{});
-    plot('sentchart',[['equity','증시','#6ea8ff'],['crypto','크립토','#ffa44e']].map(([key,name,color])=>({x:d.sentiment.history.map(r=>r.date),y:d.sentiment.history.map(r=>r[key]),name,mode:'lines+markers',line:{color}})),'점수',{yaxis:{range:[0,100],gridcolor:'#233d56'}});
+    sentimentChart(d.sentiment);
     plot('indiceschart',Object.values(d.screen.market_indices||{}).filter(s=>s.rows?.length).map(s=>({name:s.name,x:s.rows.map(r=>r.date),y:s.rows.map(r=>r.close/s.rows[0].close*100),mode:'lines'})),'첫 관측일=100');
     const risk=$('risk-rows');risk.replaceChildren();
     for(const key of ['hy','vix','skew','yield10']){const x=d.insights.risk?.[key];if(!x)continue;const card=el('div',null,'kpi');card.append(el('span',x.name),el('strong',fmt(x.value)+(key==='hy'?'%p':key==='yield10'?'%':'')));const small=el('small','직전 '+x.previous_date+' '+fmt(x.previous)+' 대비 '+sign(x.delta)+' · 이전 '+x.mean_n+'관측 평균 '+fmt(x.mean)+' 대비 '+sign(x.mean_delta)+' · '+x.date);small.className='risk-mini';card.append(small);risk.append(card);}
@@ -114,3 +141,4 @@
   $('showallsectors').onclick=()=>{allSectors=!allSectors;renderSectors();};
   document.querySelectorAll('[data-table-toggle]').forEach(b=>b.onclick=()=>{$(b.dataset.tableToggle).classList.toggle('show-details');});
 })();
+
