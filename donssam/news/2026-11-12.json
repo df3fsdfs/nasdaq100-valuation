@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-12",
+  "cutoff_at": "2026-11-12T07:00:00+09:00",
+  "items": [
+    {
+      "title": "AI 인프라주 반등, 필라델피아 반도체지수 5.7% 상승",
+      "sentences": [
+        "코어위브가 실적 발표 다음 정규장에서 24.7% 뛰었고, 필라델피아 반도체지수는 구성종목 전부가 오르며 5.7% 상승했어.",
+        "S&P500은 1.31%, 나스닥종합은 1.60% 올랐어. 전날 코어위브 실적 발표 이후 AI 클라우드와 데이터센터 종목도 함께 반등했어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/sp-500-nasdaq-futures-rise-after-coreweave-soothes-ai-spending-fears-2026-11-11/"
+        },
+        {
+          "label": "AP",
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-027cd5f4583d1a11c1795150bf065afb"
+        }
+      ]
+    },
+    {
+      "title": "엔비디아 칩 중국 우회 수출 단속 지연 보도",
+      "sentences": [
+        "액시오스는 트럼프가 엔비디아 칩의 중국 우회 수출 의심 업체를 단속하도록 승인했지만 러트닉 상무장관이 집행을 지연시켰다고 보도했어.",
+        "베선트 재무장관은 상무부의 집행 지연을 문제 삼았다고 해. 실제 단속 대상과 시행 시점에 따라 반도체 업체의 판매 경로가 달라질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Axios",
+          "url": "https://www.axios.com/2026/11/11/trump-lutnick-nvidia-china-chip-export-controls"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/lutnick-stalled-trump-crackdown-diversion-nvidia-chips-china-axios-reports-2026-11-11/"
+        }
+      ]
+    },
+    {
+      "title": "이란 농축물질 반출 거부, 브렌트유 반등",
+      "sentences": [
+        "이란 안보 책임자는 농축 핵물질의 국외 반출을 허용하지 않겠다고 밝혔어. 브렌트유는 전날 두 달 최저치에서 1.39% 반등해 배럴당 92.76달러에 마감했어.",
+        "미국은 초기 협상에 핵 문제를 포함하겠다는 입장이야. 협상이 늦어져 호르무즈 운항 차질이 길어지면 항공·운송업의 연료비 부담이 커질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/oil-rises-two-month-low-hormuz-shipping-attacks-offset-iran-truce-hopes-2026-11-11/"
+        }
+      ]
+    },
+    {
+      "title": "미·중, 선전 정상회담에서 AI 안전 협의 추진",
+      "sentences": [
+        "베선트 미 재무장관은 다음 주 선전 정상회담에서 미·중 고도 AI 협의를 진전시키겠다고 밝혔어.",
+        "양국은 모델 공개 전 평가·시험 관행을 공유하고 중대한 사고를 알리는 직접 채널을 추진해. 구체적인 공통 기준이 나오면 AI 모델 업체의 출시 절차에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미 재무부",
+          "url": "https://home.treasury.gov/news/press-releases/sb0688/"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/us-china-should-stay-clear-eyed-ai-cooperation-competition-bessent-says-2026-11-11/"
+        }
+      ]
+    },
+    {
+      "title": "화이자, 월 1회 비만 치료제 개발비 조달",
+      "sentences": [
+        "화이자는 블랙스톤이 월 1회 투여를 목표로 하는 비만 치료제 후보 개발에 2028년까지 최대 15억달러를 지원한다고 밝혔어.",
+        "외부 자금이 개발비 일부를 뒷받침하게 돼. 임상에서 효능과 안전성이 확인되면 투여 편의성을 앞세운 경쟁이 더 치열해질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/healthcare-pharmaceuticals/pfizer-secures-up-15-billion-blackstone-obesity-drug-development-2026-11-11/"
+        }
+      ]
+    }
+  ]
+}
