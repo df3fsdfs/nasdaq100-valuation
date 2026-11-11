@@ -6,7 +6,9 @@
     {
       "container_id": "18108315410264154",
       "publish_started": true,
-      "id": "18143284555619057"
+      "id": "18143284555619057",
+      "verified": true,
+      "permalink": "https://www.threads.com/@donssam1/post/DfniCpagTms"
     },
     {
       "container_id": "18108315542264154",
@@ -22,5 +24,7 @@
       "permalink": "https://www.threads.com/@donssam1/post/DfniQ2jGHd0",
       "verified": true
     }
-  ]
+  ],
+  "completed": true,
+  "root_url": "https://www.threads.com/@donssam1/post/DfniCpagTms"
 }
