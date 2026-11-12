@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-13",
+  "cutoff_at": "2026-11-13T07:00:00+09:00",
+  "items": [
+    {
+      "title": "젠슨 황 사임, 엔비디아 4.3% 하락",
+      "sentences": [
+        "엔비디아가 젠슨 황의 사임을 발표하고 재무책임자 콜레트 크레스를 임시 CEO로 임명했어.",
+        "엔비디아는 장중 한때 약 12% 밀렸다가 4.3% 하락으로 마감했고, 나스닥종합도 0.39% 내렸어.",
+        "이사회는 제품 로드맵과 고객 약속이 이어질 것으로 봤어. 후임 체제에서 그 일정이 유지되는지가 AI 공급망의 관전 포인트야."
+      ],
+      "sources": [
+        {
+          "label": "NVIDIA",
+          "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-CEO-Transition/default.aspx"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/nasdaq-futures-fall-nvidia-turmoil-rattles-ai-stocks-2026-11-12/"
+        }
+      ]
+    },
+    {
+      "title": "사우디 에너지 시설 공격 보도에 브렌트유 3.3% 상승",
+      "sentences": [
+        "예멘 후티가 사우디 송유관 펌프장 등 에너지 시설을 공격했다고 밝혔고, 호르무즈 해협의 운항 차질도 이어졌어.",
+        "브렌트유는 3.3% 올라 배럴당 95.82달러에 마감했어. 공급 차질이 길어지면 항공·운송업의 연료비와 물가 부담이 커질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/oil-prices-drop-more-than-1-hopes-iran-ukraine-peace-talks-pressure-markets-2026-11-12/"
+        }
+      ]
+    },
+    {
+      "title": "MSCI, 스트래티지 지수 제외 결정",
+      "sentences": [
+        "MSCI는 비트코인 보유기업 스트래티지를 MSCI USA와 MSCI World에서 제외하기로 했어. 변경은 11월 30일 장 마감에 반영돼.",
+        "지수를 그대로 추종하는 펀드가 편입 비중을 줄이면서 변경일 전후 스트래티지 주식에 매도 물량이 집중될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "MSCI",
+          "url": "https://ir.msci.com/news-releases/news-release-details/msci-equity-indexes-november-2026-index-review"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/msci-drop-strategy-global-indexes-putting-billions-passive-fund-inflows-risk-2026-11-11/"
+        }
+      ]
+    },
+    {
+      "title": "시스코, 대형 클라우드 AI 인프라 매출 전망 90억달러로 상향",
+      "sentences": [
+        "시스코의 2027회계연도 1분기 매출은 185억달러로 전년 대비 24% 늘었어.",
+        "회사는 대형 클라우드 고객 대상 연간 AI 인프라 매출 전망을 75억달러에서 90억달러로 높였어. AI 설비투자가 네트워크 장비 매출에도 반영되고 있어."
+      ],
+      "sources": [
+        {
+          "label": "Cisco",
+          "url": "https://www.prnewswire.com/news-releases/cisco-reports-first-quarter-earnings-302938394.html"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/media-telecom/cisco-raises-annual-revenue-forecast-strong-ai-networking-demand-2026-11-12/"
+        }
+      ]
+    },
+    {
+      "title": "어플라이드 머티어리얼즈, 다음 분기 매출 전망 예상 상회",
+      "sentences": [
+        "어플라이드 머티어리얼즈의 2026회계연도 4분기 매출은 104억1천만달러로 전년 대비 53% 늘었어.",
+        "다음 분기 매출 전망 중간값은 111억달러로 LSEG 집계 예상치 108억9천만달러를 웃돌았어. 첨단 AI 칩 생산을 위한 장비 수요가 전망을 뒷받침했어."
+      ],
+      "sources": [
+        {
+          "label": "Applied Materials",
+          "url": "https://ir.appliedmaterials.com/node/29886/pdf"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/applied-materials-forecasts-quarterly-revenue-above-estimates-strong-ai-chip-2026-11-12/"
+        }
+      ]
+    }
+  ]
+}
