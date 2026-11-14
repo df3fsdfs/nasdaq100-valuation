@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-15",
+  "cutoff_at": "2026-11-15T07:00:00+09:00",
+  "items": [
+    {
+      "title": "미·중 첫 무역협의회, 관세 인하안 논의",
+      "sentences": [
+        "미국과 중국이 첫 무역협의회에서 각각 300억 달러어치 상품을 대상으로 한 상호 관세 인하안과 농산물 교역을 논의했어.",
+        "중국 상무부는 협의 내용을 공개했지만 새 합의는 발표하지 않았어. 실제 이행 여부가 미국 농산물 수출과 양국 수입업체 비용에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "중국 국무원",
+          "url": "https://english.www.gov.cn/news/202611/14/content_WS6af86886c6d00ca5f9a0e474.html"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/china-us-discuss-tariffs-farm-trade-first-trade-council-meeting-2026-11-14/"
+        }
+      ]
+    },
+    {
+      "title": "비트코인 6만6천 달러 하회, 현물 ETF 7거래일 연속 순유출",
+      "sentences": [
+        "비트코인은 토요일 미국 동부시간 오후 3시 53분에 약 6만5,225달러까지 내려갔어.",
+        "SoSoValue를 인용한 Investing.com에 따르면 미국 현물 비트코인 ETF는 금요일까지 7거래일 연속 순유출이었어. 주말 약세가 이어지면 비트코인 보유 기업과 암호화폐 관련주에 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Investing.com",
+          "url": "https://ca.investing.com/news/cryptocurrency-news/bitcoin-slides-below-68000-as-anthropic-ipo-frenzy-drains-market-liquidity-4958451"
+        }
+      ]
+    },
+    {
+      "title": "젠슨 황의 엔비디아 내부 설명 관련 추가 보도",
+      "sentences": [
+        "Reuters는 젠슨 황이 고객사 출신 인사와의 교류를 통상적인 업무로 설명했다고 보도했어. Reuters가 검토한 10월 내부 메시지와 복수 관계자 취재에 근거한 보도야.",
+        "엔비디아 독립 이사들은 이미 외부 로펌에 조사를 맡겼어. 조사 결과와 이사회의 대응이 지배구조와 고객 관리에 대한 투자자 판단에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/ex-nvidia-ceo-misled-top-lawyer-affair-with-chinese-businesswoman-sources-say-2026-11-14/"
+        }
+      ]
+    },
+    {
+      "title": "호르무즈서 유조선 화재 주장, 운송 위험 지속",
+      "sentences": [
+        "이란 해군은 토요일 호르무즈 해협 동쪽에서 유조선이 기뢰에 부딪혀 불이 났다고 밝혔어.",
+        "이란 측 발표로 보도된 사안이야. 실제 항행 차질이 늘면 원유 운송비와 보험료가 오르고 정유·항공사의 비용에도 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/middle-east/irans-navy-says-oil-tanker-fire-after-hitting-mine-hormuz-2026-11-14/"
+        }
+      ]
+    },
+    {
+      "title": "미국 운항 재개 뒤에도 토요일 항공편 4,500편 취소",
+      "sentences": [
+        "전국 출발편 중단 조치가 금요일 밤 해제됐지만 토요일에도 미국 항공편 4,500편이 취소됐다고 Reuters가 보도했어.",
+        "미 연방항공청장은 일요일 늦게 운항이 대체로 정상화될 것으로 봤어. 복구가 늦어지면 항공사들의 승무원 재배치와 고객 대응 비용이 늘 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.investing.com/news/stock-market-news/thousands-of-us-flights-canceled-delayed-as-air-travel-system-recovers-from-shutdown-5027394"
+        }
+      ]
+    }
+  ]
+}
