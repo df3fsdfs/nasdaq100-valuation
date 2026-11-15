@@ -1,74 +1,87 @@
 {
   "schema_version": 1,
-  "date": "2026-11-15",
-  "cutoff_at": "2026-11-15T07:00:00+09:00",
+  "date": "2026-11-16",
+  "cutoff_at": "2026-11-16T07:00:00+09:00",
   "items": [
     {
-      "title": "미·중 첫 무역협의회, 관세 인하안 논의",
+      "title": "예멘 정부군, 홍해 입구에서 철수",
       "sentences": [
-        "미국과 중국이 첫 무역협의회에서 각각 300억 달러어치 상품을 대상으로 한 상호 관세 인하안과 농산물 교역을 논의했어.",
-        "중국 상무부는 협의 내용을 공개했지만 새 합의는 발표하지 않았어. 실제 이행 여부가 미국 농산물 수출과 양국 수입업체 비용에 영향을 줄 수 있어."
+        "사우디가 지원하는 예멘 정부군이 홍해 입구 바브엘만데브 일대에서 아덴 방어를 위해 철수한다고 발표했어.",
+        "최근 6주간 이어진 후티 반격 작전의 후퇴로, 같은 날 걸프 증시도 대체로 하락했어.",
+        "홍해 항로 위험이 더 커지면 원유 운송비와 보험료가 오를 수 있어."
       ],
       "sources": [
         {
-          "label": "중국 국무원",
-          "url": "https://english.www.gov.cn/news/202611/14/content_WS6af86886c6d00ca5f9a0e474.html"
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/middle-east/anti-houthi-forces-retreat-yemen-iran-strikes-bahrain-2026-11-15/"
         },
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/china/china-us-discuss-tariffs-farm-trade-first-trade-council-meeting-2026-11-14/"
+          "url": "https://www.reuters.com/world/middle-east/gulf-bourses-slide-hormuz-tensions-houthi-strikes-rattle-traders-2026-11-15/"
         }
       ]
     },
     {
-      "title": "비트코인 6만6천 달러 하회, 현물 ETF 7거래일 연속 순유출",
+      "title": "젠슨 황, 엔비디아 복귀 가능성 논의 보도",
       "sentences": [
-        "비트코인은 토요일 미국 동부시간 오후 3시 53분에 약 6만5,225달러까지 내려갔어.",
-        "SoSoValue를 인용한 Investing.com에 따르면 미국 현물 비트코인 ETF는 금요일까지 7거래일 연속 순유출이었어. 주말 약세가 이어지면 비트코인 보유 기업과 암호화폐 관련주에 부담이 될 수 있어."
-      ],
-      "sources": [
-        {
-          "label": "Investing.com",
-          "url": "https://ca.investing.com/news/cryptocurrency-news/bitcoin-slides-below-68000-as-anthropic-ipo-frenzy-drains-market-liquidity-4958451"
-        }
-      ]
-    },
-    {
-      "title": "젠슨 황의 엔비디아 내부 설명 관련 추가 보도",
-      "sentences": [
-        "Reuters는 젠슨 황이 고객사 출신 인사와의 교류를 통상적인 업무로 설명했다고 보도했어. Reuters가 검토한 10월 내부 메시지와 복수 관계자 취재에 근거한 보도야.",
-        "엔비디아 독립 이사들은 이미 외부 로펌에 조사를 맡겼어. 조사 결과와 이사회의 대응이 지배구조와 고객 관리에 대한 투자자 판단에 영향을 줄 수 있어."
+        "파이낸셜타임스는 젠슨 황이 측근들과 엔비디아 최고경영자 복귀 가능성을 논의했다고 보도했어.",
+        "사임 뒤 이사회가 후임 후보를 물색하는 가운데 나온 보도야. 복귀가 결정됐다는 발표는 없었어.",
+        "후임 인선이 길어지면 투자자들은 AI 칩 공급과 제품 출시 계획이 이어지는지 더 주의 깊게 볼 수 있어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/china/ex-nvidia-ceo-misled-top-lawyer-affair-with-chinese-businesswoman-sources-say-2026-11-14/"
+          "url": "https://www.reuters.com/world/china/jensen-huang-discusses-comeback-nvidia-ceo-with-allies-ft-reports-2026-11-15/"
         }
       ]
     },
     {
-      "title": "호르무즈서 유조선 화재 주장, 운송 위험 지속",
+      "title": "비트코인 6만2천 달러 밑돌았다가 반등",
       "sentences": [
-        "이란 해군은 토요일 호르무즈 해협 동쪽에서 유조선이 기뢰에 부딪혀 불이 났다고 밝혔어.",
-        "이란 측 발표로 보도된 사안이야. 실제 항행 차질이 늘면 원유 운송비와 보험료가 오르고 정유·항공사의 비용에도 영향을 줄 수 있어."
+        "비트코인은 코인베이스에서 6만1,946달러까지 내려갔다가 미국 동부시간 일요일 오전 7시 12분에 약 6만5,331달러로 반등했어.",
+        "6만2천 달러 하회는 코인베이스 기준 7월 중순 이후 처음이야.",
+        "반등이 이어지면 비트코인을 많이 보유한 상장사의 자산가치 하락 압력이 줄어들 수 있어."
       ],
       "sources": [
         {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/world/middle-east/irans-navy-says-oil-tanker-fire-after-hitting-mine-hormuz-2026-11-14/"
+          "label": "Qazinform",
+          "url": "https://qazinform.com/news/bitcoin-rebounds-above-65000-after-sliding-to-lowest-level-since-july-ccc139"
         }
       ]
     },
     {
-      "title": "미국 운항 재개 뒤에도 토요일 항공편 4,500편 취소",
+      "title": "미국 항공편 혼란 사흘째, 월요일 정상화 전망",
       "sentences": [
-        "전국 출발편 중단 조치가 금요일 밤 해제됐지만 토요일에도 미국 항공편 4,500편이 취소됐다고 Reuters가 보도했어.",
-        "미 연방항공청장은 일요일 늦게 운항이 대체로 정상화될 것으로 봤어. 복구가 늦어지면 항공사들의 승무원 재배치와 고객 대응 비용이 늘 수 있어."
+        "일요일 집계에서 미국 항공편 약 5,200편이 취소되거나 지연됐어.",
+        "미 교통장관은 월요일에야 완전히 정상화될 가능성이 크다고 봤어. 전날 미 연방항공청의 예상은 일요일 늦게 대체로 정상화된다는 거였어.",
+        "차질이 길어지면 항공사의 재예약과 승무원 재배치 비용이 늘 수 있어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.investing.com/news/stock-market-news/thousands-of-us-flights-canceled-delayed-as-air-travel-system-recovers-from-shutdown-5027394"
+          "url": "https://www.reuters.com/world/us/us-air-travel-disruptions-continue-into-third-day-2026-11-15/"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/aerospace-defense/thousands-us-flights-canceled-delayed-air-travel-system-recovers-shutdown-2026-11-14/"
+        }
+      ]
+    },
+    {
+      "title": "페루 구리 생산 9% 감소",
+      "sentences": [
+        "페루 통계청은 9월 구리 생산이 전년 동월보다 9.04% 줄었고, 전체 경제활동은 2.43% 늘었다고 발표했어.",
+        "광업과 농업 부진으로 경제활동 증가세는 두 달 연속 둔화했어.",
+        "생산 부진이 이어지면 페루에서 광산을 운영하는 미국 구리 업체의 판매량에도 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Andina",
+          "url": "https://andina.pe/agencia/noticia-economia-peruana-crecio-243-setiembre-y-acumula-expansion-318-2026-1100080.aspx"
+        },
+        {
+          "label": "La República",
+          "url": "https://larepublica.pe/economia/2026/11/15/economia-peruana-crecio-243-en-septiembre-pero-caida-de-mineria-y-agro-freno-el-avance-419865"
         }
       ]
     }
