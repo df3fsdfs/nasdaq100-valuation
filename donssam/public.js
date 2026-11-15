@@ -130,10 +130,41 @@
   }
   function cycles(d){
     const colors={USA:'#6ea8ff',G7:'#c299ff',Korea:'#ff8a9d',G20:'#f2bd6a'},names={USA:'미국',G7:'G7',Korea:'한국',G20:'G20'};
-    const series=d.cli.series||{};const keys=['USA','G7','Korea','G20'].filter(k=>series[k]?.rows?.length);
-    plot('cli-level-chart',keys.map(k=>({name:names[k],x:series[k].rows.map(r=>r.date),y:series[k].rows.map(r=>r.value),mode:'lines',line:{color:colors[k],width:2}})),'경기선행지수');
-    plot('clichart',keys.map(k=>({name:names[k],x:series[k].acceleration.map(r=>r.date),y:series[k].acceleration.map(r=>r.value),mode:'lines+markers',line:{color:colors[k],width:2}})),'가속도',{yaxis:{gridcolor:'#233d56',zeroline:true,zerolinecolor:'#ddd'}});
-    const box=$('cli-analysis');box.replaceChildren();for(const [k,x] of Object.entries(d.insights.cli||{})){if(!x)continue;const card=el('div',null,'cli-card');card.append(el('strong',(names[k]||k)+' · '+x.date),el('p',x.interpretation));box.append(card);}
+    const series=d.cli.series||{};
+    const keys=['USA','G7','Korea','G20'].filter(k=>series[k]?.rows?.length);
+    const month=date=>Number(date.slice(0,4))*12+Number(date.slice(5,7));
+    const latest=Math.max(...keys.map(k=>month(series[k].rows.at(-1).date)));
+    const charts=[
+      ['cli-level-chart','rows','경기선행지수'],
+      ['clichart','acceleration','가속도'],
+      ['cli-acceleration-change-chart','acceleration_change','가속도의 가속도'],
+    ];
+    const buttons=[...$('cli-periods').querySelectorAll('button')];
+    function show(selected){
+      const months=Number(selected.dataset.months);
+      const start=months?latest-months+1:-Infinity;
+      for(const button of buttons){
+        const active=button===selected;
+        button.classList.toggle('active',active);
+        button.setAttribute('aria-pressed',String(active));
+      }
+      for(const [id,field,title] of charts){
+        const traces=keys.map(k=>{
+          const rows=(series[k][field]||[]).filter(r=>month(r.date)>=start);
+          return {name:names[k],x:rows.map(r=>r.date),y:rows.map(r=>r.value),
+                  mode:months&&months<=12?'lines+markers':'lines',line:{color:colors[k],width:2}};
+        });
+        plot(id,traces,title,{xaxis:{type:'date',gridcolor:'#233d56'},
+          yaxis:{title,gridcolor:'#233d56',zeroline:field!=='rows',zerolinecolor:'#ddd'}});
+      }
+    }
+    for(const button of buttons)button.addEventListener('click',()=>show(button));
+    show(buttons.find(button=>button.getAttribute('aria-pressed')==='true')||buttons.at(-1));
+    const box=$('cli-analysis');box.replaceChildren();
+    for(const [k,x] of Object.entries(d.insights.cli||{})){
+      if(!x)continue;
+      const card=el('div',null,'cli-card');card.append(el('strong',(names[k]||k)+' · '+x.date),el('p',x.interpretation));box.append(card);
+    }
   }
   load('./public_dashboard.json').then(d=>{snapshot=d;checkpoints(d);signals(d.bottom);market(d);cycles(d);}).catch(()=>{$('updated').textContent='공개용 자료를 불러오지 못했어. 새로고침 후 확인해.';});
   load('./news.json').then(d=>{const box=$('news-items');box.replaceChildren();$('news-time').textContent=kst(d.cutoff_at)+' 기준';(d.items||[]).forEach((x,i)=>{const card=el('article',null,'checkpoint');card.append(el('strong',(i+1)+'. '+x.title));(x.sentences||[]).forEach(t=>card.append(el('p',t)));(x.sources||[]).forEach(s=>card.append(link(s.label,s.url)));box.append(card);});}).catch(()=>{});
