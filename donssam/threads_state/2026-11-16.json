@@ -4,7 +4,8 @@
   "parts_sha256": "64675766d86a52cabb8fd1c3a50f85da464fd2b45e4f56eff49bfef1c0ec332c",
   "posts": [
     {
-      "container_id": "18109264574264154"
+      "container_id": "18109264574264154",
+      "publish_started": true
     },
     {},
     {}
