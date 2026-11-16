@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-17",
+  "cutoff_at": "2026-11-17T07:00:00+09:00",
+  "items": [
+    {
+      "title": "나스닥 2.49% 하락, 고점 대비 조정 진입",
+      "sentences": [
+        "미국 정규장에서 나스닥 종합지수는 2.49%, S&P 500은 1.92% 내렸어.",
+        "나스닥은 10월 6일 종가 고점보다 10% 넘게 내려왔어.",
+        "엔비디아 실적과 앤트로픽 상장을 앞두고, 투자자가 AI 관련주에 높은 가격을 계속 지불할지가 시험대에 올랐어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/sp-500-nasdaq-futures-slide-nvidia-earnings-anthropic-debut-loom-2026-11-16/"
+        },
+        {
+          "label": "AP",
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-2e6a9c41b6336e9240c1b01585d20cd4"
+        }
+      ]
+    },
+    {
+      "title": "미국, 해외 데이터센터 AI 칩 수출 허가 강화",
+      "sentences": [
+        "미 상무부는 중국 등 통제 대상이 해외 데이터센터를 통해 첨단 AI 칩에 원격 접근하는 경우를 겨냥한 새 허가 규칙을 공개했어.",
+        "첨단 칩의 허가 대상에 싱가포르·말레이시아·태국·인도네시아·브라질을 추가했고, 일정 요건을 충족한 미국계 기업에는 예외를 뒀어.",
+        "허가 범위가 넓어지면 칩 업체와 데이터센터의 납품 일정이 늦어질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미국 상무부 BIS",
+          "url": "https://www.bis.gov/media/documents/rin-0694-ak50.pdf?ftag=MSFd61514f"
+        }
+      ]
+    },
+    {
+      "title": "브렌트유 3.6% 하락",
+      "sentences": [
+        "브렌트유 선물은 3.6% 내린 배럴당 92.44달러에 마감했어. 미국 WTI도 3.2% 하락했어.",
+        "호르무즈를 통한 중동 원유 수송이 일부 회복되면서 공급 과잉 전망에 힘이 실렸어. 유조선 관련 사고로 운송 위험은 남아 있어.",
+        "유가 약세가 이어지면 원유 생산업체의 판매 단가에 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/oil-prices-fall-expectations-coming-supply-surplus-2026-11-16/"
+        }
+      ]
+    },
+    {
+      "title": "중국 소매판매 증가율 0.4%로 둔화",
+      "sentences": [
+        "중국의 10월 소매판매는 전년 동월보다 0.4% 늘어 9월의 1.1%보다 둔화했고, 산업생산 증가율은 4.8%였어.",
+        "소매판매와 산업생산 모두 Reuters가 집계한 시장 예상을 밑돌았어.",
+        "소비 둔화가 이어지면 중국 매출 비중이 큰 소비재 업체의 판매 전망이 낮아질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "중국 국가통계국",
+          "url": "https://www.stats.gov.cn/english/PressRelease/202611/t20261116_1965843.html"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/chinas-factory-output-retail-sales-growth-slow-october-2026-11-16/"
+        }
+      ]
+    },
+    {
+      "title": "뉴욕주 제조업 지수 7.8로 둔화",
+      "sentences": [
+        "뉴욕 연은의 11월 제조업 경기지수는 전달보다 약 18포인트 하락한 7.8이었어.",
+        "지수는 플러스를 유지했지만 신규 주문 증가세는 둔해졌고, 투입 가격도 전달보다 느리게 올랐어.",
+        "다른 지역에서도 비슷한 흐름이 나타나면 제조업체의 매출 전망과 가격 압력이 함께 낮아질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "뉴욕 연은",
+          "url": "https://www.newyorkfed.org/medialibrary/media/survey/empire/empire2026/2026_11_empire-state-manufacturing-survey.pdf"
+        }
+      ]
+    }
+  ]
+}
