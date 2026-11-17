@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-18",
+  "cutoff_at": "2026-11-18T07:00:00+09:00",
+  "items": [
+    {
+      "title": "엔비디아, 다음 분기 매출 1,300억 달러 전망",
+      "sentences": [
+        "엔비디아는 회계연도 2027년 3분기 매출 1,158억 달러를 발표했고, 다음 분기 매출을 1,300억 달러 안팎으로 제시했어.",
+        "다음 분기 전망은 LSEG가 집계한 시장 예상 1,252억5천만 달러를 웃돌며, 중국 데이터센터용 칩 매출은 가정에 넣지 않았어.",
+        "수요가 전망대로 이어지면 AI 서버와 메모리·네트워크 공급업체의 매출에도 힘이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "NVIDIA",
+          "url": "https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-third-quarter-fiscal-2027"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/nvidia-forecasts-quarterly-revenue-above-estimates-first-report-since-huangs-2026-11-17/"
+        }
+      ]
+    },
+    {
+      "title": "미국 소매판매, 자동차 부진에도 기초 소비 견조",
+      "sentences": [
+        "미국 10월 소매판매는 전월보다 0.2% 늘었고, 자동차·휘발유·건축자재·외식을 제외한 핵심 판매는 0.6% 증가했어.",
+        "전체 증가율은 9월의 0.8%보다 낮아졌지만, GDP 소비 추계에 쓰이는 핵심 판매는 늘었어.",
+        "소비가 버티면 유통기업 매출을 지지하는 동시에 금리 인하 기대가 커지는 것을 제한할 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미 인구조사국",
+          "url": "https://www.census.gov/retail/sales.html?os=f/"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/us/us-retail-sales-increase-moderately-october-2026-11-17/"
+        }
+      ]
+    },
+    {
+      "title": "미국 수입물가 1.1% 상승",
+      "sentences": [
+        "미국 10월 수입물가는 전월보다 1.1% 올라 Reuters가 집계한 예상 0.7%를 웃돌았어.",
+        "관세를 포함하지 않는 지표인데도 수입 원가 상승 압력이 이어졌어.",
+        "기업이 비용을 가격에 전가하면 물가 압력이 커지고, 전가하지 못하면 이익률이 낮아질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미 노동통계국",
+          "url": "https://www.bls.gov/news.release/ximpim.nr0.htm"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/us/us-retail-sales-increase-moderately-october-2026-11-17/"
+        }
+      ]
+    },
+    {
+      "title": "홈디포, 매출 회복 속 이익률 부담",
+      "sentences": [
+        "홈디포는 3분기 매출 434억 달러와 조정 주당이익 3.86달러를 발표했어.",
+        "올해 매출 증가율은 기존 전망 상단인 약 4.5%로 보지만, 조정 영업이익률은 기존 전망 하단으로 제시했어.",
+        "판매 회복이 이익률 개선으로 이어지는지가 주택 수리·건자재 업종의 실적 판단에 중요해졌어."
+      ],
+      "sources": [
+        {
+          "label": "Home Depot",
+          "url": "https://ir.homedepot.com/~/media/Files/H/HomeDepot-IR/press-release/q3-2026-earnings-release.pdf"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/home-depot-names-finance-chief-mcphail-ceo-2026-11-17/"
+        }
+      ]
+    },
+    {
+      "title": "도이체방크, 과거 거래 문건 보도 뒤 6% 하락",
+      "sentences": [
+        "도이체방크 주가는 과거 고객 거래를 다룬 유출 문건 보도가 나온 뒤 프랑크푸르트에서 6% 하락 마감했어.",
+        "은행은 해당 사안이 오래전 일이고 내부 통제를 강화해 왔다고 밝혔어.",
+        "추가 규제 조사와 대응 비용으로 이어지는지가 은행의 이익과 투자자 신뢰에 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.investing.com/news/stock-market-news/analysisdeutsche-bank-leaks-test-ceo-sewings-pledge-to-reform-5033810"
+        },
+        {
+          "label": "Reuters·Euronext",
+          "url": "https://live.euronext.com/en/financial-news/deutsche-bank-chair-backs-ceo-after-reports-expose-past-lapses-trump-calls-tax-leak"
+        }
+      ]
+    }
+  ]
+}
