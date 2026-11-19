@@ -1,0 +1,101 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-20",
+  "cutoff_at": "2026-11-20T07:00:00+09:00",
+  "items": [
+    {
+      "title": "앤트로픽 상장 첫날 상승, 미국 3대 지수는 급락",
+      "sentences": [
+        "앤트로픽은 공모가 83달러보다 높은 111.50달러에 거래를 시작했지만 상승폭을 줄여 97.17달러에 마감했어.",
+        "공모가 대비로는 17.1% 올랐지만 미국 3대 지수는 모두 2% 넘게 하락했어.",
+        "AI 기업들의 수익성과 자금조달 우려가 이어지면 신규 상장 흥행만으로 업종 전반의 반등을 이끌기는 어려울 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Nasdaq",
+          "url": "https://www.nasdaq.com/newsroom/anthropic-marks-ipo-at-nasdaq"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/finance/anthropics-historic-debut-put-ais-promise-peril-wall-st-test-2026-11-19/"
+        },
+        {
+          "label": "Reuters 미국장 마감",
+          "url": "https://www.reuters.com/business/nasdaq-futures-jump-anthropics-record-ipo-pricing-fuels-hopes-strong-debut-2026-11-19/"
+        }
+      ]
+    },
+    {
+      "title": "월마트, 전망 상향에도 주가 하락",
+      "sentences": [
+        "월마트의 회계연도 2027년 3분기 매출은 1,888억 달러로 전년보다 5.2% 늘었고, GAAP 주당이익은 0.62달러·조정 주당이익은 0.65달러였어.",
+        "연간 고정환율 기준 매출 성장 전망을 기존 4~5%에서 4.9~5.2%로 높였지만 실적 발표일 정규장 주가는 1.0% 하락했어.",
+        "연료·물류비 부담이 이어지면 매출 증가가 이익률 개선으로 연결되는 데 제약이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Walmart·SEC",
+          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000168/earningsreleasefy27q3.htm"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.investing.com/news/stock-market-news/walmart-nudges-up-annual-forecasts-ahead-of-crucial-holiday-season-5038616"
+        }
+      ]
+    },
+    {
+      "title": "미 실업수당 신규 청구 소폭 증가",
+      "sentences": [
+        "11월 14일 종료 주간 미국 신규 실업수당 청구는 계절조정 20만3천 건으로 전주 수정치보다 1천 건 늘었고 시장 예상 19만7천 건을 웃돌았어.",
+        "11월 7일 종료 주간 계속 청구는 176만3천 건으로 7만 건 증가했어.",
+        "신규 해고 급증은 제한적이지만 재취업 지연이 이어지면 소비에는 부담이 될 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "미 노동부",
+          "url": "https://www.dol.gov/ui/data.pdf"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://uk.marketscreener.com/news/us-weekly-jobless-claims-increase-slightly-ce785ed2db80f724"
+        }
+      ]
+    },
+    {
+      "title": "미·중·러 공동선언, 에너지 공급 확대 계획",
+      "sentences": [
+        "미국·중국·러시아 정상은 선전 회담 뒤 정제 석유제품 생산·공급 확대와 핵 위험 감축 대화를 담은 공동선언을 발표했어.",
+        "선언문에는 우크라이나·이란 전쟁의 휴전 조항이나 구체적인 공급 확대 물량·일정은 없었어.",
+        "선언이 실제 공급 증가나 제재 변화로 이어지면 에너지·운송업 비용과 수익에도 영향을 줄 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "백악관 공동선언",
+          "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/trumps-historic-meeting-with-xi-putin-headlines-asia-trip-2026-11-18/"
+        }
+      ]
+    },
+    {
+      "title": "팔로알토네트웍스, 전망 상향 뒤 정규장 6.4% 상승",
+      "sentences": [
+        "팔로알토네트웍스 주가는 전날 발표한 실적과 연간 전망 상향 뒤 19일 정규장에서 6.4% 올랐어.",
+        "회사는 회계연도 2027년 매출 전망을 145억2천만~145억7천만 달러, 비GAAP 주당이익 전망을 4.26~4.30달러로 제시했어.",
+        "보안 수요가 실제 매출과 현금흐름으로 이어지면 기술주 안에서도 실적에 따른 차별화가 나타날 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Palo Alto Networks",
+          "url": "https://paloaltonetworks.gcs-web.com/news-releases/news-release-details/palo-alto-networks-reports-fiscal-first-quarter-2027-financial"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/nasdaq-futures-jump-anthropics-record-ipo-pricing-fuels-hopes-strong-debut-2026-11-19/"
+        }
+      ]
+    }
+  ]
+}
