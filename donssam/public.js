@@ -19,7 +19,13 @@
     if(!dates.length){status.textContent='공개된 과거 관측값을 기다리는 중이야.';return;}
     const buttons=[...document.querySelectorAll('[data-activity-range]')];
     const end=dates.at(-1);
+    const toggles=[...document.querySelectorAll('[data-activity-price]')];
+    toggles.forEach(toggle=>{
+      toggle.disabled=!series.find(s=>s.name===toggle.dataset.activityPrice)?.rows.some(row=>Number.isFinite(row.close));
+    });
+    let activeButton=buttons[0];
     function draw(button){
+      activeButton=button;
       const period=button.dataset.activityRange;
       let start=dates[0];
       if(period==='20')start=dates.at(-20)||start;
@@ -37,11 +43,31 @@
         const scores=new Map(s.rows.map(r=>[r.date,r.score]));
         return {name:s.name,x:selected,y:selected.map(d=>scores.get(d)??null),mode:'lines',connectgaps:false,line:{color:s.color,width:2}};
       });
+      const returns=[];
+      for(const toggle of toggles){
+        if(!toggle.checked||toggle.disabled)continue;
+        const s=series.find(item=>item.name===toggle.dataset.activityPrice);
+        const closes=new Map(s.rows.map(r=>[r.date,r.close]));
+        const y=selected.map(d=>Number.isFinite(closes.get(d))?closes.get(d):null);
+        const base=y.find(price=>price>0);
+        const last=y.findLast(price=>price>0);
+        if(base&&last)returns.push(s.name+' '+sign((last/base-1)*100)+'%');
+        traces.push({name:s.name+' 종가',x:selected,y,yaxis:'y2',mode:'lines',connectgaps:false,
+          line:{color:s.color,width:2,dash:'dash'},customdata:y.map(v=>v!==null&&base?(v/base-1)*100:null),
+          hovertemplate:'$%{y:,.4~f} · 구간 시작 대비 %{customdata:+.2f}%<extra>%{fullData.name}</extra>'});
+      }
       buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
       status.textContent=selected[0]+' ~ '+end+' · '+selected.length+'거래일 · 정규장 마감 기준';
-      plot('activity-history-chart',traces,'바닥관찰지수',{xaxis:{type:'date',gridcolor:'#233d56'}});
+      $('activity-price-returns').textContent=returns.length?'선택 구간 종가 등락률 · '+returns.join(' / '):'';
+      const showPrices=traces.some(t=>t.yaxis==='y2');
+      plot('activity-history-chart',traces,'바닥관찰지수',{
+        margin:{...layout('').margin,r:showPrices?60:12},
+        xaxis:{type:'date',gridcolor:'#233d56'},
+        yaxis2:{title:'종가 (USD)',overlaying:'y',side:'right',showgrid:false,visible:showPrices}
+      });
     }
     buttons.forEach(b=>b.addEventListener('click',()=>draw(b)));
+    toggles.forEach(toggle=>toggle.addEventListener('change',()=>draw(activeButton)));
     draw(buttons[0]);
   }
   function baseline(c){return '직전 '+(c.previous_date||'—')+' '+fmt(c.previous)+' → 현재 '+fmt(c.value)+' ('+sign(c.delta)+'점) · 이전 '+(c.mean_n||0)+'거래일 평균 '+fmt(c.mean)+' 대비 '+sign(c.mean_delta)+'점';}
