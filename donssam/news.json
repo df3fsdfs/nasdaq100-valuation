@@ -1,99 +1,83 @@
 {
   "schema_version": 1,
-  "date": "2026-11-20",
-  "cutoff_at": "2026-11-20T07:00:00+09:00",
+  "date": "2026-11-21",
+  "cutoff_at": "2026-11-21T07:00:00+09:00",
   "items": [
     {
-      "title": "앤트로픽 상장 첫날 상승, 미국 3대 지수는 급락",
+      "title": "나스닥 5.3% 급락, S&P500·다우 조정 진입",
       "sentences": [
-        "앤트로픽은 공모가 83달러보다 높은 111.50달러에 거래를 시작했지만 상승폭을 줄여 97.17달러에 마감했어.",
-        "공모가 대비로는 17.1% 올랐지만 미국 3대 지수는 모두 2% 넘게 하락했어.",
-        "AI 기업들의 수익성과 자금조달 우려가 이어지면 신규 상장 흥행만으로 업종 전반의 반등을 이끌기는 어려울 수 있어."
+        "나스닥 종합지수는 5.3%, S&P500은 3.7% 내렸고 S&P500과 다우는 고점 대비 10% 넘게 밀려 조정 국면에 들어갔어.",
+        "AI 투자 회수와 자금조달 우려가 커지며 반도체지수는 11% 하락했고, 기술주 매도가 경기민감주와 가상자산으로 번졌어.",
+        "단기 반등이 나오더라도 변동성과 신용지표가 함께 진정되는지 확인할 필요가 있어."
       ],
       "sources": [
         {
-          "label": "Nasdaq",
-          "url": "https://www.nasdaq.com/newsroom/anthropic-marks-ipo-at-nasdaq"
-        },
-        {
           "label": "Reuters",
-          "url": "https://www.reuters.com/business/finance/anthropics-historic-debut-put-ais-promise-peril-wall-st-test-2026-11-19/"
+          "url": "https://www.reuters.com/legal/transactional/wall-st-futures-slip-anthropic-debut-fails-reassure-ai-investors-2026-11-20/"
         },
         {
-          "label": "Reuters 미국장 마감",
-          "url": "https://www.reuters.com/business/nasdaq-futures-jump-anthropics-record-ipo-pricing-fuels-hopes-strong-debut-2026-11-19/"
+          "label": "Reuters 시장 반응",
+          "url": "https://www.reuters.com/business/view-nasdaq-plunges-5-day-after-anthropic-debut-investors-still-believe-ai-2026-11-20/"
         }
       ]
     },
     {
-      "title": "월마트, 전망 상향에도 주가 하락",
+      "title": "엔비디아 회계처리 SEC 조사 보도",
       "sentences": [
-        "월마트의 회계연도 2027년 3분기 매출은 1,888억 달러로 전년보다 5.2% 늘었고, GAAP 주당이익은 0.62달러·조정 주당이익은 0.65달러였어.",
-        "연간 고정환율 기준 매출 성장 전망을 기존 4~5%에서 4.9~5.2%로 높였지만 실적 발표일 정규장 주가는 1.0% 하락했어.",
-        "연료·물류비 부담이 이어지면 매출 증가가 이익률 개선으로 연결되는 데 제약이 될 수 있어."
+        "로이터는 미국 증권거래위원회가 엔비디아의 잠재적 회계 문제를 들여다보고 있다고 보도했어.",
+        "보도 전 6% 넘게 내리던 엔비디아는 낙폭을 확대해 장중 약 13% 하락했고, 종가는 14% 내렸어.",
+        "조사는 위법 확정이 아니지만 회계 공시와 AI 금융거래에 대한 불확실성이 반도체 업종의 할인 요인으로 남을 수 있어."
       ],
       "sources": [
         {
-          "label": "Walmart·SEC",
-          "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416926000168/earningsreleasefy27q3.htm"
-        },
-        {
           "label": "Reuters",
-          "url": "https://www.investing.com/news/stock-market-news/walmart-nudges-up-annual-forecasts-ahead-of-crucial-holiday-season-5038616"
+          "url": "https://www.reuters.com/world/us-secs-nvidia-probe-is-examining-potential-accounting-issues-sources-say-2026-11-20/"
         }
       ]
     },
     {
-      "title": "미 실업수당 신규 청구 소폭 증가",
+      "title": "비트코인 6만 달러 아래로 하락",
       "sentences": [
-        "11월 14일 종료 주간 미국 신규 실업수당 청구는 계절조정 20만3천 건으로 전주 수정치보다 1천 건 늘었고 시장 예상 19만7천 건을 웃돌았어.",
-        "11월 7일 종료 주간 계속 청구는 176만3천 건으로 7만 건 증가했어.",
-        "신규 해고 급증은 제한적이지만 재취업 지연이 이어지면 소비에는 부담이 될 수 있어."
+        "비트코인은 7월 이후 처음 6만 달러 아래로 내려갔고, 로이터 확인 시점에는 5만9381달러로 3.45% 내렸어.",
+        "이더리움도 5.23% 하락해 AI 투자 우려와 높은 차입비용에 따른 위험자산 매도가 크립토까지 확산됐어.",
+        "주말에도 거래가 이어지는 만큼 진행 중 시세와 UTC 마감 확정봉을 구분해서 봐야 해."
       ],
       "sources": [
         {
-          "label": "미 노동부",
-          "url": "https://www.dol.gov/ui/data.pdf"
-        },
-        {
           "label": "Reuters",
-          "url": "https://uk.marketscreener.com/news/us-weekly-jobless-claims-increase-slightly-ce785ed2db80f724"
+          "url": "https://www.reuters.com/technology/bitcoin-falls-below-60000-level-2026-11-20/"
         }
       ]
     },
     {
-      "title": "미·중·러 공동선언, 에너지 공급 확대 계획",
+      "title": "중동 긴장 속 유가 반등",
       "sentences": [
-        "미국·중국·러시아 정상은 선전 회담 뒤 정제 석유제품 생산·공급 확대와 핵 위험 감축 대화를 담은 공동선언을 발표했어.",
-        "선언문에는 우크라이나·이란 전쟁의 휴전 조항이나 구체적인 공급 확대 물량·일정은 없었어.",
-        "선언이 실제 공급 증가나 제재 변화로 이어지면 에너지·운송업 비용과 수익에도 영향을 줄 수 있어."
+        "브렌트유는 0.64% 오른 배럴당 92.57달러, 12월물 WTI는 0.93% 오른 83.98달러에 마감했어.",
+        "호르무즈 해협의 유조선 사고와 후티의 사우디 항만 위협이 공급 우려를 키웠지만, 두 유종은 주간 기준 하락 흐름을 이어갔어.",
+        "지정학적 위험이 다시 커지면 에너지 가격과 물가 기대가 함께 흔들릴 수 있어."
       ],
       "sources": [
         {
-          "label": "백악관 공동선언",
-          "url": "https://www.whitehouse.gov/briefings-statements/2026/11/u-s-russia-china-heads-of-state-declaration-toward-peace/"
-        },
-        {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/china/trumps-historic-meeting-with-xi-putin-headlines-asia-trip-2026-11-18/"
+          "url": "https://www.reuters.com/business/energy/oil-prices-edge-higher-houthi-attacks-riyadh-raise-supply-concerns-2026-11-20/"
         }
       ]
     },
     {
-      "title": "팔로알토네트웍스, 전망 상향 뒤 정규장 6.4% 상승",
+      "title": "미국 소비심리 개선, 기대 인플레이션 하락",
       "sentences": [
-        "팔로알토네트웍스 주가는 전날 발표한 실적과 연간 전망 상향 뒤 19일 정규장에서 6.4% 올랐어.",
-        "회사는 회계연도 2027년 매출 전망을 145억2천만~145억7천만 달러, 비GAAP 주당이익 전망을 4.26~4.30달러로 제시했어.",
-        "보안 수요가 실제 매출과 현금흐름으로 이어지면 기술주 안에서도 실적에 따른 차별화가 나타날 수 있어."
+        "미시간대 11월 소비심리지수 확정치는 51.5로 10월 48.0과 지난해 11월 51.0을 웃돌았어.",
+        "1년 기대 인플레이션은 4.7%에서 3.7%, 장기 기대 인플레이션은 3.5%에서 3.3%로 낮아졌어.",
+        "소비심리 회복은 경기 우려를 덜 수 있지만 물가 기대가 연준 목표보다 높은 점은 금리 부담을 남겨."
       ],
       "sources": [
         {
-          "label": "Palo Alto Networks",
-          "url": "https://paloaltonetworks.gcs-web.com/news-releases/news-release-details/palo-alto-networks-reports-fiscal-first-quarter-2027-financial"
+          "label": "미시간대 소비자조사",
+          "url": "https://www.sca.isr.umich.edu/"
         },
         {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/business/nasdaq-futures-jump-anthropics-record-ipo-pricing-fuels-hopes-strong-debut-2026-11-19/"
+          "label": "미시간대 사회연구소",
+          "url": "https://isr.umich.edu/news-events/news-releases/sentiment-ticks-up-as-election-expected-to-usher-in-changes-to-economic-policy/"
         }
       ]
     }
