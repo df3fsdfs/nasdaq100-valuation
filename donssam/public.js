@@ -12,6 +12,38 @@
   const badge=(text,on)=>el('span',text,'badge '+(on===true?'on':on===false?'off':'wait'));
   const layout=title=>({paper_bgcolor:'#0f2033',plot_bgcolor:'#0f2033',font:{color:'#b8cbe2'},margin:{l:46,r:12,t:15,b:55},xaxis:{gridcolor:'#233d56'},yaxis:{gridcolor:'#233d56',title},legend:{orientation:'h',y:-.25},hovermode:'x unified'});
   const plot=(id,traces,title,extra={})=>{if(typeof Plotly!=='undefined'&&traces.length)Plotly.newPlot(id,traces,{...layout(title),...extra},{responsive:true,displayModeBar:false});};
+  function activityHistory(activity){
+    const series=['SOXL','TQQQ'].map((name,i)=>({name,color:['#ffa44e','#6ea8ff'][i],rows:(activity[name]?.history||[]).filter(r=>Number.isFinite(r.score))}));
+    const dates=[...new Set(series.flatMap(s=>s.rows.map(r=>r.date)))].sort();
+    const status=$('activity-range-status');
+    if(!dates.length){status.textContent='공개된 과거 관측값을 기다리는 중이야.';return;}
+    const buttons=[...document.querySelectorAll('[data-activity-range]')];
+    const end=dates.at(-1);
+    function draw(button){
+      const period=button.dataset.activityRange;
+      let start=dates[0];
+      if(period==='20')start=dates.at(-20)||start;
+      else if(period!=='all'){
+        const cutoff=new Date(end+'T00:00:00Z');
+        const day=cutoff.getUTCDate();
+        cutoff.setUTCDate(1);
+        cutoff.setUTCMonth(cutoff.getUTCMonth()-Number(period));
+        const limit=new Date(Date.UTC(cutoff.getUTCFullYear(),cutoff.getUTCMonth()+1,0)).getUTCDate();
+        cutoff.setUTCDate(Math.min(day,limit));
+        start=cutoff.toISOString().slice(0,10);
+      }
+      const selected=dates.filter(d=>d>=start);
+      const traces=series.map(s=>{
+        const scores=new Map(s.rows.map(r=>[r.date,r.score]));
+        return {name:s.name,x:selected,y:selected.map(d=>scores.get(d)??null),mode:'lines',connectgaps:false,line:{color:s.color,width:2}};
+      });
+      buttons.forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+      status.textContent=selected[0]+' ~ '+end+' · '+selected.length+'거래일 · 정규장 마감 기준';
+      plot('activity-history-chart',traces,'바닥관찰지수',{xaxis:{type:'date',gridcolor:'#233d56'}});
+    }
+    buttons.forEach(b=>b.addEventListener('click',()=>draw(b)));
+    draw(buttons[0]);
+  }
   function baseline(c){return '직전 '+(c.previous_date||'—')+' '+fmt(c.previous)+' → 현재 '+fmt(c.value)+' ('+sign(c.delta)+'점) · 이전 '+(c.mean_n||0)+'거래일 평균 '+fmt(c.mean)+' 대비 '+sign(c.mean_delta)+'점';}
   function transition(s){const c=s.comparison||{};return c.previous_qualified_known?'판정 '+state(c.previous_qualified)+' → '+state(s.qualified):'현재 '+state(s.qualified)+' · 이전 판정 비교 준비';}
   function changeItem(title,body,day,good){const row=el('div',null,'change-item');row.append(el('strong',title,good===true?'rise-good':good===false?'rise-bad':''),el('div',body),el('small',day||''));return row;}
@@ -166,7 +198,7 @@
       const card=el('div',null,'cli-card');card.append(el('strong',(names[k]||k)+' · '+x.date),el('p',x.interpretation));box.append(card);
     }
   }
-  load('./public_dashboard.json').then(d=>{snapshot=d;checkpoints(d);signals(d.bottom);market(d);cycles(d);}).catch(()=>{$('updated').textContent='공개용 자료를 불러오지 못했어. 새로고침 후 확인해.';});
+  load('./public_dashboard.json').then(d=>{snapshot=d;checkpoints(d);signals(d.bottom);activityHistory(d.bottom.activity||{});market(d);cycles(d);}).catch(()=>{$('updated').textContent='공개용 자료를 불러오지 못했어. 새로고침 후 확인해.';});
   load('./news.json').then(d=>{const box=$('news-items');box.replaceChildren();$('news-time').textContent=Number(d.date.slice(5,7))+'월 '+Number(d.date.slice(8,10))+'일 이슈 정리';(d.items||[]).forEach((x,i)=>{const card=el('article',null,'checkpoint');card.append(el('strong',(i+1)+'. '+x.title));(x.sentences||[]).forEach(t=>card.append(el('p',t)));(x.sources||[]).forEach(s=>card.append(link(s.label,s.url)));box.append(card);});}).catch(()=>{});
   load('../fed-liquidity/data.json').then(d=>{const keys=[['WALCL','총자산'],['WTREGEN','TGA'],['RRPONTSYD','ON RRP'],['WRESBAL','지급준비금'],['net','순유동성']];plot('chart',keys.map(([key,name])=>({name,x:d.rows.map(r=>r.date),y:d.rows.map(r=>r[key]),mode:'lines'})),'조 달러');const render=all=>{$('liqrows').replaceChildren();(all?d.rows.slice().reverse():d.rows.slice(-3).reverse()).forEach(r=>{const tr=el('tr');tr.append(el('td',r.date));keys.forEach(([key])=>tr.append(el('td',fmt(r[key],3))));$('liqrows').append(tr);});};render(false);let all=false;$('toggle-liquidity').onclick=()=>{all=!all;render(all);$('toggle-liquidity').textContent=all?'최근 3주만 보기':'이전 주간 수치 펼치기';};$('liqdate').textContent='최근 주간 관측 '+(d.rows.at(-1)?.date||'—');}).catch(()=>{});
   $('showallsectors').onclick=()=>{allSectors=!allSectors;renderSectors();};

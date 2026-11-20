@@ -184,6 +184,13 @@
   document.addEventListener('checkpoints-ready',checkpoint);
   $('cot-participant-select').addEventListener('change',event=>{selected=event.target.value;if(!data)return;render();if($('cot-history-details').open)cotGraph();});
   graphs();
+  $('position-reference').addEventListener('toggle',event=>{
+    if(!event.target.open||typeof Plotly==='undefined')return;
+    for(const id of ['cot-comparison-chart','cot-net-comparison-chart','short-interest-chart']){
+      const chart=$(id);
+      if(chart?.classList.contains('js-plotly-plot'))Plotly.Plots.resize(chart);
+    }
+  });
   fetch('./institutional_positions_public.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();}).catch(()=>{
     $('cot-main-reading').textContent='저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     $('institution-time').textContent='기관 포지션 자료 로딩 재시도 필요';$('cot-reading').textContent='마지막 저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
