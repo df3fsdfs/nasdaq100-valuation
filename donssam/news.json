@@ -1,83 +1,77 @@
 {
   "schema_version": 1,
-  "date": "2026-11-21",
-  "cutoff_at": "2026-11-21T07:00:00+09:00",
+  "date": "2026-11-22",
+  "cutoff_at": "2026-11-22T07:00:00+09:00",
   "items": [
     {
-      "title": "나스닥 5.3% 급락, S&P500·다우 조정 진입",
+      "title": "비트코인 2년 만의 저점 뒤 8% 반등",
       "sentences": [
-        "나스닥 종합지수는 5.3%, S&P500은 3.7% 내렸고 S&P500과 다우는 고점 대비 10% 넘게 밀려 조정 국면에 들어갔어.",
-        "AI 투자 회수와 자금조달 우려가 커지며 반도체지수는 11% 하락했고, 기술주 매도가 경기민감주와 가상자산으로 번졌어.",
-        "단기 반등이 나오더라도 변동성과 신용지표가 함께 진정되는지 확인할 필요가 있어."
+        "비트코인은 장중 5만5251.60달러까지 내려가 2년 만의 최저치를 기록한 뒤 약 5만9952달러로 8% 넘게 반등했어.",
+        "이후 한때 6만달러를 회복했지만 주식 급락과 높은 실질금리의 영향이 이어져 변동성이 크게 남아 있어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/legal/transactional/wall-st-futures-slip-anthropic-debut-fails-reassure-ai-investors-2026-11-20/"
+          "url": "https://www.reuters.com/business/bitcoin-falls-357-56814-2026-11-21/"
         },
         {
-          "label": "Reuters 시장 반응",
-          "url": "https://www.reuters.com/business/view-nasdaq-plunges-5-day-after-anthropic-debut-investors-still-believe-ai-2026-11-20/"
+          "label": "Reuters 후속 시세",
+          "url": "https://www.reuters.com/business/bitcoin-rises-over-2-more-than-60000-2026-11-21/"
         }
       ]
     },
     {
-      "title": "엔비디아 회계처리 SEC 조사 보도",
+      "title": "트럼프, 해외 데이터센터 투자 기업 제재 예고",
       "sentences": [
-        "로이터는 미국 증권거래위원회가 엔비디아의 잠재적 회계 문제를 들여다보고 있다고 보도했어.",
-        "보도 전 6% 넘게 내리던 엔비디아는 낙폭을 확대해 장중 약 13% 하락했고, 종가는 14% 내렸어.",
-        "조사는 위법 확정이 아니지만 회계 공시와 AI 금융거래에 대한 불확실성이 반도체 업종의 할인 요인으로 남을 수 있어."
+        "트럼프 대통령은 해외에 데이터센터를 짓는 기업을 제재하겠다고 밝혔지만 구체적인 대상과 방식은 제시하지 않았어.",
+        "정책이 구체화되면 미국 빅테크와 AI 인프라 기업의 해외 투자비용과 공급망 계획에 영향을 줄 수 있어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/us-secs-nvidia-probe-is-examining-potential-accounting-issues-sources-say-2026-11-20/"
+          "url": "https://www.reuters.com/world/china/fresh-off-china-trip-trump-bobs-weaves-freewheeling-press-conference-2026-11-20/"
         }
       ]
     },
     {
-      "title": "비트코인 6만 달러 아래로 하락",
+      "title": "EU, 미국 빅테크 겨냥한 3% 디지털세 제안",
       "sentences": [
-        "비트코인은 7월 이후 처음 6만 달러 아래로 내려갔고, 로이터 확인 시점에는 5만9381달러로 3.45% 내렸어.",
-        "이더리움도 5.23% 하락해 AI 투자 우려와 높은 차입비용에 따른 위험자산 매도가 크립토까지 확산됐어.",
-        "주말에도 거래가 이어지는 만큼 진행 중 시세와 UTC 마감 확정봉을 구분해서 봐야 해."
+        "EU 정상회의 상임의장은 온라인 광고·중개·이용자 데이터 매출에 3%를 부과하는 디지털세를 새 재원으로 제안했어.",
+        "적용 기준은 EU 디지털 매출 5000만유로와 글로벌 매출 7억5000만유로 이상으로, 구글·마이크로소프트·메타·애플·아마존이 주요 영향권이야.",
+        "아직 제안 단계이며 11월 26~27일 특별 정상회의에서 논의될 예정이야."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/technology/bitcoin-falls-below-60000-level-2026-11-20/"
+          "url": "https://www.reuters.com/markets/us/eu-leaders-chair-proposes-new-cuts-eu-2028-2034-budget-draft-suggests-digital-2026-11-21/"
         }
       ]
     },
     {
-      "title": "중동 긴장 속 유가 반등",
+      "title": "미중 정상회담, 무역·희토류 돌파구 없이 종료",
       "sentences": [
-        "브렌트유는 0.64% 오른 배럴당 92.57달러, 12월물 WTI는 0.93% 오른 83.98달러에 마감했어.",
-        "호르무즈 해협의 유조선 사고와 후티의 사우디 항만 위협이 공급 우려를 키웠지만, 두 유종은 주간 기준 하락 흐름을 이어갔어.",
-        "지정학적 위험이 다시 커지면 에너지 가격과 물가 기대가 함께 흔들릴 수 있어."
+        "미중 정상회담은 무역과 희토류, AI 반도체 문제에서 구체적인 돌파구를 내놓지 못했고 기존 무역 휴전은 불안정한 상태로 남았어.",
+        "중국의 희토류 출하는 무역갈등 이전 수준을 밑돌고 미국은 해외 데이터센터를 통한 중국의 첨단칩 접근 제한을 시행했어.",
+        "다음 협상 분기점은 12월 G20 정상회의가 될 가능성이 커."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/business/energy/oil-prices-edge-higher-houthi-attacks-riyadh-raise-supply-concerns-2026-11-20/"
+          "url": "https://www.reuters.com/world/china/trump-basks-summit-pomp-chinas-xi-strengthens-his-hand-2026-11-21/"
         }
       ]
     },
     {
-      "title": "미국 소비심리 개선, 기대 인플레이션 하락",
+      "title": "미국 민주당, AI 데이터센터 규제 포함 새 의제 준비",
       "sentences": [
-        "미시간대 11월 소비심리지수 확정치는 51.5로 10월 48.0과 지난해 11월 51.0을 웃돌았어.",
-        "1년 기대 인플레이션은 4.7%에서 3.7%, 장기 기대 인플레이션은 3.5%에서 3.3%로 낮아졌어.",
-        "소비심리 회복은 경기 우려를 덜 수 있지만 물가 기대가 연준 목표보다 높은 점은 금리 부담을 남겨."
+        "내년 1월 의회 다수당이 되는 민주당은 최저임금 인상, 의료지원 복원, 의원 주식거래 금지 등을 포함한 첫 100일 의제를 준비하고 있어.",
+        "진보 진영에서는 신규 AI 데이터센터 건설 유예도 요구하지만 세부 의제는 12월 초 공개될 예정이라 확정 정책은 아니야.",
+        "전력·데이터센터·AI 인프라주는 실제 법안 범위와 공화당 협조 여부에 따라 영향이 달라질 수 있어."
       ],
       "sources": [
         {
-          "label": "미시간대 소비자조사",
-          "url": "https://www.sca.isr.umich.edu/"
-        },
-        {
-          "label": "미시간대 사회연구소",
-          "url": "https://isr.umich.edu/news-events/news-releases/sentiment-ticks-up-as-election-expected-to-usher-in-changes-to-economic-policy/"
+          "label": "Reuters",
+          "url": "https://www.reuters.com/legal/government/democrats-won-big-midterms-so-now-what-2026-11-21/"
         }
       ]
     }
