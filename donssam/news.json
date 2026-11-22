@@ -1,77 +1,74 @@
 {
   "schema_version": 1,
-  "date": "2026-11-22",
-  "cutoff_at": "2026-11-22T07:00:00+09:00",
+  "date": "2026-11-23",
+  "cutoff_at": "2026-11-23T07:00:00+09:00",
   "items": [
     {
-      "title": "비트코인 2년 만의 저점 뒤 8% 반등",
+      "title": "S&P 500 조정 진입, VIX 35.89",
       "sentences": [
-        "비트코인은 장중 5만5251.60달러까지 내려가 2년 만의 최저치를 기록한 뒤 약 5만9952달러로 8% 넘게 반등했어.",
-        "이후 한때 6만달러를 회복했지만 주식 급락과 높은 실질금리의 영향이 이어져 변동성이 크게 남아 있어."
+        "S&P 500은 10월 6일 고점보다 11.6% 낮아져 2025년 3월 이후 처음으로 조정 구간에 들어갔어.",
+        "7거래일 연속 하락은 2020년 이후 최장이고 VIX는 35.89로 2025년 4월 이후 최고였지만, 일부 시장 내부지표는 아직 극단적 과매도에 이르지 않았어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/business/bitcoin-falls-357-56814-2026-11-21/"
+          "url": "https://www.reuters.com/business/finance/correction-or-deeper-reckoning-investors-seek-signs-us-stock-selling-will-abate-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "미국, 엔비디아 중국 칩 판매 준법 조사",
+      "sentences": [
+        "베선트 미국 재무장관은 엔비디아의 중국 칩 판매와 준법 책임선에 관한 답변을 요구하고 있다고 밝혔어.",
+        "회사 이사회가 사실관계를 확인 중이며 정부는 어느 조직 단계까지 알고 있었는지 보겠다는 입장이라, 규제 불확실성이 이어질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/us-seeks-answers-nvidias-sale-chips-china-bessent-says-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "중국 증권거래소, 증거금 100%에서 80%로 완화",
+      "sentences": [
+        "중국 3대 증권거래소는 11월 30일부터 주식 신용거래의 최소 증거금 비율을 100%에서 80%로 낮추기로 했어.",
+        "상하이종합지수가 지난주 약 3% 하락해 16개월 저점을 기록한 뒤 나온 조치로, 거래비용 인하와 차이넥스트 시장조성제도도 함께 추진돼."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/chinese-exchanges-ease-margin-trading-requirements-aid-stock-markets-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "사우디 정유시설 공격 주장, 걸프 증시 하락",
+      "sentences": [
+        "후티 반군은 사우디 라비그 정유시설을 직접 타격했다고 주장했지만 피해 규모와 사우디 당국의 확인은 나오지 않았어.",
+        "같은 날 사우디 증시는 2%, 카타르는 1.6%, 이집트 대표지수는 2.9% 하락해 중동 위험이 에너지와 위험자산에 다시 반영됐어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 정유시설 보도",
+          "url": "https://www.reuters.com/world/middle-east/yemens-houthis-say-they-attacked-saudi-rabigh-oil-refinery-2026-11-22/"
         },
         {
-          "label": "Reuters 후속 시세",
-          "url": "https://www.reuters.com/business/bitcoin-rises-over-2-more-than-60000-2026-11-21/"
+          "label": "Reuters 걸프 증시",
+          "url": "https://www.reuters.com/world/middle-east/most-gulf-bourses-retreat-sporadic-attacks-continue-2026-11-22/"
         }
       ]
     },
     {
-      "title": "트럼프, 해외 데이터센터 투자 기업 제재 예고",
+      "title": "앤트로픽, 상장 이튿날 8.5% 하락",
       "sentences": [
-        "트럼프 대통령은 해외에 데이터센터를 짓는 기업을 제재하겠다고 밝혔지만 구체적인 대상과 방식은 제시하지 않았어.",
-        "정책이 구체화되면 미국 빅테크와 AI 인프라 기업의 해외 투자비용과 공급망 계획에 영향을 줄 수 있어."
+        "앤트로픽은 상장 첫날 17% 올랐지만 이튿날 8.5% 하락해 AI 대형 상장주에도 차익실현 압력이 확인됐어.",
+        "상장 과정에서는 촉박한 일정과 정보 공유 지연, 주관사 인력 제한 등이 있었다는 보도가 나와 AI 기업과 월가의 새로운 힘 관계도 드러났어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/world/china/fresh-off-china-trip-trump-bobs-weaves-freewheeling-press-conference-2026-11-20/"
-        }
-      ]
-    },
-    {
-      "title": "EU, 미국 빅테크 겨냥한 3% 디지털세 제안",
-      "sentences": [
-        "EU 정상회의 상임의장은 온라인 광고·중개·이용자 데이터 매출에 3%를 부과하는 디지털세를 새 재원으로 제안했어.",
-        "적용 기준은 EU 디지털 매출 5000만유로와 글로벌 매출 7억5000만유로 이상으로, 구글·마이크로소프트·메타·애플·아마존이 주요 영향권이야.",
-        "아직 제안 단계이며 11월 26~27일 특별 정상회의에서 논의될 예정이야."
-      ],
-      "sources": [
-        {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/markets/us/eu-leaders-chair-proposes-new-cuts-eu-2028-2034-budget-draft-suggests-digital-2026-11-21/"
-        }
-      ]
-    },
-    {
-      "title": "미중 정상회담, 무역·희토류 돌파구 없이 종료",
-      "sentences": [
-        "미중 정상회담은 무역과 희토류, AI 반도체 문제에서 구체적인 돌파구를 내놓지 못했고 기존 무역 휴전은 불안정한 상태로 남았어.",
-        "중국의 희토류 출하는 무역갈등 이전 수준을 밑돌고 미국은 해외 데이터센터를 통한 중국의 첨단칩 접근 제한을 시행했어.",
-        "다음 협상 분기점은 12월 G20 정상회의가 될 가능성이 커."
-      ],
-      "sources": [
-        {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/world/china/trump-basks-summit-pomp-chinas-xi-strengthens-his-hand-2026-11-21/"
-        }
-      ]
-    },
-    {
-      "title": "미국 민주당, AI 데이터센터 규제 포함 새 의제 준비",
-      "sentences": [
-        "내년 1월 의회 다수당이 되는 민주당은 최저임금 인상, 의료지원 복원, 의원 주식거래 금지 등을 포함한 첫 100일 의제를 준비하고 있어.",
-        "진보 진영에서는 신규 AI 데이터센터 건설 유예도 요구하지만 세부 의제는 12월 초 공개될 예정이라 확정 정책은 아니야.",
-        "전력·데이터센터·AI 인프라주는 실제 법안 범위와 공화당 협조 여부에 따라 영향이 달라질 수 있어."
-      ],
-      "sources": [
-        {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/legal/government/democrats-won-big-midterms-so-now-what-2026-11-21/"
+          "url": "https://www.reuters.com/world/like-spacex-anthropic-ran-an-unusual-ipo-process-chafing-some-bankers-2026-11-22/"
         }
       ]
     }

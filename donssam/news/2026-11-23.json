@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-23",
+  "cutoff_at": "2026-11-23T07:00:00+09:00",
+  "items": [
+    {
+      "title": "S&P 500 조정 진입, VIX 35.89",
+      "sentences": [
+        "S&P 500은 10월 6일 고점보다 11.6% 낮아져 2025년 3월 이후 처음으로 조정 구간에 들어갔어.",
+        "7거래일 연속 하락은 2020년 이후 최장이고 VIX는 35.89로 2025년 4월 이후 최고였지만, 일부 시장 내부지표는 아직 극단적 과매도에 이르지 않았어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/finance/correction-or-deeper-reckoning-investors-seek-signs-us-stock-selling-will-abate-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "미국, 엔비디아 중국 칩 판매 준법 조사",
+      "sentences": [
+        "베선트 미국 재무장관은 엔비디아의 중국 칩 판매와 준법 책임선에 관한 답변을 요구하고 있다고 밝혔어.",
+        "회사 이사회가 사실관계를 확인 중이며 정부는 어느 조직 단계까지 알고 있었는지 보겠다는 입장이라, 규제 불확실성이 이어질 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/china/us-seeks-answers-nvidias-sale-chips-china-bessent-says-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "중국 증권거래소, 증거금 100%에서 80%로 완화",
+      "sentences": [
+        "중국 3대 증권거래소는 11월 30일부터 주식 신용거래의 최소 증거금 비율을 100%에서 80%로 낮추기로 했어.",
+        "상하이종합지수가 지난주 약 3% 하락해 16개월 저점을 기록한 뒤 나온 조치로, 거래비용 인하와 차이넥스트 시장조성제도도 함께 추진돼."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/chinese-exchanges-ease-margin-trading-requirements-aid-stock-markets-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "사우디 정유시설 공격 주장, 걸프 증시 하락",
+      "sentences": [
+        "후티 반군은 사우디 라비그 정유시설을 직접 타격했다고 주장했지만 피해 규모와 사우디 당국의 확인은 나오지 않았어.",
+        "같은 날 사우디 증시는 2%, 카타르는 1.6%, 이집트 대표지수는 2.9% 하락해 중동 위험이 에너지와 위험자산에 다시 반영됐어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 정유시설 보도",
+          "url": "https://www.reuters.com/world/middle-east/yemens-houthis-say-they-attacked-saudi-rabigh-oil-refinery-2026-11-22/"
+        },
+        {
+          "label": "Reuters 걸프 증시",
+          "url": "https://www.reuters.com/world/middle-east/most-gulf-bourses-retreat-sporadic-attacks-continue-2026-11-22/"
+        }
+      ]
+    },
+    {
+      "title": "앤트로픽, 상장 이튿날 8.5% 하락",
+      "sentences": [
+        "앤트로픽은 상장 첫날 17% 올랐지만 이튿날 8.5% 하락해 AI 대형 상장주에도 차익실현 압력이 확인됐어.",
+        "상장 과정에서는 촉박한 일정과 정보 공유 지연, 주관사 인력 제한 등이 있었다는 보도가 나와 AI 기업과 월가의 새로운 힘 관계도 드러났어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/like-spacex-anthropic-ran-an-unusual-ipo-process-chafing-some-bankers-2026-11-22/"
+        }
+      ]
+    }
+  ]
+}
