@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-24",
+  "cutoff_at": "2026-11-24T07:00:00+09:00",
+  "items": [
+    {
+      "title": "젠슨 황 복귀, 나스닥 6.5% 급등",
+      "sentences": [
+        "엔비디아 이사회가 젠슨 황을 CEO로 즉시 복귀시켰고, 독립위원회의 조사는 계속된다고 밝혔어.",
+        "미국 정규장에서 나스닥종합은 6.5%, S&P 500은 4.7% 올랐어. 미국 주가지수 선물은 복귀 발표 전부터 상승하고 있었어."
+      ],
+      "sources": [
+        {
+          "label": "엔비디아 IR",
+          "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Board-Reinstates-Jensen-Huang-as-President-CEO-and-Board-Director/default.aspx"
+        },
+        {
+          "label": "AP 미국 증시 종가",
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-fcdf1bad36b4f81c90cbb0f33a2c5704"
+        }
+      ]
+    },
+    {
+      "title": "미국 PMI 둔화, 윌리엄스는 물가 경계",
+      "sentences": [
+        "미국 11월 종합 PMI 속보치는 54.6으로 10월 55.9보다 낮아졌지만, 기업 활동은 여전히 확장 국면이야.",
+        "존 윌리엄스 뉴욕 연은 총재는 물가를 2%로 되돌리려면 추가 노력이 필요하다고 했고, 12월 정책 판단은 앞으로 나올 데이터를 보겠다고 밝혔어."
+      ],
+      "sources": [
+        {
+          "label": "S&P Global",
+          "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/11/us-flash-pmi-indicates-still-elevated-but-cooling-business-activity-growth-and-price-pressures"
+        },
+        {
+          "label": "뉴욕 연은 연설",
+          "url": "https://www.newyorkfed.org/newsevents/speeches/2026/wil261123"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.investing.com/news/economy-news/fed-has-work-to-do-to-lower-inflation-williams-says-5046374"
+        }
+      ]
+    },
+    {
+      "title": "크라우드스트라이크, 지스케일러 인수 합의",
+      "sentences": [
+        "크라우드스트라이크가 지스케일러를 기업가치 약 439억 달러에 전액 주식으로 인수하기로 했어.",
+        "장중 지스케일러는 13% 넘게 올랐고 크라우드스트라이크는 약 12% 떨어졌어. 지스케일러 거래가는 당시 제안 가치에 못 미쳤어."
+      ],
+      "sources": [
+        {
+          "label": "크라우드스트라이크 IR",
+          "url": "https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-acquire-zscaler-bringing-network-security-and-zero"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.investing.com/news/stock-market-news/crowdstrike-bets-on-network-security-with-439-billion-zscaler-deal-5044856"
+        }
+      ]
+    },
+    {
+      "title": "HPE 장후 실적, 서버 매출 94.7% 증가",
+      "sentences": [
+        "HPE의 2026회계연도 4분기 매출은 145억 달러로 전년 동기보다 50% 늘었고, 서버 매출은 94.7% 증가했어.",
+        "조정 EPS는 1.43달러로 회사가 제시한 1.20~1.30달러를 웃돌았고, 회사는 2027회계연도 조정 EPS 전망을 5.05~5.35달러로 높였어."
+      ],
+      "sources": [
+        {
+          "label": "HPE SEC 공시",
+          "url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559026000097/ex-991x11232026x8k.htm"
+        }
+      ]
+    },
+    {
+      "title": "리비아 송유관 재가동, 국제유가 하락",
+      "sentences": [
+        "리비아 샤라라 송유관이 다시 가동됐고, 중동산 공급도 늘었다고 Reuters가 보도했어.",
+        "브렌트유 선물은 3.46% 내린 배럴당 89.37달러, WTI는 3.88% 내린 80.17달러에 마감했어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/oil-prices-fall-amid-equity-selloff-though-iran-war-attacks-limit-losses-2026-11-23/"
+        }
+      ]
+    }
+  ]
+}
