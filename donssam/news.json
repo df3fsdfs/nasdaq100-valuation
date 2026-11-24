@@ -1,86 +1,86 @@
 {
   "schema_version": 1,
-  "date": "2026-11-24",
-  "cutoff_at": "2026-11-24T07:00:00+09:00",
+  "date": "2026-11-25",
+  "cutoff_at": "2026-11-25T07:00:00+09:00",
   "items": [
     {
-      "title": "젠슨 황 복귀, 나스닥 6.5% 급등",
+      "title": "나스닥 1.5% 하락, AI주 반등 일부 반납",
       "sentences": [
-        "엔비디아 이사회가 젠슨 황을 CEO로 즉시 복귀시켰고, 독립위원회의 조사는 계속된다고 밝혔어.",
-        "미국 정규장에서 나스닥종합은 6.5%, S&P 500은 4.7% 올랐어. 미국 주가지수 선물은 복귀 발표 전부터 상승하고 있었어."
+        "미국 정규장에서 나스닥종합은 1.5%, S&P 500은 0.5% 내렸어.",
+        "엔비디아가 하락했고 앤트로픽은 공모가를 밑돌았어. 기술주 밖에서는 상승 종목이 더 많았어."
       ],
       "sources": [
-        {
-          "label": "엔비디아 IR",
-          "url": "https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Board-Reinstates-Jensen-Huang-as-President-CEO-and-Board-Director/default.aspx"
-        },
         {
           "label": "AP 미국 증시 종가",
-          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-fcdf1bad36b4f81c90cbb0f33a2c5704"
-        }
-      ]
-    },
-    {
-      "title": "미국 PMI 둔화, 윌리엄스는 물가 경계",
-      "sentences": [
-        "미국 11월 종합 PMI 속보치는 54.6으로 10월 55.9보다 낮아졌지만, 기업 활동은 여전히 확장 국면이야.",
-        "존 윌리엄스 뉴욕 연은 총재는 물가를 2%로 되돌리려면 추가 노력이 필요하다고 했고, 12월 정책 판단은 앞으로 나올 데이터를 보겠다고 밝혔어."
-      ],
-      "sources": [
-        {
-          "label": "S&P Global",
-          "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2026/11/us-flash-pmi-indicates-still-elevated-but-cooling-business-activity-growth-and-price-pressures"
-        },
-        {
-          "label": "뉴욕 연은 연설",
-          "url": "https://www.newyorkfed.org/newsevents/speeches/2026/wil261123"
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-6cc4e580290aadf304ee316d6d46dd81"
         },
         {
           "label": "Reuters",
-          "url": "https://www.investing.com/news/economy-news/fed-has-work-to-do-to-lower-inflation-williams-says-5046374"
+          "url": "https://www.marketscreener.com/news/nasdaq-s-p-500-end-lower-following-monday-s-nvidia-fueled-rally-ce7851dbdd81f720"
         }
       ]
     },
     {
-      "title": "크라우드스트라이크, 지스케일러 인수 합의",
+      "title": "델, AI 서버 매출 전망 780억 달러로 상향",
       "sentences": [
-        "크라우드스트라이크가 지스케일러를 기업가치 약 439억 달러에 전액 주식으로 인수하기로 했어.",
-        "장중 지스케일러는 13% 넘게 올랐고 크라우드스트라이크는 약 12% 떨어졌어. 지스케일러 거래가는 당시 제안 가치에 못 미쳤어."
+        "델의 2027회계연도 3분기 매출은 549억 달러로 전년 동기보다 103% 늘었고, AI 서버 매출은 220억 달러였어.",
+        "회사는 연간 AI 서버 매출 전망을 740억 달러에서 780억 달러로 올렸어. 정규장에서 약 12% 내린 델은 실적 발표 뒤 Reuters 집계 시점에 시간외 약 3% 올랐어."
       ],
       "sources": [
         {
-          "label": "크라우드스트라이크 IR",
-          "url": "https://ir.crowdstrike.com/news-releases/news-release-details/crowdstrike-acquire-zscaler-bringing-network-security-and-zero"
+          "label": "델 IR",
+          "url": "https://investors.delltechnologies.com/news-events/press-releases/detail/1665/dell-technologies-delivers-third-quarter-fiscal-2027-financial-results"
         },
         {
           "label": "Reuters",
-          "url": "https://www.investing.com/news/stock-market-news/crowdstrike-bets-on-network-security-with-439-billion-zscaler-deal-5044856"
+          "url": "https://www.reuters.com/business/dell-lifts-annual-forecasts-after-record-quarter-surging-ai-server-demand-2026-11-24/"
         }
       ]
     },
     {
-      "title": "HPE 장후 실적, 서버 매출 94.7% 증가",
+      "title": "미국 소비자신뢰지수, 103.3으로 반등",
       "sentences": [
-        "HPE의 2026회계연도 4분기 매출은 145억 달러로 전년 동기보다 50% 늘었고, 서버 매출은 94.7% 증가했어.",
-        "조정 EPS는 1.43달러로 회사가 제시한 1.20~1.30달러를 웃돌았고, 회사는 2027회계연도 조정 EPS 전망을 5.05~5.35달러로 높였어."
+        "미국 11월 소비자신뢰지수는 10월 수정치 91.9에서 103.3으로 뛰었어. Reuters 집계 예상치 92.5를 넘었고, 2025년 1월 이후 가장 높았어.",
+        "향후 소득과 고용 등을 보는 기대지수도 83.6으로 올라, 소비자들이 체감하는 경기 전망이 전월보다 개선됐어."
       ],
       "sources": [
         {
-          "label": "HPE SEC 공시",
-          "url": "https://www.sec.gov/Archives/edgar/data/1645590/000164559026000097/ex-991x11232026x8k.htm"
+          "label": "콘퍼런스보드",
+          "url": "https://www.conference-board.org/topics/consumer-confidence/?_sp=e29b3765-d292-4333-af72-6968949e941e"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/us/us-consumer-confidence-surges-highest-level-nearly-two-years-2026-11-24/"
         }
       ]
     },
     {
-      "title": "리비아 송유관 재가동, 국제유가 하락",
+      "title": "사노피, 인스메드 410억 달러 인수 합의",
       "sentences": [
-        "리비아 샤라라 송유관이 다시 가동됐고, 중동산 공급도 늘었다고 Reuters가 보도했어.",
-        "브렌트유 선물은 3.46% 내린 배럴당 89.37달러, WTI는 3.88% 내린 80.17달러에 마감했어."
+        "사노피가 미국 제약사 인스메드를 주당 175달러, 총 410억 달러에 현금 인수하기로 했어. 제안가는 인스메드 직전 종가보다 17.5% 높아.",
+        "거래가 마무리되면 사노피는 인스메드의 호흡기·희귀질환 치료제 사업을 확보하게 돼."
+      ],
+      "sources": [
+        {
+          "label": "사노피 공식 발표",
+          "url": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-11-24-06-30-00-3409002"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/legal/litigation/sanofi-acquire-insmed-41-billion-deal-2026-11-24/"
+        }
+      ]
+    },
+    {
+      "title": "호르무즈 선박 피격 보도, 유가 반등",
+      "sentences": [
+        "호르무즈 해협과 주변에서 새 선박 피격이 보도된 날, 국제유가가 장중 저점에서 반등했어.",
+        "브렌트유 선물은 2.27% 오른 배럴당 91.40달러, WTI는 2.35% 오른 82.05달러에 마감했어."
       ],
       "sources": [
         {
           "label": "Reuters",
-          "url": "https://www.reuters.com/business/energy/oil-prices-fall-amid-equity-selloff-though-iran-war-attacks-limit-losses-2026-11-23/"
+          "url": "https://www.reuters.com/business/energy/oil-holds-near-three-month-low-rising-supply-offsets-hormuz-threat-2026-11-24/"
         }
       ]
     }

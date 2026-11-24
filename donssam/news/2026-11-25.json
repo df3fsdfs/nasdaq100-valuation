@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-25",
+  "cutoff_at": "2026-11-25T07:00:00+09:00",
+  "items": [
+    {
+      "title": "나스닥 1.5% 하락, AI주 반등 일부 반납",
+      "sentences": [
+        "미국 정규장에서 나스닥종합은 1.5%, S&P 500은 0.5% 내렸어.",
+        "엔비디아가 하락했고 앤트로픽은 공모가를 밑돌았어. 기술주 밖에서는 상승 종목이 더 많았어."
+      ],
+      "sources": [
+        {
+          "label": "AP 미국 증시 종가",
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-6cc4e580290aadf304ee316d6d46dd81"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.marketscreener.com/news/nasdaq-s-p-500-end-lower-following-monday-s-nvidia-fueled-rally-ce7851dbdd81f720"
+        }
+      ]
+    },
+    {
+      "title": "델, AI 서버 매출 전망 780억 달러로 상향",
+      "sentences": [
+        "델의 2027회계연도 3분기 매출은 549억 달러로 전년 동기보다 103% 늘었고, AI 서버 매출은 220억 달러였어.",
+        "회사는 연간 AI 서버 매출 전망을 740억 달러에서 780억 달러로 올렸어. 정규장에서 약 12% 내린 델은 실적 발표 뒤 Reuters 집계 시점에 시간외 약 3% 올랐어."
+      ],
+      "sources": [
+        {
+          "label": "델 IR",
+          "url": "https://investors.delltechnologies.com/news-events/press-releases/detail/1665/dell-technologies-delivers-third-quarter-fiscal-2027-financial-results"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/dell-lifts-annual-forecasts-after-record-quarter-surging-ai-server-demand-2026-11-24/"
+        }
+      ]
+    },
+    {
+      "title": "미국 소비자신뢰지수, 103.3으로 반등",
+      "sentences": [
+        "미국 11월 소비자신뢰지수는 10월 수정치 91.9에서 103.3으로 뛰었어. Reuters 집계 예상치 92.5를 넘었고, 2025년 1월 이후 가장 높았어.",
+        "향후 소득과 고용 등을 보는 기대지수도 83.6으로 올라, 소비자들이 체감하는 경기 전망이 전월보다 개선됐어."
+      ],
+      "sources": [
+        {
+          "label": "콘퍼런스보드",
+          "url": "https://www.conference-board.org/topics/consumer-confidence/?_sp=e29b3765-d292-4333-af72-6968949e941e"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/world/us/us-consumer-confidence-surges-highest-level-nearly-two-years-2026-11-24/"
+        }
+      ]
+    },
+    {
+      "title": "사노피, 인스메드 410억 달러 인수 합의",
+      "sentences": [
+        "사노피가 미국 제약사 인스메드를 주당 175달러, 총 410억 달러에 현금 인수하기로 했어. 제안가는 인스메드 직전 종가보다 17.5% 높아.",
+        "거래가 마무리되면 사노피는 인스메드의 호흡기·희귀질환 치료제 사업을 확보하게 돼."
+      ],
+      "sources": [
+        {
+          "label": "사노피 공식 발표",
+          "url": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-11-24-06-30-00-3409002"
+        },
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/legal/litigation/sanofi-acquire-insmed-41-billion-deal-2026-11-24/"
+        }
+      ]
+    },
+    {
+      "title": "호르무즈 선박 피격 보도, 유가 반등",
+      "sentences": [
+        "호르무즈 해협과 주변에서 새 선박 피격이 보도된 날, 국제유가가 장중 저점에서 반등했어.",
+        "브렌트유 선물은 2.27% 오른 배럴당 91.40달러, WTI는 2.35% 오른 82.05달러에 마감했어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters",
+          "url": "https://www.reuters.com/business/energy/oil-holds-near-three-month-low-rising-supply-offsets-hormuz-threat-2026-11-24/"
+        }
+      ]
+    }
+  ]
+}
