@@ -1,86 +1,90 @@
 {
   "schema_version": 1,
-  "date": "2026-11-25",
-  "cutoff_at": "2026-11-25T07:00:00+09:00",
+  "date": "2026-11-26",
+  "cutoff_at": "2026-11-26T07:00:00+09:00",
   "items": [
     {
-      "title": "나스닥 1.5% 하락, AI주 반등 일부 반납",
+      "title": "미국 증시, 장중 급락 후 낙폭 축소",
       "sentences": [
-        "미국 정규장에서 나스닥종합은 1.5%, S&P 500은 0.5% 내렸어.",
-        "엔비디아가 하락했고 앤트로픽은 공모가를 밑돌았어. 기술주 밖에서는 상승 종목이 더 많았어."
+        "S&P 500은 장중 3.2%까지 밀렸다가 0.3% 하락 마감했어. 나스닥종합은 0.6% 내렸고 다우는 0.3% 올랐어.",
+        "먼저 마감한 한국에선 코스피가 6.16% 내렸고 삼성전자와 SK하이닉스는 각각 9.87%, 11.05% 하락했어."
       ],
       "sources": [
         {
           "label": "AP 미국 증시 종가",
-          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-6cc4e580290aadf304ee316d6d46dd81"
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-94fdb0ecb060ec65c0b02879ce0d2d09"
         },
         {
-          "label": "Reuters",
-          "url": "https://www.marketscreener.com/news/nasdaq-s-p-500-end-lower-following-monday-s-nvidia-fueled-rally-ce7851dbdd81f720"
+          "label": "코리아중앙데일리 한국 증시 종가",
+          "url": "https://www.koreajoongangdaily.com/business/kospi-plunges-back-below-5000-as-chip-selloff-returns/12990750"
         }
       ]
     },
     {
-      "title": "델, AI 서버 매출 전망 780억 달러로 상향",
+      "title": "미국 근원 PCE 3.3%, 3분기 성장률 상향",
       "sentences": [
-        "델의 2027회계연도 3분기 매출은 549억 달러로 전년 동기보다 103% 늘었고, AI 서버 매출은 220억 달러였어.",
-        "회사는 연간 AI 서버 매출 전망을 740억 달러에서 780억 달러로 올렸어. 정규장에서 약 12% 내린 델은 실적 발표 뒤 Reuters 집계 시점에 시간외 약 3% 올랐어."
+        "10월 근원 PCE 물가는 전년 동월보다 3.3% 올라 9월 3.1%보다 높아졌어. 전체 PCE 물가도 3.6%에서 3.8%로 높아졌어.",
+        "3분기 실질 GDP 성장률은 연율 3.4%에서 4.3%로 상향됐어. 물가와 성장률이 함께 높아져 연준이 금리 인상을 이어갈지가 관심사야."
       ],
       "sources": [
         {
-          "label": "델 IR",
-          "url": "https://investors.delltechnologies.com/news-events/press-releases/detail/1665/dell-technologies-delivers-third-quarter-fiscal-2027-financial-results"
+          "label": "미 BEA 10월 PCE",
+          "url": "https://bea.gov/news/2026/personal-income-and-outlays-october-2026"
         },
         {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/business/dell-lifts-annual-forecasts-after-record-quarter-surging-ai-server-demand-2026-11-24/"
+          "label": "미 BEA 3분기 GDP 2차 추계",
+          "url": "https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-3rd-quarter-2026"
+        },
+        {
+          "label": "Reuters 미국 물가·성장",
+          "url": "https://www.investing.com/news/economy-news/us-inflation-rises-further-in-october-5050840"
         }
       ]
     },
     {
-      "title": "미국 소비자신뢰지수, 103.3으로 반등",
+      "title": "미국, 한국 등 14개 경제권 관세안 공개",
       "sentences": [
-        "미국 11월 소비자신뢰지수는 10월 수정치 91.9에서 103.3으로 뛰었어. Reuters 집계 예상치 92.5를 넘었고, 2025년 1월 이후 가장 높았어.",
-        "향후 소득과 고용 등을 보는 기대지수도 83.6으로 올라, 소비자들이 체감하는 경기 전망이 전월보다 개선됐어."
+        "미 무역대표부가 무역법 301조에 따른 관세안을 공개했어. 예외 품목과 기존 관세를 감안해 한국산에는 최대 15%를 제안했어.",
+        "의견 수렴과 공청회가 남아 있어 실제 수출 부담은 최종 세율과 예외 품목에 달려 있어."
       ],
       "sources": [
         {
-          "label": "콘퍼런스보드",
-          "url": "https://www.conference-board.org/topics/consumer-confidence/?_sp=e29b3765-d292-4333-af72-6968949e941e"
+          "label": "미 무역대표부 관세 제안",
+          "url": "https://www.ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural"
         },
         {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/world/us/us-consumer-confidence-surges-highest-level-nearly-two-years-2026-11-24/"
+          "label": "Reuters 관세 보도",
+          "url": "https://www.reuters.com/world/china/us-proposes-new-tariffs-14-trading-partners-fight-excess-factory-capacity-2026-11-25/"
         }
       ]
     },
     {
-      "title": "사노피, 인스메드 410억 달러 인수 합의",
+      "title": "사우디 정유시설 공격 주장에 브렌트유 3.5% 상승",
       "sentences": [
-        "사노피가 미국 제약사 인스메드를 주당 175달러, 총 410억 달러에 현금 인수하기로 했어. 제안가는 인스메드 직전 종가보다 17.5% 높아.",
-        "거래가 마무리되면 사노피는 인스메드의 호흡기·희귀질환 치료제 사업을 확보하게 돼."
+        "예멘 후티가 사우디 라스 타누라 정유시설을 공격했다고 주장한 날, 브렌트유 선물은 3.5% 오른 배럴당 94.61달러에 마감했어. WTI 선물도 2.0% 오른 83.68달러였어.",
+        "공급 차질이 이어지면 유가 하락에 기대던 물가 완화 폭이 줄어들 수 있어."
       ],
       "sources": [
         {
-          "label": "사노피 공식 발표",
-          "url": "https://www.sanofi.com/en/media-room/press-releases/2026/2026-11-24-06-30-00-3409002"
-        },
-        {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/legal/litigation/sanofi-acquire-insmed-41-billion-deal-2026-11-24/"
+          "label": "Reuters 국제유가 결제 및 공격 주장",
+          "url": "https://www.reuters.com/business/energy/oil-prices-fall-supply-glut-concerns-offset-middle-east-disruption-fears-2026-11-25/"
         }
       ]
     },
     {
-      "title": "호르무즈 선박 피격 보도, 유가 반등",
+      "title": "디어, 시장 예상 밑도는 연간 순이익 전망",
       "sentences": [
-        "호르무즈 해협과 주변에서 새 선박 피격이 보도된 날, 국제유가가 장중 저점에서 반등했어.",
-        "브렌트유 선물은 2.27% 오른 배럴당 91.40달러, WTI는 2.35% 오른 82.05달러에 마감했어."
+        "디어의 2026회계연도 4분기 주당순이익은 3.89달러로 전년 같은 분기 3.93달러보다 낮았어.",
+        "2027회계연도 순이익 전망은 45억~52억5천만 달러로 LSEG 집계 예상 59억1천만 달러를 밑돌았어. 회사 전망엔 일회성 연금 정산 비용이 포함됐어."
       ],
       "sources": [
         {
-          "label": "Reuters",
-          "url": "https://www.reuters.com/business/energy/oil-holds-near-three-month-low-rising-supply-offsets-hormuz-threat-2026-11-24/"
+          "label": "디어 실적 공식 발표",
+          "url": "https://www.prnewswire.com/news-releases/deere-reports-net-income-of-1-051-billion-for-fourth-quarter-4-860-billion-for-fiscal-year-302950434.html"
+        },
+        {
+          "label": "Reuters 디어 전망 및 예상치",
+          "url": "https://ca.marketscreener.com/news/deere-forecasts-fiscal-2027-net-income-below-estimates-amid-muted-farm-equipment-demand-ce7851dbd08efe2c"
         }
       ]
     }

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-26",
+  "cutoff_at": "2026-11-26T07:00:00+09:00",
+  "items": [
+    {
+      "title": "미국 증시, 장중 급락 후 낙폭 축소",
+      "sentences": [
+        "S&P 500은 장중 3.2%까지 밀렸다가 0.3% 하락 마감했어. 나스닥종합은 0.6% 내렸고 다우는 0.3% 올랐어.",
+        "먼저 마감한 한국에선 코스피가 6.16% 내렸고 삼성전자와 SK하이닉스는 각각 9.87%, 11.05% 하락했어."
+      ],
+      "sources": [
+        {
+          "label": "AP 미국 증시 종가",
+          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-94fdb0ecb060ec65c0b02879ce0d2d09"
+        },
+        {
+          "label": "코리아중앙데일리 한국 증시 종가",
+          "url": "https://www.koreajoongangdaily.com/business/kospi-plunges-back-below-5000-as-chip-selloff-returns/12990750"
+        }
+      ]
+    },
+    {
+      "title": "미국 근원 PCE 3.3%, 3분기 성장률 상향",
+      "sentences": [
+        "10월 근원 PCE 물가는 전년 동월보다 3.3% 올라 9월 3.1%보다 높아졌어. 전체 PCE 물가도 3.6%에서 3.8%로 높아졌어.",
+        "3분기 실질 GDP 성장률은 연율 3.4%에서 4.3%로 상향됐어. 물가와 성장률이 함께 높아져 연준이 금리 인상을 이어갈지가 관심사야."
+      ],
+      "sources": [
+        {
+          "label": "미 BEA 10월 PCE",
+          "url": "https://bea.gov/news/2026/personal-income-and-outlays-october-2026"
+        },
+        {
+          "label": "미 BEA 3분기 GDP 2차 추계",
+          "url": "https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-3rd-quarter-2026"
+        },
+        {
+          "label": "Reuters 미국 물가·성장",
+          "url": "https://www.investing.com/news/economy-news/us-inflation-rises-further-in-october-5050840"
+        }
+      ]
+    },
+    {
+      "title": "미국, 한국 등 14개 경제권 관세안 공개",
+      "sentences": [
+        "미 무역대표부가 무역법 301조에 따른 관세안을 공개했어. 예외 품목과 기존 관세를 감안해 한국산에는 최대 15%를 제안했어.",
+        "의견 수렴과 공청회가 남아 있어 실제 수출 부담은 최종 세율과 예외 품목에 달려 있어."
+      ],
+      "sources": [
+        {
+          "label": "미 무역대표부 관세 제안",
+          "url": "https://www.ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural"
+        },
+        {
+          "label": "Reuters 관세 보도",
+          "url": "https://www.reuters.com/world/china/us-proposes-new-tariffs-14-trading-partners-fight-excess-factory-capacity-2026-11-25/"
+        }
+      ]
+    },
+    {
+      "title": "사우디 정유시설 공격 주장에 브렌트유 3.5% 상승",
+      "sentences": [
+        "예멘 후티가 사우디 라스 타누라 정유시설을 공격했다고 주장한 날, 브렌트유 선물은 3.5% 오른 배럴당 94.61달러에 마감했어. WTI 선물도 2.0% 오른 83.68달러였어.",
+        "공급 차질이 이어지면 유가 하락에 기대던 물가 완화 폭이 줄어들 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 국제유가 결제 및 공격 주장",
+          "url": "https://www.reuters.com/business/energy/oil-prices-fall-supply-glut-concerns-offset-middle-east-disruption-fears-2026-11-25/"
+        }
+      ]
+    },
+    {
+      "title": "디어, 시장 예상 밑도는 연간 순이익 전망",
+      "sentences": [
+        "디어의 2026회계연도 4분기 주당순이익은 3.89달러로 전년 같은 분기 3.93달러보다 낮았어.",
+        "2027회계연도 순이익 전망은 45억~52억5천만 달러로 LSEG 집계 예상 59억1천만 달러를 밑돌았어. 회사 전망엔 일회성 연금 정산 비용이 포함됐어."
+      ],
+      "sources": [
+        {
+          "label": "디어 실적 공식 발표",
+          "url": "https://www.prnewswire.com/news-releases/deere-reports-net-income-of-1-051-billion-for-fourth-quarter-4-860-billion-for-fiscal-year-302950434.html"
+        },
+        {
+          "label": "Reuters 디어 전망 및 예상치",
+          "url": "https://ca.marketscreener.com/news/deere-forecasts-fiscal-2027-net-income-below-estimates-amid-muted-farm-equipment-demand-ce7851dbd08efe2c"
+        }
+      ]
+    }
+  ]
+}
