@@ -191,7 +191,67 @@
       if(chart?.classList.contains('js-plotly-plot'))Plotly.Plots.resize(chart);
     }
   });
-  fetch('./institutional_positions_public.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();}).catch(()=>{
+  function renderRetailSurvey(retail) {
+    const bear=retail?.metrics?.aaii_bear;
+    const bull=retail?.metrics?.aaii_bull;
+    if(!bear?.series.length||!bull?.series.length){
+      $('retail-summary').textContent='공개된 설문 관측값이 없어.';
+      return;
+    }
+    const s=bear.summary, price=Object.entries(retail.prices?.QQQ||{});
+    const threshold=Number.isFinite(s.high)?' · 하락 전망 상위 20% '+num(s.high,1)+'% / 하위 20% '+num(s.low,1)+'%':'';
+    $('retail-summary').textContent=s.date+' 관측 · 상승 전망 '+num(bull.summary.value,1)+'% · 하락 전망 '+num(s.value,1)+'%'+threshold+
+      (s.zone?' · 비관 '+s.zone:'')+(price.length?' · QQQ 종가 '+price.at(-1)[0]:'');
+    const chart=$('retail-chart'), range=$('retail-range'), from=$('retail-from'), to=$('retail-to');
+    const qqq=$('retail-qqq');
+    qqq.disabled=!price.length;
+    const first= [bear.series[0].date,bull.series[0].date,price[0]?.[0]].filter(Boolean).sort()[0];
+    const last= [s.date,bull.summary.date,price.at(-1)?.[0]].filter(Boolean).sort().at(-1);
+    function draw(){
+      if(typeof Plotly==='undefined')return;
+      const start=from.value,end=to.value;
+      const line=(rows,name,color,axis)=>{
+        const visible=rows.filter(row=>row.date>=start&&row.date<=end);
+        return {name,x:visible.map(row=>row.date),y:visible.map(row=>row.value),mode:axis?'lines':'lines+markers',
+          marker:{size:4},line:{color,width:2},yaxis:axis};
+      };
+      const traces=[line(bull.series,bull.label,'#64d9b1'),line(bear.series,bear.label,'#ff8a9d')];
+      if(qqq.checked&&price.length)traces.push(line(price.map(([date,value])=>({date,value})),'QQQ 종가 (USD)','#f5bb65','y2'));
+      if(traces[1].x.length)for(const [name,value,color] of [['비관 상위 20%',s.high,'#ff8a9d'],['비관 하위 20%',s.low,'#6ea8ff']]){
+        if(Number.isFinite(value))traces.push({name,x:[start,end],y:[value,value],mode:'lines',line:{color,width:1,dash:'dot'}});
+      }
+      const plot=layout('설문 응답 (%)');
+      plot.xaxis={...plot.xaxis,type:'date',range:[start,end===start?new Date(Date.parse(end)+86400000).toISOString().slice(0,10):end]};
+      plot.yaxis2={title:'QQQ (USD)',overlaying:'y',side:'right',showgrid:false};
+      plot.margin={l:54,r:69,t:14,b:76};
+      Plotly.react(chart,traces,plot,{responsive:true,displayModeBar:false});
+    }
+    function preset(days){
+      const start=days==='all'?first:new Date(Date.parse(last)-(Number(days)-1)*86400000).toISOString().slice(0,10);
+      from.value=start;to.value=last;
+      for(const button of range.querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.days===days));
+      draw();
+    }
+    range.addEventListener('click',event=>{
+      const button=event.target.closest('button[data-days]');
+      if(button)preset(button.dataset.days);
+    });
+    $('retail-period').addEventListener('submit',event=>{
+      event.preventDefault();
+      if(from.value>to.value){
+        to.setCustomValidity('종료일은 시작일 이후로 선택해.');
+        to.reportValidity();
+        return;
+      }
+      for(const button of range.querySelectorAll('button'))button.setAttribute('aria-pressed','false');
+      draw();
+    });
+    for(const field of [from,to])field.addEventListener('input',()=>to.setCustomValidity(''));
+    qqq.addEventListener('change',draw);
+    preset('20');
+  }
+  fetch('./institutional_positions_public.json?v='+Date.now(),{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('data');return r.json();}).then(d=>{data=d;render();renderRetailSurvey(d.retail_sentiment);}).catch(()=>{
+    $('retail-summary').textContent='설문 자료를 불러오지 못했어.';
     $('cot-main-reading').textContent='저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     $('institution-time').textContent='기관 포지션 자료 로딩 재시도 필요';$('cot-reading').textContent='마지막 저장 자료를 불러오지 못했어. 새로고침 후 확인해.';
     const box=$('short-interest-checkpoint');if(box)box.replaceChildren(el('h3','⑤ 공매도 잔고 변화'),el('p','저장 자료 로딩 재시도','hint'));
