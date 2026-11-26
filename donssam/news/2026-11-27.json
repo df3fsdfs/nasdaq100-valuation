@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-27",
+  "cutoff_at": "2026-11-27T07:00:00+09:00",
+  "items": [
+    {
+      "title": "미국 휴장, 유럽·아시아 증시 반등",
+      "sentences": [
+        "유럽 STOXX 600은 1.8% 올랐고 일본 닛케이225와 한국 코스피는 각각 0.9%, 0.3% 상승했어.",
+        "유럽에선 기술주도 반등했어. 미국 주식시장은 추수감사절로 쉬었고 다음 정규장은 현지 오후 1시에 닫아."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 유럽 정규장 종가",
+          "url": "https://www.lse.co.uk/news/european-stocks-end-higher-on-easing-tariff-fears-ecb-leadership-continuity-z0175nyy40muk9k.html?mobile_view=desktop"
+        },
+        {
+          "label": "AP 아시아 정규장 종가",
+          "url": "https://apnews.com/article/stocks-markets-ai-oil-bonds-320cd8c9c286a7773797bf2f478ef314"
+        },
+        {
+          "label": "나스닥 거래 일정",
+          "url": "https://www.nasdaq.com/market-activity/stock-market-holiday-schedule"
+        }
+      ]
+    },
+    {
+      "title": "호르무즈 유조선 피격 주장, 브렌트유 96.57달러",
+      "sentences": [
+        "이란 혁명수비대가 호르무즈 해협에서 유조선 두 척이 기뢰에 부딪혔다고 밝혔어. 브렌트유 선물은 전날보다 1.96달러 오른 배럴당 96.57달러에 마감했어.",
+        "WTI는 미국 추수감사절로 결제 가격이 발표되지 않았어. 해상 운송 차질이 이어지면 에너지 비용이 추가로 오를 수 있어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 브렌트유 결제 및 이란 발표",
+          "url": "https://www.reuters.com/business/energy/oil-rises-supply-concerns-iran-claims-mine-strikes-ships-2026-11-26/"
+        },
+        {
+          "label": "Reuters 호르무즈 보도",
+          "url": "https://live.euronext.com/en/financial-news/oil-prices-rise-after-mine-strikes-ships-revive-supply-concerns"
+        }
+      ]
+    },
+    {
+      "title": "영란은행, AI 차입과 레버리지 위험 지적",
+      "sentences": [
+        "영란은행은 올해 대형 클라우드 기업의 채권 발행액이 3,050억 달러를 넘어 전 세계 투자등급 채권 발행액의 약 8%에 이를 것으로 봤어.",
+        "AI 주가가 다시 크게 밀리면 증거금 요구와 레버리지 ETF의 비중 조정이 하락을 키울 수 있다고 짚었어."
+      ],
+      "sources": [
+        {
+          "label": "영란은행 11월 금융안정보고서",
+          "url": "https://www.bankofengland.co.uk/financial-stability-report/2026/november-2026"
+        },
+        {
+          "label": "Reuters AI 금융위험 보도",
+          "url": "https://www.investing.com/news/economy-news/bank-of-england-sees-growing-financial-risks-as-ai-borrowing-surges-5052592"
+        }
+      ]
+    },
+    {
+      "title": "한국은행, 기준금리 3.25%로 인상",
+      "sentences": [
+        "한은은 기준금리를 0.25%포인트 올렸어. 금통위원 7명 중 2명은 동결을 선호했고, Reuters가 조사한 전문가 34명 중 32명이 인상을 예상했어.",
+        "AI 인프라 수요와 반도체 수출을 반영해 내년 성장률 전망을 2.9%에서 4.1%로 높였어."
+      ],
+      "sources": [
+        {
+          "label": "한국은행 금리 결정과 기자회견",
+          "url": "https://www.bok.or.kr/eng/bbs/E0000634/view.do?depth=400423&menuNo=400423&nttId=11067086&programType=newsDataEng&relate=Y"
+        },
+        {
+          "label": "Reuters 예상치와 성장률 전망",
+          "url": "https://www.investing.com/news/economy-news/south-koreas-central-bank-raises-rates-upgrades-2027-growth-outlook-5051906"
+        }
+      ]
+    },
+    {
+      "title": "알트리아, 임페리얼 브랜즈 인수 검토",
+      "sentences": [
+        "미국 담배회사 알트리아가 영국 임페리얼 브랜즈에 현금 인수를 제안하는 방안을 검토한다고 밝혔어. 임페리얼 브랜즈는 런던장에서 13.3% 올랐어.",
+        "정식 제안은 아직 나오지 않았고, 알트리아가 인수 제안 여부를 밝혀야 하는 기한은 현지 12월 24일이야."
+      ],
+      "sources": [
+        {
+          "label": "알트리아 공식 인수 검토 발표",
+          "url": "https://investor.altria.com/press-releases/news-details/2026/Altria-Response-to-Media-Speculation-on-Possible-Offer-for-Imperial-Brands-plc/default.aspx"
+        },
+        {
+          "label": "Reuters 런던 종가",
+          "url": "https://www.lse.co.uk/news/european-stocks-end-higher-on-easing-tariff-fears-ecb-leadership-continuity-z0175nyy40muk9k.html?mobile_view=desktop"
+        }
+      ]
+    }
+  ]
+}

@@ -1,90 +1,94 @@
 {
   "schema_version": 1,
-  "date": "2026-11-26",
-  "cutoff_at": "2026-11-26T07:00:00+09:00",
+  "date": "2026-11-27",
+  "cutoff_at": "2026-11-27T07:00:00+09:00",
   "items": [
     {
-      "title": "미국 증시, 장중 급락 후 낙폭 축소",
+      "title": "미국 휴장, 유럽·아시아 증시 반등",
       "sentences": [
-        "S&P 500은 장중 3.2%까지 밀렸다가 0.3% 하락 마감했어. 나스닥종합은 0.6% 내렸고 다우는 0.3% 올랐어.",
-        "먼저 마감한 한국에선 코스피가 6.16% 내렸고 삼성전자와 SK하이닉스는 각각 9.87%, 11.05% 하락했어."
+        "유럽 STOXX 600은 1.8% 올랐고 일본 닛케이225와 한국 코스피는 각각 0.9%, 0.3% 상승했어.",
+        "유럽에선 기술주도 반등했어. 미국 주식시장은 추수감사절로 쉬었고 다음 정규장은 현지 오후 1시에 닫아."
       ],
       "sources": [
         {
-          "label": "AP 미국 증시 종가",
-          "url": "https://apnews.com/article/wall-street-stocks-dow-nasdaq-94fdb0ecb060ec65c0b02879ce0d2d09"
+          "label": "Reuters 유럽 정규장 종가",
+          "url": "https://www.lse.co.uk/news/european-stocks-end-higher-on-easing-tariff-fears-ecb-leadership-continuity-z0175nyy40muk9k.html?mobile_view=desktop"
         },
         {
-          "label": "코리아중앙데일리 한국 증시 종가",
-          "url": "https://www.koreajoongangdaily.com/business/kospi-plunges-back-below-5000-as-chip-selloff-returns/12990750"
+          "label": "AP 아시아 정규장 종가",
+          "url": "https://apnews.com/article/stocks-markets-ai-oil-bonds-320cd8c9c286a7773797bf2f478ef314"
+        },
+        {
+          "label": "나스닥 거래 일정",
+          "url": "https://www.nasdaq.com/market-activity/stock-market-holiday-schedule"
         }
       ]
     },
     {
-      "title": "미국 근원 PCE 3.3%, 3분기 성장률 상향",
+      "title": "호르무즈 유조선 피격 주장, 브렌트유 96.57달러",
       "sentences": [
-        "10월 근원 PCE 물가는 전년 동월보다 3.3% 올라 9월 3.1%보다 높아졌어. 전체 PCE 물가도 3.6%에서 3.8%로 높아졌어.",
-        "3분기 실질 GDP 성장률은 연율 3.4%에서 4.3%로 상향됐어. 물가와 성장률이 함께 높아져 연준이 금리 인상을 이어갈지가 관심사야."
+        "이란 혁명수비대가 호르무즈 해협에서 유조선 두 척이 기뢰에 부딪혔다고 밝혔어. 브렌트유 선물은 전날보다 1.96달러 오른 배럴당 96.57달러에 마감했어.",
+        "WTI는 미국 추수감사절로 결제 가격이 발표되지 않았어. 해상 운송 차질이 이어지면 에너지 비용이 추가로 오를 수 있어."
       ],
       "sources": [
         {
-          "label": "미 BEA 10월 PCE",
-          "url": "https://bea.gov/news/2026/personal-income-and-outlays-october-2026"
+          "label": "Reuters 브렌트유 결제 및 이란 발표",
+          "url": "https://www.reuters.com/business/energy/oil-rises-supply-concerns-iran-claims-mine-strikes-ships-2026-11-26/"
         },
         {
-          "label": "미 BEA 3분기 GDP 2차 추계",
-          "url": "https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-3rd-quarter-2026"
-        },
-        {
-          "label": "Reuters 미국 물가·성장",
-          "url": "https://www.investing.com/news/economy-news/us-inflation-rises-further-in-october-5050840"
+          "label": "Reuters 호르무즈 보도",
+          "url": "https://live.euronext.com/en/financial-news/oil-prices-rise-after-mine-strikes-ships-revive-supply-concerns"
         }
       ]
     },
     {
-      "title": "미국, 한국 등 14개 경제권 관세안 공개",
+      "title": "영란은행, AI 차입과 레버리지 위험 지적",
       "sentences": [
-        "미 무역대표부가 무역법 301조에 따른 관세안을 공개했어. 예외 품목과 기존 관세를 감안해 한국산에는 최대 15%를 제안했어.",
-        "의견 수렴과 공청회가 남아 있어 실제 수출 부담은 최종 세율과 예외 품목에 달려 있어."
+        "영란은행은 올해 대형 클라우드 기업의 채권 발행액이 3,050억 달러를 넘어 전 세계 투자등급 채권 발행액의 약 8%에 이를 것으로 봤어.",
+        "AI 주가가 다시 크게 밀리면 증거금 요구와 레버리지 ETF의 비중 조정이 하락을 키울 수 있다고 짚었어."
       ],
       "sources": [
         {
-          "label": "미 무역대표부 관세 제안",
-          "url": "https://www.ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural"
+          "label": "영란은행 11월 금융안정보고서",
+          "url": "https://www.bankofengland.co.uk/financial-stability-report/2026/november-2026"
         },
         {
-          "label": "Reuters 관세 보도",
-          "url": "https://www.reuters.com/world/china/us-proposes-new-tariffs-14-trading-partners-fight-excess-factory-capacity-2026-11-25/"
+          "label": "Reuters AI 금융위험 보도",
+          "url": "https://www.investing.com/news/economy-news/bank-of-england-sees-growing-financial-risks-as-ai-borrowing-surges-5052592"
         }
       ]
     },
     {
-      "title": "사우디 정유시설 공격 주장에 브렌트유 3.5% 상승",
+      "title": "한국은행, 기준금리 3.25%로 인상",
       "sentences": [
-        "예멘 후티가 사우디 라스 타누라 정유시설을 공격했다고 주장한 날, 브렌트유 선물은 3.5% 오른 배럴당 94.61달러에 마감했어. WTI 선물도 2.0% 오른 83.68달러였어.",
-        "공급 차질이 이어지면 유가 하락에 기대던 물가 완화 폭이 줄어들 수 있어."
+        "한은은 기준금리를 0.25%포인트 올렸어. 금통위원 7명 중 2명은 동결을 선호했고, Reuters가 조사한 전문가 34명 중 32명이 인상을 예상했어.",
+        "AI 인프라 수요와 반도체 수출을 반영해 내년 성장률 전망을 2.9%에서 4.1%로 높였어."
       ],
       "sources": [
         {
-          "label": "Reuters 국제유가 결제 및 공격 주장",
-          "url": "https://www.reuters.com/business/energy/oil-prices-fall-supply-glut-concerns-offset-middle-east-disruption-fears-2026-11-25/"
+          "label": "한국은행 금리 결정과 기자회견",
+          "url": "https://www.bok.or.kr/eng/bbs/E0000634/view.do?depth=400423&menuNo=400423&nttId=11067086&programType=newsDataEng&relate=Y"
+        },
+        {
+          "label": "Reuters 예상치와 성장률 전망",
+          "url": "https://www.investing.com/news/economy-news/south-koreas-central-bank-raises-rates-upgrades-2027-growth-outlook-5051906"
         }
       ]
     },
     {
-      "title": "디어, 시장 예상 밑도는 연간 순이익 전망",
+      "title": "알트리아, 임페리얼 브랜즈 인수 검토",
       "sentences": [
-        "디어의 2026회계연도 4분기 주당순이익은 3.89달러로 전년 같은 분기 3.93달러보다 낮았어.",
-        "2027회계연도 순이익 전망은 45억~52억5천만 달러로 LSEG 집계 예상 59억1천만 달러를 밑돌았어. 회사 전망엔 일회성 연금 정산 비용이 포함됐어."
+        "미국 담배회사 알트리아가 영국 임페리얼 브랜즈에 현금 인수를 제안하는 방안을 검토한다고 밝혔어. 임페리얼 브랜즈는 런던장에서 13.3% 올랐어.",
+        "정식 제안은 아직 나오지 않았고, 알트리아가 인수 제안 여부를 밝혀야 하는 기한은 현지 12월 24일이야."
       ],
       "sources": [
         {
-          "label": "디어 실적 공식 발표",
-          "url": "https://www.prnewswire.com/news-releases/deere-reports-net-income-of-1-051-billion-for-fourth-quarter-4-860-billion-for-fiscal-year-302950434.html"
+          "label": "알트리아 공식 인수 검토 발표",
+          "url": "https://investor.altria.com/press-releases/news-details/2026/Altria-Response-to-Media-Speculation-on-Possible-Offer-for-Imperial-Brands-plc/default.aspx"
         },
         {
-          "label": "Reuters 디어 전망 및 예상치",
-          "url": "https://ca.marketscreener.com/news/deere-forecasts-fiscal-2027-net-income-below-estimates-amid-muted-farm-equipment-demand-ce7851dbd08efe2c"
+          "label": "Reuters 런던 종가",
+          "url": "https://www.lse.co.uk/news/european-stocks-end-higher-on-easing-tariff-fears-ecb-leadership-continuity-z0175nyy40muk9k.html?mobile_view=desktop"
         }
       ]
     }
