@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-28",
+  "cutoff_at": "2026-11-28T07:00:00+09:00",
+  "items": [
+    {
+      "title": "미국 증시, 조기 마감장에서 기술주 반등",
+      "sentences": [
+        "S&P 500은 1.6%, 나스닥종합은 2.3%, 다우는 1.2% 올랐어.",
+        "S&P 500은 주간으로 5.6% 올라 지난해 4월 이후 가장 큰 주간 상승폭을 기록했어."
+      ],
+      "sources": [
+        {
+          "label": "AP 미국 지수 종가",
+          "url": "https://apnews.com/article/04dab6079cf7f3dfe7285a3cc1f240a2"
+        },
+        {
+          "label": "Reuters 미국 증시와 기술주",
+          "url": "https://www.kitco.com/news/off-the-wire/2026-11-27/wall-street-ends-higher-battered-ai-stocks-gain-volatile-week"
+        }
+      ]
+    },
+    {
+      "title": "미 추수감사절 온라인 소비 71억 달러",
+      "sentences": [
+        "어도비 집계에서 미국 추수감사절 당일 온라인 소비는 71억 달러로 전년보다 10.4% 늘었어.",
+        "전자제품과 장난감, 의류의 할인 판매가 많았어. 온라인 매출이 늘어도 할인 폭이 크면 유통업체 이익은 같은 속도로 늘기 어려워."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 어도비 실측과 할인 판매",
+          "url": "https://www.reuters.com/business/retail-consumer/cautious-consumers-gear-up-black-friday-inflation-woes-bite-2026-11-27/"
+        },
+        {
+          "label": "AP 온라인 소비 집계",
+          "url": "https://apnews.com/article/21e10113de5d5941024b3220bec29433"
+        }
+      ]
+    },
+    {
+      "title": "이라크, 원유 생산 한도 상향 협상",
+      "sentences": [
+        "이라크 석유장관은 주말 OPEC+ 회의를 앞두고 생산 한도를 높이기 위해 협상 중이라고 밝혔어.",
+        "1월물 브렌트유는 이날 1.2% 내린 배럴당 95.44달러에 결제됐지만, 주간으로는 3.1% 올랐어."
+      ],
+      "sources": [
+        {
+          "label": "Reuters 이라크 석유장관 발언",
+          "url": "https://www.reuters.com/business/energy/opec-set-keep-oil-production-targets-steady-first-quarter-sources-say-2026-11-27/"
+        },
+        {
+          "label": "WSJ 브렌트유 결제",
+          "url": "https://www.wsj.com/business/energy-oil/oil-prices-rise-ahead-of-opec-meeting-as-middle-east-supply-risks-persist-63fbb550"
+        }
+      ]
+    },
+    {
+      "title": "도쿄 신선식품 제외 물가 2.9%",
+      "sentences": [
+        "11월 도쿄 소비자물가는 신선식품 제외 기준으로 전년보다 2.9% 올라 10월 2.6%보다 높아졌어. Reuters 집계 예상은 3.0%였어.",
+        "신선식품과 에너지를 함께 빼면 상승률은 2.6%에서 2.5%로 낮아졌어. 두 지표를 함께 보면 일본은행 금리 판단에 들어갈 물가 흐름이 엇갈렸어."
+      ],
+      "sources": [
+        {
+          "label": "일본 통계국 도쿄 CPI 속보",
+          "url": "https://www.stat.go.jp/info/mail/pdf/20261127_no1921.pdf"
+        },
+        {
+          "label": "Reuters 예상치와 전월 비교",
+          "url": "https://www.investing.com/news/economic-indicators/core-inflation-in-japans-capital-accelerates-in-november-5052767"
+        }
+      ]
+    },
+    {
+      "title": "중국 공업기업 이익 증가율 20.1%",
+      "sentences": [
+        "10월 중국 일정 규모 이상 공업기업의 이익은 전년 동월보다 20.1% 늘어 9월 14.4%를 웃돌았어.",
+        "1~10월 누적 이익은 전자장비 제조업에서 두 배로 늘었지만 자동차 제조업에선 26.0% 줄었어."
+      ],
+      "sources": [
+        {
+          "label": "중국 국가통계국 공업기업 이익",
+          "url": "https://www.stats.gov.cn/sj/zxfb/202611/t20261127_1965949.html"
+        },
+        {
+          "label": "Reuters 월별 증가율 비교",
+          "url": "https://www.reuters.com/markets/asia/chinese-industrial-profit-rises-16-january-october-2026-11-27/"
+        }
+      ]
+    }
+  ]
+}
